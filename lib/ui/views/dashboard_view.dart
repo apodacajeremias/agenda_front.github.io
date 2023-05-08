@@ -21,7 +21,7 @@ class DashboardView extends StatelessWidget {
         children: [
           Text('Dashboard View', style: CustomLabels.h1),
           const SizedBox(height: 10),
-          WhiteCard(title: persona.nombre, child: Text(persona.id))
+          WhiteCard(title: persona.nombre, child: Text(persona.id!))
         ],
       ),
     );

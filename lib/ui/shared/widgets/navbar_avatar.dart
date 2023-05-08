@@ -9,7 +9,8 @@ class NavbarAvatar extends StatelessWidget {
       child: SizedBox(
         width: 30,
         height: 30,
-        child: Image.network('https://dl.airtable.com/DH4ROlhgSVG6TpXY0xrI_large_Joel-Monegro-pic-458x458.jpg'),
+        child: Image.network(
+            'https://st3.depositphotos.com/19428878/37071/v/450/depositphotos_370714622-stock-illustration-businessman-icon-vector-male-avatar.jpg'),
       ),
     );
   }

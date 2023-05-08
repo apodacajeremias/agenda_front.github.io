@@ -1,5 +1,5 @@
 import 'package:agenda_front/api/agenda_api.dart';
-import 'package:agenda_front/providers/personas_provider.dart';
+import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -33,7 +33,7 @@ class AppState extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(lazy: false, create: (_) => AuthProvider()),
         ChangeNotifierProvider(lazy: false, create: (_) => SideMenuProvider()),
-        ChangeNotifierProvider(create: (_) => PersonasProvider()),
+        ChangeNotifierProvider(create: (_) => PersonaProvider()),
       ],
       child: const MyApp(),
     );

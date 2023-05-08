@@ -18,7 +18,7 @@ class CustomIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
-      onPressed: onPressed(),
+      onPressed: () { onPressed(); },
       style: ButtonStyle(
         shape: MaterialStateProperty.all(const StadiumBorder()),
         backgroundColor: MaterialStateProperty.all(color.withOpacity(0.6)),

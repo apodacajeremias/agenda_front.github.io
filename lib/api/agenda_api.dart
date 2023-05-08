@@ -30,8 +30,9 @@ class AgendaAPI {
 // final formData = FormData.fromMap(data);
     // final formData = FormData.fromMap({'data': json.encode(data)});
     try {
-      final resp = await _dio.post(path, data: data);
-      return resp.data;
+      final response = await _dio.post(path, data: data);
+      return response.data;
+      // return jsonDecode(response.data) as Map<String, dynamic>;
     } catch (e) {
       print(e);
       throw ('Error en el POST');

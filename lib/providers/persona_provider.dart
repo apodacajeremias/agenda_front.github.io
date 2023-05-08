@@ -4,8 +4,9 @@ import 'package:agenda_front/api/agenda_api.dart';
 import 'package:agenda_front/models/persona.dart';
 import 'package:flutter/material.dart';
 
-class PersonasProvider extends ChangeNotifier {
+class PersonaProvider extends ChangeNotifier {
   List<Persona> personas = [];
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   getPersonas() async {
     try {
@@ -19,8 +20,26 @@ class PersonasProvider extends ChangeNotifier {
     }
   }
 
-  Future newPersona(String name) async {
-    final data = {'nombre': name};
+  // Future getPersona(String id) async {
+  //   try {
+  //     final response = await AgendaAPI.httpGet('personas/$id');
+  //     return Persona.fromJson(response);
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
+
+// Buscamos la persona seleccionada en la lista, sin reconsultar el servidor C;
+  Persona getPersona(String id) {
+    try {
+      return personas.where((element) => element.id!.contains(id)).first;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future newPersona(Persona persona) async {
+    final data = persona.toJson();
     try {
       final json = await AgendaAPI.httpPost('/personas', data);
       final newPersona = Persona.fromJson(json);
@@ -31,13 +50,13 @@ class PersonasProvider extends ChangeNotifier {
     }
   }
 
-  Future updatePersona(String id, String name) async {
-    final data = {'nombre': name};
+  Future updatePersona(String id, Persona persona) async {
+    final data = persona.toJson();
     try {
       final json = await AgendaAPI.httpPut('/personas/$id', data);
       personas = personas.map((persona) {
         if (persona.id != id) return persona;
-        persona.nombre = name;
+        // persona.nombre = name; ???????
         return persona;
       }).toList();
       notifyListeners();
@@ -56,5 +75,9 @@ class PersonasProvider extends ChangeNotifier {
     } catch (e) {
       throw 'Error al eliminar Persona';
     }
+  }
+
+  validateForm() {
+    return formKey.currentState!.validate();
   }
 }

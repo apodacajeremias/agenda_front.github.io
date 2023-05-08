@@ -1,5 +1,5 @@
 import 'package:agenda_front/models/persona.dart';
-import 'package:agenda_front/providers/personas_provider.dart';
+import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/services/notifications_service.dart';
 import 'package:agenda_front/ui/buttons/custom_outlined_button.dart';
 import 'package:agenda_front/ui/inputs/custom_inputs.dart';
@@ -34,7 +34,7 @@ class _PersonaModalState extends State<PersonaModal> {
   @override
   Widget build(BuildContext context) {
     final personaProvider =
-        Provider.of<PersonasProvider>(context, listen: false);
+        Provider.of<PersonaProvider>(context, listen: false);
 
     return Container(
       padding: const EdgeInsets.all(20),
@@ -166,11 +166,11 @@ class _PersonaModalState extends State<PersonaModal> {
                   try {
                     if (id == null) {
                       // Crear
-                      await personaProvider.newPersona(nombre);
+                      // await personaProvider.newPersona(nombre);
                       NotificationsService.showSnackbar('$nombre creado!');
                     } else {
                       // Actualizar
-                      await personaProvider.updatePersona(id!, nombre);
+                      // await personaProvider.updatePersona(id!, nombre);
                       NotificationsService.showSnackbar('$nombre Actualizado!');
                     }
 

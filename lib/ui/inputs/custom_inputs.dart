@@ -7,13 +7,14 @@ class CustomInputs {
     required String hint,
     required String label,
     required IconData icon,
+    Color? color
   }){
     return InputDecoration(
       border: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white.withOpacity(0.3))
+        borderSide: BorderSide(color: color ?? Colors.white.withOpacity(0.3))
       ),
       enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white.withOpacity(0.3))
+        borderSide: BorderSide(color: color ?? Colors.white.withOpacity(0.3))
       ),
       hintText: hint,
       labelText: label,

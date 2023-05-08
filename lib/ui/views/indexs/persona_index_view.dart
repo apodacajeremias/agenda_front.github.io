@@ -1,32 +1,31 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:agenda_front/datatables/personas_datasource.dart';
-import 'package:agenda_front/providers/personas_provider.dart';
-import 'package:agenda_front/ui/modals/persona_modal.dart';
+import 'package:agenda_front/providers/persona_provider.dart';
+import 'package:agenda_front/routers/router.dart';
+import 'package:agenda_front/services/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:agenda_front/ui/buttons/custom_icon_button.dart';
 import 'package:agenda_front/ui/labels/custom_labels.dart';
 
-class PersonasView extends StatefulWidget {
-  const PersonasView({super.key});
+class PersonaIndexView extends StatefulWidget {
+  const PersonaIndexView({super.key});
 
   @override
-  _PersonasViewState createState() => _PersonasViewState();
+  _PersonaIndexViewState createState() => _PersonaIndexViewState();
 }
 
-class _PersonasViewState extends State<PersonasView> {
+class _PersonaIndexViewState extends State<PersonaIndexView> {
   int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
 
   @override
   void initState() {
     super.initState();
-    Provider.of<PersonasProvider>(context, listen: false).getPersonas();
+    Provider.of<PersonaProvider>(context, listen: false).getPersonas();
   }
 
   @override
   Widget build(BuildContext context) {
-    final personas = Provider.of<PersonasProvider>(context).personas;
+    final personas = Provider.of<PersonaProvider>(context).personas;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -52,16 +51,14 @@ class _PersonasViewState extends State<PersonasView> {
             },
             rowsPerPage: _rowsPerPage,
             actions: [
-              // CustomIconButton(
-              //   onPressed: () {
-              //     showModalBottomSheet(
-              //         backgroundColor: Colors.transparent,
-              //         context: context,
-              //         builder: (_) => const PersonasModal(persona: null));
-              //   },
-              //   text: 'Crear',
-              //   icon: Icons.add_outlined,
-              // )
+              CustomIconButton(
+                onPressed: () {
+                  NavigationService.replaceTo(Flurorouter.personasCreateRoute);
+                  print('Crear nuevo');
+                },
+                text: 'Crear',
+                icon: Icons.add_outlined,
+              )
             ],
           )
         ],

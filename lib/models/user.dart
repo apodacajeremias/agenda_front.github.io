@@ -14,7 +14,7 @@ class User {
 
     String email;
     bool changePassword;
-    dynamic lastPasswordChange;
+    String? lastPasswordChange;
     String role;
     String username;
     bool accountNonExpired;

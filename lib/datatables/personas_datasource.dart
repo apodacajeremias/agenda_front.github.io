@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:agenda_front/models/persona.dart';
-import 'package:agenda_front/providers/personas_provider.dart';
+import 'package:agenda_front/providers/persona_provider.dart';
+import 'package:agenda_front/services/navigation_service.dart';
 import 'package:agenda_front/ui/modals/persona_modal.dart';
+import 'package:agenda_front/ui/views/forms/persona_form_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,18 +18,16 @@ class PersonasDataSource extends DataTableSource {
   DataRow? getRow(int index) {
     final persona = personas[index];
     return DataRow.byIndex(index: index, cells: [
-      DataCell(Text(persona.nombre)),
-      DataCell(Text(persona.documentoIdentidad)),
-      DataCell(Text(persona.genero)),
-      DataCell(Text(persona.celular ?? persona.telefono)),
+      DataCell(Text(persona.nombre!)),
+      DataCell(Text(persona.documentoIdentidad!)),
+      DataCell(Text(persona.genero!)),
+      DataCell(Text(persona.celular ?? persona.telefono ?? '')),
       DataCell(Row(
         children: [
           IconButton(
               onPressed: () {
-                showModalBottomSheet(
-                    backgroundColor: Colors.transparent,
-                    context: context,
-                    builder: (_) => PersonaModal(persona: persona));
+                NavigationService.replaceTo(
+                    '/dashboard/personas/${persona.id}');
               },
               icon: Icon(Icons.edit_outlined)),
           IconButton(
@@ -45,9 +45,9 @@ class PersonasDataSource extends DataTableSource {
                     TextButton(
                       child: Text('Si, borrar'),
                       onPressed: () async {
-                        await Provider.of<PersonasProvider>(context,
+                        await Provider.of<PersonaProvider>(context,
                                 listen: false)
-                            .deletePersona(persona.id);
+                            .deletePersona(persona.id!);
                         Navigator.of(context).pop();
                       },
                     ),

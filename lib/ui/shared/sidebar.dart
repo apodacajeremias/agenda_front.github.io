@@ -40,8 +40,8 @@ class Sidebar extends StatelessWidget {
           MenuItemCustom(
             text: 'Clientes',
             icon: Icons.person_2,
-            onPressed: () => navigateTo(Flurorouter.personasRoute),
-            isActive: sideMenuProvider.currentPage == Flurorouter.personasRoute,
+            onPressed: () => navigateTo(Flurorouter.personasIndexRoute),
+            isActive: sideMenuProvider.currentPage == Flurorouter.personasIndexRoute,
           ),
           MenuItemCustom(
               text: 'Analytic',

@@ -1,6 +1,7 @@
 import 'package:agenda_front/routers/admin_handlers.dart';
 import 'package:agenda_front/routers/dashboard_handlers.dart';
 import 'package:agenda_front/routers/no_page_found_handlers.dart';
+import 'package:agenda_front/routers/persona_handlers.dart';
 import 'package:fluro/fluro.dart';
 
 class Flurorouter {
@@ -17,7 +18,12 @@ class Flurorouter {
   static String iconsRoute = '/dashboard/icons';
   static String blankRoute = '/dashboard/blank';
   static String categoriesRoute = '/dashboard/categories';
-  static String personasRoute = '/dashboard/personas';
+  // static String personasRoute = '/dashboard/personas';
+
+  // Dashboard: Persona
+  static String personasIndexRoute = '/dashboard/personas';
+  static String personasCreateRoute = '/dashboard/personas/create';
+  static String personasEditRoute = '/dashboard/personas/:id';
 
   static String usersRoute = '/dashboard/users';
 
@@ -43,9 +49,14 @@ class Flurorouter {
     router.define(categoriesRoute,
         handler: DashboardHandlers.categories,
         transitionType: TransitionType.fadeIn);
-    router.define(personasRoute,
-        handler: DashboardHandlers.personas,
-        transitionType: TransitionType.fadeIn);
+
+    // Dashboard: Persona
+    router.define(personasIndexRoute,
+        handler: PersonaHandlers.index, transitionType: TransitionType.fadeIn);
+    router.define(personasCreateRoute,
+        handler: PersonaHandlers.create, transitionType: TransitionType.fadeIn);
+    router.define(personasEditRoute,
+        handler: PersonaHandlers.edit, transitionType: TransitionType.fadeIn);
 
     // Users
     router.define(usersRoute,

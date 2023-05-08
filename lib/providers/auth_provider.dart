@@ -1,5 +1,5 @@
 import 'package:agenda_front/api/agenda_api.dart';
-import 'package:agenda_front/models/http/auth_response.dart';
+import 'package:agenda_front/models/http/auth.dart';
 import 'package:agenda_front/models/persona.dart';
 import 'package:agenda_front/models/user.dart';
 import 'package:agenda_front/routers/router.dart';
@@ -23,7 +23,7 @@ class AuthProvider extends ChangeNotifier {
   login(String email, String password) {
     final data = {'email': email, 'password': password};
     AgendaAPI.httpPost('/auth/authenticate', data).then((json) {
-      final authResponse = AuthResponse.fromMap(json);
+      final authResponse = Auth.fromMap(json);
       user = authResponse.user;
       persona = authResponse.persona;
       authStatus = AuthStatus.authenticated;
@@ -41,7 +41,7 @@ class AuthProvider extends ChangeNotifier {
     final data = {'nombre': name, 'correo': email, 'password': password};
 
     AgendaAPI.httpPost('/usuarios', data).then((json) {
-      final authResponse = AuthResponse.fromMap(json);
+      final authResponse = Auth.fromMap(json);
       user = authResponse.user;
       persona = authResponse.persona;
       authStatus = AuthStatus.authenticated;
@@ -68,7 +68,7 @@ class AuthProvider extends ChangeNotifier {
     try {
       final data = {'token': token};
       final resp = await AgendaAPI.httpPost('/auth', data);
-      final authResponse = AuthResponse.fromMap(resp);
+      final authResponse = Auth.fromMap(resp);
       LocalStorage.prefs.setString('token', authResponse.token);
 
       user = authResponse.user;
@@ -85,7 +85,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   logout() {
-     final resp = AgendaAPI.httpGet('/auth/logout');
+    final resp = AgendaAPI.httpGet('/auth/logout');
     LocalStorage.prefs.remove('token');
     authStatus = AuthStatus.notAuthenticated;
     notifyListeners();

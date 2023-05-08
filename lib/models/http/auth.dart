@@ -3,23 +3,23 @@ import 'dart:convert';
 import 'package:agenda_front/models/persona.dart';
 import 'package:agenda_front/models/user.dart';
 
-class AuthResponse {
+class Auth {
   Persona persona;
   User user;
   String token;
 
-  AuthResponse({
+  Auth({
     required this.persona,
     required this.user,
     required this.token,
   });
 
-  factory AuthResponse.fromJson(String str) =>
-      AuthResponse.fromMap(json.decode(str));
+  factory Auth.fromJson(String str) =>
+      Auth.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory AuthResponse.fromMap(Map<String, dynamic> json) => AuthResponse(
+  factory Auth.fromMap(Map<String, dynamic> json) => Auth(
         persona: Persona.fromJson(json["persona"]),
         user: User.fromJson(json["user"]),
         token: json["token"],
