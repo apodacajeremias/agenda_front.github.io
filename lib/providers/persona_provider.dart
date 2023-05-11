@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:agenda_front/api/agenda_api.dart';
 import 'package:agenda_front/models/persona.dart';

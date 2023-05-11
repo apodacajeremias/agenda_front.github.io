@@ -3,8 +3,6 @@
 import 'package:agenda_front/models/persona.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/services/navigation_service.dart';
-import 'package:agenda_front/ui/modals/persona_modal.dart';
-import 'package:agenda_front/ui/views/forms/persona_form_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
