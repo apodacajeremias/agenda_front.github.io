@@ -1,14 +1,10 @@
-import 'package:agenda_front/models/persona.dart';
 import 'package:agenda_front/providers/auth_provider.dart';
-import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/providers/sidemenu_provider.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/ui/views/blank_view.dart';
 import 'package:agenda_front/ui/views/dashboard_view.dart';
-import 'package:agenda_front/ui/views/forms/persona_form_view.dart';
 import 'package:agenda_front/ui/views/icons_view.dart';
 import 'package:agenda_front/ui/views/login_view.dart';
-import 'package:agenda_front/ui/views/indexs/persona_index_view.dart';
 import 'package:fluro/fluro.dart';
 import 'package:provider/provider.dart';
 
