@@ -1,8 +1,8 @@
+import 'package:agenda_front/models/security/user.dart';
 import 'package:flutter/material.dart';
 
 import 'package:agenda_front/services/navigation_service.dart';
 
-import 'package:agenda_front/models/user.dart';
 
 class UsersDataSource extends DataTableSource {
   final List<User> users;
@@ -17,9 +17,9 @@ class UsersDataSource extends DataTableSource {
         Image(image: AssetImage('no-image.jpg'), width: 35, height: 35);
     return DataRow.byIndex(index: index, cells: [
       const DataCell(ClipOval(child: image)),
-      DataCell(Text(user.id)),
-      DataCell(Text(user.email)),
-      DataCell(Text(user.role)),
+      DataCell(Text(user.id!)),
+      DataCell(Text(user.email!)),
+      DataCell(Text(user.role!)),
       DataCell(IconButton(
           icon: const Icon(Icons.edit_outlined),
           onPressed: () {

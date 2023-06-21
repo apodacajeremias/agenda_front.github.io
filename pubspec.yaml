@@ -30,15 +30,16 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cupertino_icons: ^1.0.2
-  dio: ^4.0.6
+  dio: ^5.1.2
   dropdown_search: ^5.0.6
   email_validator: ^2.1.17
   fluro: ^2.0.4
   flutter:
     sdk: flutter
-  flutter_form_builder: ^8.0.0
+  flutter_form_builder: ^9.0.0
+  form_builder_validators: ^9.0.0
   google_fonts: ^4.0.3
-  intl: ^0.17.0
+  intl: ^0.18.1
   provider: ^6.0.5
   shared_preferences: ^2.0.17
 

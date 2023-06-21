@@ -21,7 +21,6 @@ class AgendaAPI {
       final resp = await _dio.get(path);
       return resp.data;
     } catch (e) {
-      print(e);
       throw ('Error en el GET');
     }
   }
@@ -34,7 +33,6 @@ class AgendaAPI {
       return response.data;
       // return jsonDecode(response.data) as Map<String, dynamic>;
     } catch (e) {
-      print(e);
       throw ('Error en el POST');
     }
   }
@@ -45,7 +43,6 @@ class AgendaAPI {
       final resp = await _dio.put(path, data: formData);
       return resp.data;
     } catch (e) {
-      print(e);
       throw ('Error en el PUT');
     }
   }
@@ -56,7 +53,6 @@ class AgendaAPI {
       final resp = await _dio.delete(path, data: formData);
       return resp.data;
     } catch (e) {
-      print(e);
       throw ('Error en el DELETE');
     }
   }

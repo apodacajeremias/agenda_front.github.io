@@ -1,27 +1,27 @@
 class User {
     User({
-        required this.email,
-        required this.changePassword,
+        this.email,
+        this.changePassword,
         this.lastPasswordChange,
-        required this.role,
-        required this.username,
-        required this.accountNonExpired,
-        required this.accountNonLocked,
-        required this.credentialsNonExpired,
-        required this.id,
-        required this.enabled,
+        this.role,
+        this.username,
+        this.accountNonExpired,
+        this.accountNonLocked,
+        this.credentialsNonExpired,
+        this.id,
+        this.enabled,
     });
 
-    String email;
-    bool changePassword;
+    String? email;
+    bool? changePassword;
     String? lastPasswordChange;
-    String role;
-    String username;
-    bool accountNonExpired;
-    bool accountNonLocked;
-    bool credentialsNonExpired;
-    String id;
-    bool enabled;
+    String? role;
+    String? username;
+    bool? accountNonExpired;
+    bool? accountNonLocked;
+    bool? credentialsNonExpired;
+    String? id;
+    bool? enabled;
 
     factory User.fromJson(Map<String, dynamic> json) => User(
         email: json["email"],

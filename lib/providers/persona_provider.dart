@@ -1,11 +1,12 @@
-
 import 'package:agenda_front/api/agenda_api.dart';
 import 'package:agenda_front/models/persona.dart';
+import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class PersonaProvider extends ChangeNotifier {
   List<Persona> personas = [];
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   getPersonas() async {
     try {
@@ -41,8 +42,8 @@ class PersonaProvider extends ChangeNotifier {
     final data = persona.toJson();
     try {
       final json = await AgendaAPI.httpPost('/personas', data);
-      final newPersona = Persona.fromJson(json);
-      personas.add(newPersona);
+      final personaNueva = Persona.fromJson(json);
+      personas.add(personaNueva);
       notifyListeners();
     } catch (e) {
       throw 'Error al crear Persona';
@@ -53,11 +54,11 @@ class PersonaProvider extends ChangeNotifier {
     final data = persona.toJson();
     try {
       final json = await AgendaAPI.httpPut('/personas/$id', data);
-      personas = personas.map((persona) {
-        if (persona.id != id) return persona;
-        // persona.nombre = name; ???????
-        return persona;
-      }).toList();
+      final personaModificada = Persona.fromJson(json);
+      // Buscamos el index en lista del ID Persona
+      final index = personas.indexWhere((element) => element.id!.contains(id));
+      // Se substituye la informacion del index por la informacion actualizada
+      personas[index] = personaModificada;
       notifyListeners();
     } catch (e) {
       throw 'Error al actualizar Persona';
@@ -67,9 +68,13 @@ class PersonaProvider extends ChangeNotifier {
   Future deletePersona(String id) async {
     try {
       final json = await AgendaAPI.httpDelete('/personas/$id', {});
-
-      personas.removeWhere((persona) => persona.id == id);
-
+      final confirmado = json as bool;
+      if (confirmado) {
+        personas.removeWhere((persona) => persona.id == id);
+      } else {
+        NotificationsService.showSnackbarError(
+            'No se ha podido eliminar registro, intente nuevamente');
+      }
       notifyListeners();
     } catch (e) {
       throw 'Error al eliminar Persona';

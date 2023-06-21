@@ -5,7 +5,7 @@
 import 'dart:convert';
 
 import 'package:agenda_front/models/colaborador.dart';
-import 'package:agenda_front/models/user.dart';
+import 'package:agenda_front/models/security/user.dart';
 
 Persona personaFromJson(String str) => Persona.fromJson(json.decode(str));
 

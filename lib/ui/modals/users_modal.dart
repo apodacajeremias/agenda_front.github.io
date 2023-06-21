@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:agenda_front/models/user.dart';
+import 'package:agenda_front/models/security/user.dart';
 import 'package:agenda_front/providers/users_provider.dart';
 import 'package:agenda_front/services/notifications_service.dart';
 import 'package:agenda_front/ui/buttons/custom_outlined_button.dart';
@@ -69,7 +69,7 @@ class _UsersModalState extends State<UsersModal> {
                 try {
                   if (id == null) {
                     //CREAR
-                    await usuarioProvider.newUser(nombre);
+                    await usuarioProvider.newUser(widget.user!);
                     NotificationsService.showSnackbar('$nombre creado!');
                   } else {
                     // Actualizar

@@ -1,21 +1,21 @@
 class Colaborador {
     Colaborador({
-        required this.activo,
-        required this.fechaCreacion,
+        this.activo,
+        this.fechaCreacion,
         this.fechaModificacion,
-        required this.registroContribuyente,
-        required this.registroProfesional,
-        required this.profesion,
-        required this.id,
+        this.registroContribuyente,
+        this.registroProfesional,
+        this.profesion,
+        this.id,
     });
 
-    bool activo;
-    DateTime fechaCreacion;
+    bool? activo;
+    DateTime? fechaCreacion;
     String? fechaModificacion;
-    String registroContribuyente;
-    String registroProfesional;
-    String profesion;
-    String id;
+    String? registroContribuyente;
+    String? registroProfesional;
+    String? profesion;
+    String? id;
 
     factory Colaborador.fromJson(Map<String, dynamic> json) => Colaborador(
         activo: json["activo"],
@@ -29,7 +29,7 @@ class Colaborador {
 
     Map<String, dynamic> toJson() => {
         "activo": activo,
-        "fechaCreacion": fechaCreacion.toIso8601String(),
+        "fechaCreacion": fechaCreacion?.toIso8601String(),
         "fechaModificacion": fechaModificacion,
         "registroContribuyente": registroContribuyente,
         "registroProfesional": registroProfesional,
