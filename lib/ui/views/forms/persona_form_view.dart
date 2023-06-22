@@ -190,6 +190,8 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                       //TODO: agregar un ImagePicker para la foto de perfil
                       CustomIconButton(
                           onPressed: () {
+                            provider.formKey.currentState!.save();
+                            print(provider.formKey.currentState!.value);
                             (widget.persona.id == null)
                                 ? provider.newPersona(widget.persona)
                                 : provider.updatePersona(
