@@ -1,6 +1,6 @@
 import 'package:agenda_front/api/agenda_api.dart';
-import 'package:agenda_front/models/persona.dart';
 import 'package:agenda_front/models/security/auth_response.dart';
+import 'package:agenda_front/models/security/user.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/services/local_storage.dart';
 import 'package:agenda_front/services/navigation_service.dart';
@@ -11,7 +11,7 @@ enum AuthStatus { checking, authenticated, notAuthenticated }
 
 class AuthProvider extends ChangeNotifier {
   String? _token;
-  Persona? persona;
+  User? user;
   AuthStatus authStatus = AuthStatus.checking;
 
   AuthProvider() {
@@ -24,7 +24,7 @@ class AuthProvider extends ChangeNotifier {
     AgendaAPI.httpPost('/auth/register', data).then((json) {
       final authResponse = AuthenticationResponse.fromJson(json);
       _token = authResponse.token;
-      persona = authResponse.persona;
+      user = authResponse.user;
       authStatus = AuthStatus.authenticated;
       LocalStorage.prefs.setString('token', _token!);
       NavigationService.replaceTo(Flurorouter.dashboardRoute);
@@ -41,7 +41,7 @@ class AuthProvider extends ChangeNotifier {
     AgendaAPI.httpPost('/auth/login', data).then((json) {
       final authResponse = AuthenticationResponse.fromJson(json);
       _token = authResponse.token;
-      persona = authResponse.persona;
+      user = authResponse.user;
       authStatus = AuthStatus.authenticated;
       LocalStorage.prefs.setString('token', _token!);
       NavigationService.replaceTo(Flurorouter.dashboardRoute);
@@ -55,37 +55,28 @@ class AuthProvider extends ChangeNotifier {
 
   Future<bool> isAuthenticated() async {
     final token = LocalStorage.prefs.getString('token');
+
     if (token == null) {
       authStatus = AuthStatus.notAuthenticated;
       notifyListeners();
-      NotificationsService.showSnackbarError(
-          'Sesion expirada, ingrese credenciales nuevamente');
       return false;
     }
-    final data = {'token': token};
-    AgendaAPI.httpPost('/auth/validate', data).then((json) {
-      if (json == null) {
-        authStatus = AuthStatus.notAuthenticated;
-        return false;
-      } else {
-        final authResponse = AuthenticationResponse.fromJson(json);
-        _token = authResponse.token;
-        persona = authResponse.persona;
-        authStatus = AuthStatus.authenticated;
-        LocalStorage.prefs.setString('token', _token!);
-        NavigationService.replaceTo(Flurorouter.dashboardRoute);
-        AgendaAPI.configureDio();
-        notifyListeners();
-      }
-    }).catchError((e) {
-      print("Error en isAuthenticated: $e");
+
+    try {
+      final resp = await AgendaAPI.httpGet('/auth');
+      final authReponse = AuthenticationResponse.fromJson(resp);
+      LocalStorage.prefs.setString('token', authReponse.token);
+
+      user = authReponse.user;
+      authStatus = AuthStatus.authenticated;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print(e);
       authStatus = AuthStatus.notAuthenticated;
       notifyListeners();
-      NotificationsService.showSnackbarError(
-          'ERROR al verificar sesion, ingrese nuevamente');
       return false;
-    });
-    return false;
+    }
   }
 
   logout() {

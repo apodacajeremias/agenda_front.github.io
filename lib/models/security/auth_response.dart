@@ -1,22 +1,22 @@
-import 'package:agenda_front/models/persona.dart';
+import 'package:agenda_front/models/security/user.dart';
 
 class AuthenticationResponse {
     String token;
-    Persona persona;
+    User user;
 
     AuthenticationResponse({
         required this.token,
-        required this.persona,
+        required this.user,
     });
 
     factory AuthenticationResponse.fromJson(Map<String, dynamic> json) => AuthenticationResponse(
         token: json["token"],
-        persona: Persona.fromJson(json["persona"]),
+        user: User.fromJson(json["user"]),
     );
 
     Map<String, dynamic> toJson() => {
         "token": token,
-        "persona": persona.toJson(),
+        "user": user.toJson(),
     };
 }
 

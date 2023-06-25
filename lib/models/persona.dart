@@ -5,13 +5,28 @@
 import 'dart:convert';
 
 import 'package:agenda_front/models/colaborador.dart';
-import 'package:agenda_front/models/security/user.dart';
 
 Persona personaFromJson(String str) => Persona.fromJson(json.decode(str));
 
 String personaToJson(Persona data) => json.encode(data.toJson());
 
 class Persona {
+  bool? activo;
+  DateTime? fechaCreacion;
+  String? fechaModificacion;
+  String? nombre;
+  DateTime? fechaNacimiento;
+  int? edad;
+  String? genero;
+  String? documentoIdentidad;
+  String? telefono;
+  String? celular;
+  String? correo;
+  String? direccion;
+  String? observacion;
+  String? fotoPerfil;
+  Colaborador? colaborador;
+  String? id;
   Persona({
     this.activo,
     this.fechaCreacion,
@@ -28,27 +43,8 @@ class Persona {
     this.observacion,
     this.fotoPerfil,
     this.colaborador,
-    this.user,
     this.id,
   });
-
-  bool? activo;
-  DateTime? fechaCreacion;
-  String? fechaModificacion;
-  String? nombre;
-  DateTime? fechaNacimiento;
-  int? edad;
-  String? genero;
-  String? documentoIdentidad;
-  String? telefono;
-  String? celular;
-  String? correo;
-  String? direccion;
-  String? observacion;
-  String? fotoPerfil;
-  Colaborador? colaborador;
-  User? user;
-  String? id;
 
   factory Persona.fromJson(Map<String, dynamic> json) => Persona(
         activo: json["activo"],
@@ -65,10 +61,7 @@ class Persona {
         direccion: json["direccion"],
         observacion: json["observacion"],
         fotoPerfil: json["fotoPerfil"],
-        colaborador: json["colaborador"] == null
-            ? null
-            : Colaborador.fromJson(json["colaborador"]),
-        user: json["user"] == null ? null : User.fromJson(json["user"]),
+        colaborador: Colaborador.fromJson(json["colaborador"]),
         id: json["id"],
       );
 
@@ -89,7 +82,6 @@ class Persona {
         "observacion": observacion,
         "fotoPerfil": fotoPerfil,
         "colaborador": colaborador?.toJson(),
-        "user": user?.toJson(),
         "id": id,
       };
 }

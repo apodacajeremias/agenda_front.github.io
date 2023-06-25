@@ -11,7 +11,7 @@ class DashboardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final persona = Provider.of<AuthProvider>(context).persona!;
+    final persona = Provider.of<AuthProvider>(context).user!.persona!;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: ListView(

@@ -1,29 +1,32 @@
+import 'package:agenda_front/models/persona.dart';
+
 class User {
-    User({
-        this.email,
-        this.changePassword,
-        this.lastPasswordChange,
-        this.role,
-        this.username,
-        this.accountNonExpired,
-        this.accountNonLocked,
-        this.credentialsNonExpired,
-        this.id,
-        this.enabled,
-    });
+  String? email;
+  bool? changePassword;
+  String? lastPasswordChange;
+  String? role;
+  String? username;
+  bool? accountNonExpired;
+  bool? accountNonLocked;
+  bool? credentialsNonExpired;
+  String? id;
+  bool? enabled;
+  Persona? persona;
+  User({
+    this.email,
+    this.changePassword,
+    this.lastPasswordChange,
+    this.role,
+    this.username,
+    this.accountNonExpired,
+    this.accountNonLocked,
+    this.credentialsNonExpired,
+    this.id,
+    this.enabled,
+    this.persona
+  });
 
-    String? email;
-    bool? changePassword;
-    String? lastPasswordChange;
-    String? role;
-    String? username;
-    bool? accountNonExpired;
-    bool? accountNonLocked;
-    bool? credentialsNonExpired;
-    String? id;
-    bool? enabled;
-
-    factory User.fromJson(Map<String, dynamic> json) => User(
+  factory User.fromJson(Map<String, dynamic> json) => User(
         email: json["email"],
         changePassword: json["changePassword"],
         lastPasswordChange: json["lastPasswordChange"],
@@ -34,9 +37,10 @@ class User {
         credentialsNonExpired: json["credentialsNonExpired"],
         id: json["id"],
         enabled: json["enabled"],
-    );
+        persona: Persona.fromJson(json["persona"])
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "email": email,
         "changePassword": changePassword,
         "lastPasswordChange": lastPasswordChange,
@@ -47,5 +51,6 @@ class User {
         "credentialsNonExpired": credentialsNonExpired,
         "id": id,
         "enabled": enabled,
-    };
+        "persona" : persona?.toJson()
+      };
 }
