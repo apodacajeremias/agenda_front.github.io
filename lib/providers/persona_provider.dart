@@ -6,7 +6,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class PersonaProvider extends ChangeNotifier {
   List<Persona> personas = [];
-  final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
+  static final GlobalKey<FormBuilderState> formKey =
+      GlobalKey<FormBuilderState>();
 
   getPersonas() async {
     try {
@@ -30,7 +31,7 @@ class PersonaProvider extends ChangeNotifier {
   // }
 
 // Buscamos la persona seleccionada en la lista, sin reconsultar el servidor C;
-  Persona getPersona(String id) {
+  Persona? getPersona(String id) {
     try {
       return personas.where((element) => element.id!.contains(id)).first;
     } catch (e) {

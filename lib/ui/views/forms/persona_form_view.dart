@@ -1,11 +1,8 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:agenda_front/models/enums/generos.dart';
 import 'package:agenda_front/models/persona.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/services/fecha_util.dart';
-import 'package:agenda_front/ui/buttons/custom_icon_button.dart';
-import 'package:agenda_front/ui/buttons/link_text.dart';
+import 'package:agenda_front/ui/buttons/custom_outlined_button.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
 import 'package:agenda_front/ui/inputs/custom_inputs.dart';
 import 'package:agenda_front/ui/labels/custom_labels.dart';
@@ -15,196 +12,137 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class PersonaFormView extends StatefulWidget {
-  final Persona persona;
+class PersonaFormView extends StatelessWidget {
+  final Persona? persona;
+  const PersonaFormView(this.persona, {super.key});
 
-  const PersonaFormView({super.key, required this.persona});
-
-  @override
-  State<PersonaFormView> createState() => _PersonaFormViewState();
-}
-
-class _PersonaFormViewState extends State<PersonaFormView> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<PersonaProvider>(context, listen: false);
-
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: ListView(
-          physics: ClampingScrollPhysics(),
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Registro',
-                  style: CustomLabels.h1,
-                ),
-                LinkText(text: 'Volver', color: Colors.blue)
-              ],
-            ),
-            WhiteCard(
-                title: widget.persona.id == null
-                    ? 'Editar registro'
-                    : 'Crear registro',
-                child: FormBuilder(
-                  key: provider.formKey,
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: ListView(
+        physics: const ClampingScrollPhysics(),
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Formulario de Persona',
+                style: CustomLabels.h1,
+              ),
+              CustomOutlinedButton(
+                  onPressed: () => Navigator.of(context).pop(), text: 'Volver')
+            ],
+          ),
+          WhiteCard(
+              title: persona?.nombre ?? 'Crear registro',
+              child: FormBuilder(
+                  key: PersonaProvider.formKey,
                   child: Column(
                     children: [
-                      SizedBox(height: 10),
                       FormBuilderTextField(
-                        name: 'nombre',
-                        initialValue: widget.persona.nombre,
-                        enabled: widget.persona.activo ?? true,
+                        name: 'id',
+                        initialValue: persona?.id,
+                        enabled: false,
                         decoration: CustomInputs.loginInputDecoration(
-                            hint: 'Ingrese el nombre',
-                            label: 'Nombre',
-                            icon: Icons.person_pin),
-                        validator: FormBuilderValidators.required(
-                            errorText: 'Campo obligatorio'),
-                        onChanged: (value) {
-                          widget.persona.nombre = value;
-                        },
+                            hint: 'Codigo del registro',
+                            label: 'ID',
+                            icon: Icons.numbers),
                       ),
-                      SizedBox(height: 10),
+                      FormBuilderSwitch(
+                        name: 'activo',
+                        title: const Text('Estado del registro'),
+                        initialValue: persona?.activo ?? true,
+                        enabled: false,
+                        decoration: CustomInputs.loginInputDecoration(
+                            hint: 'Estado del registro',
+                            label: 'Activo',
+                            icon: Icons.done),
+                      ),
                       FormBuilderTextField(
-                        name: 'nombre',
-                        initialValue: widget.persona.documentoIdentidad,
-                        enabled: widget.persona.activo ?? true,
-                        decoration: CustomInputs.loginInputDecoration(
-                            hint: 'Ingrese el documento de identidad',
-                            label: 'Documento',
-                            icon: Icons.person_pin),
-                        validator: FormBuilderValidators.required(
-                            errorText: 'Campo obligatorio'),
-                        onChanged: (value) {
-                          widget.persona.documentoIdentidad = value;
-                        },
-                      ),
-                      SizedBox(height: 10),
+                          name: 'nombre',
+                          initialValue: persona?.nombre,
+                          enabled: persona?.activo ?? true,
+                          decoration: CustomInputs.loginInputDecoration(
+                              hint: 'Nombre completo',
+                              label: 'Nombre y Apellido',
+                              icon: Icons.info),
+                          validator: FormBuilderValidators.required(
+                              errorText: 'Campo obligatorio')),
+                      FormBuilderTextField(
+                          name: 'documentoIdentidad',
+                          initialValue: persona?.documentoIdentidad,
+                          enabled: persona?.activo ?? true,
+                          decoration: CustomInputs.loginInputDecoration(
+                              hint:
+                                  'Numero de documento, C.I., R.G., C.P.F., D.N.I., pasaporte...',
+                              label: 'Documento de Identidad',
+                              icon: Icons.perm_identity),
+                          validator: FormBuilderValidators.required(
+                              errorText: 'Campo obligatorio')),
                       FormBuilderDateTimePicker(
-                        name: 'fechaNacimiento',
-                        initialValue: widget.persona.fechaNacimiento,
-                        enabled: widget.persona.activo ?? true,
-                        decoration: CustomInputs.loginInputDecoration(
-                            hint: 'Ingrese la fecha de nacimiento',
-                            label: 'Fecha de nacimiento',
-                            icon: Icons.calendar_month),
-                        validator: FormBuilderValidators.required(
-                            errorText: 'Campo obligatorio'),
-                        onChanged: (value) {
-                          widget.persona.fechaNacimiento = value;
-                        },
-                        format: FechaUtil.dateFormat,
-                      ),
-                      SizedBox(height: 10),
+                          name: 'fechaNacimiento',
+                          format: FechaUtil.dateFormat,
+                          initialValue: persona?.fechaNacimiento,
+                          enabled: persona?.activo ?? true,
+                          decoration: CustomInputs.loginInputDecoration(
+                              hint: 'dd/MM/yyyy',
+                              label: 'Fecha de Nacimiento',
+                              icon: Icons.calendar_month),
+                          validator: FormBuilderValidators.required(
+                              errorText: 'Campo obligatorio')),
                       FormBuilderDropdown(
-                        name: 'genero',
-                        items: Generos.values.map((genero) {
-                          final generoFormateado =
-                              toBeginningOfSentenceCase(genero.name) ??
-                                  genero.name;
-                          return DropdownMenuItem(
-                            alignment: AlignmentDirectional.center,
-                            value: genero.name,
-                            child: Text(generoFormateado),
-                          );
-                        }).toList(),
-                      ),
-                      SizedBox(height: 10),
+                          name: 'genero',
+                          initialValue: persona?.genero,
+                          enabled: persona?.activo ?? true,
+                          decoration: CustomInputs.loginInputDecoration(
+                              hint: 'Seleccionar genero',
+                              label: 'Genero',
+                              icon: Icons.male),
+                          validator: FormBuilderValidators.required(
+                              errorText: 'Campo obligatorio'),
+                          items: Generos.values
+                              .map((genero) => DropdownMenuItem(
+                                  alignment: AlignmentDirectional.center,
+                                  value: genero.name,
+                                  child: Text(
+                                      toBeginningOfSentenceCase(genero.name)!)))
+                              .toList()),
                       FormBuilderTextField(
-                        name: 'celular',
-                        initialValue: widget.persona.celular,
-                        enabled: widget.persona.activo ?? true,
-                        decoration: CustomInputs.loginInputDecoration(
-                            hint: 'Ingrese un numero de celular',
-                            label: 'Celular',
-                            icon: Icons.phone_android),
-                        validator: FormBuilderValidators.numeric(
-                            errorText: 'Solo numeros'),
-                        onChanged: (value) {
-                          widget.persona.celular = value;
-                        },
-                      ),
-                      SizedBox(height: 10),
+                          name: 'telefono',
+                          initialValue: persona?.telefono,
+                          enabled: persona?.activo ?? true,
+                          decoration: CustomInputs.loginInputDecoration(
+                              hint: 'Telefono de contacto',
+                              label: 'Telefono',
+                              icon: Icons.phone),
+                          validator: FormBuilderValidators.minLength(7,
+                              errorText:
+                                  'Numero de telefono muy corto para ser válido')),
                       FormBuilderTextField(
-                        name: 'telefono',
-                        initialValue: widget.persona.telefono,
-                        enabled: widget.persona.activo ?? true,
-                        decoration: CustomInputs.loginInputDecoration(
-                            hint: 'Ingrese un numero de telefono',
-                            label: 'Telefono',
-                            icon: Icons.phone),
-                        validator: FormBuilderValidators.numeric(
-                            errorText: 'Solo numeros'),
-                        onChanged: (value) {
-                          widget.persona.telefono = value;
-                        },
-                      ),
-                      SizedBox(height: 10),
+                          name: 'celular',
+                          initialValue: persona?.celular,
+                          enabled: persona?.activo ?? true,
+                          decoration: CustomInputs.loginInputDecoration(
+                              hint: 'Celular de contacto',
+                              label: 'Celular',
+                              icon: Icons.phone_android),
+                          validator: FormBuilderValidators.minLength(7,
+                              errorText:
+                                  'Numero de celular muy corto para ser válido')),
                       FormBuilderTextField(
-                        name: 'correo',
-                        initialValue: widget.persona.correo,
-                        enabled: widget.persona.activo ?? true,
-                        decoration: CustomInputs.loginInputDecoration(
-                            hint: 'Ingrese un correo electronico',
-                            label: 'Correo',
-                            icon: Icons.email),
-                        validator: FormBuilderValidators.email(
-                            errorText: 'Ingrese un correo valido'),
-                        onChanged: (value) {
-                          widget.persona.correo = value;
-                        },
-                      ),
-                      SizedBox(height: 10),
-                      FormBuilderTextField(
-                        name: 'direccion',
-                        initialValue: widget.persona.direccion,
-                        enabled: widget.persona.activo ?? true,
-                        decoration: CustomInputs.loginInputDecoration(
-                            hint: 'Ingrese la direccion',
-                            label: 'Direccion',
-                            icon: Icons.gps_fixed),
-                        validator: FormBuilderValidators.minWordsCount(3,
-                            allowEmpty: true,
-                            errorText: 'La direccion debe ser mas especifica'),
-                        onChanged: (value) {
-                          widget.persona.direccion = value;
-                        },
-                      ),
-                      SizedBox(height: 10),
-                      FormBuilderTextField(
-                        name: 'observacion',
-                        initialValue: widget.persona.observacion,
-                        enabled: widget.persona.activo ?? true,
-                        decoration: CustomInputs.loginInputDecoration(
-                            hint: 'Ingrese observaciones',
-                            label: 'Observacion',
-                            icon: Icons.announcement),
-                        onChanged: (value) {
-                          widget.persona.observacion = value;
-                        },
-                      ),
-                      SizedBox(height: 10),
-                      //TODO: agregar un ImagePicker para la foto de perfil
-                      CustomIconButton(
-                          onPressed: () {
-                            provider.formKey.currentState!.save();
-                            print(provider.formKey.currentState!.value);
-                            (widget.persona.id == null)
-                                ? provider.newPersona(widget.persona)
-                                : provider.updatePersona(
-                                    widget.persona.id!, widget.persona);
-                          },
-                          text: widget.persona.id == null
-                              ? 'Guardar'
-                              : 'Actualizar',
-                          icon: Icons.save)
+                          name: 'direccion',
+                          initialValue: persona?.direccion,
+                          enabled: persona?.activo ?? true,
+                          decoration: CustomInputs.loginInputDecoration(
+                              hint: 'Direccion de domicilio',
+                              label: 'Direccion',
+                              icon: Icons.gps_fixed))
                     ],
-                  ),
-                ))
-          ],
-        ));
+                  )))
+        ],
+      ),
+    );
   }
 }

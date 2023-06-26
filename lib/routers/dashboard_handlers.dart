@@ -70,6 +70,4 @@ class DashboardHandlers {
       return const LoginView();
     }
   });
-
- 
 }

@@ -5,6 +5,7 @@ import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/services/local_storage.dart';
 import 'package:agenda_front/services/navigation_service.dart';
 import 'package:agenda_front/services/notifications_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 enum AuthStatus { checking, authenticated, notAuthenticated }
@@ -12,7 +13,21 @@ enum AuthStatus { checking, authenticated, notAuthenticated }
 class AuthProvider extends ChangeNotifier {
   String? _token;
   User? user;
-  AuthStatus authStatus = AuthStatus.checking;
+  AuthStatus _authStatus = AuthStatus.checking;
+
+  AuthStatus get authStatus {
+    if (kDebugMode) {
+      print('GET $_authStatus');
+    }
+    return _authStatus;
+  }
+
+  set authStatus(AuthStatus status) {
+    if (kDebugMode) {
+      print('SET $status');
+    }
+    _authStatus = status;
+  }
 
   AuthProvider() {
     isAuthenticated();
@@ -25,7 +40,7 @@ class AuthProvider extends ChangeNotifier {
       final authResponse = AuthenticationResponse.fromJson(json);
       _token = authResponse.token;
       user = authResponse.user;
-      authStatus = AuthStatus.authenticated;
+      _authStatus = AuthStatus.authenticated;
       LocalStorage.prefs.setString('token', _token!);
       NavigationService.replaceTo(Flurorouter.dashboardRoute);
       AgendaAPI.configureDio();
@@ -42,7 +57,7 @@ class AuthProvider extends ChangeNotifier {
       final authResponse = AuthenticationResponse.fromJson(json);
       _token = authResponse.token;
       user = authResponse.user;
-      authStatus = AuthStatus.authenticated;
+      _authStatus = AuthStatus.authenticated;
       LocalStorage.prefs.setString('token', _token!);
       NavigationService.replaceTo(Flurorouter.dashboardRoute);
       AgendaAPI.configureDio();
@@ -57,23 +72,23 @@ class AuthProvider extends ChangeNotifier {
     final token = LocalStorage.prefs.getString('token');
 
     if (token == null) {
-      authStatus = AuthStatus.notAuthenticated;
+      _authStatus = AuthStatus.notAuthenticated;
       notifyListeners();
       return false;
     }
 
     try {
-      final resp = await AgendaAPI.httpGet('/auth');
+      final resp = await AgendaAPI.httpGet('/auth/validate?token=$token');
       final authReponse = AuthenticationResponse.fromJson(resp);
       LocalStorage.prefs.setString('token', authReponse.token);
 
       user = authReponse.user;
-      authStatus = AuthStatus.authenticated;
+      _authStatus = AuthStatus.authenticated;
       notifyListeners();
       return true;
     } catch (e) {
       print(e);
-      authStatus = AuthStatus.notAuthenticated;
+      _authStatus = AuthStatus.notAuthenticated;
       notifyListeners();
       return false;
     }
@@ -82,7 +97,7 @@ class AuthProvider extends ChangeNotifier {
   logout() {
     AgendaAPI.httpGet('/auth/logout').then((value) {
       LocalStorage.prefs.remove('token');
-      authStatus = AuthStatus.notAuthenticated;
+      _authStatus = AuthStatus.notAuthenticated;
       notifyListeners();
     }).catchError((e) {});
   }

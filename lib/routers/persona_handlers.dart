@@ -28,7 +28,7 @@ class PersonaHandlers {
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.personasIndexRoute);
     if (authProvider.authStatus == AuthStatus.authenticated) {
-      return PersonaFormView(persona: Persona(),);
+      return PersonaFormView(null);
     } else {
       return const LoginView();
     }
@@ -40,11 +40,9 @@ class PersonaHandlers {
         .setCurrentPageUrl(Flurorouter.personasIndexRoute);
     final id = params['id']!.first;
 
-    Persona editar = Provider.of<PersonaProvider>(context).getPersona(id);
-    print(id);
-    print(editar.toString());
+    Persona? editar = Provider.of<PersonaProvider>(context).getPersona(id);
     if (authProvider.authStatus == AuthStatus.authenticated) {
-      return PersonaFormView(persona: editar);
+      return PersonaFormView(editar);
     } else {
       return const LoginView();
     }
