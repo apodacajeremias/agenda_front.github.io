@@ -1,45 +1,29 @@
 import 'package:agenda_front/api/agenda_api.dart';
 import 'package:agenda_front/models/persona.dart';
-import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class PersonaProvider extends ChangeNotifier {
   List<Persona> personas = [];
-  static final GlobalKey<FormBuilderState> formKey =
+  GlobalKey<FormBuilderState> formKey =
       GlobalKey<FormBuilderState>();
 
-  getPersonas() async {
-    try {
-      final response = await AgendaAPI.httpGet('/personas');
-      List<Persona> personasResponse =
-          List<Persona>.from(response.map((model) => Persona.fromJson(model)));
-      personas = [...personasResponse];
-      notifyListeners();
-    } catch (e) {
-      rethrow;
-    }
+  buscarTodos() async {
+    final response = await AgendaAPI.httpGet('/personas');
+    List<Persona> personasResponse =
+        List<Persona>.from(response.map((model) => Persona.fromJson(model)));
+    personas = [...personasResponse];
+    notifyListeners();
   }
-
-  // Future getPersona(String id) async {
-  //   try {
-  //     final response = await AgendaAPI.httpGet('personas/$id');
-  //     return Persona.fromJson(response);
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
 
 // Buscamos la persona seleccionada en la lista, sin reconsultar el servidor C;
-  Persona? getPersona(String id) {
-    try {
-      return personas.where((element) => element.id!.contains(id)).first;
-    } catch (e) {
-      rethrow;
-    }
+  Persona? buscar(String id) {
+    return personas.isNotEmpty
+        ? personas.where((element) => element.id!.contains(id)).first
+        : null;
   }
 
-  Future newPersona(Persona persona) async {
+  Future guardar(Persona persona) async {
     final data = persona.toJson();
     try {
       final json = await AgendaAPI.httpPost('/personas', data);
@@ -47,11 +31,11 @@ class PersonaProvider extends ChangeNotifier {
       personas.add(personaNueva);
       notifyListeners();
     } catch (e) {
-      throw 'Error al crear Persona';
+      rethrow;
     }
   }
 
-  Future updatePersona(String id, Persona persona) async {
+  Future actualizar(String id, Persona persona) async {
     final data = persona.toJson();
     try {
       final json = await AgendaAPI.httpPut('/personas/$id', data);
@@ -62,23 +46,23 @@ class PersonaProvider extends ChangeNotifier {
       personas[index] = personaModificada;
       notifyListeners();
     } catch (e) {
-      throw 'Error al actualizar Persona';
+      rethrow;
     }
   }
 
-  Future deletePersona(String id) async {
+  Future eliminar(String id) async {
     try {
       final json = await AgendaAPI.httpDelete('/personas/$id', {});
       final confirmado = json as bool;
       if (confirmado) {
         personas.removeWhere((persona) => persona.id == id);
       } else {
-        NotificationsService.showSnackbarError(
-            'No se ha podido eliminar registro, intente nuevamente');
+        throw Exception('No se ha eliminado el registro');
       }
       notifyListeners();
+      return confirmado;
     } catch (e) {
-      throw 'Error al eliminar Persona';
+      rethrow;
     }
   }
 

@@ -13,7 +13,7 @@ String personaToJson(Persona data) => json.encode(data.toJson());
 class Persona {
   bool? activo;
   DateTime? fechaCreacion;
-  String? fechaModificacion;
+  DateTime? fechaModificacion;
   String? nombre;
   DateTime? fechaNacimiento;
   int? edad;
@@ -48,10 +48,8 @@ class Persona {
 
   factory Persona.fromJson(Map<String, dynamic> json) => Persona(
         activo: json["activo"],
-        fechaCreacion: DateTime.parse(json["fechaCreacion"]),
-        fechaModificacion: json["fechaModificacion"],
         nombre: json["nombre"],
-        fechaNacimiento: DateTime.parse(json["fechaNacimiento"]),
+        fechaNacimiento: DateTime.parse(json["fechaNacimiento"].toString()),
         edad: json["edad"],
         genero: json["genero"],
         documentoIdentidad: json["documentoIdentidad"],

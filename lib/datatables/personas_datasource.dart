@@ -3,6 +3,7 @@
 import 'package:agenda_front/models/persona.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/services/navigation_service.dart';
+import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,7 +25,7 @@ class PersonasDataSource extends DataTableSource {
         children: [
           IconButton(
               onPressed: () {
-                NavigationService.replaceTo(
+                NavigationService.navigateTo(
                     '/dashboard/personas/${persona.id}');
               },
               icon: Icon(Icons.edit_outlined)),
@@ -43,10 +44,20 @@ class PersonasDataSource extends DataTableSource {
                     TextButton(
                       child: Text('Si, borrar'),
                       onPressed: () async {
-                        await Provider.of<PersonaProvider>(context,
+                        var confirmado = await Provider.of<PersonaProvider>(
+                                context,
                                 listen: false)
-                            .deletePersona(persona.id!);
-                        Navigator.of(context).pop();
+                            .eliminar(persona.id!);
+                        if (confirmado) {
+                          NotificationsService.showSnackbar(
+                              'Registro eliminado exitosamente');
+                        } else {
+                          NotificationsService.showSnackbar(
+                              'Registro no ha sido eliminado');
+                        }
+                        if (context.mounted) {
+                          Navigator.of(context).pop();
+                        }
                       },
                     ),
                   ],

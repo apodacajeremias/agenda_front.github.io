@@ -13,7 +13,7 @@ class PersonaModal extends StatefulWidget {
   const PersonaModal({Key? key, this.persona}) : super(key: key);
 
   @override
-  _PersonaModalState createState() => _PersonaModalState();
+  State<PersonaModal> createState() => _PersonaModalState();
 }
 
 class _PersonaModalState extends State<PersonaModal> {
@@ -33,9 +33,7 @@ class _PersonaModalState extends State<PersonaModal> {
 
   @override
   Widget build(BuildContext context) {
-    final personaProvider =
         Provider.of<PersonaProvider>(context, listen: false);
-    personaProvider.formKey;
     return Container(
       padding: const EdgeInsets.all(20),
       height: 900,

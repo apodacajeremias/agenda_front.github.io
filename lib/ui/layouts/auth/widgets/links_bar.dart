@@ -1,4 +1,5 @@
 import 'package:agenda_front/ui/buttons/link_text.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class LinksBar extends StatelessWidget {
@@ -14,7 +15,13 @@ class LinksBar extends StatelessWidget {
         child: Wrap(
           alignment: WrapAlignment.center,
           children: [
-            LinkText(text: 'About', onPressed: () => print('about')),
+            LinkText(
+                text: 'About',
+                onPressed: () {
+                  if (kDebugMode) {
+                    print('about');
+                  }
+                }),
             const LinkText(text: 'Help Center'),
             const LinkText(text: 'Terms of Service'),
             const LinkText(text: 'Privacy Policy'),

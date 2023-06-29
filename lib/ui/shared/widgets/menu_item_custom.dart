@@ -16,7 +16,7 @@ class MenuItemCustom extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _MenuItemState createState() => _MenuItemState();
+  State<MenuItemCustom> createState() => _MenuItemState();
 }
 
 class _MenuItemState extends State<MenuItemCustom> {

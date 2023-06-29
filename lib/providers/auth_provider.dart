@@ -6,7 +6,6 @@ import 'package:agenda_front/services/local_storage.dart';
 import 'package:agenda_front/services/navigation_service.dart';
 import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 
 enum AuthStatus { checking, authenticated, notAuthenticated }
 
@@ -46,7 +45,9 @@ class AuthProvider extends ChangeNotifier {
       AgendaAPI.configureDio();
       notifyListeners();
     }).catchError((e) {
-      print('error en register: $e');
+      if (kDebugMode) {
+        print('error en register: $e');
+      }
       NotificationsService.showSnackbarError('Usuario / Password no válidos');
     });
   }
@@ -63,7 +64,9 @@ class AuthProvider extends ChangeNotifier {
       AgendaAPI.configureDio();
       notifyListeners();
     }).catchError((e) {
-      print('Error en login: $e');
+      if (kDebugMode) {
+        print('Error en login: $e');
+      }
       NotificationsService.showSnackbarError('Usuario / Password no válido');
     });
   }
@@ -87,7 +90,10 @@ class AuthProvider extends ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
+      LocalStorage.prefs.remove('token');
       _authStatus = AuthStatus.notAuthenticated;
       notifyListeners();
       return false;

@@ -54,9 +54,9 @@ class Flurorouter {
     router.define(personasIndexRoute,
         handler: PersonaHandlers.index, transitionType: TransitionType.fadeIn);
     router.define(personasCreateRoute,
-        handler: PersonaHandlers.create, transitionType: TransitionType.fadeIn);
+        handler: PersonaHandlers.crear, transitionType: TransitionType.fadeIn);
     router.define(personasEditRoute,
-        handler: PersonaHandlers.edit, transitionType: TransitionType.fadeIn);
+        handler: PersonaHandlers.editar, transitionType: TransitionType.fadeIn);
 
     // Users
     router.define(usersRoute,

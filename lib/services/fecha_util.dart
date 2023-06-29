@@ -1,3 +1,4 @@
+import 'package:age_calculator/age_calculator.dart';
 import 'package:intl/intl.dart';
 
 class FechaUtil {
@@ -26,5 +27,9 @@ class FechaUtil {
     } catch (e) {
       throw FormatException('Invalid date format $timeString');
     }
+  }
+
+  static int calcularEdad(DateTime fechaNacimiento) {
+    return AgeCalculator.age(fechaNacimiento).years;
   }
 }

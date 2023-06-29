@@ -9,7 +9,7 @@ class LinkText extends StatefulWidget {
       : super(key: key);
 
   @override
-  _LinkTextState createState() => _LinkTextState();
+  State<LinkText> createState() => _LinkTextState();
 }
 
 class _LinkTextState extends State<LinkText> {

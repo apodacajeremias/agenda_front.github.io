@@ -11,7 +11,7 @@ class PersonaIndexView extends StatefulWidget {
   const PersonaIndexView({super.key});
 
   @override
-  _PersonaIndexViewState createState() => _PersonaIndexViewState();
+    State<PersonaIndexView> createState() => _PersonaIndexViewState();
 }
 
 class _PersonaIndexViewState extends State<PersonaIndexView> {
@@ -20,13 +20,12 @@ class _PersonaIndexViewState extends State<PersonaIndexView> {
   @override
   void initState() {
     super.initState();
-    Provider.of<PersonaProvider>(context, listen: false).getPersonas();
+    Provider.of<PersonaProvider>(context, listen: false).buscarTodos();
   }
 
   @override
   Widget build(BuildContext context) {
     final personas = Provider.of<PersonaProvider>(context).personas;
-
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: ListView(
@@ -53,8 +52,7 @@ class _PersonaIndexViewState extends State<PersonaIndexView> {
             actions: [
               CustomIconButton(
                 onPressed: () {
-                  NavigationService.replaceTo(Flurorouter.personasCreateRoute);
-                  print('Crear nuevo');
+                  NavigationService.navigateTo(Flurorouter.personasCreateRoute);
                 },
                 text: 'Crear',
                 icon: Icons.add_outlined,
