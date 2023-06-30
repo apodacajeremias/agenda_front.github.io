@@ -5,8 +5,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class PersonaProvider extends ChangeNotifier {
   List<Persona> personas = [];
-  GlobalKey<FormBuilderState> formKey =
-      GlobalKey<FormBuilderState>();
+  GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   buscarTodos() async {
     final response = await AgendaAPI.httpGet('/personas');
@@ -23,8 +22,7 @@ class PersonaProvider extends ChangeNotifier {
         : null;
   }
 
-  Future guardar(Persona persona) async {
-    final data = persona.toJson();
+  Future guardar(Map<String, dynamic> data) async {
     try {
       final json = await AgendaAPI.httpPost('/personas', data);
       final personaNueva = Persona.fromJson(json);
@@ -35,8 +33,7 @@ class PersonaProvider extends ChangeNotifier {
     }
   }
 
-  Future actualizar(String id, Persona persona) async {
-    final data = persona.toJson();
+  Future actualizar(String id, Map<String, dynamic> data) async {
     try {
       final json = await AgendaAPI.httpPut('/personas/$id', data);
       final personaModificada = Persona.fromJson(json);
@@ -68,5 +65,9 @@ class PersonaProvider extends ChangeNotifier {
 
   validateForm() {
     return formKey.currentState!.validate();
+  }
+
+  saveForm() {
+    formKey.currentState!.save();
   }
 }

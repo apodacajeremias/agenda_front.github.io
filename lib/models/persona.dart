@@ -59,7 +59,10 @@ class Persona {
         direccion: json["direccion"],
         observacion: json["observacion"],
         fotoPerfil: json["fotoPerfil"],
-        colaborador: Colaborador.fromJson(json["colaborador"]),
+        colaborador:
+            (json.containsKey('colaborador') && json['colaborador'] != null)
+                ? Colaborador.fromJson(json["colaborador"])
+                : null,
         id: json["id"],
       );
 

@@ -26,21 +26,17 @@ class AgendaAPI {
   }
 
   static Future httpPost(String path, Map<String, dynamic> data) async {
-// final formData = FormData.fromMap(data);
-    // final formData = FormData.fromMap({'data': json.encode(data)});
     try {
       final response = await _dio.post(path, data: data);
       return response.data;
-      // return jsonDecode(response.data) as Map<String, dynamic>;
     } catch (e) {
       rethrow;
     }
   }
 
   static Future httpPut(String path, Map<String, dynamic> data) async {
-    final formData = FormData.fromMap(data);
     try {
-      final resp = await _dio.put(path, data: formData);
+      final resp = await _dio.put(path, data: data);
       return resp.data;
     } catch (e) {
       rethrow;

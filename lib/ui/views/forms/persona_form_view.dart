@@ -147,12 +147,15 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                               onChanged: (value) => setState(() {
                                 _edad = FechaUtil.calcularEdad(value!);
                               }),
+                              inputType: InputType.date,
+                              valueTransformer: (value) =>
+                                  value!.toIso8601String(),
                             ),
                           ),
                           SizedBox(height: 10),
                           Expanded(
                             child: FormBuilderTextField(
-                              name: 'edad',
+                              name: 'edadX',
                               initialValue: widget.persona?.edad.toString() ??
                                   _edad.toString(),
                               enabled: widget.persona?.activo ?? true,
@@ -177,7 +180,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                         items: Generos.values
                             .map((genero) => DropdownMenuItem(
                                 alignment: AlignmentDirectional.center,
-                                value: genero.name,
+                                value: genero.name.toString().toUpperCase(),
                                 child: Text(
                                     toBeginningOfSentenceCase(genero.name)!)))
                             .toList()),
@@ -251,32 +254,36 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                       children: [
                         CustomIconButton(
                             onPressed: () async {
-                              provider.formKey.currentState!
-                                  .saveAndValidate(focusOnInvalid: true);
-                              var json = provider.formKey.currentState!.value;
-                              print(json);
-                              var guardar = Persona.fromJson(json);
-                              try {
-                                if (guardar.id == null) {
-                                  await provider.guardar(guardar);
-                                  NotificationsService.showSnackbar(
-                                      'Registro de $guardar.nombre creado!');
-                                } else {
-                                  await provider.actualizar(
-                                      guardar.id!, guardar);
-                                  NotificationsService.showSnackbar(
-                                      'Registro de $guardar.nombre modificado!');
+                              if (provider.validateForm()) {
+                                provider.saveForm();
+                                final id = provider
+                                    .formKey.currentState!.fields['id']?.value;
+                                try {
+                                  if (id == null) {
+                                    await provider.guardar(
+                                        provider.formKey.currentState!.value);
+                                    NotificationsService.showSnackbar(
+                                        'Registro creado!');
+                                  } else {
+                                    await provider.actualizar(id,
+                                        provider.formKey.currentState!.value);
+                                    NotificationsService.showSnackbar(
+                                        'Registro modificado!');
+                                  }
+                                  if (context.mounted) {
+                                    Navigator.of(context).pop();
+                                  }
+                                } catch (e) {
+                                  Navigator.of(context).pop;
+                                  if (id == null) {
+                                    NotificationsService.showSnackbarError(
+                                        'No se pudo crear el registro');
+                                  } else {
+                                    NotificationsService.showSnackbarError(
+                                        'No se pudo modificar el registro');
+                                  }
+                                  rethrow;
                                 }
-                              } catch (e) {
-                                Navigator.of(context).pop;
-                                if (guardar.id == null) {
-                                  NotificationsService.showSnackbarError(
-                                      'No se pudo crear la persona');
-                                } else {
-                                  NotificationsService.showSnackbarError(
-                                      'No se pudo modificar la persona');
-                                }
-                                rethrow;
                               }
                             },
                             text: widget.persona?.id == null
@@ -286,20 +293,16 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                                 ? Icons.save
                                 : Icons.edit,
                             color: Colors.green.withOpacity(0.3)),
-                        CustomOutlinedButton(
-                            onPressed: () async {
+                        CustomIconButton(
+                            onPressed: () {
                               Navigator.of(context).pop;
-                              if (widget.persona?.id == null) {
-                                NotificationsService.showSnackbarError(
-                                    'No se ha creado el registro');
-                              } else {
-                                NotificationsService.showSnackbarError(
-                                    'No se ha modificado el registro');
-                              }
                             },
                             text: widget.persona?.id == null
-                                ? 'Cerrar'
+                                ? 'Cerra'
                                 : 'Cancelar',
+                            icon: widget.persona?.id == null
+                                ? Icons.close
+                                : Icons.cancel,
                             color: Colors.red.withOpacity(0.3))
                       ],
                     )
