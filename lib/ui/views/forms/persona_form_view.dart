@@ -146,6 +146,8 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                                   errorText: 'Campo obligatorio'),
                               onChanged: (value) => setState(() {
                                 _edad = FechaUtil.calcularEdad(value!);
+                                provider.formKey.currentState!.fields['edad']!
+                                    .didChange(_edad.toString());
                               }),
                               inputType: InputType.date,
                               valueTransformer: (value) =>
@@ -155,7 +157,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                           SizedBox(height: 10),
                           Expanded(
                             child: FormBuilderTextField(
-                              name: 'edadX',
+                              name: 'edad',
                               initialValue: widget.persona?.edad.toString() ??
                                   _edad.toString(),
                               enabled: widget.persona?.activo ?? true,
@@ -196,6 +198,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                         validator: FormBuilderValidators.minLength(7,
                             errorText:
                                 'Numero de telefono muy corto para ser válido')),
+                    SizedBox(height: 10),
                     FormBuilderTextField(
                         name: 'celular',
                         initialValue: widget.persona?.celular,
