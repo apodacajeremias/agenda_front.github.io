@@ -56,6 +56,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
               title: widget.persona?.nombre ?? 'Crear registro',
               child: FormBuilder(
                 key: provider.formKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -67,43 +68,24 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                           Expanded(
                             child: FormBuilderTextField(
                               name: 'id',
-                              initialValue: widget.persona?.id ?? 'Sin codigo',
+                              initialValue: widget.persona?.id,
                               enabled: false,
-                              decoration: CustomInputs.loginInputDecoration(
+                              decoration: CustomInputs.windows11(
                                   hint: 'Codigo Identificador',
                                   label: 'ID',
                                   icon: Icons.qr_code),
                             ),
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(width: 10),
                           Expanded(
-                            child: FormBuilderCheckbox(
+                            child: FormBuilderSwitch(
                               name: 'activo',
-                              title: Text('Estado de registro'),
+                              title: Text(
+                                'Estado del registro',
+                                style: CustomLabels.h3,
+                              ),
                               initialValue: widget.persona?.activo,
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(height: 10),
-                          Expanded(
-                            child: FormBuilderDateTimePicker(
-                              name: 'fechaCreacion',
-                              format: FechaUtil.dateFormat,
-                              initialValue: widget.persona?.fechaCreacion,
-                              enabled: false,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Expanded(
-                            child: FormBuilderDateTimePicker(
-                              name: 'fechaModificacion',
-                              format: FechaUtil.dateFormat,
-                              initialValue: widget.persona?.fechaModificacion,
-                              enabled: false,
+                              decoration: CustomInputs.noBorder(),
                             ),
                           )
                         ],
@@ -114,84 +96,105 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                         name: 'nombre',
                         initialValue: widget.persona?.nombre,
                         enabled: widget.persona?.activo ?? true,
-                        decoration: CustomInputs.loginInputDecoration(
+                        decoration: CustomInputs.iphone(
                             hint: 'Nombre completo',
                             label: 'Nombre y Apellido',
                             icon: Icons.info),
                         validator: FormBuilderValidators.required(
                             errorText: 'Campo obligatorio')),
                     SizedBox(height: 10),
-                    FormBuilderTextField(
-                        name: 'documentoIdentidad',
-                        initialValue: widget.persona?.documentoIdentidad,
-                        enabled: widget.persona?.activo ?? true,
-                        decoration: CustomInputs.loginInputDecoration(
-                            hint:
-                                'Numero de documento, C.I., R.G., C.P.F., D.N.I., pasaporte...',
-                            label: 'Documento de Identidad',
-                            icon: Icons.perm_identity),
-                        validator: FormBuilderValidators.required(
-                            errorText: 'Campo obligatorio')),
+                    Row(children: [
+                      Expanded(
+                        child: FormBuilderTextField(
+                            name: 'documentoIdentidad',
+                            initialValue: widget.persona?.documentoIdentidad,
+                            enabled: widget.persona?.activo ?? true,
+                            decoration: CustomInputs.iphone(
+                                hint:
+                                    'Numero de documento, C.I., R.G., C.P.F., D.N.I., pasaporte...',
+                                label: 'Documento de Identidad',
+                                icon: Icons.perm_identity),
+                            validator: FormBuilderValidators.required(
+                                errorText: 'Campo obligatorio')),
+                      ),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Expanded(
+                                child: FormBuilderDateTimePicker(
+                                  name: 'fechaNacimiento',
+                                  format: FechaUtil.dateFormat,
+                                  initialValue: widget.persona?.fechaNacimiento,
+                                  enabled: widget.persona?.activo ?? true,
+                                  decoration: CustomInputs.iphone(
+                                      hint: 'Fecha de nacimiento',
+                                      label: 'Fecha de nacimiento',
+                                      icon: Icons.cake),
+                                  validator: FormBuilderValidators.required(
+                                      errorText: 'Campo obligatorio'),
+                                  onChanged: (value) => setState(() {
+                                    _edad = FechaUtil.calcularEdad(value!);
+                                    provider
+                                        .formKey.currentState!.fields['edad']!
+                                        .didChange(_edad.toString());
+                                  }),
+                                  inputType: InputType.date,
+                                  valueTransformer: (value) =>
+                                      value!.toIso8601String(),
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                child: FormBuilderTextField(
+                                  name: 'edad',
+                                  initialValue:
+                                      widget.persona?.edad.toString() ??
+                                          _edad.toString(),
+                                  enabled: widget.persona?.activo ?? true,
+                                  decoration: CustomInputs.iphone(
+                                      hint: 'Edad hasta la fecha',
+                                      label: 'Edad',
+                                      icon: Icons.numbers),
+                                  valueTransformer: (value) =>
+                                      int.parse(value!),
+                                ),
+                              ),
+                            ]),
+                      ),
+                      SizedBox(height: 10),
+                    ]),
                     SizedBox(height: 10),
                     Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: FormBuilderDateTimePicker(
-                              name: 'fechaNacimiento',
-                              format: FechaUtil.dateFormat,
-                              initialValue: widget.persona?.fechaNacimiento,
+                      children: [
+                        Expanded(
+                          child: FormBuilderDropdown(
+                              name: 'genero',
+                              initialValue: widget.persona?.genero,
                               enabled: widget.persona?.activo ?? true,
+                              decoration: CustomInputs.iphone(
+                                  hint: 'Seleccionar genero',
+                                  label: 'Genero',
+                                  icon: Icons.male),
                               validator: FormBuilderValidators.required(
                                   errorText: 'Campo obligatorio'),
-                              onChanged: (value) => setState(() {
-                                _edad = FechaUtil.calcularEdad(value!);
-                                provider.formKey.currentState!.fields['edad']!
-                                    .didChange(_edad.toString());
-                              }),
-                              inputType: InputType.date,
-                              valueTransformer: (value) =>
-                                  value!.toIso8601String(),
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Expanded(
-                            child: FormBuilderTextField(
-                              name: 'edad',
-                              initialValue: widget.persona?.edad.toString() ??
-                                  _edad.toString(),
-                              enabled: widget.persona?.activo ?? true,
-                              decoration: CustomInputs.loginInputDecoration(
-                                  hint: 'Edad hasta la fecha',
-                                  label: 'Edad',
-                                  icon: Icons.numbers),
-                            ),
-                          ),
-                        ]),
-                    SizedBox(height: 10),
-                    FormBuilderDropdown(
-                        name: 'genero',
-                        initialValue: widget.persona?.genero,
-                        enabled: widget.persona?.activo ?? true,
-                        decoration: CustomInputs.loginInputDecoration(
-                            hint: 'Seleccionar genero',
-                            label: 'Genero',
-                            icon: Icons.male),
-                        validator: FormBuilderValidators.required(
-                            errorText: 'Campo obligatorio'),
-                        items: Generos.values
-                            .map((genero) => DropdownMenuItem(
-                                alignment: AlignmentDirectional.center,
-                                value: genero.name.toString().toUpperCase(),
-                                child: Text(
-                                    toBeginningOfSentenceCase(genero.name)!)))
-                            .toList()),
+                              items: Generos.values
+                                  .map((genero) => DropdownMenuItem(
+                                      alignment: AlignmentDirectional.center,
+                                      value: genero.name.toString().toUpperCase(),
+                                      child: Text(
+                                          toBeginningOfSentenceCase(genero.name)!)))
+                                  .toList()),
+                        ),
+                      ],
+                    ),
                     SizedBox(height: 10),
                     FormBuilderTextField(
                         name: 'telefono',
                         initialValue: widget.persona?.telefono,
                         enabled: widget.persona?.activo ?? true,
-                        decoration: CustomInputs.loginInputDecoration(
+                        decoration: CustomInputs.iphone(
                             hint: 'Telefono de contacto',
                             label: 'Telefono',
                             icon: Icons.phone),
@@ -203,7 +206,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                         name: 'celular',
                         initialValue: widget.persona?.celular,
                         enabled: widget.persona?.activo ?? true,
-                        decoration: CustomInputs.loginInputDecoration(
+                        decoration: CustomInputs.iphone(
                             hint: 'Celular de contacto',
                             label: 'Celular',
                             icon: Icons.phone_android),
@@ -215,7 +218,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                         name: 'direccion',
                         initialValue: widget.persona?.direccion,
                         enabled: widget.persona?.activo ?? true,
-                        decoration: CustomInputs.loginInputDecoration(
+                        decoration: CustomInputs.iphone(
                             hint: 'Direccion de domicilio',
                             label: 'Direccion',
                             icon: Icons.gps_fixed),
@@ -231,7 +234,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                         name: 'observacion',
                         initialValue: widget.persona?.observacion,
                         enabled: widget.persona?.activo ?? true,
-                        decoration: CustomInputs.loginInputDecoration(
+                        decoration: CustomInputs.iphone(
                             hint: 'Observacion',
                             label: 'Observaciones',
                             icon: Icons.gps_fixed),
@@ -245,7 +248,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                     SizedBox(height: 10),
                     FormBuilderImagePicker(
                       name: 'fotoPerfil',
-                      decoration: CustomInputs.loginInputDecoration(
+                      decoration: CustomInputs.iphone(
                           hint: 'Selecciona una foto para el perfil',
                           label: 'Foto de perfil',
                           icon: Icons.image),
