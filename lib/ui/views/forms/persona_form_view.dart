@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:agenda_front/models/enums/generos.dart';
+import 'package:agenda_front/models/enums/genero.dart';
 import 'package:agenda_front/models/persona.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/services/fecha_util.dart';
@@ -179,12 +179,13 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                                   icon: Icons.male),
                               validator: FormBuilderValidators.required(
                                   errorText: 'Campo obligatorio'),
-                              items: Generos.values
+                              items: Genero.values
                                   .map((genero) => DropdownMenuItem(
                                       alignment: AlignmentDirectional.center,
-                                      value: genero.name.toString().toUpperCase(),
-                                      child: Text(
-                                          toBeginningOfSentenceCase(genero.name)!)))
+                                      value:
+                                          genero.name.toString().toUpperCase(),
+                                      child: Text(toBeginningOfSentenceCase(
+                                          genero.name)!)))
                                   .toList()),
                         ),
                       ],

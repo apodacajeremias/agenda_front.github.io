@@ -1,0 +1,3 @@
+enum TipoDescuento {
+  valor, porcentaje
+}

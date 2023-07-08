@@ -1,39 +1,40 @@
 class Colaborador {
+  String? id;
+  bool? activo;
+  String? nombre;
+  DateTime? fechaCreacion;
+  DateTime? fechaModificacion;
+  String? registroContribuyente;
+  String? registroProfesional;
+  String? profesion;
+
   Colaborador({
+    this.id,
     this.activo,
+    this.nombre,
     this.fechaCreacion,
     this.fechaModificacion,
     this.registroContribuyente,
     this.registroProfesional,
     this.profesion,
-    this.id,
   });
 
-  bool? activo;
-  DateTime? fechaCreacion;
-  String? fechaModificacion;
-  String? registroContribuyente;
-  String? registroProfesional;
-  String? profesion;
-  String? id;
-
   factory Colaborador.fromJson(Map<String, dynamic> json) => Colaborador(
-        activo: json["activo"],
-        fechaCreacion: DateTime.parse(json["fechaCreacion"]),
-        fechaModificacion: json["fechaModificacion"],
-        registroContribuyente: json["registroContribuyente"],
-        registroProfesional: json["registroProfesional"],
-        profesion: json["profesion"],
-        id: json["id"],
+        id: json['id'],
+        activo: json['activo'],
+        nombre: json['nombre'],
+        fechaCreacion: DateTime.parse(json['fechaCreacion']),
+        fechaModificacion: json['fechaModificacion'],
+        registroContribuyente: json['registroContribuyente'],
+        registroProfesional: json['registroProfesional'],
+        profesion: json['profesion'],
       );
 
   Map<String, dynamic> toJson() => {
-        "activo": activo,
-        "fechaCreacion": fechaCreacion?.toIso8601String(),
-        "fechaModificacion": fechaModificacion,
-        "registroContribuyente": registroContribuyente,
-        "registroProfesional": registroProfesional,
-        "profesion": profesion,
-        "id": id,
+        'id': id,
+        'activo': activo,
+        'registroContribuyente': registroContribuyente,
+        'registroProfesional': registroProfesional,
+        'profesion': profesion,
       };
 }
