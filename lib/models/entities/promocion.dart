@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:agenda_front/models/beneficio.dart';
+import 'package:agenda_front/models/entities/beneficio.dart';
 import 'package:agenda_front/models/enums/tipo_descuento.dart';
 
 Promocion promocionFromJson(String str) => Promocion.fromJson(json.decode(str));

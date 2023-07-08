@@ -1,0 +1,1 @@
+enum TipoTransaccion { compra, venta }

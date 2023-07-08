@@ -4,9 +4,9 @@
 
 import 'dart:convert';
 
+import 'package:agenda_front/models/entities/promocion.dart';
 import 'package:agenda_front/models/enums/tipo_beneficio.dart';
 import 'package:agenda_front/models/enums/tipo_descuento.dart';
-import 'package:agenda_front/models/promocion.dart';
 
 Beneficio beneficioFromJson(String str) => Beneficio.fromJson(json.decode(str));
 
@@ -35,9 +35,9 @@ class Beneficio {
       this.promociones});
 
   factory Beneficio.fromJson(Map<String, dynamic> json) => Beneficio(
-        id: json["id"],
-        activo: json["activo"],
-        nombre: json["nombre"],
+        id: json['id'],
+        activo: json['activo'],
+        nombre: json['nombre'],
         fechaCreacion: DateTime.parse(json['fechaCreacion']),
         fechaModificacion: DateTime.parse(json['fechaModificacion']),
         tipo: TipoBeneficio.values[json['tipo']],
@@ -47,11 +47,11 @@ class Beneficio {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "activo": activo,
-        "nombre": nombre,
-        "tipo": tipo.toString().toUpperCase(),
-        "tipoDescuento": tipoDescuento.toString().toUpperCase(),
-        "descuento": descuento,
+        'id': id,
+        'activo': activo,
+        'nombre': nombre,
+        'tipo': tipo.toString().toUpperCase(),
+        'tipoDescuento': tipoDescuento.toString().toUpperCase(),
+        'descuento': descuento,
       };
 }
