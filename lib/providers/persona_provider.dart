@@ -1,5 +1,5 @@
 import 'package:agenda_front/api/agenda_api.dart';
-import 'package:agenda_front/models/persona.dart';
+import 'package:agenda_front/models/entities/persona.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 

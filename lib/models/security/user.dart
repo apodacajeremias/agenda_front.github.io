@@ -1,4 +1,4 @@
-import 'package:agenda_front/models/persona.dart';
+import 'package:agenda_front/models/entities/persona.dart';
 
 class User {
   String? email;

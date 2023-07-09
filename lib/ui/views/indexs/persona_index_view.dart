@@ -11,7 +11,7 @@ class PersonaIndexView extends StatefulWidget {
   const PersonaIndexView({super.key});
 
   @override
-    State<PersonaIndexView> createState() => _PersonaIndexViewState();
+  State<PersonaIndexView> createState() => _PersonaIndexViewState();
 }
 
 class _PersonaIndexViewState extends State<PersonaIndexView> {
@@ -41,7 +41,7 @@ class _PersonaIndexViewState extends State<PersonaIndexView> {
               DataColumn(label: Text('Contacto')),
               DataColumn(label: Text('Acciones')),
             ],
-            source: PersonasDataSource(personas, context),
+            source: PersonaDataSource(personas, context),
             header: const Text('Personas registradas', maxLines: 2),
             onRowsPerPageChanged: (value) {
               setState(() {

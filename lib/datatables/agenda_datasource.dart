@@ -1,37 +1,44 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:agenda_front/models/entities/persona.dart';
-import 'package:agenda_front/providers/persona_provider.dart';
+import 'package:agenda_front/models/entities/agenda.dart';
+import 'package:agenda_front/providers/agenda_provider.dart';
+import 'package:agenda_front/services/fecha_util.dart';
 import 'package:agenda_front/services/navigation_service.dart';
 import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class PersonaDataSource extends DataTableSource {
-  final List<Persona> personas;
+class AgendaDataSource extends DataTableSource {
+  final List<Agenda> agendas;
   final BuildContext context;
 
-  PersonaDataSource(this.personas, this.context);
+  AgendaDataSource(this.agendas, this.context);
 
   @override
   DataRow? getRow(int index) {
-    final persona = personas[index];
+    final agenda = agendas[index];
     return DataRow.byIndex(index: index, cells: [
-      DataCell(Text(persona.nombre!)),
-      DataCell(Text(persona.documentoIdentidad!)),
-      DataCell(Text(persona.genero.toString().toUpperCase())),
-      DataCell(Text(persona.celular ?? persona.telefono ?? '')),
+      DataCell(Text(agenda.nombre!)),
+      DataCell(Text(FechaUtil.formatDate(agenda.fecha!))),
+      DataCell(Text(FechaUtil.formatTime(agenda.hora!))),
+      DataCell(Text(agenda.persona!.nombre!)),
+      DataCell(Text(agenda.colaborador!.nombre!)),
+      DataCell(Text(agenda.situacion.toString())),
+      DataCell(Text(agenda.prioridad.toString())),
+      DataCell(Text(agenda.observacion!)),
       DataCell(Row(children: [
         IconButton(
-            onPressed: () {
-              NavigationService.navigateTo('/dashboard/personas/${persona.id}');
-            },
-            icon: Icon(Icons.edit_outlined)),
+          onPressed: () {
+            NavigationService.navigateTo('/dashboard/agendas/${agenda.id}');
+          },
+          icon: Icon(Icons.edit),
+        ),
         IconButton(
             onPressed: () {
               final dialog = AlertDialog(
                   title: Text('Estas seguro de borrarlo?'),
-                  content: Text('Borrar definitivamente $persona.nombre ?'),
+                  content: Text(
+                      'Borrar definitivamente agenda de $agenda.persona.nombre?'),
                   actions: [
                     TextButton(
                       child: Text('No, mantener'),
@@ -42,10 +49,10 @@ class PersonaDataSource extends DataTableSource {
                     TextButton(
                         child: Text('Si, borrar'),
                         onPressed: () async {
-                          var confirmado = await Provider.of<PersonaProvider>(
+                          var confirmado = await Provider.of<AgendaProvider>(
                                   context,
                                   listen: false)
-                              .eliminar(persona.id!);
+                              .eliminar(agenda.id!);
                           if (confirmado) {
                             NotificationsService.showSnackbar(
                                 'Registro eliminado exitosamente');
@@ -60,7 +67,7 @@ class PersonaDataSource extends DataTableSource {
                   ]);
               showDialog(context: context, builder: (_) => dialog);
             },
-            icon: Icon(Icons.delete_outlined),
+            icon: Icon(Icons.delete),
             color: Colors.red.withOpacity(0.8))
       ]))
     ]);
@@ -70,7 +77,7 @@ class PersonaDataSource extends DataTableSource {
   bool get isRowCountApproximate => false;
 
   @override
-  int get rowCount => personas.length;
+  int get rowCount => agendas.length;
 
   @override
   int get selectedRowCount => 0;

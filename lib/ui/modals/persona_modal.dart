@@ -1,4 +1,4 @@
-import 'package:agenda_front/models/persona.dart';
+import 'package:agenda_front/models/entities/persona.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/services/notifications_service.dart';
 import 'package:agenda_front/ui/buttons/custom_outlined_button.dart';
@@ -33,7 +33,7 @@ class _PersonaModalState extends State<PersonaModal> {
 
   @override
   Widget build(BuildContext context) {
-        Provider.of<PersonaProvider>(context, listen: false);
+    Provider.of<PersonaProvider>(context, listen: false);
     return Container(
       padding: const EdgeInsets.all(20),
       height: 900,
@@ -76,7 +76,7 @@ class _PersonaModalState extends State<PersonaModal> {
               style: const TextStyle(color: Colors.white),
             ),
             TextFormField(
-              initialValue: widget.persona?.genero ?? '',
+              initialValue: widget.persona?.genero.toString(),
               onChanged: (value) => genero = value,
               decoration: CustomInputs.loginInputDecoration(
                   hint: 'Genero',

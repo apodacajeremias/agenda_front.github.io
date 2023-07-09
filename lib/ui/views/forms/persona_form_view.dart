@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:agenda_front/models/enums/genero.dart';
-import 'package:agenda_front/models/persona.dart';
+import 'package:agenda_front/models/entities/persona.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/services/fecha_util.dart';
 import 'package:agenda_front/services/notifications_service.dart';

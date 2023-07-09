@@ -3,11 +3,9 @@
 //     final agenda = agendaFromJson(jsonString);
 
 import 'dart:convert';
-import 'dart:js_interop';
 
 import 'package:agenda_front/models/entities/item.dart';
 import 'package:agenda_front/models/entities/transaccion.dart';
-import 'package:agenda_front/models/enums/tipo_transaccion.dart';
 
 TransaccionDetalle transaccionDetalleFromJson(String str) =>
     TransaccionDetalle.fromJson(json.decode(str));
