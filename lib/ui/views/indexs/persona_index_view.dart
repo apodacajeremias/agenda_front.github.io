@@ -1,4 +1,4 @@
-import 'package:agenda_front/datatables/personas_datasource.dart';
+import 'package:agenda_front/datatables/persona_datasource.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/services/navigation_service.dart';
