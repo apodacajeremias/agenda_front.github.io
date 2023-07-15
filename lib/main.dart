@@ -1,5 +1,14 @@
 import 'package:agenda_front/api/agenda_api.dart';
+import 'package:agenda_front/providers/agenda_provider.dart';
+import 'package:agenda_front/providers/beneficio_provider.dart';
+import 'package:agenda_front/providers/colaborador_provider.dart';
+import 'package:agenda_front/providers/empresa_provider.dart';
+import 'package:agenda_front/providers/grupo_provider.dart';
+import 'package:agenda_front/providers/item_provider.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
+import 'package:agenda_front/providers/promocion_provider.dart';
+import 'package:agenda_front/providers/transaccion_provider.dart';
+import 'package:agenda_front/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -33,7 +42,17 @@ class AppState extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(lazy: false, create: (_) => AuthProvider()),
         ChangeNotifierProvider(lazy: false, create: (_) => SideMenuProvider()),
+        // MANEJADORES DE LOS MODELOS
+        ChangeNotifierProvider(create: (_) => AgendaProvider()),
+        ChangeNotifierProvider(create: (_) => BeneficioProvider()),
+        ChangeNotifierProvider(create: (_) => ColaboradorProvider()),
+        ChangeNotifierProvider(create: (_) => EmpresaProvider()),
+        ChangeNotifierProvider(create: (_) => GrupoProvider()),
+        ChangeNotifierProvider(create: (_) => ItemProvider()),
         ChangeNotifierProvider(create: (_) => PersonaProvider()),
+        ChangeNotifierProvider(create: (_) => PromocionProvider()),
+        ChangeNotifierProvider(create: (_) => TransaccionProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: const MyApp(),
     );
@@ -47,7 +66,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: true,
-      title: 'Admin Dashboard',
+      title: 'Inicio',
       initialRoute: '/',
       onGenerateRoute: Flurorouter.router.generator,
       navigatorKey: NavigationService.navigatorKey,
@@ -72,3 +91,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+

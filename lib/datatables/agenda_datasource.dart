@@ -25,7 +25,6 @@ class AgendaDataSource extends DataTableSource {
       DataCell(Text(agenda.colaborador!.nombre!)),
       DataCell(Text(agenda.situacion.toString())),
       DataCell(Text(agenda.prioridad.toString())),
-      DataCell(Text(agenda.observacion!)),
       DataCell(Row(children: [
         IconButton(
           onPressed: () {

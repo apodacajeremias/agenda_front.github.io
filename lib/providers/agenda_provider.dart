@@ -16,10 +16,31 @@ class AgendaProvider extends ChangeNotifier {
   }
 
 // Buscamos la agenda seleccionada en la lista, sin reconsultar el servidor C;
-  Agenda? buscar(String id) {
+  Future buscar(String id) async {
     return agendas.isNotEmpty
         ? agendas.where((element) => element.id!.contains(id)).first
-        : null;
+        : Agenda.fromJson(await _encontrar(id) as Map<String, dynamic>);
+  }
+
+  Future _encontrar(String id) async {
+    try {
+      final json = await AgendaAPI.httpGet('/agendas/$id');
+      final agendaEncontrada = Agenda.fromJson(json);
+      // Verifificar si el ID ya existe en la lista
+      if (agendas.where((element) => element.id!.contains(id)).isNotEmpty) {
+        final index =
+            agendas.indexWhere((element) => element.id!.contains(id));
+        // Si existe el ID, substituye el contenido
+        agendas[index] = agendaEncontrada;
+      } else {
+        // Si no existe el ID, agrega al final de la lista
+        agendas.add(agendaEncontrada);
+      }
+      notifyListeners();
+      return agendaEncontrada;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future guardar(Map<String, dynamic> data) async {

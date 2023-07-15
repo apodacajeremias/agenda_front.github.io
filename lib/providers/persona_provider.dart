@@ -16,10 +16,31 @@ class PersonaProvider extends ChangeNotifier {
   }
 
 // Buscamos la persona seleccionada en la lista, sin reconsultar el servidor C;
-  Persona? buscar(String id) {
+  Future buscar(String id) async {
     return personas.isNotEmpty
         ? personas.where((element) => element.id!.contains(id)).first
-        : null;
+        : Persona.fromJson(await _encontrar(id) as Map<String, dynamic>);
+  }
+
+  Future _encontrar(String id) async {
+    try {
+      final json = await AgendaAPI.httpGet('/personas/$id');
+      final personaEncontrada = Persona.fromJson(json);
+      // Verifificar si el ID ya existe en la lista
+      if (personas.where((element) => element.id!.contains(id)).isNotEmpty) {
+        final index =
+            personas.indexWhere((element) => element.id!.contains(id));
+        // Si existe el ID, substituye el contenido
+        personas[index] = personaEncontrada;
+      } else {
+        // Si no existe el ID, agrega al final de la lista
+        personas.add(personaEncontrada);
+      }
+      notifyListeners();
+      return personaEncontrada;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future guardar(Map<String, dynamic> data) async {

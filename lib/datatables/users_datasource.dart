@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:agenda_front/services/navigation_service.dart';
 
-
 class UsersDataSource extends DataTableSource {
   final List<User> users;
   final BuildContext context;
@@ -23,7 +22,7 @@ class UsersDataSource extends DataTableSource {
       DataCell(IconButton(
           icon: const Icon(Icons.edit_outlined),
           onPressed: () {
-            NavigationService.replaceTo('/dashboard/users/${user.id}');
+            NavigationService.replaceTo('/users/${user.id}');
           })),
     ]);
   }

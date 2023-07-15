@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:agenda_front/models/security/user.dart';
-import 'package:agenda_front/providers/users_provider.dart';
+import 'package:agenda_front/providers/user_provider.dart';
 import 'package:agenda_front/services/notifications_service.dart';
 import 'package:agenda_front/ui/buttons/custom_outlined_button.dart';
 import 'package:agenda_front/ui/inputs/custom_inputs.dart';
@@ -30,7 +30,7 @@ class _UsersModalState extends State<UsersModal> {
 
   @override
   Widget build(BuildContext context) {
-    final usuarioProvider = Provider.of<UsersProvider>(context, listen: false);
+    final usuarioProvider = Provider.of<UserProvider>(context, listen: false);
     return Container(
       padding: const EdgeInsets.all(25),
       height: 500,

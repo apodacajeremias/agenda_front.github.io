@@ -1,7 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:agenda_front/datatables/users_datasource.dart';
-import 'package:agenda_front/providers/users_provider.dart';
+import 'package:agenda_front/providers/user_provider.dart';
 import 'package:agenda_front/ui/modals/users_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,12 +21,12 @@ class _UsersViewState extends State<UsersView> {
   @override
   void initState() {
     super.initState();
-    Provider.of<UsersProvider>(context, listen: false).getUsers();
+    Provider.of<UserProvider>(context, listen: false).getUsers();
   }
 
   @override
   Widget build(BuildContext context) {
-    final categorias = Provider.of<UsersProvider>(context).users;
+    final categorias = Provider.of<UserProvider>(context).users;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),

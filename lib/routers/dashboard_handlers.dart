@@ -61,7 +61,7 @@ class DashboardHandlers {
   static Handler users = Handler(handlerFunc: (context, params) {
     final authProvider = Provider.of<AuthProvider>(context!);
     Provider.of<SideMenuProvider>(context, listen: false)
-        .setCurrentPageUrl(Flurorouter.usersRoute);
+        .setCurrentPageUrl(Flurorouter.usersIndexRoute);
 
     if (authProvider.authStatus == AuthStatus.authenticated) {
       // return const UsersView();

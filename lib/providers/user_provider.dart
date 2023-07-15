@@ -3,7 +3,7 @@ import 'package:agenda_front/models/security/user.dart';
 import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/material.dart';
 
-class UsersProvider extends ChangeNotifier {
+class UserProvider extends ChangeNotifier {
   List<User> users = [];
 
   getUsers() async {

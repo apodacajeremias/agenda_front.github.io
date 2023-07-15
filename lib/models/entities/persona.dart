@@ -57,17 +57,13 @@ class Persona {
         fechaModificacion: DateTime.parse(json['fechaModificacion']),
         documentoIdentidad: json['documentoIdentidad'],
         fechaNacimiento: DateTime.parse(json['fechaNacimiento']),
-        edad: json['edad'],
+        edad: 0,
         genero: Genero.values[json['genero']],
         telefono: json['telefono'],
         celular: json['celular'],
         direccion: json['direccion'],
         observacion: json['observacion'],
         fotoPerfil: json['fotoPerfil'],
-        colaborador:
-            (json.containsKey('colaborador') && json['colaborador'] != null)
-                ? Colaborador.fromJson(json['colaborador'])
-                : null,
         grupos: json['grupos'],
       );
 

@@ -24,7 +24,7 @@ class PersonaDataSource extends DataTableSource {
       DataCell(Row(children: [
         IconButton(
             onPressed: () {
-              NavigationService.navigateTo('/dashboard/personas/${persona.id}');
+              NavigationService.navigateTo('/personas/${persona.id}');
             },
             icon: Icon(Icons.edit_outlined)),
         IconButton(

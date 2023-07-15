@@ -26,31 +26,31 @@ class User {
       this.persona});
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-      email: json["email"],
-      changePassword: json["changePassword"],
-      lastPasswordChange: json["lastPasswordChange"],
-      role: json["role"],
-      username: json["username"],
-      accountNonExpired: json["accountNonExpired"],
-      accountNonLocked: json["accountNonLocked"],
-      credentialsNonExpired: json["credentialsNonExpired"],
-      id: json["id"],
-      enabled: json["enabled"],
+      email: json['email'],
+      changePassword: json['changePassword'],
+      lastPasswordChange: json['lastPasswordChange'],
+      role: json['role'],
+      username: json['username'],
+      accountNonExpired: json['accountNonExpired'],
+      accountNonLocked: json['accountNonLocked'],
+      credentialsNonExpired: json['credentialsNonExpired'],
+      id: json['id'],
+      enabled: json['enabled'],
       persona: (json.containsKey('persona') && json['persona'] != null)
-          ? Persona.fromJson(json["persona"])
+          ? Persona.fromJson(json['persona'])
           : null);
 
   Map<String, dynamic> toJson() => {
-        "email": email,
-        "changePassword": changePassword,
-        "lastPasswordChange": lastPasswordChange,
-        "role": role,
-        "username": username,
-        "accountNonExpired": accountNonExpired,
-        "accountNonLocked": accountNonLocked,
-        "credentialsNonExpired": credentialsNonExpired,
-        "id": id,
-        "enabled": enabled,
-        "persona": persona?.toJson()
+        'email': email,
+        'changePassword': changePassword,
+        'lastPasswordChange': lastPasswordChange,
+        'role': role,
+        'username': username,
+        'accountNonExpired': accountNonExpired,
+        'accountNonLocked': accountNonLocked,
+        'credentialsNonExpired': credentialsNonExpired,
+        'id': id,
+        'enabled': enabled,
+        'persona': persona?.toJson()
       };
 }

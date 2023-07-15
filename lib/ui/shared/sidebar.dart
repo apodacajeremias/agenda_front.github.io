@@ -41,7 +41,8 @@ class Sidebar extends StatelessWidget {
             text: 'Clientes',
             icon: Icons.person_2,
             onPressed: () => navigateTo(Flurorouter.personasIndexRoute),
-            isActive: sideMenuProvider.currentPage == Flurorouter.personasIndexRoute,
+            isActive:
+                sideMenuProvider.currentPage == Flurorouter.personasIndexRoute,
           ),
           MenuItemCustom(
               text: 'Analytic',
@@ -65,8 +66,9 @@ class Sidebar extends StatelessWidget {
           MenuItemCustom(
             text: 'Users',
             icon: Icons.people_alt_outlined,
-            onPressed: () => navigateTo(Flurorouter.usersRoute),
-            isActive: sideMenuProvider.currentPage == Flurorouter.usersRoute,
+            onPressed: () => navigateTo(Flurorouter.usersIndexRoute),
+            isActive:
+                sideMenuProvider.currentPage == Flurorouter.usersIndexRoute,
           ),
           const SizedBox(height: 30),
           const TextSeparator(text: 'UI Elements'),
