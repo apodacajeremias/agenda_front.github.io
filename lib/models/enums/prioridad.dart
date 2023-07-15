@@ -1,1 +1,2 @@
-enum Prioridad { baja, media, alta, urgente }
+// ignore_for_file: constant_identifier_names
+enum Prioridad { BAJA, MEDIA, ALTA, URGENTE }

@@ -40,8 +40,8 @@ class Beneficio {
         nombre: json['nombre'],
         fechaCreacion: DateTime.parse(json['fechaCreacion']),
         fechaModificacion: DateTime.parse(json['fechaModificacion']),
-        tipo: TipoBeneficio.values[json['tipo']],
-        tipoDescuento: TipoDescuento.values[json['tipoDescuento']],
+        tipo: TipoBeneficio.values.byName(json['tipo']),
+        tipoDescuento: TipoDescuento.values.byName(json['tipoDescuento']),
         descuento: json['descuento'],
         promociones: json['promociones'],
       );

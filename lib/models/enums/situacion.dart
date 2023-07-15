@@ -1,3 +1,4 @@
+// ignore_for_file: constant_identifier_names
 enum Situacion {
-  ausente, atrasado, cancelado, finalizado, pendiente, presente
+  AUSENTE, ATRASADO, CANCELADO, FINALIZADO, PENDIENTE, PRESENTE
 }

@@ -1,3 +1,4 @@
+// ignore_for_file: constant_identifier_names
 enum TipoBeneficio {
-  familiar, laboral, convenio, ocasional
+  FAMILIAR, LABORAL, CONVENIO, OCASIONAL
 }

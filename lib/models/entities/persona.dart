@@ -20,7 +20,6 @@ class Persona {
   DateTime? fechaModificacion;
   String? documentoIdentidad;
   DateTime? fechaNacimiento;
-  int? edad;
   Genero? genero;
   String? telefono;
   String? celular;
@@ -38,7 +37,6 @@ class Persona {
     this.fechaModificacion,
     this.documentoIdentidad,
     this.fechaNacimiento,
-    this.edad,
     this.genero,
     this.telefono,
     this.celular,
@@ -57,14 +55,13 @@ class Persona {
         fechaModificacion: DateTime.parse(json['fechaModificacion']),
         documentoIdentidad: json['documentoIdentidad'],
         fechaNacimiento: DateTime.parse(json['fechaNacimiento']),
-        edad: 0,
-        genero: Genero.values[json['genero']],
+        genero: Genero.values.byName(json['genero']),
         telefono: json['telefono'],
         celular: json['celular'],
         direccion: json['direccion'],
         observacion: json['observacion'],
         fotoPerfil: json['fotoPerfil'],
-        grupos: json['grupos'],
+        grupos: List.from(json['grupos']),
       );
 
   Map<String, dynamic> toJson() => {

@@ -27,7 +27,6 @@ class PersonaFormView extends StatefulWidget {
 }
 
 class _PersonaFormViewState extends State<PersonaFormView> {
-  int _edad = 0;
   @override
   void initState() {
     super.initState();
@@ -35,6 +34,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
 
   @override
   Widget build(BuildContext context) {
+    int edad = 0;
     final provider = Provider.of<PersonaProvider>(context, listen: false);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -56,7 +56,6 @@ class _PersonaFormViewState extends State<PersonaFormView> {
               title: widget.persona?.nombre ?? 'Crear registro',
               child: FormBuilder(
                 key: provider.formKey,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -126,7 +125,9 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                                 child: FormBuilderDateTimePicker(
                                   name: 'fechaNacimiento',
                                   format: FechaUtil.dateFormat,
-                                  initialValue: widget.persona?.fechaNacimiento,
+                                  initialValue:
+                                      widget.persona?.fechaNacimiento ??
+                                          DateTime.now(),
                                   enabled: widget.persona?.activo ?? true,
                                   decoration: CustomInputs.iphone(
                                       hint: 'Fecha de nacimiento',
@@ -135,10 +136,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                                   validator: FormBuilderValidators.required(
                                       errorText: 'Campo obligatorio'),
                                   onChanged: (value) => setState(() {
-                                    _edad = FechaUtil.calcularEdad(value!);
-                                    provider
-                                        .formKey.currentState!.fields['edad']!
-                                        .didChange(_edad.toString());
+                                    edad = FechaUtil.calcularEdad(value!);
                                   }),
                                   inputType: InputType.date,
                                   valueTransformer: (value) =>
@@ -149,16 +147,12 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                               Expanded(
                                 child: FormBuilderTextField(
                                   name: 'edad',
-                                  initialValue:
-                                      widget.persona?.edad.toString() ??
-                                          _edad.toString(),
+                                  initialValue: edad.toString(),
                                   enabled: widget.persona?.activo ?? true,
                                   decoration: CustomInputs.iphone(
-                                      hint: 'Edad hasta la fecha',
-                                      label: 'Edad',
+                                      hint: 'Edad de la persona',
+                                      label: 'Edad hasta la fecha',
                                       icon: Icons.numbers),
-                                  valueTransformer: (value) =>
-                                      int.parse(value!),
                                 ),
                               ),
                             ]),

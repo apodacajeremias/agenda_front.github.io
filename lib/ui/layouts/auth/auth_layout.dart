@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:agenda_front/ui/layouts/auth/widgets/background_twitter.dart';
+import 'package:agenda_front/ui/layouts/auth/widgets/custom_background.dart';
 import 'package:agenda_front/ui/layouts/auth/widgets/custom_title.dart';
 import 'package:agenda_front/ui/layouts/auth/widgets/links_bar.dart';
 
@@ -54,7 +54,7 @@ class _MobileBody extends StatelessWidget {
           const SizedBox(
             width: double.infinity,
             height: 400,
-            child: BackgroundTwitter(),
+            child: CustomBackground(),
           )
         ],
       ),
@@ -78,7 +78,7 @@ class _DesktopBody extends StatelessWidget {
       child: Row(
         children: [
           // Twitter Background
-          const Expanded(child: BackgroundTwitter()),
+          const Expanded(child: CustomBackground()),
 
           // View Container
           Container(

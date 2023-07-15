@@ -45,7 +45,7 @@ class Promocion {
       inicio: DateTime.parse(json['inicio']),
       fin: DateTime.parse(json['fin']),
       valor: json["valor"],
-      tipoDescuento: TipoDescuento.values[json["tipoDescuento"]],
+      tipoDescuento: TipoDescuento.values.byName(json['tipoDescuento']),
       beneficios: json['beneficios']);
 
   Map<String, dynamic> toJson() => {

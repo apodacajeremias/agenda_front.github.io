@@ -51,8 +51,8 @@ class Agenda {
         fecha: DateTime.parse(json['fecha']),
         hora: DateTime.parse(json['hora']),
         observacion: json['observacion'],
-        situacion: Situacion.values[json['situacion']],
-        prioridad: Prioridad.values[json['prioridad']],
+        situacion: Situacion.values.byName(json['situacion']),
+        prioridad: Prioridad.values.byName(json['prioridad']),
         colaborador:
             (json.containsKey('colaborador') && json['colaborador'] != null)
                 ? Colaborador.fromJson(json['colaborador'])

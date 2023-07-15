@@ -56,30 +56,25 @@ class AuthProvider extends ChangeNotifier {
     final data = {'email': email, 'password': password};
     AgendaAPI.httpPost('/auth/login', data).then((json) {
       int i = 0;
-      print(i++);
+
       final authResponse = AuthenticationResponse.fromJson(json);
-      print(i++);
+
       _token = authResponse.token;
-      print(i++);
+
       user = authResponse.user;
-      print(i++);
+
       _authStatus = AuthStatus.authenticated;
 
-      print(i++);
       LocalStorage.prefs.setString('token', _token!);
-      print(i++);
+
       NavigationService.replaceTo(Flurorouter.dashboardRoute);
-      print(i++);
+
       AgendaAPI.configureDio();
-      print(i++);
+
       notifyListeners();
     }).catchError((e) {
-      if (kDebugMode) {
-        print('Error en LOGIN: $e');
-        print(e.runtimeType);
-        print(e.toString());
-      }
       NotificationsService.showSnackbarError('Usuario / Password no válido');
+      throw e;
     });
   }
 

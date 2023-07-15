@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -11,8 +13,8 @@ class CustomTitle extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Image(
-            image: AssetImage('twitter-white-logo.png'),
+           const Image(
+            image: AssetImage('logo.png'),
             width: 50,
             height: 50,
           ),
@@ -20,7 +22,7 @@ class CustomTitle extends StatelessWidget {
           FittedBox(
             fit: BoxFit.contain,
             child: Text(
-              'Happening Now',
+              'Accede ahora',
               style: GoogleFonts.montserratAlternates(
                   fontSize: 60,
                   color: Colors.white,
@@ -30,5 +32,10 @@ class CustomTitle extends StatelessWidget {
         ],
       ),
     );
+  }
+
+    _buildAsset(String asset, int max, {int min = 1}) {
+    int random = Random().nextInt(max) + min;
+    return '$asset-$random';
   }
 }

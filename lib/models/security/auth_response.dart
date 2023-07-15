@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:agenda_front/models/security/user.dart';
 
 class AuthenticationResponse {

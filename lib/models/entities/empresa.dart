@@ -53,8 +53,8 @@ class Empresa {
         direccion: json['direccion'],
         registroContribuyente: json['registroContribuyente'],
         logo: json['logo'],
-        moneda: Moneda.values[json['moneda']],
-        idioma: Idioma.values[json['idioma']],
+        moneda: Moneda.values.byName(json['moneda']),
+        idioma: Idioma.values.byName(json['idioma']),
       );
 
   Map<String, dynamic> toJson() => {

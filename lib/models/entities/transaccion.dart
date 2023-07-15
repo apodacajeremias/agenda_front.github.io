@@ -60,13 +60,13 @@ class Transaccion {
         nombre: json['nombre'],
         fechaCreacion: DateTime.parse(json['fechaCreacion']),
         fechaModificacion: DateTime.parse(json['fechaModificacion']),
-        tipo: TipoTransaccion.values[json['tipo']],
+        tipo: TipoTransaccion.values.byName(json['tipo']),
         total: json['total'],
         descuento: json['descuento'],
         sumatoria: json['sumatoria'],
         aplicarPromocion: json['aplicarPromocion'],
-        tipoBeneficio: TipoBeneficio.values[json['tipoBeneficio']],
-        tipoDescuento: TipoDescuento.values[json['tipoDescuento']],
+        tipoBeneficio: TipoBeneficio.values.byName(json['tipoBeneficio']),
+        tipoDescuento: TipoDescuento.values.byName(json['tipoDescuento']),
         persona: (json.containsKey('persona') && json['persona'] != null)
             ? Persona.fromJson(json['persona'])
             : null,

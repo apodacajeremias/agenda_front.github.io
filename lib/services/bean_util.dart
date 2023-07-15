@@ -7,13 +7,11 @@ class BeanUtil {
     });
   }
 
-  static void formatDateTimeToSend(Map<String, dynamic> data) {
+    static void findTypeObjects<T>(Map<String, dynamic> data) {
     data.forEach((key, value) {
-      if (value is DateTime) {
-        data[key] = value.toIso8601String();
+      if (value is T) {
+        print('Clave: $key, Valor: $value es de tipo $T');
       }
     });
-    print('review');
-    findDateTimeObjects(data);
   }
 }

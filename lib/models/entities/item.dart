@@ -30,13 +30,14 @@ class Item {
   });
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
-      id: json['id'],
-      activo: json['activo'],
-      nombre: json['nombre'],
-      fechaCreacion: DateTime.parse(json['fechaCreacion']),
-      fechaModificacion: DateTime.parse(json['fechaModificacion']),
-      precio: json['precio'],
-      tipo: TipoTransaccion.values[json['tipo']]);
+        id: json['id'],
+        activo: json['activo'],
+        nombre: json['nombre'],
+        fechaCreacion: DateTime.parse(json['fechaCreacion']),
+        fechaModificacion: DateTime.parse(json['fechaModificacion']),
+        precio: json['precio'],
+        tipo: TipoTransaccion.values.byName(json['tipo']),
+      );
 
   Map<String, dynamic> toJson() => {
         'id': id,
