@@ -1,5 +1,5 @@
-import 'package:agenda_front/datatables/persona_datasource.dart';
-import 'package:agenda_front/providers/persona_provider.dart';
+import 'package:agenda_front/datatables/colaborador_datasource.dart';
+import 'package:agenda_front/providers/colaborador_provider.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/services/navigation_service.dart';
 import 'package:flutter/material.dart';
@@ -7,40 +7,42 @@ import 'package:provider/provider.dart';
 import 'package:agenda_front/ui/buttons/custom_icon_button.dart';
 import 'package:agenda_front/ui/labels/custom_labels.dart';
 
-class PersonaIndexView extends StatefulWidget {
-  const PersonaIndexView({super.key});
+class ColaboradorIndexView extends StatefulWidget {
+  const ColaboradorIndexView({super.key});
 
   @override
-  State<PersonaIndexView> createState() => _PersonaIndexViewState();
+  State<ColaboradorIndexView> createState() => _ColaboradorIndexViewState();
 }
 
-class _PersonaIndexViewState extends State<PersonaIndexView> {
+class _ColaboradorIndexViewState extends State<ColaboradorIndexView> {
   int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
 
   @override
   void initState() {
     super.initState();
-    Provider.of<PersonaProvider>(context, listen: false).buscarTodos();
+    Provider.of<ColaboradorProvider>(context, listen: false).buscarTodos();
   }
 
   @override
   Widget build(BuildContext context) {
-    final personas = Provider.of<PersonaProvider>(context).personas;
+    final colaboradores =
+        Provider.of<ColaboradorProvider>(context).colaboradores;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
-          Text('Listado de personas', style: CustomLabels.h1),
+          Text('Listado de colaboradores', style: CustomLabels.h1),
           const SizedBox(height: 10),
           PaginatedDataTable(
             columns: const [
-              DataColumn(label: Text('Nombre')),
-              DataColumn(label: Text('Documento')),
-              DataColumn(label: Text('Contacto')),
+              DataColumn(label: Text('Colaborador')),
+              DataColumn(label: Text('Profesion')),
+              DataColumn(label: Text('Registro Contribuyente')),
+              DataColumn(label: Text('Registro Profesional')),
               DataColumn(label: Text('Acciones')),
             ],
-            source: PersonaDataSource(personas, context),
+            source: ColaboradorDataSource(colaboradores, context),
             header: const Text('Registros', maxLines: 2),
             onRowsPerPageChanged: (value) {
               setState(() {
@@ -51,7 +53,8 @@ class _PersonaIndexViewState extends State<PersonaIndexView> {
             actions: [
               CustomIconButton(
                 onPressed: () {
-                  NavigationService.navigateTo(Flurorouter.personasCreateRoute);
+                  NavigationService.navigateTo(
+                      Flurorouter.colaboradoresCreateRoute);
                 },
                 text: 'Nuevo',
                 icon: Icons.add_outlined,

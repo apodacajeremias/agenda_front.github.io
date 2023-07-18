@@ -19,8 +19,7 @@ class PersonaDataSource extends DataTableSource {
     return DataRow.byIndex(index: index, cells: [
       DataCell(Text(persona.nombre!)),
       DataCell(Text(persona.documentoIdentidad!)),
-      DataCell(Text(persona.genero.toString().toUpperCase())),
-      DataCell(Text(persona.celular ?? persona.telefono ?? '')),
+      DataCell(Text(persona.celular ?? persona.telefono ?? 'Sin contacto.')),
       DataCell(Row(children: [
         IconButton(
             onPressed: () {
@@ -31,7 +30,7 @@ class PersonaDataSource extends DataTableSource {
             onPressed: () {
               final dialog = AlertDialog(
                   title: Text('Estas seguro de borrarlo?'),
-                  content: Text('Borrar definitivamente $persona.nombre ?'),
+                  content: Text('Borrar persona $persona.nombre ?'),
                   actions: [
                     TextButton(
                       child: Text('No, mantener'),
@@ -48,10 +47,10 @@ class PersonaDataSource extends DataTableSource {
                               .eliminar(persona.id!);
                           if (confirmado) {
                             NotificationsService.showSnackbar(
-                                'Registro eliminado exitosamente');
+                                'Persona eliminada exitosamente');
                           } else {
                             NotificationsService.showSnackbar(
-                                'Registro no ha sido eliminado');
+                                'Persona no ha sido eliminada');
                           }
                           if (context.mounted) {
                             Navigator.of(context).pop();

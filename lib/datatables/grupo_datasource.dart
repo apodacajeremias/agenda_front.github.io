@@ -18,13 +18,12 @@ class GrupoDataSource extends DataTableSource {
     final grupo = grupos[index];
     return DataRow.byIndex(index: index, cells: [
       DataCell(Text(grupo.nombre!)),
-      DataCell(Text(grupo.beneficio!.tipo.toString().toUpperCase())),
-      DataCell(Text(grupo.activo as String)),
+      DataCell(Text(grupo.beneficio as String)),
       DataCell(Row(children: [
         IconButton(
           onPressed: () {
             NavigationService.navigateTo(
-                '/dashboard/grupos/${grupo.id}');
+                '/grupos/${grupo.id}');
           },
           icon: Icon(Icons.edit),
         ),
@@ -33,7 +32,7 @@ class GrupoDataSource extends DataTableSource {
               final dialog = AlertDialog(
                   title: Text('Estas seguro de borrarlo?'),
                   content: Text(
-                      'Borrar definitivamente grupo de $grupo.nombre?'),
+                      'Borrar grupo $grupo.nombre?'),
                   actions: [
                     TextButton(
                       child: Text('No, mantener'),
@@ -50,10 +49,10 @@ class GrupoDataSource extends DataTableSource {
                               .eliminar(grupo.id!);
                           if (confirmado) {
                             NotificationsService.showSnackbar(
-                                'Registro eliminado exitosamente');
+                                'Grupo eliminado exitosamente');
                           } else {
                             NotificationsService.showSnackbar(
-                                'Registro no ha sido eliminado');
+                                'Grupo no ha sido eliminado');
                           }
                           if (context.mounted) {
                             Navigator.of(context).pop();

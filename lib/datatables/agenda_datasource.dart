@@ -18,26 +18,24 @@ class AgendaDataSource extends DataTableSource {
   DataRow? getRow(int index) {
     final agenda = agendas[index];
     return DataRow.byIndex(index: index, cells: [
-      DataCell(Text(agenda.nombre!)),
+      DataCell(Text(agenda.persona!.nombre!)),
       DataCell(Text(FechaUtil.formatDate(agenda.fecha!))),
       DataCell(Text(FechaUtil.formatTime(agenda.hora!))),
-      DataCell(Text(agenda.persona!.nombre!)),
       DataCell(Text(agenda.colaborador!.nombre!)),
-      DataCell(Text(agenda.situacion.toString())),
       DataCell(Text(agenda.prioridad.toString())),
       DataCell(Row(children: [
         IconButton(
           onPressed: () {
-            NavigationService.navigateTo('/dashboard/agendas/${agenda.id}');
+            NavigationService.navigateTo('/agendas/${agenda.id}');
           },
           icon: Icon(Icons.edit),
         ),
         IconButton(
             onPressed: () {
               final dialog = AlertDialog(
-                  title: Text('Estas seguro de borrarlo?'),
+                  title: Text('Estas seguro de cancelarlo?'),
                   content: Text(
-                      'Borrar definitivamente agenda de $agenda.persona.nombre?'),
+                      'Cancelar agendamiento de $agenda.persona.nombre?'),
                   actions: [
                     TextButton(
                       child: Text('No, mantener'),
@@ -46,7 +44,7 @@ class AgendaDataSource extends DataTableSource {
                       },
                     ),
                     TextButton(
-                        child: Text('Si, borrar'),
+                        child: Text('Si, cancelar'),
                         onPressed: () async {
                           var confirmado = await Provider.of<AgendaProvider>(
                                   context,
@@ -54,10 +52,10 @@ class AgendaDataSource extends DataTableSource {
                               .eliminar(agenda.id!);
                           if (confirmado) {
                             NotificationsService.showSnackbar(
-                                'Registro eliminado exitosamente');
+                                'Agendamiento cancelado');
                           } else {
                             NotificationsService.showSnackbar(
-                                'Registro no ha sido eliminado');
+                                'Agendamiento no ha sido cancelado');
                           }
                           if (context.mounted) {
                             Navigator.of(context).pop();

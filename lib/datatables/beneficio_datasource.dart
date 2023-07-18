@@ -18,15 +18,13 @@ class BeneficioDataSource extends DataTableSource {
     final beneficio = beneficios[index];
     return DataRow.byIndex(index: index, cells: [
       DataCell(Text(beneficio.nombre!)),
-      DataCell(Text(beneficio.tipo.toString().toUpperCase())),
-      DataCell(Text(beneficio.tipoDescuento.toString().toUpperCase())),
-      DataCell(Text(beneficio.descuento!.toString())),
-      DataCell(Text(beneficio.promociones!.length as String)),
+      DataCell(Text(beneficio.tipo as String)),
+      DataCell(Text(beneficio.tipoDescuento as String)),
+      DataCell(Text(beneficio.descuento as String)),
       DataCell(Row(children: [
         IconButton(
           onPressed: () {
-            NavigationService.navigateTo(
-                '/dashboard/beneficios/${beneficio.id}');
+            NavigationService.navigateTo('/beneficios/${beneficio.id}');
           },
           icon: Icon(Icons.edit),
         ),
@@ -35,7 +33,7 @@ class BeneficioDataSource extends DataTableSource {
               final dialog = AlertDialog(
                   title: Text('Estas seguro de borrarlo?'),
                   content: Text(
-                      'Borrar definitivamente beneficio de $beneficio.nombre?'),
+                      'Borrar beneficio $beneficio.nombre?'),
                   actions: [
                     TextButton(
                       child: Text('No, mantener'),
@@ -52,10 +50,10 @@ class BeneficioDataSource extends DataTableSource {
                               .eliminar(beneficio.id!);
                           if (confirmado) {
                             NotificationsService.showSnackbar(
-                                'Registro eliminado exitosamente');
+                                'Beneficio eliminado exitosamente');
                           } else {
                             NotificationsService.showSnackbar(
-                                'Registro no ha sido eliminado');
+                                'Beneficio no ha sido eliminado');
                           }
                           if (context.mounted) {
                             Navigator.of(context).pop();

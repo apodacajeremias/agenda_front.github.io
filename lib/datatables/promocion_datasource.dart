@@ -2,28 +2,30 @@
 
 import 'package:agenda_front/models/entities/promocion.dart';
 import 'package:agenda_front/providers/promocion_provider.dart';
+import 'package:agenda_front/services/fecha_util.dart';
 import 'package:agenda_front/services/navigation_service.dart';
 import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PromocionDataSource extends DataTableSource {
-  final List<Promocion> promocions;
+  final List<Promocion> promociones;
   final BuildContext context;
 
-  PromocionDataSource(this.promocions, this.context);
+  PromocionDataSource(this.promociones, this.context);
 
   @override
   DataRow? getRow(int index) {
-    final promocion = promocions[index];
+    final promocion = promociones[index];
     return DataRow.byIndex(index: index, cells: [
       DataCell(Text(promocion.nombre!)),
-      DataCell(Text(promocion.tipoDescuento.toString().toUpperCase())),
+      DataCell(Text(FechaUtil.formatDate(promocion.inicio!))),
+      DataCell(Text(FechaUtil.formatDate(promocion.fin!))),
+      DataCell(Text(promocion.valor as String)),
       DataCell(Row(children: [
         IconButton(
           onPressed: () {
-            NavigationService.navigateTo(
-                '/dashboard/promocions/${promocion.id}');
+            NavigationService.navigateTo('/promociones/${promocion.id}');
           },
           icon: Icon(Icons.edit),
         ),
@@ -31,8 +33,7 @@ class PromocionDataSource extends DataTableSource {
             onPressed: () {
               final dialog = AlertDialog(
                   title: Text('Estas seguro de borrarlo?'),
-                  content: Text(
-                      'Borrar definitivamente promocion de $promocion.nombre?'),
+                  content: Text('Borrar promocion $promocion.nombre?'),
                   actions: [
                     TextButton(
                       child: Text('No, mantener'),
@@ -49,10 +50,10 @@ class PromocionDataSource extends DataTableSource {
                               .eliminar(promocion.id!);
                           if (confirmado) {
                             NotificationsService.showSnackbar(
-                                'Registro eliminado exitosamente');
+                                'Promocion eliminada exitosamente');
                           } else {
                             NotificationsService.showSnackbar(
-                                'Registro no ha sido eliminado');
+                                'Promocino no ha sido eliminada');
                           }
                           if (context.mounted) {
                             Navigator.of(context).pop();
@@ -71,7 +72,7 @@ class PromocionDataSource extends DataTableSource {
   bool get isRowCountApproximate => false;
 
   @override
-  int get rowCount => promocions.length;
+  int get rowCount => promociones.length;
 
   @override
   int get selectedRowCount => 0;

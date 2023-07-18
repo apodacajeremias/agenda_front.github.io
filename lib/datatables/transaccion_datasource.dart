@@ -2,6 +2,7 @@
 
 import 'package:agenda_front/models/entities/transaccion.dart';
 import 'package:agenda_front/providers/transaccion_provider.dart';
+import 'package:agenda_front/services/fecha_util.dart';
 import 'package:agenda_front/services/navigation_service.dart';
 import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/material.dart';
@@ -18,14 +19,14 @@ class TransaccionDataSource extends DataTableSource {
     final transaccion = transacciones[index];
     return DataRow.byIndex(index: index, cells: [
       DataCell(Text(transaccion.persona!.nombre!)),
-      DataCell(Text(transaccion.tipo.toString().toUpperCase())),
-      DataCell(Text(transaccion.tipoDescuento.toString().toUpperCase())),
+      DataCell(Text(FechaUtil.formatDate(transaccion.fechaCreacion!))),
+      DataCell(Text(transaccion.tipo as String)),
       DataCell(Text(transaccion.total as String)),
       DataCell(Row(children: [
         IconButton(
           onPressed: () {
             NavigationService.navigateTo(
-                '/dashboard/transacciones/${transaccion.id}');
+                '/transacciones/${transaccion.id}');
           },
           icon: Icon(Icons.edit),
         ),
@@ -34,7 +35,7 @@ class TransaccionDataSource extends DataTableSource {
               final dialog = AlertDialog(
                   title: Text('Estas seguro de borrarlo?'),
                   content: Text(
-                      'Borrar definitivamente transaccion de $transaccion.nombre?'),
+                      'Borrar transaccion $transaccion.nombre?'),
                   actions: [
                     TextButton(
                       child: Text('No, mantener'),
@@ -51,10 +52,10 @@ class TransaccionDataSource extends DataTableSource {
                                   .eliminar(transaccion.id!);
                           if (confirmado) {
                             NotificationsService.showSnackbar(
-                                'Registro eliminado exitosamente');
+                                'Transaccion eliminada exitosamente');
                           } else {
                             NotificationsService.showSnackbar(
-                                'Registro no ha sido eliminado');
+                                'Transaccion no ha sido eliminada');
                           }
                           if (context.mounted) {
                             Navigator.of(context).pop();

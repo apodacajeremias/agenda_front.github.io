@@ -38,64 +38,69 @@ class Sidebar extends StatelessWidget {
                 sideMenuProvider.currentPage == Flurorouter.dashboardRoute,
           ),
           MenuItemCustom(
-            text: 'Clientes',
-            icon: Icons.person_2,
+            text: 'Agendas',
+            icon: Icons.schedule,
+            onPressed: () => navigateTo(Flurorouter.agendasIndexRoute),
+            isActive:
+                sideMenuProvider.currentPage == Flurorouter.agendasIndexRoute,
+          ),
+          MenuItemCustom(
+            text: 'Beneficios',
+            icon: Icons.celebration,
+            onPressed: () => navigateTo(Flurorouter.beneficiosIndexRoute),
+            isActive: sideMenuProvider.currentPage ==
+                Flurorouter.beneficiosIndexRoute,
+          ),
+          MenuItemCustom(
+              text: 'Configuraciones',
+              icon: Icons.settings,
+              onPressed: () => navigateTo(Flurorouter.empresasConfigureRoute),
+              isActive: sideMenuProvider.currentPage ==
+                  Flurorouter.empresasConfigureRoute),
+          MenuItemCustom(
+            text: 'Colaboradores',
+            icon: Icons.account_box,
+            onPressed: () => navigateTo(Flurorouter.colaboradoresIndexRoute),
+            isActive: sideMenuProvider.currentPage ==
+                Flurorouter.colaboradoresIndexRoute,
+          ),
+          MenuItemCustom(
+            text: 'Grupos',
+            icon: Icons.groups,
+            onPressed: () => navigateTo(Flurorouter.gruposIndexRoute),
+            isActive:
+                sideMenuProvider.currentPage == Flurorouter.gruposIndexRoute,
+          ),
+          MenuItemCustom(
+            text: 'Items',
+            icon: Icons.category,
+            onPressed: () => navigateTo(Flurorouter.itemsIndexRoute),
+            isActive:
+                sideMenuProvider.currentPage == Flurorouter.itemsIndexRoute,
+          ),
+          MenuItemCustom(
+            text: 'Personas',
+            icon: Icons.people,
             onPressed: () => navigateTo(Flurorouter.personasIndexRoute),
             isActive:
                 sideMenuProvider.currentPage == Flurorouter.personasIndexRoute,
           ),
           MenuItemCustom(
-              text: 'Analytic',
-              icon: Icons.show_chart_outlined,
-              onPressed: () {}),
-          MenuItemCustom(
-            text: 'Categories',
-            icon: Icons.layers_outlined,
-            onPressed: () => navigateTo(Flurorouter.categoriesRoute),
-            isActive:
-                sideMenuProvider.currentPage == Flurorouter.categoriesRoute,
+            text: 'Promociones',
+            icon: Icons.discount,
+            onPressed: () => navigateTo(Flurorouter.promocionesIndexRoute),
+            isActive: sideMenuProvider.currentPage ==
+                Flurorouter.promocionesIndexRoute,
           ),
           MenuItemCustom(
-              text: 'Products',
-              icon: Icons.dashboard_outlined,
-              onPressed: () {}),
-          MenuItemCustom(
-              text: 'Discount',
-              icon: Icons.attach_money_outlined,
-              onPressed: () {}),
-          MenuItemCustom(
-            text: 'Users',
-            icon: Icons.people_alt_outlined,
-            onPressed: () => navigateTo(Flurorouter.usersIndexRoute),
-            isActive:
-                sideMenuProvider.currentPage == Flurorouter.usersIndexRoute,
-          ),
-          const SizedBox(height: 30),
-          const TextSeparator(text: 'UI Elements'),
-          MenuItemCustom(
-            text: 'Icons',
-            icon: Icons.list_alt_outlined,
-            onPressed: () => navigateTo(Flurorouter.iconsRoute),
-            isActive: sideMenuProvider.currentPage == Flurorouter.iconsRoute,
-          ),
-          MenuItemCustom(
-              text: 'Marketing',
-              icon: Icons.mark_email_read_outlined,
-              onPressed: () {}),
-          MenuItemCustom(
-              text: 'Campaign',
-              icon: Icons.note_add_outlined,
-              onPressed: () {}),
-          MenuItemCustom(
-            text: 'Black',
-            icon: Icons.post_add_outlined,
-            onPressed: () => navigateTo(Flurorouter.blankRoute),
-            isActive: sideMenuProvider.currentPage == Flurorouter.blankRoute,
-          ),
+              text: 'Transacciones',
+              icon: Icons.receipt_long,
+              onPressed: () => navigateTo(Flurorouter.transaccionesIndexRoute),
+              isActive: sideMenuProvider.currentPage == Flurorouter.transaccionesEditRoute),
           const SizedBox(height: 50),
           const TextSeparator(text: 'Exit'),
           MenuItemCustom(
-              text: 'Logout',
+              text: 'Salir',
               icon: Icons.exit_to_app_outlined,
               onPressed: () {
                 Provider.of<AuthProvider>(context, listen: false).logout();

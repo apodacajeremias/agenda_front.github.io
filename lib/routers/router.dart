@@ -49,7 +49,7 @@ class Flurorouter {
   // Dashboard: Colaborador
   static String colaboradoresIndexRoute = '/colaboradores';
   static String colaboradoresCreateRoute = '/colaboradores/create';
-  static String colaboradoresEditRoute = '/colaboradores/edit';
+  static String colaboradoresEditRoute = '/colaboradores/:id';
 
   // Dashboard: Empresa
   static String empresasConfigureRoute =

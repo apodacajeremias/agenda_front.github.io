@@ -24,8 +24,7 @@ class ColaboradorDataSource extends DataTableSource {
       DataCell(Row(children: [
         IconButton(
           onPressed: () {
-            NavigationService.navigateTo(
-                '/dashboard/colaboradores/${colaborador.id}');
+            NavigationService.navigateTo('/colaboradores/${colaborador.id}');
           },
           icon: Icon(Icons.edit),
         ),
@@ -33,8 +32,7 @@ class ColaboradorDataSource extends DataTableSource {
             onPressed: () {
               final dialog = AlertDialog(
                   title: Text('Estas seguro de borrarlo?'),
-                  content: Text(
-                      'Borrar definitivamente colaborador de $colaborador.nombre?'),
+                  content: Text('Borrar definitivamente $colaborador.nombre?'),
                   actions: [
                     TextButton(
                       child: Text('No, mantener'),
@@ -45,16 +43,16 @@ class ColaboradorDataSource extends DataTableSource {
                     TextButton(
                         child: Text('Si, borrar'),
                         onPressed: () async {
-                          var confirmado = await Provider.of<ColaboradorProvider>(
-                                  context,
-                                  listen: false)
-                              .eliminar(colaborador.id!);
+                          var confirmado =
+                              await Provider.of<ColaboradorProvider>(context,
+                                      listen: false)
+                                  .eliminar(colaborador.id!);
                           if (confirmado) {
                             NotificationsService.showSnackbar(
-                                'Registro eliminado exitosamente');
+                                'Colaborador eliminado exitosamente');
                           } else {
                             NotificationsService.showSnackbar(
-                                'Registro no ha sido eliminado');
+                                'Colaborador no ha sido eliminado');
                           }
                           if (context.mounted) {
                             Navigator.of(context).pop();

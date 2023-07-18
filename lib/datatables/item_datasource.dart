@@ -18,13 +18,12 @@ class ItemDataSource extends DataTableSource {
     final item = items[index];
     return DataRow.byIndex(index: index, cells: [
       DataCell(Text(item.nombre!)),
-      DataCell(Text(item.tipo.toString().toUpperCase())),
+      DataCell(Text(item.tipo as String)),
       DataCell(Text(item.precio as String)),
-      DataCell(Text(item.activo as String)),
       DataCell(Row(children: [
         IconButton(
           onPressed: () {
-            NavigationService.navigateTo('/dashboard/items/${item.id}');
+            NavigationService.navigateTo('/items/${item.id}');
           },
           icon: Icon(Icons.edit),
         ),
@@ -32,7 +31,7 @@ class ItemDataSource extends DataTableSource {
             onPressed: () {
               final dialog = AlertDialog(
                   title: Text('Estas seguro de borrarlo?'),
-                  content: Text('Borrar definitivamente item de $item.nombre?'),
+                  content: Text('Borrar item $item.nombre?'),
                   actions: [
                     TextButton(
                       child: Text('No, mantener'),
@@ -49,10 +48,10 @@ class ItemDataSource extends DataTableSource {
                               .eliminar(item.id!);
                           if (confirmado) {
                             NotificationsService.showSnackbar(
-                                'Registro eliminado exitosamente');
+                                'Item eliminado exitosamente');
                           } else {
                             NotificationsService.showSnackbar(
-                                'Registro no ha sido eliminado');
+                                'Item no ha sido eliminado');
                           }
                           if (context.mounted) {
                             Navigator.of(context).pop();

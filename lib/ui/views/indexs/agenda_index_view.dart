@@ -31,16 +31,14 @@ class _AgendaIndexViewState extends State<AgendaIndexView> {
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
-          Text('Listado de agendas', style: CustomLabels.h1),
+          Text('Listado de agendamientos', style: CustomLabels.h1),
           const SizedBox(height: 10),
           PaginatedDataTable(
             columns: const [
-              DataColumn(label: Text('Nombre')),
+              DataColumn(label: Text('Persona')),
               DataColumn(label: Text('Fecha')),
               DataColumn(label: Text('Hora')),
-              DataColumn(label: Text('Persona')),
               DataColumn(label: Text('Colaborador')),
-              DataColumn(label: Text('Situacion')),
               DataColumn(label: Text('Prioridad')),
               DataColumn(label: Text('Acciones')),
             ],
@@ -57,7 +55,7 @@ class _AgendaIndexViewState extends State<AgendaIndexView> {
                 onPressed: () {
                   NavigationService.navigateTo(Flurorouter.agendasCreateRoute);
                 },
-                text: 'Crear',
+                text: 'Nuevo',
                 icon: Icons.add_outlined,
               )
             ],
