@@ -77,7 +77,7 @@ class _DesktopBody extends StatelessWidget {
       color: Colors.black,
       child: Row(
         children: [
-          // Twitter Background
+          // Background
           const Expanded(child: CustomBackground()),
 
           // View Container

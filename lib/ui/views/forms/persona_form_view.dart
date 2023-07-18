@@ -7,6 +7,7 @@ import 'package:agenda_front/services/fecha_util.dart';
 import 'package:agenda_front/services/notifications_service.dart';
 import 'package:agenda_front/ui/buttons/custom_icon_button.dart';
 import 'package:agenda_front/ui/buttons/custom_outlined_button.dart';
+import 'package:agenda_front/ui/buttons/link_text.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
 import 'package:agenda_front/ui/inputs/custom_inputs.dart';
 import 'package:agenda_front/ui/labels/custom_labels.dart';
@@ -45,15 +46,17 @@ class _PersonaFormViewState extends State<PersonaFormView> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Formulario de Cliente',
+                'Formulario',
                 style: CustomLabels.h1,
               ),
-              CustomOutlinedButton(
-                  onPressed: () => Navigator.of(context).pop(), text: 'Volver')
+              LinkText(
+                  text: 'Volver',
+                  color: Colors.blue.withOpacity(0.4),
+                  onPressed: () => Navigator.of(context).pop())
             ],
           ),
           WhiteCard(
-              title: widget.persona?.nombre ?? 'Crear registro',
+              title: widget.persona?.nombre,
               child: FormBuilder(
                 key: provider.formKey,
                 child: Column(
@@ -61,34 +64,29 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                   children: [
                     if (widget.persona?.id != null) ...[
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          SizedBox(height: 10),
-                          Expanded(
-                            child: FormBuilderTextField(
-                              name: 'id',
-                              initialValue: widget.persona?.id,
-                              enabled: false,
-                              decoration: CustomInputs.windows11(
-                                  hint: 'Codigo Identificador',
-                                  label: 'ID',
-                                  icon: Icons.qr_code),
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          Expanded(
-                            child: FormBuilderSwitch(
-                              name: 'activo',
-                              title: Text(
-                                'Estado del registro',
-                                style: CustomLabels.h3,
-                              ),
-                              initialValue: widget.persona?.activo,
-                              decoration: CustomInputs.noBorder(),
-                            ),
-                          )
-                        ],
-                      ),
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SizedBox(height: 10),
+                            Expanded(
+                                child: FormBuilderTextField(
+                                    name: 'id',
+                                    initialValue: widget.persona?.id,
+                                    enabled: false,
+                                    decoration: CustomInputs.windows11(
+                                        hint: 'Codigo Identificador',
+                                        label: 'ID',
+                                        icon: Icons.qr_code))),
+                            SizedBox(width: 10),
+                            Expanded(
+                                child: FormBuilderSwitch(
+                                    name: 'activo',
+                                    title: Text(
+                                      'Estado del registro',
+                                      style: CustomLabels.h3,
+                                    ),
+                                    initialValue: widget.persona?.activo,
+                                    decoration: CustomInputs.noBorder()))
+                          ])
                     ],
                     SizedBox(height: 10),
                     FormBuilderTextField(
@@ -104,18 +102,17 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                     SizedBox(height: 10),
                     Row(children: [
                       Expanded(
-                        child: FormBuilderTextField(
-                            name: 'documentoIdentidad',
-                            initialValue: widget.persona?.documentoIdentidad,
-                            enabled: widget.persona?.activo ?? true,
-                            decoration: CustomInputs.iphone(
-                                hint:
-                                    'Numero de documento, C.I., R.G., C.P.F., D.N.I., pasaporte...',
-                                label: 'Documento de Identidad',
-                                icon: Icons.perm_identity),
-                            validator: FormBuilderValidators.required(
-                                errorText: 'Campo obligatorio')),
-                      ),
+                          child: FormBuilderTextField(
+                              name: 'documentoIdentidad',
+                              initialValue: widget.persona?.documentoIdentidad,
+                              enabled: widget.persona?.activo ?? true,
+                              decoration: CustomInputs.iphone(
+                                  hint:
+                                      'Numero de documento, C.I., R.G., C.P.F., D.N.I., pasaporte...',
+                                  label: 'Documento de Identidad',
+                                  icon: Icons.perm_identity),
+                              validator: FormBuilderValidators.required(
+                                  errorText: 'Campo obligatorio'))),
                       SizedBox(width: 10),
                       Expanded(
                         child: Row(
@@ -163,25 +160,22 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                     Row(
                       children: [
                         Expanded(
-                          child: FormBuilderDropdown(
-                              name: 'genero',
-                              initialValue: widget.persona?.genero,
-                              enabled: widget.persona?.activo ?? true,
-                              decoration: CustomInputs.iphone(
-                                  hint: 'Seleccionar genero',
-                                  label: 'Genero',
-                                  icon: Icons.male),
-                              validator: FormBuilderValidators.required(
-                                  errorText: 'Campo obligatorio'),
-                              items: Genero.values
-                                  .map((genero) => DropdownMenuItem(
-                                      alignment: AlignmentDirectional.center,
-                                      value:
-                                          genero.name.toString().toUpperCase(),
-                                      child: Text(toBeginningOfSentenceCase(
-                                          genero.name)!)))
-                                  .toList()),
-                        ),
+                            child: FormBuilderDropdown(
+                                name: 'genero',
+                                initialValue: widget.persona?.genero,
+                                enabled: widget.persona?.activo ?? true,
+                                decoration: CustomInputs.iphone(
+                                    hint: 'Seleccionar genero',
+                                    label: 'Genero',
+                                    icon: Icons.male),
+                                validator: FormBuilderValidators.required(
+                                    errorText: 'Campo obligatorio'),
+                                items: Genero.values
+                                    .map((genero) => DropdownMenuItem(
+                                        value: genero.name,
+                                        child: Text(toBeginningOfSentenceCase(
+                                            genero.name)!)))
+                                    .toList())),
                       ],
                     ),
                     SizedBox(height: 10),
@@ -293,18 +287,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                             icon: widget.persona?.id == null
                                 ? Icons.save
                                 : Icons.edit,
-                            color: Colors.green.withOpacity(0.3)),
-                        CustomIconButton(
-                            onPressed: () {
-                              Navigator.of(context).pop;
-                            },
-                            text: widget.persona?.id == null
-                                ? 'Cerra'
-                                : 'Cancelar',
-                            icon: widget.persona?.id == null
-                                ? Icons.close
-                                : Icons.cancel,
-                            color: Colors.red.withOpacity(0.3))
+                            color: Colors.green.withOpacity(0.3))
                       ],
                     )
                   ],
