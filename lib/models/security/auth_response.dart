@@ -1,22 +1,17 @@
-import 'package:agenda_front/models/security/user.dart';
+import 'package:agenda_front/models/security/usuario.dart';
 
 class AuthenticationResponse {
   String token;
-  User user;
+  Usuario usuario;
 
   AuthenticationResponse({
     required this.token,
-    required this.user,
+    required this.usuario,
   });
 
   factory AuthenticationResponse.fromJson(Map<String, dynamic> json) =>
       AuthenticationResponse(
         token: json['token'],
-        user: User.fromJson(json['user']),
+        usuario: Usuario.fromJson(json['usuario']),
       );
-
-  Map<String, dynamic> toJson() => {
-        'token': token,
-        'user': user.toJson(),
-      };
 }

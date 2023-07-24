@@ -24,7 +24,7 @@ class Colaborador {
         activo: json['activo'],
         nombre: json['nombre'],
         fechaCreacion: DateTime.parse(json['fechaCreacion']),
-        fechaModificacion: json['fechaModificacion'],
+        fechaModificacion: DateTime.parse(json['fechaModificacion']),
         registroContribuyente: json['registroContribuyente'],
         registroProfesional: json['registroProfesional'],
         profesion: json['profesion'],

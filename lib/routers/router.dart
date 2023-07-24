@@ -1,6 +1,7 @@
 import 'package:agenda_front/providers/auth_provider.dart';
 import 'package:agenda_front/providers/sidemenu_provider.dart';
 import 'package:agenda_front/routers/admin_handlers.dart';
+import 'package:agenda_front/routers/agenda_handlers.dart';
 import 'package:agenda_front/routers/dashboard_handlers.dart';
 import 'package:agenda_front/routers/no_page_found_handlers.dart';
 import 'package:agenda_front/routers/persona_handlers.dart';
@@ -118,11 +119,18 @@ class Flurorouter {
     router.define(categoriesRoute,
         handler: DashboardHandlers.categories, transitionType: _transitionType);
 
-    // Dashboard: Persona
+    //TODO: ASIGNAR TODOS LOS HANDLERS
+    // Agenda
+    router.define(agendasIndexRoute,
+        handler: AgendaHandlers.index, transitionType: _transitionType);
+    router.define(agendasCreateRoute,
+        handler: AgendaHandlers.create, transitionType: _transitionType);
+
+    // Persona
     router.define(personasIndexRoute,
         handler: PersonaHandlers.index, transitionType: _transitionType);
     router.define(personasCreateRoute,
-        handler: PersonaHandlers.crear, transitionType: _transitionType);
+        handler: PersonaHandlers.create, transitionType: _transitionType);
     router.define(personasEditRoute,
         handler: PersonaHandlers.editar, transitionType: _transitionType);
 

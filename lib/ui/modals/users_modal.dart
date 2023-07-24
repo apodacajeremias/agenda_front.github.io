@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:agenda_front/models/security/user.dart';
+import 'package:agenda_front/models/security/usuario.dart';
 import 'package:agenda_front/providers/user_provider.dart';
 import 'package:agenda_front/services/notifications_service.dart';
 import 'package:agenda_front/ui/buttons/custom_outlined_button.dart';
@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UsersModal extends StatefulWidget {
-  final User? user;
+  final Usuario? user;
 
   const UsersModal({super.key, this.user});
 

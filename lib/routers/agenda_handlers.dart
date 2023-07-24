@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:agenda_front/providers/auth_provider.dart';
-import 'package:agenda_front/providers/agenda_provider.dart';
 import 'package:agenda_front/providers/sidemenu_provider.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/services/navigation_service.dart';
 import 'package:agenda_front/services/notifications_service.dart';
+import 'package:agenda_front/ui/views/forms/agenda_form_view.dart';
 
 import 'package:agenda_front/ui/views/indexs/agenda_index_view.dart';
 import 'package:agenda_front/ui/views/login_view.dart';
@@ -29,7 +29,7 @@ class AgendaHandlers {
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.agendasIndexRoute);
     if (authProvider.authStatus == AuthStatus.authenticated) {
-      return null;
+      return AgendaFormView();
     } else {
       return const LoginView();
     }
@@ -45,8 +45,6 @@ class AgendaHandlers {
       NavigationService.replaceTo(Flurorouter.agendasIndexRoute);
       NotificationsService.showSnackbar('No se ha encontrado registro');
     }
-
-    final editar = Provider.of<AgendaProvider>(context).buscar(id);
     if (authProvider.authStatus == AuthStatus.authenticated) {
       return null;
     } else {

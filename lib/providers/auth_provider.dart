@@ -1,6 +1,6 @@
 import 'package:agenda_front/api/agenda_api.dart';
 import 'package:agenda_front/models/security/auth_response.dart';
-import 'package:agenda_front/models/security/user.dart';
+import 'package:agenda_front/models/security/usuario.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/services/local_storage.dart';
 import 'package:agenda_front/services/navigation_service.dart';
@@ -11,7 +11,7 @@ enum AuthStatus { checking, authenticated, notAuthenticated }
 
 class AuthProvider extends ChangeNotifier {
   String? _token;
-  User? user;
+  Usuario? usuario;
   AuthStatus _authStatus = AuthStatus.checking;
 
   AuthStatus get authStatus {
@@ -38,7 +38,7 @@ class AuthProvider extends ChangeNotifier {
     AgendaAPI.httpPost('/auth/register', data).then((json) {
       final authResponse = AuthenticationResponse.fromJson(json);
       _token = authResponse.token;
-      user = authResponse.user;
+      usuario = authResponse.usuario;
       _authStatus = AuthStatus.authenticated;
       LocalStorage.prefs.setString('token', _token!);
       NavigationService.replaceTo(Flurorouter.dashboardRoute);
@@ -55,22 +55,14 @@ class AuthProvider extends ChangeNotifier {
   login(String email, String password) {
     final data = {'email': email, 'password': password};
     AgendaAPI.httpPost('/auth/login', data).then((json) {
-      int i = 0;
-
+      print(json);
       final authResponse = AuthenticationResponse.fromJson(json);
-
       _token = authResponse.token;
-
-      user = authResponse.user;
-
+      usuario = authResponse.usuario;
       _authStatus = AuthStatus.authenticated;
-
       LocalStorage.prefs.setString('token', _token!);
-
       NavigationService.replaceTo(Flurorouter.dashboardRoute);
-
       AgendaAPI.configureDio();
-
       notifyListeners();
     }).catchError((e) {
       NotificationsService.showSnackbarError('Usuario / Password no válido');
@@ -92,7 +84,7 @@ class AuthProvider extends ChangeNotifier {
       final authReponse = AuthenticationResponse.fromJson(resp);
       LocalStorage.prefs.setString('token', authReponse.token);
 
-      user = authReponse.user;
+      usuario = authReponse.usuario;
       _authStatus = AuthStatus.authenticated;
       notifyListeners();
       return true;

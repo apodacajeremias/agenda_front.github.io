@@ -1,16 +1,16 @@
 import 'package:agenda_front/api/agenda_api.dart';
-import 'package:agenda_front/models/security/user.dart';
+import 'package:agenda_front/models/security/usuario.dart';
 import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/material.dart';
 
 class UserProvider extends ChangeNotifier {
-  List<User> users = [];
+  List<Usuario> users = [];
 
   getUsers() async {
     try {
       final response = await AgendaAPI.httpGet('/users');
-      List<User> usersResponse =
-          List<User>.from(response.map((model) => User.fromJson(model)));
+      List<Usuario> usersResponse =
+          List<Usuario>.from(response.map((model) => Usuario.fromJson(model)));
       users = [...usersResponse];
       notifyListeners();
     } catch (e) {
@@ -18,7 +18,7 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  User getUser(String id) {
+  Usuario getUser(String id) {
     try {
       return users.where((element) => element.id!.contains(id)).first;
     } catch (e) {
@@ -26,11 +26,11 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  Future newUser(User user) async {
+  Future newUser(Usuario user) async {
     final data = user.toJson();
     try {
       final json = await AgendaAPI.httpPost('/users', data);
-      final usuarioNuevo = User.fromJson(json);
+      final usuarioNuevo = Usuario.fromJson(json);
       users.add(usuarioNuevo);
       notifyListeners();
     } catch (e) {
@@ -42,7 +42,7 @@ class UserProvider extends ChangeNotifier {
     final data = {'nombre': name};
     try {
       final json = await AgendaAPI.httpPut('/users/$id', data);
-      final usuarioModificado = User.fromJson(json);
+      final usuarioModificado = Usuario.fromJson(json);
       // Se busca el index en lista del ID User
       final index = users.indexWhere((element) => element.id!.contains(id));
       // Se substituye la informacion del index por la informacion actualizada

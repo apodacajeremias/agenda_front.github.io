@@ -25,7 +25,7 @@ class PersonaHandlers {
     }
   });
 
-  static Handler crear = Handler(handlerFunc: (context, params) {
+  static Handler create = Handler(handlerFunc: (context, params) {
     final authProvider = Provider.of<AuthProvider>(context!);
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.personasIndexRoute);
@@ -36,7 +36,7 @@ class PersonaHandlers {
     }
   });
 
-  static Handler editar = Handler(handlerFunc: (context, params){
+  static Handler editar = Handler(handlerFunc: (context, params) {
     final authProvider = Provider.of<AuthProvider>(context!);
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.personasIndexRoute);

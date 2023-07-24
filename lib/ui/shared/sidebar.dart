@@ -29,7 +29,7 @@ class Sidebar extends StatelessWidget {
         children: [
           const Logo(),
           const SizedBox(height: 50),
-          const TextSeparator(text: 'main'),
+          const TextSeparator(text: 'Principal'),
           MenuItemCustom(
             text: 'Inicio',
             icon: Icons.cottage,
@@ -96,11 +96,12 @@ class Sidebar extends StatelessWidget {
               text: 'Transacciones',
               icon: Icons.receipt_long,
               onPressed: () => navigateTo(Flurorouter.transaccionesIndexRoute),
-              isActive: sideMenuProvider.currentPage == Flurorouter.transaccionesEditRoute),
+              isActive: sideMenuProvider.currentPage ==
+                  Flurorouter.transaccionesEditRoute),
           const SizedBox(height: 50),
-          const TextSeparator(text: 'Exit'),
+          const TextSeparator(text: 'Salir'),
           MenuItemCustom(
-              text: 'Salir',
+              text: 'Cerrar sesión',
               icon: Icons.exit_to_app_outlined,
               onPressed: () {
                 Provider.of<AuthProvider>(context, listen: false).logout();
