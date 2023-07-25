@@ -65,7 +65,9 @@ class Persona {
             json.containsKey('colaborador') && json['colaborador'] != null
                 ? Colaborador.fromJson(json['colaborador'])
                 : null,
-        grupos: List.from(json['grupos']),
+        grupos: json.containsKey('grupos') && json['grupos'] != null
+            ? List.from(json['grupos'].map((g) => Grupo.fromJson(g)))
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -83,4 +85,9 @@ class Persona {
         'colaborador': colaborador?.toJson(),
         'grupos': grupos
       };
+
+  @override
+  String toString() {
+    return nombre!;
+  }
 }

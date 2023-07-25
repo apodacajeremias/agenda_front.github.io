@@ -10,12 +10,14 @@ import 'package:agenda_front/ui/cards/white_card.dart';
 import 'package:agenda_front/ui/labels/custom_labels.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_extra_fields/form_builder_extra_fields.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AgendaFormView extends StatefulWidget {
   const AgendaFormView({super.key});
 
+  @override
   State<AgendaFormView> createState() => _AgendaFormViewState();
 }
 
@@ -62,6 +64,7 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                         name: 'situacion',
                         items: Situacion.values
                             .map((e) => DropdownMenuItem(
+                                value: e,
                                 child:
                                     Text(toBeginningOfSentenceCase(e.name)!)))
                             .toList(),
@@ -71,10 +74,25 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                         name: 'prioridad',
                         items: Prioridad.values
                             .map((e) => DropdownMenuItem(
+                                value: e,
                                 child:
                                     Text(toBeginningOfSentenceCase(e.name)!)))
                             .toList(),
                       ),
+                      SizedBox(height: 10),
+                      FormBuilderSearchableDropdown(
+                        name: 'persona',
+                        compareFn: (item1, item2) =>
+                            item1.id!.contains(item2.id!),
+                        items: personas,
+                      ),
+                      SizedBox(height: 10),
+                      FormBuilderSearchableDropdown(
+                        name: 'colaborador',
+                        compareFn: (item1, item2) =>
+                            item1.id!.contains(item2.id!),
+                        items: colaboradores,
+                      )
                     ],
                   )))
         ],

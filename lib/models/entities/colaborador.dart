@@ -37,4 +37,9 @@ class Colaborador {
         'registroProfesional': registroProfesional,
         'profesion': profesion,
       };
+
+  @override
+  String toString() {
+    return nombre!;
+  }
 }
