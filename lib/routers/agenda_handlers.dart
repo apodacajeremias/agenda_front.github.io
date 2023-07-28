@@ -3,8 +3,6 @@
 import 'package:agenda_front/providers/auth_provider.dart';
 import 'package:agenda_front/providers/sidemenu_provider.dart';
 import 'package:agenda_front/routers/router.dart';
-import 'package:agenda_front/services/navigation_service.dart';
-import 'package:agenda_front/services/notifications_service.dart';
 import 'package:agenda_front/ui/views/forms/agenda_form_view.dart';
 
 import 'package:agenda_front/ui/views/indexs/agenda_index_view.dart';
@@ -41,11 +39,67 @@ class AgendaHandlers {
         .setCurrentPageUrl(Flurorouter.agendasIndexRoute);
     final id = params['id']!.first;
 
-    if (id.isEmpty) {
-      NavigationService.replaceTo(Flurorouter.agendasIndexRoute);
-      NotificationsService.showSnackbar('No se ha encontrado registro');
-    }
     if (authProvider.authStatus == AuthStatus.authenticated) {
+      // TODO: Crear view
+      return null;
+    } else {
+      return const LoginView();
+    }
+  });
+
+  static Handler unschedule = Handler(handlerFunc: (context, params) {
+    final authProvider = Provider.of<AuthProvider>(context!);
+    Provider.of<SideMenuProvider>(context, listen: false)
+        .setCurrentPageUrl(Flurorouter.agendasIndexRoute);
+    final id = params['id']!.first;
+
+    if (authProvider.authStatus == AuthStatus.authenticated) {
+      // TODO: Crear view
+      return null;
+    } else {
+      return const LoginView();
+    }
+  });
+
+  static Handler prioritize = Handler(handlerFunc: (context, params) {
+    final authProvider = Provider.of<AuthProvider>(context!);
+    Provider.of<SideMenuProvider>(context, listen: false)
+        .setCurrentPageUrl(Flurorouter.agendasIndexRoute);
+    final id = params['id']!.first;
+    final prioridad = params['prioridad']!.first;
+
+    if (authProvider.authStatus == AuthStatus.authenticated) {
+      // TODO: Crear view
+      return null;
+    } else {
+      return const LoginView();
+    }
+  });
+
+  static Handler deprioritize = Handler(handlerFunc: (context, params) {
+    final authProvider = Provider.of<AuthProvider>(context!);
+    Provider.of<SideMenuProvider>(context, listen: false)
+        .setCurrentPageUrl(Flurorouter.agendasIndexRoute);
+    final id = params['id']!.first;
+    final prioridad = params['prioridad']!.first;
+
+    if (authProvider.authStatus == AuthStatus.authenticated) {
+      // TODO: Crear view
+      return null;
+    } else {
+      return const LoginView();
+    }
+  });
+
+  static Handler changeSituation = Handler(handlerFunc: (context, params) {
+    final authProvider = Provider.of<AuthProvider>(context!);
+    Provider.of<SideMenuProvider>(context, listen: false)
+        .setCurrentPageUrl(Flurorouter.agendasIndexRoute);
+    final id = params['id']!.first;
+    final situacion = params['situacion']!.first;
+
+    if (authProvider.authStatus == AuthStatus.authenticated) {
+      // TODO: Crear view
       return null;
     } else {
       return const LoginView();

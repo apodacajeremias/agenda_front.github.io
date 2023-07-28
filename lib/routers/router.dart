@@ -125,6 +125,17 @@ class Flurorouter {
         handler: AgendaHandlers.index, transitionType: _transitionType);
     router.define(agendasCreateRoute,
         handler: AgendaHandlers.create, transitionType: _transitionType);
+    router.define(agendasRescheduleRoute,
+        handler: AgendaHandlers.reschedule, transitionType: _transitionType);
+    router.define(agendasUnscheduleRoute,
+        handler: AgendaHandlers.unschedule, transitionType: _transitionType);
+    router.define(agendasPrioritizeRoute,
+        handler: AgendaHandlers.prioritize, transitionType: _transitionType);
+    router.define(agendasDepriorizeRoute,
+        handler: AgendaHandlers.deprioritize, transitionType: _transitionType);
+    router.define(agendaChangeSituationRoute,
+        handler: AgendaHandlers.changeSituation,
+        transitionType: _transitionType);
 
     // Persona
     router.define(personasIndexRoute,
@@ -132,7 +143,7 @@ class Flurorouter {
     router.define(personasCreateRoute,
         handler: PersonaHandlers.create, transitionType: _transitionType);
     router.define(personasEditRoute,
-        handler: PersonaHandlers.editar, transitionType: _transitionType);
+        handler: PersonaHandlers.edit, transitionType: _transitionType);
 
     // Users
     router.define(usersIndexRoute,
