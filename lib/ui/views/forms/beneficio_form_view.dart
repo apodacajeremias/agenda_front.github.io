@@ -56,8 +56,10 @@ class BeneficioFormView extends StatelessWidget {
                                   name: 'id',
                                   initialValue: beneficio?.id,
                                   enabled: false,
-                                  decoration: CustomInputs.iphone(
-                                      label: 'ID', icon: Icons.qr_code))),
+                                  decoration: CustomInputs.form(
+                                      label: 'ID',
+                                      hint: 'ID',
+                                      icon: Icons.qr_code))),
                           SizedBox(width: 10),
                           Expanded(
                               child: FormBuilderSwitch(
@@ -79,8 +81,9 @@ class BeneficioFormView extends StatelessWidget {
                             name: 'nombre',
                             initialValue: beneficio?.nombre,
                             enabled: beneficio?.activo ?? true,
-                            decoration: CustomInputs.windows11(
+                            decoration: CustomInputs.form(
                                 label: 'Nombre del beneficio',
+                                hint: 'Nombre',
                                 icon: Icons.info),
                             validator: FormBuilderValidators.required(
                                 errorText: 'Campo obligatorio')),
@@ -91,8 +94,10 @@ class BeneficioFormView extends StatelessWidget {
                         name: 'descuento',
                         initialValue: beneficio?.descuento as String,
                         enabled: beneficio?.activo ?? true,
-                        decoration: CustomInputs.iphone(
-                            label: 'Valor del beneficio', icon: Icons.tag),
+                        decoration: CustomInputs.form(
+                            label: 'Valor del beneficio',
+                            hint: 'Valor de descuento',
+                            icon: Icons.tag),
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(
                               errorText: 'Campo obligatorio'),
@@ -110,8 +115,9 @@ class BeneficioFormView extends StatelessWidget {
                                 name: 'tipo',
                                 initialValue: beneficio?.tipo,
                                 enabled: beneficio?.activo ?? true,
-                                decoration: CustomInputs.windows11(
+                                decoration: CustomInputs.form(
                                     label: 'Tipo de beneficio',
+                                    hint: 'Tipo de beneficio',
                                     icon: Icons.loyalty),
                                 items: TipoBeneficio.values
                                     .map((tipo) => DropdownMenuItem(
@@ -125,8 +131,9 @@ class BeneficioFormView extends StatelessWidget {
                                 name: 'tipoDescuento',
                                 initialValue: beneficio?.tipoDescuento,
                                 enabled: beneficio?.activo ?? true,
-                                decoration: CustomInputs.iphone(
+                                decoration: CustomInputs.form(
                                     label: 'Tipo de descuento',
+                                    hint: 'Tipo de descuento',
                                     icon: Icons.discount),
                                 items: TipoDescuento.values
                                     .map((descuento) => DropdownMenuItem(

@@ -46,8 +46,8 @@ class LoginView extends StatelessWidget {
                             return null;
                           },
                           onChanged: (value) => loginFormProvider.email = value,
-                          style: const TextStyle(color: Colors.white),
-                          decoration: CustomInputs.loginInputDecoration(
+                          // style: const TextStyle(color: Colors.white),
+                          decoration: CustomInputs.form(
                               hint: 'Ingrese su correo',
                               label: 'Email',
                               icon: Icons.email_outlined),
@@ -72,8 +72,8 @@ class LoginView extends StatelessWidget {
                             return null; // Válido
                           },
                           obscureText: true,
-                          style: const TextStyle(color: Colors.white),
-                          decoration: CustomInputs.loginInputDecoration(
+                          // style: const TextStyle(color: Colors.white),
+                          decoration: CustomInputs.form(
                               hint: '*********',
                               label: 'Contraseña',
                               icon: Icons.lock_outline_rounded),

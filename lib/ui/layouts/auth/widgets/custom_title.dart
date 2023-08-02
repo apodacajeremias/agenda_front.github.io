@@ -13,7 +13,7 @@ class CustomTitle extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-           const Image(
+          const Image(
             image: AssetImage('logo.png'),
             width: 50,
             height: 50,
@@ -22,10 +22,10 @@ class CustomTitle extends StatelessWidget {
           FittedBox(
             fit: BoxFit.contain,
             child: Text(
-              'Accede ahora',
+              'Bienvenido',
               style: GoogleFonts.montserratAlternates(
                   fontSize: 60,
-                  color: Colors.white,
+                  color: Colors.blueGrey.shade700,
                   fontWeight: FontWeight.bold),
             ),
           )
@@ -34,7 +34,7 @@ class CustomTitle extends StatelessWidget {
     );
   }
 
-    _buildAsset(String asset, int max, {int min = 1}) {
+  _buildAsset(String asset, int max, {int min = 1}) {
     int random = Random().nextInt(max) + min;
     return '$asset-$random';
   }

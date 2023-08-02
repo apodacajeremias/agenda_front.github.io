@@ -2,7 +2,6 @@
 
 import 'package:agenda_front/datatables/users_datasource.dart';
 import 'package:agenda_front/providers/user_provider.dart';
-import 'package:agenda_front/ui/modals/users_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:agenda_front/ui/buttons/custom_icon_button.dart';
@@ -53,10 +52,10 @@ class _UsersViewState extends State<UsersView> {
             actions: [
               CustomIconButton(
                 onPressed: () {
-                  showModalBottomSheet(
-                      backgroundColor: Colors.transparent,
-                      context: context,
-                      builder: (_) => const UsersModal(user: null));
+                  // showModalBottomSheet(
+                  //     backgroundColor: Colors.transparent,
+                  //     context: context,
+                  //     builder: (_) => const UsersModal(user: null));
                 },
                 text: 'Nuevo',
                 icon: Icons.add_outlined,

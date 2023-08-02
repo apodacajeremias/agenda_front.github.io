@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:agenda_front/ui/layouts/auth/widgets/custom_background.dart';
 import 'package:agenda_front/ui/layouts/auth/widgets/custom_title.dart';
-import 'package:agenda_front/ui/layouts/auth/widgets/links_bar.dart';
 
 class AuthLayout extends StatelessWidget {
   final Widget child;
@@ -24,7 +23,7 @@ class AuthLayout extends StatelessWidget {
               : _MobileBody(child: child),
 
           // LinksBar
-          const LinksBar()
+          // const LinksBar()
         ],
       ),
     ));
@@ -40,7 +39,7 @@ class _MobileBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 1000,
-      color: Colors.black,
+      color: Colors.blueGrey.shade100,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -73,8 +72,8 @@ class _DesktopBody extends StatelessWidget {
 
     return Container(
       width: size.width,
-      height: size.height * 0.95,
-      color: Colors.black,
+      height: size.height,
+      color: Colors.blueGrey.shade100,
       child: Row(
         children: [
           // Background
@@ -84,7 +83,7 @@ class _DesktopBody extends StatelessWidget {
           Container(
             width: 600,
             height: double.infinity,
-            color: Colors.black,
+            color: Colors.blueGrey.shade100,
             child: Column(
               children: [
                 const SizedBox(height: 20),

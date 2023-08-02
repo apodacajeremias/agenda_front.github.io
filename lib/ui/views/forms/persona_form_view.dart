@@ -68,7 +68,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                             name: 'id',
                             initialValue: widget.persona?.id,
                             enabled: false,
-                            decoration: CustomInputs.windows11(
+                            decoration: CustomInputs.form(
                                 hint: 'Codigo Identificador',
                                 label: 'ID',
                                 icon: Icons.qr_code))),
@@ -89,7 +89,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                     name: 'nombre',
                     initialValue: widget.persona?.nombre,
                     enabled: widget.persona?.activo ?? true,
-                    decoration: CustomInputs.iphone(
+                    decoration: CustomInputs.form(
                         hint: 'Nombre completo',
                         label: 'Nombre y Apellido',
                         icon: Icons.info),
@@ -102,7 +102,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                           name: 'documentoIdentidad',
                           initialValue: widget.persona?.documentoIdentidad,
                           enabled: widget.persona?.activo ?? true,
-                          decoration: CustomInputs.iphone(
+                          decoration: CustomInputs.form(
                               hint:
                                   'Numero de documento, C.I., R.G., C.P.F., D.N.I., pasaporte...',
                               label: 'Documento de Identidad',
@@ -119,7 +119,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                           initialValue:
                               widget.persona?.fechaNacimiento ?? DateTime.now(),
                           enabled: widget.persona?.activo ?? true,
-                          decoration: CustomInputs.iphone(
+                          decoration: CustomInputs.form(
                               hint: 'Fecha de nacimiento',
                               label: 'Fecha de nacimiento',
                               icon: Icons.cake),
@@ -138,7 +138,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                           name: 'edad',
                           initialValue: edad.toString(),
                           enabled: widget.persona?.activo ?? true,
-                          decoration: CustomInputs.iphone(
+                          decoration: CustomInputs.form(
                               hint: 'Edad de la persona',
                               label: 'Edad hasta la fecha',
                               icon: Icons.numbers),
@@ -156,7 +156,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                             name: 'genero',
                             initialValue: widget.persona?.genero,
                             enabled: widget.persona?.activo ?? true,
-                            decoration: CustomInputs.iphone(
+                            decoration: CustomInputs.form(
                                 hint: 'Seleccionar genero',
                                 label: 'Genero',
                                 icon: Icons.male),
@@ -175,7 +175,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                     name: 'telefono',
                     initialValue: widget.persona?.telefono,
                     enabled: widget.persona?.activo ?? true,
-                    decoration: CustomInputs.iphone(
+                    decoration: CustomInputs.form(
                         hint: 'Telefono de contacto',
                         label: 'Telefono',
                         icon: Icons.phone),
@@ -187,7 +187,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                     name: 'celular',
                     initialValue: widget.persona?.celular,
                     enabled: widget.persona?.activo ?? true,
-                    decoration: CustomInputs.iphone(
+                    decoration: CustomInputs.form(
                         hint: 'Celular de contacto',
                         label: 'Celular',
                         icon: Icons.phone_android),
@@ -199,7 +199,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                     name: 'direccion',
                     initialValue: widget.persona?.direccion,
                     enabled: widget.persona?.activo ?? true,
-                    decoration: CustomInputs.iphone(
+                    decoration: CustomInputs.form(
                         hint: 'Direccion de domicilio',
                         label: 'Direccion',
                         icon: Icons.gps_fixed),
@@ -214,7 +214,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                     name: 'observacion',
                     initialValue: widget.persona?.observacion,
                     enabled: widget.persona?.activo ?? true,
-                    decoration: CustomInputs.iphone(
+                    decoration: CustomInputs.form(
                         hint: 'Observacion',
                         label: 'Observaciones',
                         icon: Icons.gps_fixed),
@@ -227,7 +227,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                 SizedBox(height: 10),
                 FormBuilderImagePicker(
                   name: 'fotoPerfil',
-                  decoration: CustomInputs.iphone(
+                  decoration: CustomInputs.form(
                       hint: 'Selecciona una foto para el perfil',
                       label: 'Foto de perfil',
                       icon: Icons.image),

@@ -41,7 +41,7 @@ class RegisterView extends StatelessWidget {
                           return null;
                         },
                         style: const TextStyle(color: Colors.white),
-                        decoration: CustomInputs.loginInputDecoration(
+                        decoration: CustomInputs.form(
                             hint: 'Ingrese su nombre',
                             label: 'Nombre',
                             icon: Icons.supervised_user_circle_sharp),
@@ -60,7 +60,7 @@ class RegisterView extends StatelessWidget {
                           return null;
                         },
                         style: const TextStyle(color: Colors.white),
-                        decoration: CustomInputs.loginInputDecoration(
+                        decoration: CustomInputs.form(
                             hint: 'Ingrese su correo',
                             label: 'Email',
                             icon: Icons.email_outlined),
@@ -84,7 +84,7 @@ class RegisterView extends StatelessWidget {
                         },
                         obscureText: true,
                         style: const TextStyle(color: Colors.white),
-                        decoration: CustomInputs.loginInputDecoration(
+                        decoration: CustomInputs.form(
                             hint: '*********',
                             label: 'Contraseña',
                             icon: Icons.lock_outline_rounded),
