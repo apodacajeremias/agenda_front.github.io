@@ -1,5 +1,6 @@
 import 'package:agenda_front/api/agenda_api.dart';
 import 'package:agenda_front/models/entities/item.dart';
+import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
@@ -15,25 +16,34 @@ class ItemProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-// Buscamos la item seleccionada en la lista, sin reconsultar el servidor C;
-  Item? buscar(String id) {
-    return items.isNotEmpty
-        ? items.where((element) => element.id!.contains(id)).first
-        : null;
+  Future<Item> buscar(String id) async {
+    final json = await AgendaAPI.httpGet('/items/$id');
+    return Item.fromJson(json);
   }
 
-  Future guardar(Map<String, dynamic> data) async {
+  registrar(Map<String, dynamic> data) async {
+    // Si data tiene un campo ID y este tiene informacion
+    if (data.containsKey('id') && data['id'] != null) {
+      // Actualiza
+      await _actualizar(data['id'], data);
+    } else {
+      await _guardar(data);
+    }
+  }
+
+  _guardar(Map<String, dynamic> data) async {
     try {
       final json = await AgendaAPI.httpPost('/items', data);
       final itemNueva = Item.fromJson(json);
       items.add(itemNueva);
       notifyListeners();
+      NotificationsService.showSnackbar('Agregado a items');
     } catch (e) {
       rethrow;
     }
   }
 
-  Future actualizar(String id, Map<String, dynamic> data) async {
+  _actualizar(String id, Map<String, dynamic> data) async {
     try {
       final json = await AgendaAPI.httpPut('/items/$id', data);
       final itemModificada = Item.fromJson(json);
@@ -42,32 +52,31 @@ class ItemProvider extends ChangeNotifier {
       // Se substituye la informacion del index por la informacion actualizada
       items[index] = itemModificada;
       notifyListeners();
+      NotificationsService.showSnackbar('Item actualizado');
     } catch (e) {
       rethrow;
     }
   }
 
-  Future eliminar(String id) async {
+  eliminar(String id) async {
     try {
       final json = await AgendaAPI.httpDelete('/items/$id', {});
       final confirmado = json as bool;
       if (confirmado) {
         items.removeWhere((item) => item.id == id);
-      } else {
-        throw Exception('No se ha eliminado el registro');
+        notifyListeners();
+        NotificationsService.showSnackbar('1 item eliminado');
       }
-      notifyListeners();
-      return confirmado;
     } catch (e) {
       rethrow;
     }
   }
 
-  validateForm() {
-    return formKey.currentState!.validate();
+  saveAndValidate() {
+    return formKey.currentState!.saveAndValidate();
   }
 
-  saveForm() {
-    formKey.currentState!.save();
+  formData() {
+    return formKey.currentState!.value;
   }
 }

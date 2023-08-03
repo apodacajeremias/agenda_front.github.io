@@ -8,7 +8,7 @@ import 'package:agenda_front/ui/buttons/custom_icon_button.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
 import 'package:agenda_front/ui/inputs/custom_inputs.dart';
 import 'package:agenda_front/ui/labels/custom_labels.dart';
-import 'package:agenda_front/ui/shared/widgets/header_form.dart';
+import 'package:agenda_front/ui/shared/forms/form_header.dart';
 import 'package:agenda_front/ui/shared/widgets/text_separator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -44,7 +44,7 @@ class _GrupoFormViewState extends State<GrupoFormView> {
       child: ListView(
         physics: ClampingScrollPhysics(),
         children: [
-          HeaderForm(title: 'Grupo'),
+          FormHeader(title: 'Grupo'),
           WhiteCard(
             title: 'Configurar grupo',
             child: FormBuilder(

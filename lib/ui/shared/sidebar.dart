@@ -52,7 +52,7 @@ class Sidebar extends StatelessWidget {
                 Flurorouter.beneficiosIndexRoute,
           ),
           MenuItemCustom(
-              text: 'Configuraciones',
+              text: 'Ajustes',
               icon: Icons.settings,
               onPressed: () => navigateTo(Flurorouter.empresasConfigureRoute),
               isActive: sideMenuProvider.currentPage ==

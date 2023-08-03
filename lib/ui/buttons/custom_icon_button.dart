@@ -1,3 +1,4 @@
+import 'package:agenda_front/ui/labels/custom_labels.dart';
 import 'package:flutter/material.dart';
 
 class CustomIconButton extends StatelessWidget {
@@ -11,14 +12,16 @@ class CustomIconButton extends StatelessWidget {
       {super.key,
       required this.onPressed,
       required this.text,
-      this.color = Colors.indigo,
+      this.color = Colors.blueGrey,
       this.isFilled = false,
       required this.icon});
 
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
-      onPressed: () { onPressed(); },
+      onPressed: () {
+        onPressed();
+      },
       style: ButtonStyle(
         shape: MaterialStateProperty.all(const StadiumBorder()),
         backgroundColor: MaterialStateProperty.all(color.withOpacity(0.6)),
@@ -28,11 +31,11 @@ class CustomIconButton extends StatelessWidget {
         children: [
           Icon(
             icon,
-            color: Colors.white,
+            color: Colors.black,
           ),
           Text(
             text,
-            style: const TextStyle(color: Colors.white),
+            style: CustomLabels.h4.apply(color: Colors.black),
           )
         ],
       ),

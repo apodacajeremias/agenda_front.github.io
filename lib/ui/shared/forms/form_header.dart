@@ -2,10 +2,10 @@ import 'package:agenda_front/ui/buttons/link_text.dart';
 import 'package:agenda_front/ui/labels/custom_labels.dart';
 import 'package:flutter/material.dart';
 
-class HeaderForm extends StatelessWidget {
+class FormHeader extends StatelessWidget {
   final String title;
   final String? backText;
-  const HeaderForm({super.key, required this.title, this.backText});
+  const FormHeader({super.key, required this.title, this.backText});
 
   @override
   Widget build(BuildContext context) {

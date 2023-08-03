@@ -6,7 +6,7 @@ import 'package:agenda_front/models/enums/moneda.dart';
 import 'package:agenda_front/providers/empresa_provider.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
 import 'package:agenda_front/ui/inputs/custom_inputs.dart';
-import 'package:agenda_front/ui/shared/widgets/header_form.dart';
+import 'package:agenda_front/ui/shared/forms/form_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
@@ -25,7 +25,7 @@ class EmpresaFormView extends StatelessWidget {
         child: ListView(
           physics: ClampingScrollPhysics(),
           children: [
-            HeaderForm(title: 'Datos sobre la empresa'),
+            FormHeader(title: 'Datos sobre la empresa'),
             WhiteCard(
                 title: 'Configurar datos',
                 child: FormBuilder(

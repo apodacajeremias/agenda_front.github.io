@@ -4,12 +4,11 @@ import 'package:agenda_front/models/enums/genero.dart';
 import 'package:agenda_front/models/entities/persona.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/services/fecha_util.dart';
-import 'package:agenda_front/services/notifications_service.dart';
-import 'package:agenda_front/ui/buttons/custom_icon_button.dart';
-import 'package:agenda_front/ui/buttons/link_text.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
 import 'package:agenda_front/ui/inputs/custom_inputs.dart';
 import 'package:agenda_front/ui/labels/custom_labels.dart';
+import 'package:agenda_front/ui/shared/forms/form_footer.dart';
+import 'package:agenda_front/ui/shared/forms/form_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
@@ -34,27 +33,14 @@ class _PersonaFormViewState extends State<PersonaFormView> {
 
   @override
   Widget build(BuildContext context) {
-    int edad = 0;
     final provider = Provider.of<PersonaProvider>(context, listen: false);
+    int edad = 0;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: ListView(
         physics: ClampingScrollPhysics(),
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // TODO: ENCAPSULAR EN UN WIDGET ESTE ENCABEZADO
-              Text(
-                'Formulario',
-                style: CustomLabels.h1,
-              ),
-              LinkText(
-                  text: 'Volver',
-                  color: Colors.blue.withOpacity(0.4),
-                  onPressed: () => Navigator.of(context).pop())
-            ],
-          ),
+          FormHeader(title: 'Persona'),
           WhiteCard(
               child: FormBuilder(
             key: provider.formKey,
@@ -64,6 +50,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                   SizedBox(height: 10),
                   Row(children: [
                     Expanded(
+                        flex: 2,
                         child: FormBuilderTextField(
                             name: 'id',
                             initialValue: widget.persona?.id,
@@ -96,20 +83,42 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                     validator: FormBuilderValidators.required(
                         errorText: 'Campo obligatorio')),
                 SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                        child: FormBuilderTextField(
+                            name: 'documentoIdentidad',
+                            initialValue: widget.persona?.documentoIdentidad,
+                            enabled: widget.persona?.activo ?? true,
+                            decoration: CustomInputs.form(
+                                hint:
+                                    'Numero de documento, C.I., R.G., C.P.F., D.N.I., pasaporte...',
+                                label: 'Documento de Identidad',
+                                icon: Icons.perm_identity),
+                            validator: FormBuilderValidators.required(
+                                errorText: 'Campo obligatorio'))),
+                    SizedBox(width: 10),
+                    Expanded(
+                        child: FormBuilderDropdown(
+                            name: 'genero',
+                            initialValue: widget.persona?.genero,
+                            enabled: widget.persona?.activo ?? true,
+                            decoration: CustomInputs.form(
+                                hint: 'Seleccionar genero',
+                                label: 'Genero',
+                                icon: Icons.male),
+                            validator: FormBuilderValidators.required(
+                                errorText: 'Campo obligatorio'),
+                            items: Genero.values
+                                .map((genero) => DropdownMenuItem(
+                                    value: genero.name,
+                                    child: Text(toBeginningOfSentenceCase(
+                                        genero.name)!)))
+                                .toList())),
+                  ],
+                ),
+                SizedBox(height: 10),
                 Row(children: [
-                  Expanded(
-                      child: FormBuilderTextField(
-                          name: 'documentoIdentidad',
-                          initialValue: widget.persona?.documentoIdentidad,
-                          enabled: widget.persona?.activo ?? true,
-                          decoration: CustomInputs.form(
-                              hint:
-                                  'Numero de documento, C.I., R.G., C.P.F., D.N.I., pasaporte...',
-                              label: 'Documento de Identidad',
-                              icon: Icons.perm_identity),
-                          validator: FormBuilderValidators.required(
-                              errorText: 'Campo obligatorio'))),
-                  SizedBox(width: 10),
                   Expanded(
                     child: Row(children: [
                       Expanded(
@@ -146,30 +155,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                       ),
                     ]),
                   ),
-                  SizedBox(height: 10),
                 ]),
-                SizedBox(height: 10),
-                Row(
-                  children: [
-                    Expanded(
-                        child: FormBuilderDropdown(
-                            name: 'genero',
-                            initialValue: widget.persona?.genero,
-                            enabled: widget.persona?.activo ?? true,
-                            decoration: CustomInputs.form(
-                                hint: 'Seleccionar genero',
-                                label: 'Genero',
-                                icon: Icons.male),
-                            validator: FormBuilderValidators.required(
-                                errorText: 'Campo obligatorio'),
-                            items: Genero.values
-                                .map((genero) => DropdownMenuItem(
-                                    value: genero.name,
-                                    child: Text(toBeginningOfSentenceCase(
-                                        genero.name)!)))
-                                .toList())),
-                  ],
-                ),
                 SizedBox(height: 10),
                 FormBuilderTextField(
                     name: 'telefono',
@@ -233,50 +219,15 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                       icon: Icons.image),
                   maxImages: 1,
                 ),
-                Row(
-                  children: [
-                    CustomIconButton(
-                        onPressed: () async {
-                          if (provider.validateForm()) {
-                            provider.saveForm();
-                            final id = provider
-                                .formKey.currentState!.fields['id']?.value;
-                            try {
-                              if (id == null) {
-                                await provider.guardar(
-                                    provider.formKey.currentState!.value);
-                                NotificationsService.showSnackbar(
-                                    'Registro creado!');
-                              } else {
-                                await provider.actualizar(
-                                    id, provider.formKey.currentState!.value);
-                                NotificationsService.showSnackbar(
-                                    'Registro modificado!');
-                              }
-                              if (context.mounted) {
-                                Navigator.of(context).pop();
-                              }
-                            } catch (e) {
-                              Navigator.of(context).pop;
-                              if (id == null) {
-                                NotificationsService.showSnackbarError(
-                                    'No se pudo crear el registro');
-                              } else {
-                                NotificationsService.showSnackbarError(
-                                    'No se pudo modificar el registro');
-                              }
-                              rethrow;
-                            }
-                          }
-                        },
-                        text:
-                            widget.persona?.id == null ? 'Crear' : 'Modificar',
-                        icon: widget.persona?.id == null
-                            ? Icons.save
-                            : Icons.edit,
-                        color: Colors.green.withOpacity(0.3))
-                  ],
-                )
+                FormFooter(onConfirm: () async {
+                  if (provider.saveAndValidate()) {
+                    final data = provider.formData();
+                    await provider.registrar(data);
+                    if (context.mounted) {
+                      Navigator.of(context).pop();
+                    }
+                  }
+                }),
               ],
             ),
           ))

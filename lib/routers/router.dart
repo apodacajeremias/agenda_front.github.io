@@ -3,6 +3,7 @@ import 'package:agenda_front/providers/sidemenu_provider.dart';
 import 'package:agenda_front/routers/admin_handlers.dart';
 import 'package:agenda_front/routers/agenda_handlers.dart';
 import 'package:agenda_front/routers/dashboard_handlers.dart';
+import 'package:agenda_front/routers/item_handlers.dart';
 import 'package:agenda_front/routers/no_page_found_handlers.dart';
 import 'package:agenda_front/routers/persona_handlers.dart';
 import 'package:agenda_front/ui/views/login_view.dart';
@@ -136,6 +137,14 @@ class Flurorouter {
     router.define(agendaChangeSituationRoute,
         handler: AgendaHandlers.changeSituation,
         transitionType: _transitionType);
+
+    // Item
+    router.define(itemsIndexRoute,
+        handler: ItemHandlers.index, transitionType: _transitionType);
+    router.define(itemsCreateRoute,
+        handler: ItemHandlers.create, transitionType: _transitionType);
+    router.define(itemsEditRoute,
+        handler: ItemHandlers.edit, transitionType: _transitionType);
 
     // Persona
     router.define(personasIndexRoute,
