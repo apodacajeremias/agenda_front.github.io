@@ -5,12 +5,15 @@ import 'package:agenda_front/models/enums/situacion.dart';
 import 'package:agenda_front/providers/agenda_provider.dart';
 import 'package:agenda_front/providers/colaborador_provider.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
+import 'package:agenda_front/services/fecha_util.dart';
 import 'package:agenda_front/ui/buttons/link_text.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
+import 'package:agenda_front/ui/inputs/custom_inputs.dart';
 import 'package:agenda_front/ui/labels/custom_labels.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_extra_fields/form_builder_extra_fields.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -50,7 +53,7 @@ class _AgendaFormViewState extends State<AgendaFormView> {
               ),
               LinkText(
                   text: 'Volver',
-                  color: Colors.blue.withOpacity(0.4),
+                  color: Colors.blue.withOpacity(0.5),
                   onPressed: () => Navigator.of(context).pop())
             ],
           ),
@@ -60,24 +63,37 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                   child: Column(
                     children: [
                       SizedBox(height: 10),
-                      FormBuilderDropdown(
-                        name: 'situacion',
-                        items: Situacion.values
-                            .map((e) => DropdownMenuItem(
-                                value: e,
-                                child:
-                                    Text(toBeginningOfSentenceCase(e.name)!)))
-                            .toList(),
-                      ),
-                      SizedBox(height: 10),
-                      FormBuilderDropdown(
-                        name: 'prioridad',
-                        items: Prioridad.values
-                            .map((e) => DropdownMenuItem(
-                                value: e,
-                                child:
-                                    Text(toBeginningOfSentenceCase(e.name)!)))
-                            .toList(),
+                      Row(
+                        children: [
+                          Expanded(
+                              flex: 2,
+                              child: FormBuilderDateTimePicker(
+                                  name: 'fecha',
+                                  format: FechaUtil.dateFormat,
+                                  decoration: CustomInputs.form(
+                                      hint: 'Fecha',
+                                      label: 'Fecha',
+                                      icon: Icons.event),
+                                  validator: FormBuilderValidators.required(
+                                      errorText: 'Campo obligatorio'),
+                                  inputType: InputType.date,
+                                  valueTransformer: (value) =>
+                                      value!.toIso8601String())),
+                          SizedBox(width: 10),
+                          Expanded(
+                              child: FormBuilderDateTimePicker(
+                                  name: 'hora',
+                                  format: FechaUtil.dateFormat,
+                                  decoration: CustomInputs.form(
+                                      hint: 'Hora',
+                                      label: 'Hora',
+                                      icon: Icons.schedule),
+                                  validator: FormBuilderValidators.required(
+                                      errorText: 'Campo obligatorio'),
+                                  inputType: InputType.time,
+                                  valueTransformer: (value) =>
+                                      value!.toIso8601String())),
+                        ],
                       ),
                       SizedBox(height: 10),
                       FormBuilderSearchableDropdown(
@@ -92,7 +108,46 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                         compareFn: (item1, item2) =>
                             item1.id!.contains(item2.id!),
                         items: colaboradores,
-                      )
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: FormBuilderDropdown(
+                              name: 'situacion',
+                              items: Situacion.values
+                                  .map((e) => DropdownMenuItem(
+                                      value: e,
+                                      child: Text(
+                                          toBeginningOfSentenceCase(e.name)!)))
+                                  .toList(),
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: FormBuilderDropdown(
+                              name: 'prioridad',
+                              items: Prioridad.values
+                                  .map((e) => DropdownMenuItem(
+                                      value: e,
+                                      child: Text(
+                                          toBeginningOfSentenceCase(e.name)!)))
+                                  .toList(),
+                            ),
+                          ),
+                        ],
+                      ),
+                      FormBuilderTextField(
+                        name: 'observacion',
+                        decoration: CustomInputs.form(
+                            label: 'Observaciones',
+                            hint:
+                                'Escriba sus observaciones para el agendamiento',
+                            icon: Icons.notes),
+                        keyboardType: TextInputType.multiline,
+                        minLines: 2,
+                        maxLines: 5, //
+                      ),
                     ],
                   )))
         ],
