@@ -1,4 +1,3 @@
-import 'package:agenda_front/models/entities/persona.dart';
 import 'package:agenda_front/providers/auth_provider.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/providers/sidemenu_provider.dart';
@@ -10,7 +9,7 @@ import 'package:fluro/fluro.dart';
 import 'package:provider/provider.dart';
 
 class PersonaHandlers {
-  static Handler index = Handler(handlerFunc: (context, params) {
+  static Handler index = Handler(handlerFunc: (context, parameters) {
     final authProvider = Provider.of<AuthProvider>(context!);
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.personasIndexRoute);
@@ -36,9 +35,10 @@ class PersonaHandlers {
     final authProvider = Provider.of<AuthProvider>(context!);
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.personasIndexRoute);
+    final id = params['id']?.first;
+    final persona =
+        Provider.of<PersonaProvider>(context, listen: false).buscar(id!);
 
-    final persona = Provider.of<PersonaProvider>(context, listen: false)
-        .buscar(params['id']!.first) as Persona;
     if (authProvider.authStatus == AuthStatus.authenticated) {
       return PersonaFormView(persona: persona);
     } else {

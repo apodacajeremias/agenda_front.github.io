@@ -2,10 +2,10 @@ import 'package:age_calculator/age_calculator.dart';
 import 'package:intl/intl.dart';
 
 class FechaUtil {
-  static final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+  static final DateFormat dateFormat = DateFormat('dd/MM/yy');
   static final DateFormat timeFormat = DateFormat('HH:mm');
 
-  static String formatDate(DateTime date) {
+static String formatDate(DateTime date) {
     return dateFormat.format(date);
   }
 

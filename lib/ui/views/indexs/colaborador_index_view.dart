@@ -2,10 +2,11 @@ import 'package:agenda_front/datatables/colaborador_datasource.dart';
 import 'package:agenda_front/providers/colaborador_provider.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/services/navigation_service.dart';
+import 'package:agenda_front/ui/shared/indexs/index_footer.dart';
+import 'package:agenda_front/ui/shared/indexs/index_header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:agenda_front/ui/buttons/custom_icon_button.dart';
-import 'package:agenda_front/ui/labels/custom_labels.dart';
 
 class ColaboradorIndexView extends StatefulWidget {
   const ColaboradorIndexView({super.key});
@@ -32,7 +33,7 @@ class _ColaboradorIndexViewState extends State<ColaboradorIndexView> {
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
-          Text('Listado de colaboradores', style: CustomLabels.h1),
+          const IndexHeader(title: 'Colaboradores'),
           const SizedBox(height: 10),
           PaginatedDataTable(
             columns: const [
@@ -43,7 +44,7 @@ class _ColaboradorIndexViewState extends State<ColaboradorIndexView> {
               DataColumn(label: Text('Acciones')),
             ],
             source: ColaboradorDataSource(colaboradores, context),
-            header: const Text('Registros', maxLines: 2),
+            header: const Text('Listado de colaboradores', maxLines: 2),
             onRowsPerPageChanged: (value) {
               setState(() {
                 _rowsPerPage = value ?? 10;
@@ -60,7 +61,8 @@ class _ColaboradorIndexViewState extends State<ColaboradorIndexView> {
                 icon: Icons.add_outlined,
               )
             ],
-          )
+          ),
+          const IndexFooter()
         ],
       ),
     );

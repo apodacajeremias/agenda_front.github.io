@@ -7,7 +7,6 @@ import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/ui/buttons/custom_icon_button.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
 import 'package:agenda_front/ui/inputs/custom_inputs.dart';
-import 'package:agenda_front/ui/labels/custom_labels.dart';
 import 'package:agenda_front/ui/shared/forms/form_header.dart';
 import 'package:agenda_front/ui/shared/widgets/text_separator.dart';
 import 'package:flutter/material.dart';
@@ -67,8 +66,7 @@ class _GrupoFormViewState extends State<GrupoFormView> {
                             child: FormBuilderSwitch(
                                 name: 'activo',
                                 title: Text(
-                                  'Estado del registro',
-                                  style: CustomLabels.h3,
+                                  'Estado del registro'
                                 ),
                                 initialValue: widget.grupo?.activo,
                                 decoration: CustomInputs.noBorder()))
@@ -116,6 +114,8 @@ class _GrupoFormViewState extends State<GrupoFormView> {
                   ),
                   // TODO: agregar una tabla que muestre los integrantes del grupo
                   // TODO: la tabla debe poseer un boton para quitar a los integrantes de grupo
+
+                  
                 ],
               ),
             ),

@@ -2,7 +2,7 @@
 
 import 'package:agenda_front/models/entities/transaccion.dart';
 import 'package:agenda_front/providers/transaccion_provider.dart';
-import 'package:agenda_front/services/fecha_util.dart';
+import 'package:agenda_front/utils/fecha_util.dart';
 import 'package:agenda_front/services/navigation_service.dart';
 import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +25,7 @@ class TransaccionDataSource extends DataTableSource {
       DataCell(Row(children: [
         IconButton(
           onPressed: () {
-            NavigationService.navigateTo(
-                '/transacciones/${transaccion.id}');
+            NavigationService.navigateTo('/transacciones/${transaccion.id}');
           },
           icon: Icon(Icons.edit),
         ),
@@ -34,8 +33,7 @@ class TransaccionDataSource extends DataTableSource {
             onPressed: () {
               final dialog = AlertDialog(
                   title: Text('Estas seguro de borrarlo?'),
-                  content: Text(
-                      'Borrar transaccion $transaccion.nombre?'),
+                  content: Text('Borrar transaccion $transaccion.nombre?'),
                   actions: [
                     TextButton(
                       child: Text('No, mantener'),
@@ -64,8 +62,7 @@ class TransaccionDataSource extends DataTableSource {
                   ]);
               showDialog(context: context, builder: (_) => dialog);
             },
-            icon: Icon(Icons.delete),
-            color: Colors.red.withOpacity(0.8))
+            icon: Icon(Icons.delete))
       ]))
     ]);
   }

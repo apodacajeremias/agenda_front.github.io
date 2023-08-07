@@ -28,7 +28,7 @@ class _DashboardLayoutState extends State<DashboardLayout>
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-        backgroundColor: const Color(0xffEDF1F2),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: Stack(
           children: [
             Row(
@@ -62,11 +62,8 @@ class _DashboardLayoutState extends State<DashboardLayout>
                               opacity: SideMenuProvider.opacity.value,
                               child: GestureDetector(
                                 onTap: () => SideMenuProvider.closeMenu(),
-                                child: Container(
-                                  width: size.width,
-                                  height: size.height,
-                                  color: Colors.black26,
-                                ),
+                                child: SizedBox(
+                                    width: size.width, height: size.height),
                               ),
                             ),
                           Transform.translate(

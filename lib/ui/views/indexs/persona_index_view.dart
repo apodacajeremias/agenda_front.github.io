@@ -2,10 +2,11 @@ import 'package:agenda_front/datatables/persona_datasource.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/services/navigation_service.dart';
+import 'package:agenda_front/ui/shared/indexs/index_footer.dart';
+import 'package:agenda_front/ui/shared/indexs/index_header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:agenda_front/ui/buttons/custom_icon_button.dart';
-import 'package:agenda_front/ui/labels/custom_labels.dart';
 
 class PersonaIndexView extends StatefulWidget {
   const PersonaIndexView({super.key});
@@ -31,7 +32,7 @@ class _PersonaIndexViewState extends State<PersonaIndexView> {
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
-          Text('Listado de personas', style: CustomLabels.h1),
+          const IndexHeader(title: 'Personas'),
           const SizedBox(height: 10),
           PaginatedDataTable(
             columns: const [
@@ -41,7 +42,7 @@ class _PersonaIndexViewState extends State<PersonaIndexView> {
               DataColumn(label: Text('Acciones')),
             ],
             source: PersonaDataSource(personas, context),
-            header: const Text('Registros', maxLines: 2),
+            header: const Text('Listado de personas', maxLines: 2),
             onRowsPerPageChanged: (value) {
               setState(() {
                 _rowsPerPage = value ?? 10;
@@ -57,7 +58,7 @@ class _PersonaIndexViewState extends State<PersonaIndexView> {
                 icon: Icons.add_outlined,
               )
             ],
-          )
+          ),const IndexFooter()
         ],
       ),
     );

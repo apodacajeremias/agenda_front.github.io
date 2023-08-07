@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:agenda_front/ui/labels/custom_labels.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
 
 class BlankView extends StatelessWidget {
@@ -12,10 +11,10 @@ class BlankView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: ListView(
         physics: const ClampingScrollPhysics(),
-        children: [
-          Text('Blank View', style: CustomLabels.h1),
-          const SizedBox(height: 10),
-          const WhiteCard(title: 'Blank Page', child: Text('Hola Mundo!!'))
+        children: const [
+          Text('Blank View'),
+          SizedBox(height: 10),
+          WhiteCard(title: 'Blank Page', child: Text('Hola Mundo!!'))
         ],
       ),
     );

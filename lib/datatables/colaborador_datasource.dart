@@ -61,8 +61,7 @@ class ColaboradorDataSource extends DataTableSource {
                   ]);
               showDialog(context: context, builder: (_) => dialog);
             },
-            icon: Icon(Icons.delete),
-            color: Colors.red.withOpacity(0.8))
+            icon: Icon(Icons.delete))
       ]))
     ]);
   }

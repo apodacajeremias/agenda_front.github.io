@@ -1,10 +1,9 @@
-import 'package:agenda_front/ui/buttons/link_text.dart';
 import 'package:flutter/material.dart';
 
-class FormHeader extends StatelessWidget {
+class IndexHeader extends StatelessWidget {
   final String title;
-  final String? backText;
-  const FormHeader({super.key, required this.title, this.backText});
+  final String? optionalText;
+  const IndexHeader({super.key, required this.title, this.optionalText});
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +14,12 @@ class FormHeader extends StatelessWidget {
           title,
           style: Theme.of(context).textTheme.headlineLarge,
         ),
-        LinkText(
-            text: backText ?? 'Volver',
-            onPressed: () => Navigator.of(context).pop())
+        if (optionalText != null) ...[
+          Text(
+            optionalText!,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        ]
       ],
     );
   }

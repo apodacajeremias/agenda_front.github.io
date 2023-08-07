@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:agenda_front/ui/labels/custom_labels.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
 
 import 'package:agenda_front/providers/auth_provider.dart';
@@ -17,7 +16,7 @@ class DashboardView extends StatelessWidget {
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
-          Text('Dashboard View', style: CustomLabels.h1),
+          Text('Inicio', style: Theme.of(context).textTheme.headlineLarge),
           const SizedBox(height: 10),
           WhiteCard(title: persona.nombre, child: Text(persona.id!))
         ],

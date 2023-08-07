@@ -3,10 +3,9 @@
 import 'package:agenda_front/models/enums/genero.dart';
 import 'package:agenda_front/models/entities/persona.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
-import 'package:agenda_front/services/fecha_util.dart';
+import 'package:agenda_front/utils/fecha_util.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
 import 'package:agenda_front/ui/inputs/custom_inputs.dart';
-import 'package:agenda_front/ui/labels/custom_labels.dart';
 import 'package:agenda_front/ui/shared/forms/form_footer.dart';
 import 'package:agenda_front/ui/shared/forms/form_header.dart';
 import 'package:flutter/material.dart';
@@ -16,25 +15,14 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class PersonaFormView extends StatefulWidget {
+class PersonaFormView extends StatelessWidget {
   final Persona? persona;
 
   const PersonaFormView({super.key, this.persona});
 
   @override
-  State<PersonaFormView> createState() => _PersonaFormViewState();
-}
-
-class _PersonaFormViewState extends State<PersonaFormView> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final provider = Provider.of<PersonaProvider>(context, listen: false);
-    int edad = 0;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: ListView(
@@ -46,14 +34,14 @@ class _PersonaFormViewState extends State<PersonaFormView> {
             key: provider.formKey,
             child: Column(
               children: [
-                if (widget.persona?.id != null) ...[
+                if (persona?.id != null) ...[
                   SizedBox(height: 10),
                   Row(children: [
                     Expanded(
                         flex: 2,
                         child: FormBuilderTextField(
                             name: 'id',
-                            initialValue: widget.persona?.id,
+                            initialValue: persona?.id,
                             enabled: false,
                             decoration: CustomInputs.form(
                                 hint: 'Codigo Identificador',
@@ -63,19 +51,16 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                     Expanded(
                         child: FormBuilderSwitch(
                             name: 'activo',
-                            title: Text(
-                              'Estado del registro',
-                              style: CustomLabels.h3,
-                            ),
-                            initialValue: widget.persona?.activo,
+                            title: Text('Estado del registro'),
+                            initialValue: persona?.activo,
                             decoration: CustomInputs.noBorder()))
                   ])
                 ],
                 SizedBox(height: 10),
                 FormBuilderTextField(
                     name: 'nombre',
-                    initialValue: widget.persona?.nombre,
-                    enabled: widget.persona?.activo ?? true,
+                    initialValue: persona?.nombre,
+                    enabled: persona?.activo ?? true,
                     decoration: CustomInputs.form(
                         hint: 'Nombre completo',
                         label: 'Nombre y Apellido',
@@ -88,8 +73,8 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                     Expanded(
                         child: FormBuilderTextField(
                             name: 'documentoIdentidad',
-                            initialValue: widget.persona?.documentoIdentidad,
-                            enabled: widget.persona?.activo ?? true,
+                            initialValue: persona?.documentoIdentidad,
+                            enabled: persona?.activo ?? true,
                             decoration: CustomInputs.form(
                                 hint:
                                     'Numero de documento, C.I., R.G., C.P.F., D.N.I., pasaporte...',
@@ -99,22 +84,25 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                                 errorText: 'Campo obligatorio'))),
                     SizedBox(width: 10),
                     Expanded(
-                        child: FormBuilderDropdown(
-                            name: 'genero',
-                            initialValue: widget.persona?.genero,
-                            enabled: widget.persona?.activo ?? true,
-                            decoration: CustomInputs.form(
-                                hint: 'Seleccionar genero',
-                                label: 'Genero',
-                                icon: Icons.male),
-                            validator: FormBuilderValidators.required(
-                                errorText: 'Campo obligatorio'),
-                            items: Genero.values
-                                .map((genero) => DropdownMenuItem(
-                                    value: genero.name,
-                                    child: Text(toBeginningOfSentenceCase(
-                                        genero.name)!)))
-                                .toList())),
+                      child: FormBuilderDropdown(
+                        name: 'genero',
+                        initialValue: persona?.genero,
+                        enabled: persona?.activo ?? true,
+                        decoration: CustomInputs.form(
+                            label: 'Genero',
+                            hint: 'Genero de persona',
+                            icon: Icons.info),
+                        items: Genero.values
+                            .map((e) => DropdownMenuItem(
+                                value: e,
+                                child:
+                                    Text(toBeginningOfSentenceCase(e.name)!)))
+                            .toList(),
+                        validator: FormBuilderValidators.required(
+                            errorText: 'Tipo obligatorio'),
+                        valueTransformer: (value) => value!.name,
+                      ),
+                    )
                   ],
                 ),
                 SizedBox(height: 10),
@@ -126,17 +114,19 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                           name: 'fechaNacimiento',
                           format: FechaUtil.dateFormat,
                           initialValue:
-                              widget.persona?.fechaNacimiento ?? DateTime.now(),
-                          enabled: widget.persona?.activo ?? true,
+                              persona?.fechaNacimiento ?? DateTime.now(),
+                          enabled: persona?.activo ?? true,
                           decoration: CustomInputs.form(
                               hint: 'Fecha de nacimiento',
                               label: 'Fecha de nacimiento',
                               icon: Icons.cake),
                           validator: FormBuilderValidators.required(
                               errorText: 'Campo obligatorio'),
-                          onChanged: (value) => setState(() {
-                            edad = FechaUtil.calcularEdad(value!);
-                          }),
+                          onChanged: (value) {
+                            provider.formKey.currentState!.fields['edad']!
+                                .didChange(
+                                    FechaUtil.calcularEdad(value!).toString());
+                          },
                           inputType: InputType.date,
                           valueTransformer: (value) => value!.toIso8601String(),
                         ),
@@ -145,8 +135,12 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                       Expanded(
                         child: FormBuilderTextField(
                           name: 'edad',
-                          initialValue: edad.toString(),
-                          enabled: widget.persona?.activo ?? true,
+                          initialValue: (persona != null)
+                              ? FechaUtil.calcularEdad(
+                                      persona!.fechaNacimiento!)
+                                  .toString()
+                              : '0',
+                          enabled: persona?.activo ?? true,
                           decoration: CustomInputs.form(
                               hint: 'Edad de la persona',
                               label: 'Edad hasta la fecha',
@@ -159,8 +153,8 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                 SizedBox(height: 10),
                 FormBuilderTextField(
                     name: 'telefono',
-                    initialValue: widget.persona?.telefono,
-                    enabled: widget.persona?.activo ?? true,
+                    initialValue: persona?.telefono,
+                    enabled: persona?.activo ?? true,
                     decoration: CustomInputs.form(
                         hint: 'Telefono de contacto',
                         label: 'Telefono',
@@ -171,8 +165,8 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                 SizedBox(height: 10),
                 FormBuilderTextField(
                     name: 'celular',
-                    initialValue: widget.persona?.celular,
-                    enabled: widget.persona?.activo ?? true,
+                    initialValue: persona?.celular,
+                    enabled: persona?.activo ?? true,
                     decoration: CustomInputs.form(
                         hint: 'Celular de contacto',
                         label: 'Celular',
@@ -183,8 +177,8 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                 SizedBox(height: 10),
                 FormBuilderTextField(
                     name: 'direccion',
-                    initialValue: widget.persona?.direccion,
-                    enabled: widget.persona?.activo ?? true,
+                    initialValue: persona?.direccion,
+                    enabled: persona?.activo ?? true,
                     decoration: CustomInputs.form(
                         hint: 'Direccion de domicilio',
                         label: 'Direccion',
@@ -198,8 +192,8 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                 SizedBox(height: 10),
                 FormBuilderTextField(
                     name: 'observacion',
-                    initialValue: widget.persona?.observacion,
-                    enabled: widget.persona?.activo ?? true,
+                    initialValue: persona?.observacion,
+                    enabled: persona?.activo ?? true,
                     decoration: CustomInputs.form(
                         hint: 'Observacion',
                         label: 'Observaciones',

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class MenuItemCustom extends StatefulWidget {
   final String text;
@@ -29,7 +28,7 @@ class _MenuItemState extends State<MenuItemCustom> {
       color: isHovered
           ? Colors.white.withOpacity(0.1)
           : widget.isActive
-              ? Colors.white.withOpacity(0.1)
+              ? Colors.white.withOpacity(0.2)
               : Colors.transparent,
       child: Material(
         color: Colors.transparent,
@@ -43,12 +42,21 @@ class _MenuItemState extends State<MenuItemCustom> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(widget.icon, color: Colors.white.withOpacity(0.4)),
+                  Icon(widget.icon,
+                      color: isHovered
+                          ? Colors.white.withOpacity(0.7)
+                          : widget.isActive
+                              ? Colors.white
+                              : Colors.white.withOpacity(0.5)),
                   const SizedBox(width: 10),
                   Text(
                     widget.text,
-                    style: GoogleFonts.roboto(
-                        fontSize: 16, color: Colors.white.withOpacity(0.6)),
+                    style: Theme.of(context).textTheme.labelMedium?.apply(
+                        color: isHovered
+                            ? Colors.white.withOpacity(0.7)
+                            : widget.isActive
+                                ? Colors.white
+                                : Colors.white.withOpacity(0.5)),
                   )
                 ],
               ),

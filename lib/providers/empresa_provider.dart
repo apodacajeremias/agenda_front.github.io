@@ -1,9 +1,9 @@
 import 'package:agenda_front/api/agenda_api.dart';
 import 'package:agenda_front/models/entities/empresa.dart';
+import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
-// TODO: Crear metodo que devuelve solamente un registro de la empresa
 class EmpresaProvider extends ChangeNotifier {
   List<Empresa> empresas = [];
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
@@ -16,59 +16,69 @@ class EmpresaProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-// Buscamos la empresa seleccionada en la lista, sin reconsultar el servidor C;
   Empresa? buscar(String id) {
-    return empresas.isNotEmpty
-        ? empresas.where((element) => element.id!.contains(id)).first
-        : null;
+    return empresas.where((element) => element.id!.contains(id)).first;
   }
 
-  Future guardar(Map<String, dynamic> data) async {
+  registrar(Map<String, dynamic> data) async {
+    // Si data tiene un campo ID y este tiene informacion
+    if (data.containsKey('id') && data['id'] != null) {
+      // Actualiza
+      await _actualizar(data['id'], data);
+    } else {
+      await _guardar(data);
+    }
+  }
+
+  _guardar(Map<String, dynamic> data) async {
     try {
       final json = await AgendaAPI.httpPost('/empresas', data);
-      final empresaNueva = Empresa.fromJson(json);
-      empresas.add(empresaNueva);
+      final empresa = Empresa.fromJson(json);
+      empresas.add(empresa);
       notifyListeners();
+      NotificationsService.showSnackbar('Agregado a empresas');
     } catch (e) {
+      NotificationsService.showSnackbarError('No agregado a empresas');
       rethrow;
     }
   }
 
-  Future actualizar(String id, Map<String, dynamic> data) async {
+  _actualizar(String id, Map<String, dynamic> data) async {
     try {
       final json = await AgendaAPI.httpPut('/empresas/$id', data);
-      final empresaModificada = Empresa.fromJson(json);
+      final empresa = Empresa.fromJson(json);
       // Buscamos el index en lista del ID Empresa
       final index = empresas.indexWhere((element) => element.id!.contains(id));
       // Se substituye la informacion del index por la informacion actualizada
-      empresas[index] = empresaModificada;
+      empresas[index] = empresa;
       notifyListeners();
+      NotificationsService.showSnackbar('Empresa actualizado');
     } catch (e) {
+      NotificationsService.showSnackbarError('Empresa no actualizado');
       rethrow;
     }
   }
 
-  Future eliminar(String id) async {
+  eliminar(String id) async {
     try {
       final json = await AgendaAPI.httpDelete('/empresas/$id', {});
       final confirmado = json as bool;
       if (confirmado) {
         empresas.removeWhere((empresa) => empresa.id == id);
-      } else {
-        throw Exception('No se ha eliminado el registro');
+        notifyListeners();
+        NotificationsService.showSnackbar('1 empresa eliminado');
       }
-      notifyListeners();
-      return confirmado;
     } catch (e) {
+      NotificationsService.showSnackbarError('Empresa no eliminado');
       rethrow;
     }
   }
 
-  validateForm() {
-    return formKey.currentState!.validate();
+  saveAndValidate() {
+    return formKey.currentState!.saveAndValidate();
   }
 
-  saveForm() {
-    formKey.currentState!.save();
+  formData() {
+    return formKey.currentState!.value;
   }
 }

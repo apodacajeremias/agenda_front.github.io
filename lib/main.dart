@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:agenda_front/api/agenda_api.dart';
 import 'package:agenda_front/providers/agenda_provider.dart';
 import 'package:agenda_front/providers/beneficio_provider.dart';
@@ -8,8 +10,10 @@ import 'package:agenda_front/providers/item_provider.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/providers/promocion_provider.dart';
 import 'package:agenda_front/providers/transaccion_provider.dart';
-import 'package:agenda_front/providers/user_provider.dart';
+import 'package:agenda_front/providers/usuario_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:json_theme/json_theme.dart';
 import 'package:provider/provider.dart';
 
 import 'package:agenda_front/ui/layouts/dashboard/dashboard_layout.dart';
@@ -27,14 +31,20 @@ import 'package:agenda_front/services/notifications_service.dart';
 import 'package:agenda_front/ui/layouts/auth/auth_layout.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final themeStr = await rootBundle.loadString('assets/appainter_theme.json');
+  final themeJson = jsonDecode(themeStr);
+  final theme = ThemeDecoder.decodeThemeData(themeJson)!;
   await LocalStorage.configurePrefs();
   AgendaAPI.configureDio();
   Flurorouter.configureRoutes();
-  runApp(const AppState());
+  runApp(MyApp(theme: theme));
 }
 
-class AppState extends StatelessWidget {
-  const AppState({super.key});
+class MyApp extends StatelessWidget {
+  final ThemeData theme;
+  const MyApp({super.key, required this.theme});
 
   @override
   Widget build(BuildContext context) {
@@ -52,44 +62,52 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => PersonaProvider()),
         ChangeNotifierProvider(create: (_) => PromocionProvider()),
         ChangeNotifierProvider(create: (_) => TransaccionProvider()),
-        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => UsuarioProvider()),
       ],
-      child: const MyApp(),
+      child: Dashboard(theme: theme),
     );
   }
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class Dashboard extends StatelessWidget {
+  final ThemeData theme;
+  const Dashboard({super.key, required this.theme});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: true,
-      title: 'Inicio',
-      initialRoute: '/',
-      onGenerateRoute: Flurorouter.router.generator,
-      navigatorKey: NavigationService.navigatorKey,
-      scaffoldMessengerKey: NotificationsService.messengerKey,
-      builder: (_, child) {
-        final authProvider = Provider.of<AuthProvider>(context);
+        debugShowCheckedModeBanner: true,
+        title: 'Inicio',
+        initialRoute: '/',
+        onGenerateRoute: Flurorouter.router.generator,
+        navigatorKey: NavigationService.navigatorKey,
+        scaffoldMessengerKey: NotificationsService.messengerKey,
+        builder: (_, child) {
+          final authProvider = Provider.of<AuthProvider>(context);
 
-        if (authProvider.authStatus == AuthStatus.checking) {
-          return const SplashLayout();
-        }
+          if (authProvider.authStatus == AuthStatus.checking) {
+            return const SplashLayout();
+          }
 
-        if (authProvider.authStatus == AuthStatus.authenticated) {
-          return DashboardLayout(child: child!);
-        } else {
-          return AuthLayout(child: child!);
-        }
-      },
-      theme: ThemeData.light().copyWith(
-          scrollbarTheme: const ScrollbarThemeData().copyWith(
-              thumbColor:
-                  MaterialStateProperty.all(Colors.grey.withOpacity(0.5)))),
-    );
+          if (authProvider.authStatus == AuthStatus.authenticated) {
+            return DashboardLayout(child: child!);
+          } else {
+            return AuthLayout(child: child!);
+          }
+        },
+        theme: lightThemeData);
   }
 }
 
-
+ThemeData lightThemeData = ThemeData(
+  useMaterial3: true,
+  colorScheme: ColorScheme.fromSeed(
+    seedColor: Colors.blue,
+    primary: Colors.blueAccent,
+    secondary: Colors.yellow,
+  ),
+  appBarTheme: const AppBarTheme(
+    color: Colors.blue,
+    //other options
+  ),
+);

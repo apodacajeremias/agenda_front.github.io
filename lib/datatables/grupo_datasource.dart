@@ -22,8 +22,7 @@ class GrupoDataSource extends DataTableSource {
       DataCell(Row(children: [
         IconButton(
           onPressed: () {
-            NavigationService.navigateTo(
-                '/grupos/${grupo.id}');
+            NavigationService.navigateTo('/grupos/${grupo.id}');
           },
           icon: Icon(Icons.edit),
         ),
@@ -31,8 +30,7 @@ class GrupoDataSource extends DataTableSource {
             onPressed: () {
               final dialog = AlertDialog(
                   title: Text('Estas seguro de borrarlo?'),
-                  content: Text(
-                      'Borrar grupo $grupo.nombre?'),
+                  content: Text('Borrar grupo $grupo.nombre?'),
                   actions: [
                     TextButton(
                       child: Text('No, mantener'),
@@ -61,8 +59,7 @@ class GrupoDataSource extends DataTableSource {
                   ]);
               showDialog(context: context, builder: (_) => dialog);
             },
-            icon: Icon(Icons.delete),
-            color: Colors.red.withOpacity(0.8))
+            icon: Icon(Icons.delete))
       ]))
     ]);
   }

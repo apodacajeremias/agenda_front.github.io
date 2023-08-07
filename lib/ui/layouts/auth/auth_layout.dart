@@ -37,9 +37,8 @@ class _MobileBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 1000,
-      color: Colors.blueGrey.shade100,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -69,21 +68,18 @@ class _DesktopBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
-    return Container(
+    return SizedBox(
       width: size.width,
       height: size.height,
-      color: Colors.blueGrey.shade100,
       child: Row(
         children: [
           // Background
           const Expanded(child: CustomBackground()),
 
           // View Container
-          Container(
+          SizedBox(
             width: 600,
             height: double.infinity,
-            color: Colors.blueGrey.shade100,
             child: Column(
               children: [
                 const SizedBox(height: 20),

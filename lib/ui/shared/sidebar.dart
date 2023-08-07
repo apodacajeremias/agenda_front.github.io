@@ -23,7 +23,7 @@ class Sidebar extends StatelessWidget {
     return Container(
       width: 200,
       height: double.infinity,
-      decoration: buildBoxDecoration(),
+      decoration: buildBoxDecoration(context),
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
@@ -111,10 +111,14 @@ class Sidebar extends StatelessWidget {
     );
   }
 
-  BoxDecoration buildBoxDecoration() => const BoxDecoration(
-      gradient: LinearGradient(colors: [
-        Color(0xff092044),
-        Color(0xff092042),
-      ]),
-      boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 10)]);
+  BoxDecoration buildBoxDecoration(BuildContext context) => BoxDecoration(
+          gradient: LinearGradient(colors: [
+            Theme.of(context).colorScheme.primary,
+            Theme.of(context).colorScheme.primary,
+          ]),
+          boxShadow: [
+            BoxShadow(
+                color: Theme.of(context).colorScheme.shadow.withOpacity(0.5),
+                blurRadius: 10)
+          ]);
 }

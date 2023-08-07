@@ -1,5 +1,6 @@
 import 'package:agenda_front/api/agenda_api.dart';
 import 'package:agenda_front/models/entities/grupo.dart';
+import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
@@ -15,59 +16,69 @@ class GrupoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-// Buscamos la grupo seleccionada en la lista, sin reconsultar el servidor C;
   Grupo? buscar(String id) {
-    return grupos.isNotEmpty
-        ? grupos.where((element) => element.id!.contains(id)).first
-        : null;
+    return grupos.where((element) => element.id!.contains(id)).first;
   }
 
-  Future guardar(Map<String, dynamic> data) async {
+  registrar(Map<String, dynamic> data) async {
+    // Si data tiene un campo ID y este tiene informacion
+    if (data.containsKey('id') && data['id'] != null) {
+      // Actualiza
+      await _actualizar(data['id'], data);
+    } else {
+      await _guardar(data);
+    }
+  }
+
+  _guardar(Map<String, dynamic> data) async {
     try {
       final json = await AgendaAPI.httpPost('/grupos', data);
-      final grupoNueva = Grupo.fromJson(json);
-      grupos.add(grupoNueva);
+      final grupo = Grupo.fromJson(json);
+      grupos.add(grupo);
       notifyListeners();
+      NotificationsService.showSnackbar('Agregado a grupos');
     } catch (e) {
+      NotificationsService.showSnackbarError('No agregado a grupos');
       rethrow;
     }
   }
 
-  Future actualizar(String id, Map<String, dynamic> data) async {
+  _actualizar(String id, Map<String, dynamic> data) async {
     try {
       final json = await AgendaAPI.httpPut('/grupos/$id', data);
-      final grupoModificada = Grupo.fromJson(json);
+      final grupo = Grupo.fromJson(json);
       // Buscamos el index en lista del ID Grupo
       final index = grupos.indexWhere((element) => element.id!.contains(id));
       // Se substituye la informacion del index por la informacion actualizada
-      grupos[index] = grupoModificada;
+      grupos[index] = grupo;
       notifyListeners();
+      NotificationsService.showSnackbar('Grupo actualizado');
     } catch (e) {
+      NotificationsService.showSnackbarError('Grupo no actualizado');
       rethrow;
     }
   }
 
-  Future eliminar(String id) async {
+  eliminar(String id) async {
     try {
       final json = await AgendaAPI.httpDelete('/grupos/$id', {});
       final confirmado = json as bool;
       if (confirmado) {
         grupos.removeWhere((grupo) => grupo.id == id);
-      } else {
-        throw Exception('No se ha eliminado el registro');
+        notifyListeners();
+        NotificationsService.showSnackbar('1 grupo eliminado');
       }
-      notifyListeners();
-      return confirmado;
     } catch (e) {
+      NotificationsService.showSnackbarError('Grupo no eliminado');
       rethrow;
     }
   }
 
-  validateForm() {
-    return formKey.currentState!.validate();
+  saveAndValidate() {
+    return formKey.currentState!.saveAndValidate();
   }
 
-  saveForm() {
-    formKey.currentState!.save();
+  formData() {
+    return formKey.currentState!.value;
   }
 }

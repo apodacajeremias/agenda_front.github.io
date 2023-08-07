@@ -4,10 +4,10 @@ import 'package:agenda_front/models/entities/beneficio.dart';
 import 'package:agenda_front/models/enums/tipo_beneficio.dart';
 import 'package:agenda_front/models/enums/tipo_descuento.dart';
 import 'package:agenda_front/providers/beneficio_provider.dart';
-import 'package:agenda_front/ui/buttons/link_text.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
 import 'package:agenda_front/ui/inputs/custom_inputs.dart';
-import 'package:agenda_front/ui/labels/custom_labels.dart';
+import 'package:agenda_front/ui/shared/forms/form_footer.dart';
+import 'package:agenda_front/ui/shared/forms/form_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -26,19 +26,7 @@ class BeneficioFormView extends StatelessWidget {
       child: ListView(
         physics: ClampingScrollPhysics(),
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Formulario',
-                style: CustomLabels.h1,
-              ),
-              LinkText(
-                  text: 'Volver',
-                  color: Colors.blue.withOpacity(0.4),
-                  onPressed: () => Navigator.of(context).pop())
-            ],
-          ),
+          FormHeader(title: 'Beneficio'),
           WhiteCard(
             title: beneficio?.nombre,
             child: FormBuilder(
@@ -64,10 +52,7 @@ class BeneficioFormView extends StatelessWidget {
                           Expanded(
                               child: FormBuilderSwitch(
                                   name: 'activo',
-                                  title: Text(
-                                    'Estado del registro',
-                                    style: CustomLabels.h3,
-                                  ),
+                                  title: Text('Estado del registro'),
                                   initialValue: beneficio?.activo,
                                   decoration: CustomInputs.noBorder()))
                         ])
@@ -142,6 +127,15 @@ class BeneficioFormView extends StatelessWidget {
                                             descuento.name)!)))
                                     .toList()))
                       ]),
+                  FormFooter(onConfirm: () async {
+                    if (provider.saveAndValidate()) {
+                      final data = provider.formData();
+                      await provider.registrar(data);
+                      if (context.mounted) {
+                        Navigator.of(context).pop();
+                      }
+                    }
+                  }),
                 ],
               ),
             ),

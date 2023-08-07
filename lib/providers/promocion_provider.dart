@@ -1,5 +1,6 @@
 import 'package:agenda_front/api/agenda_api.dart';
 import 'package:agenda_front/models/entities/promocion.dart';
+import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
@@ -9,66 +10,75 @@ class PromocionProvider extends ChangeNotifier {
 
   buscarTodos() async {
     final response = await AgendaAPI.httpGet('/promociones');
-    List<Promocion> promocionesResponse = List<Promocion>.from(
-        response.map((model) => Promocion.fromJson(model)));
+    List<Promocion> promocionesResponse =
+        List<Promocion>.from(response.map((model) => Promocion.fromJson(model)));
     promociones = [...promocionesResponse];
     notifyListeners();
   }
 
-// Buscamos la promocion seleccionada en la lista, sin reconsultar el servidor C;
   Promocion? buscar(String id) {
-    return promociones.isNotEmpty
-        ? promociones.where((element) => element.id!.contains(id)).first
-        : null;
+    return promociones.where((element) => element.id!.contains(id)).first;
   }
 
-  Future guardar(Map<String, dynamic> data) async {
+  registrar(Map<String, dynamic> data) async {
+    // Si data tiene un campo ID y este tiene informacion
+    if (data.containsKey('id') && data['id'] != null) {
+      // Actualiza
+      await _actualizar(data['id'], data);
+    } else {
+      await _guardar(data);
+    }
+  }
+
+  _guardar(Map<String, dynamic> data) async {
     try {
       final json = await AgendaAPI.httpPost('/promociones', data);
-      final promocionNueva = Promocion.fromJson(json);
-      promociones.add(promocionNueva);
+      final promocion = Promocion.fromJson(json);
+      promociones.add(promocion);
       notifyListeners();
+      NotificationsService.showSnackbar('Agregado a promociones');
     } catch (e) {
+      NotificationsService.showSnackbarError('No agregado a promociones');
       rethrow;
     }
   }
 
-  Future actualizar(String id, Map<String, dynamic> data) async {
+  _actualizar(String id, Map<String, dynamic> data) async {
     try {
       final json = await AgendaAPI.httpPut('/promociones/$id', data);
-      final promocionModificada = Promocion.fromJson(json);
+      final promocion = Promocion.fromJson(json);
       // Buscamos el index en lista del ID Promocion
-      final index =
-          promociones.indexWhere((element) => element.id!.contains(id));
+      final index = promociones.indexWhere((element) => element.id!.contains(id));
       // Se substituye la informacion del index por la informacion actualizada
-      promociones[index] = promocionModificada;
+      promociones[index] = promocion;
       notifyListeners();
+      NotificationsService.showSnackbar('Promocion actualizado');
     } catch (e) {
+      NotificationsService.showSnackbarError('Promocion no actualizado');
       rethrow;
     }
   }
 
-  Future eliminar(String id) async {
+  eliminar(String id) async {
     try {
       final json = await AgendaAPI.httpDelete('/promociones/$id', {});
       final confirmado = json as bool;
       if (confirmado) {
         promociones.removeWhere((promocion) => promocion.id == id);
-      } else {
-        throw Exception('No se ha eliminado el registro');
+        notifyListeners();
+        NotificationsService.showSnackbar('1 promocion eliminado');
       }
-      notifyListeners();
-      return confirmado;
     } catch (e) {
+      NotificationsService.showSnackbarError('Promocion no eliminado');
       rethrow;
     }
   }
 
-  validateForm() {
-    return formKey.currentState!.validate();
+  saveAndValidate() {
+    return formKey.currentState!.saveAndValidate();
   }
 
-  saveForm() {
-    formKey.currentState!.save();
+  formData() {
+    return formKey.currentState!.value;
   }
 }

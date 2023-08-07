@@ -2,7 +2,7 @@
 
 import 'package:agenda_front/models/entities/promocion.dart';
 import 'package:agenda_front/providers/promocion_provider.dart';
-import 'package:agenda_front/services/fecha_util.dart';
+import 'package:agenda_front/utils/fecha_util.dart';
 import 'package:agenda_front/services/navigation_service.dart';
 import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/material.dart';
@@ -62,8 +62,7 @@ class PromocionDataSource extends DataTableSource {
                   ]);
               showDialog(context: context, builder: (_) => dialog);
             },
-            icon: Icon(Icons.delete),
-            color: Colors.red.withOpacity(0.8))
+            icon: Icon(Icons.delete))
       ]))
     ]);
   }

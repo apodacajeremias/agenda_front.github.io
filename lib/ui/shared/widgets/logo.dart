@@ -1,27 +1,37 @@
+import 'package:agenda_front/providers/auth_provider.dart';
+import 'package:agenda_front/routers/router.dart';
+import 'package:agenda_front/services/navigation_service.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class Logo extends StatelessWidget {
   const Logo({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only( top: 30 ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon( Icons.bubble_chart_outlined, color: Color(0xff7A6BF5) ),
-          const SizedBox( width: 10 ),
-          Text(
-            'Admin',
-            style: GoogleFonts.montserratAlternates(
-              fontSize: 20,
-              fontWeight: FontWeight.w200,
-              color: Colors.white
-            ),
-          )
-        ],
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    return GestureDetector(
+      onTap: () => NavigationService.replaceTo(Flurorouter.dashboardRoute),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: Container(
+          padding: const EdgeInsets.only(top: 30),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.account_circle, color: Colors.white),
+              const SizedBox(width: 10),
+              Text(
+                authProvider.usuario?.persona?.nombre!.split(' ').first ??
+                    'N/A',
+                style: Theme.of(context)
+                    .textTheme
+                    .labelLarge
+                    ?.apply(color: Colors.white),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

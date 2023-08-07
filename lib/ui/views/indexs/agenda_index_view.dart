@@ -2,10 +2,11 @@ import 'package:agenda_front/datatables/agenda_datasource.dart';
 import 'package:agenda_front/providers/agenda_provider.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/services/navigation_service.dart';
+import 'package:agenda_front/ui/shared/indexs/index_footer.dart';
+import 'package:agenda_front/ui/shared/indexs/index_header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:agenda_front/ui/buttons/custom_icon_button.dart';
-import 'package:agenda_front/ui/labels/custom_labels.dart';
 
 class AgendaIndexView extends StatefulWidget {
   const AgendaIndexView({super.key});
@@ -31,7 +32,7 @@ class _AgendaIndexViewState extends State<AgendaIndexView> {
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
-          Text('Listado de agendamientos', style: CustomLabels.h1),
+          const IndexHeader(title: 'Agendas'),
           const SizedBox(height: 10),
           PaginatedDataTable(
             columns: const [
@@ -43,7 +44,7 @@ class _AgendaIndexViewState extends State<AgendaIndexView> {
               DataColumn(label: Text('Acciones')),
             ],
             source: AgendaDataSource(agendas, context),
-            header: const Text('Registros', maxLines: 2),
+            header: const Text('Listado de agendamientos', maxLines: 2),
             onRowsPerPageChanged: (value) {
               setState(() {
                 _rowsPerPage = value ?? 10;
@@ -59,7 +60,9 @@ class _AgendaIndexViewState extends State<AgendaIndexView> {
                 icon: Icons.add_outlined,
               )
             ],
-          )
+            
+          ),
+          const IndexFooter()
         ],
       ),
     );

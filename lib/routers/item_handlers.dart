@@ -1,4 +1,3 @@
-import 'package:agenda_front/models/entities/item.dart';
 import 'package:agenda_front/providers/auth_provider.dart';
 import 'package:agenda_front/providers/item_provider.dart';
 import 'package:agenda_front/providers/sidemenu_provider.dart';
@@ -24,7 +23,7 @@ class ItemHandlers {
   static Handler create = Handler(handlerFunc: (context, params) {
     final authProvider = Provider.of<AuthProvider>(context!);
     Provider.of<SideMenuProvider>(context, listen: false)
-        .setCurrentPageUrl(Flurorouter.agendasIndexRoute);
+        .setCurrentPageUrl(Flurorouter.itemsIndexRoute);
     if (authProvider.authStatus == AuthStatus.authenticated) {
       return const ItemFormView();
     } else {
@@ -35,10 +34,9 @@ class ItemHandlers {
   static Handler edit = Handler(handlerFunc: (context, params) {
     final authProvider = Provider.of<AuthProvider>(context!);
     Provider.of<SideMenuProvider>(context, listen: false)
-        .setCurrentPageUrl(Flurorouter.personasIndexRoute);
-
-    final item = Provider.of<ItemProvider>(context, listen: false)
-        .buscar(params['id']!.first) as Item;
+        .setCurrentPageUrl(Flurorouter.itemsIndexRoute);
+    final id = params['id']?.first;
+    final item = Provider.of<ItemProvider>(context, listen: false).buscar(id!);
 
     if (authProvider.authStatus == AuthStatus.authenticated) {
       return ItemFormView(item: item);

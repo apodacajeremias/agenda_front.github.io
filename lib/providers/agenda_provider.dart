@@ -1,5 +1,6 @@
 import 'package:agenda_front/api/agenda_api.dart';
 import 'package:agenda_front/models/entities/agenda.dart';
+import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
@@ -15,80 +16,69 @@ class AgendaProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-// Buscamos la agenda seleccionada en la lista, sin reconsultar el servidor C;
-  Future buscar(String id) async {
-    return agendas.isNotEmpty
-        ? agendas.where((element) => element.id!.contains(id)).first
-        : Agenda.fromJson(await _encontrar(id) as Map<String, dynamic>);
+  Agenda? buscar(String id) {
+    return agendas.where((element) => element.id!.contains(id)).first;
   }
 
-  Future _encontrar(String id) async {
-    try {
-      final json = await AgendaAPI.httpGet('/agendas/$id');
-      final agendaEncontrada = Agenda.fromJson(json);
-      // Verifificar si el ID ya existe en la lista
-      if (agendas.where((element) => element.id!.contains(id)).isNotEmpty) {
-        final index =
-            agendas.indexWhere((element) => element.id!.contains(id));
-        // Si existe el ID, substituye el contenido
-        agendas[index] = agendaEncontrada;
-      } else {
-        // Si no existe el ID, agrega al final de la lista
-        agendas.add(agendaEncontrada);
-      }
-      notifyListeners();
-      return agendaEncontrada;
-    } catch (e) {
-      rethrow;
+  registrar(Map<String, dynamic> data) async {
+    // Si data tiene un campo ID y este tiene informacion
+    if (data.containsKey('id') && data['id'] != null) {
+      // Actualiza
+      await _actualizar(data['id'], data);
+    } else {
+      await _guardar(data);
     }
   }
 
-  Future guardar(Map<String, dynamic> data) async {
+  _guardar(Map<String, dynamic> data) async {
     try {
       final json = await AgendaAPI.httpPost('/agendas', data);
-      final agendaNueva = Agenda.fromJson(json);
-      agendas.add(agendaNueva);
+      final agenda = Agenda.fromJson(json);
+      agendas.add(agenda);
       notifyListeners();
+      NotificationsService.showSnackbar('Agregado a agendas');
     } catch (e) {
+      NotificationsService.showSnackbarError('No agregado a agendas');
       rethrow;
     }
   }
 
-  Future actualizar(String id, Map<String, dynamic> data) async {
+  _actualizar(String id, Map<String, dynamic> data) async {
     try {
       final json = await AgendaAPI.httpPut('/agendas/$id', data);
-      final agendaModificada = Agenda.fromJson(json);
+      final agenda = Agenda.fromJson(json);
       // Buscamos el index en lista del ID Agenda
       final index = agendas.indexWhere((element) => element.id!.contains(id));
       // Se substituye la informacion del index por la informacion actualizada
-      agendas[index] = agendaModificada;
+      agendas[index] = agenda;
       notifyListeners();
+      NotificationsService.showSnackbar('Agenda actualizado');
     } catch (e) {
+      NotificationsService.showSnackbarError('Agenda no actualizado');
       rethrow;
     }
   }
 
-  Future eliminar(String id) async {
+  eliminar(String id) async {
     try {
       final json = await AgendaAPI.httpDelete('/agendas/$id', {});
       final confirmado = json as bool;
       if (confirmado) {
         agendas.removeWhere((agenda) => agenda.id == id);
-      } else {
-        throw Exception('No se ha eliminado el registro');
+        notifyListeners();
+        NotificationsService.showSnackbar('1 agenda eliminado');
       }
-      notifyListeners();
-      return confirmado;
     } catch (e) {
+      NotificationsService.showSnackbarError('Agenda no eliminado');
       rethrow;
     }
   }
 
-  validateForm() {
-    return formKey.currentState!.validate();
+  saveAndValidate() {
+    return formKey.currentState!.saveAndValidate();
   }
 
-  saveForm() {
-    formKey.currentState!.save();
+  formData() {
+    return formKey.currentState!.value;
   }
 }

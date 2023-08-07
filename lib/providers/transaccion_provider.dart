@@ -1,5 +1,6 @@
 import 'package:agenda_front/api/agenda_api.dart';
 import 'package:agenda_front/models/entities/transaccion.dart';
+import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
@@ -15,59 +16,69 @@ class TransaccionProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-// Buscamos la transaccion seleccionada en la lista, sin reconsultar el servidor C;
   Transaccion? buscar(String id) {
-    return transacciones.isNotEmpty
-        ? transacciones.where((element) => element.id!.contains(id)).first
-        : null;
+    return transacciones.where((element) => element.id!.contains(id)).first;
   }
 
-  Future guardar(Map<String, dynamic> data) async {
+  registrar(Map<String, dynamic> data) async {
+    // Si data tiene un campo ID y este tiene informacion
+    if (data.containsKey('id') && data['id'] != null) {
+      // Actualiza
+      await _actualizar(data['id'], data);
+    } else {
+      await _guardar(data);
+    }
+  }
+
+  _guardar(Map<String, dynamic> data) async {
     try {
       final json = await AgendaAPI.httpPost('/transacciones', data);
-      final transaccionNueva = Transaccion.fromJson(json);
-      transacciones.add(transaccionNueva);
+      final transaccion = Transaccion.fromJson(json);
+      transacciones.add(transaccion);
       notifyListeners();
+      NotificationsService.showSnackbar('Agregado a transacciones');
     } catch (e) {
+      NotificationsService.showSnackbarError('No agregado a transacciones');
       rethrow;
     }
   }
 
-  Future actualizar(String id, Map<String, dynamic> data) async {
+  _actualizar(String id, Map<String, dynamic> data) async {
     try {
       final json = await AgendaAPI.httpPut('/transacciones/$id', data);
-      final transaccionModificada = Transaccion.fromJson(json);
+      final transaccion = Transaccion.fromJson(json);
       // Buscamos el index en lista del ID Transaccion
       final index = transacciones.indexWhere((element) => element.id!.contains(id));
       // Se substituye la informacion del index por la informacion actualizada
-      transacciones[index] = transaccionModificada;
+      transacciones[index] = transaccion;
       notifyListeners();
+      NotificationsService.showSnackbar('Transaccion actualizado');
     } catch (e) {
+      NotificationsService.showSnackbarError('Transaccion no actualizado');
       rethrow;
     }
   }
 
-  Future eliminar(String id) async {
+  eliminar(String id) async {
     try {
       final json = await AgendaAPI.httpDelete('/transacciones/$id', {});
       final confirmado = json as bool;
       if (confirmado) {
         transacciones.removeWhere((transaccion) => transaccion.id == id);
-      } else {
-        throw Exception('No se ha eliminado el registro');
+        notifyListeners();
+        NotificationsService.showSnackbar('1 transaccion eliminado');
       }
-      notifyListeners();
-      return confirmado;
     } catch (e) {
+      NotificationsService.showSnackbarError('Transaccion no eliminado');
       rethrow;
     }
   }
 
-  validateForm() {
-    return formKey.currentState!.validate();
+  saveAndValidate() {
+    return formKey.currentState!.saveAndValidate();
   }
 
-  saveForm() {
-    formKey.currentState!.save();
+  formData() {
+    return formKey.currentState!.value;
   }
 }

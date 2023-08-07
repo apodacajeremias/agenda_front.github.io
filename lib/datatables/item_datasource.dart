@@ -18,8 +18,8 @@ class ItemDataSource extends DataTableSource {
     final item = items[index];
     return DataRow.byIndex(index: index, cells: [
       DataCell(Text(item.nombre!)),
-      DataCell(Text(item.tipo as String)),
-      DataCell(Text(item.precio as String)),
+      DataCell(Text(item.tipo!.name)),
+      DataCell(Text(item.precio.toString())),
       DataCell(Row(children: [
         IconButton(
           onPressed: () {
@@ -60,8 +60,7 @@ class ItemDataSource extends DataTableSource {
                   ]);
               showDialog(context: context, builder: (_) => dialog);
             },
-            icon: Icon(Icons.delete),
-            color: Colors.red.withOpacity(0.8))
+            icon: Icon(Icons.delete))
       ]))
     ]);
   }

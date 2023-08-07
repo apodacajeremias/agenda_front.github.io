@@ -1,5 +1,6 @@
 import 'package:agenda_front/api/agenda_api.dart';
 import 'package:agenda_front/models/entities/beneficio.dart';
+import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
@@ -15,59 +16,69 @@ class BeneficioProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-// Buscamos la beneficio seleccionada en la lista, sin reconsultar el servidor C;
   Beneficio? buscar(String id) {
-    return beneficios.isNotEmpty
-        ? beneficios.where((element) => element.id!.contains(id)).first
-        : null;
+    return beneficios.where((element) => element.id!.contains(id)).first;
   }
 
-  Future guardar(Map<String, dynamic> data) async {
+  registrar(Map<String, dynamic> data) async {
+    // Si data tiene un campo ID y este tiene informacion
+    if (data.containsKey('id') && data['id'] != null) {
+      // Actualiza
+      await _actualizar(data['id'], data);
+    } else {
+      await _guardar(data);
+    }
+  }
+
+  _guardar(Map<String, dynamic> data) async {
     try {
       final json = await AgendaAPI.httpPost('/beneficios', data);
-      final beneficioNueva = Beneficio.fromJson(json);
-      beneficios.add(beneficioNueva);
+      final beneficio = Beneficio.fromJson(json);
+      beneficios.add(beneficio);
       notifyListeners();
+      NotificationsService.showSnackbar('Agregado a beneficios');
     } catch (e) {
+      NotificationsService.showSnackbarError('No agregado a beneficios');
       rethrow;
     }
   }
 
-  Future actualizar(String id, Map<String, dynamic> data) async {
+  _actualizar(String id, Map<String, dynamic> data) async {
     try {
       final json = await AgendaAPI.httpPut('/beneficios/$id', data);
-      final beneficioModificada = Beneficio.fromJson(json);
+      final beneficio = Beneficio.fromJson(json);
       // Buscamos el index en lista del ID Beneficio
       final index = beneficios.indexWhere((element) => element.id!.contains(id));
       // Se substituye la informacion del index por la informacion actualizada
-      beneficios[index] = beneficioModificada;
+      beneficios[index] = beneficio;
       notifyListeners();
+      NotificationsService.showSnackbar('Beneficio actualizado');
     } catch (e) {
+      NotificationsService.showSnackbarError('Beneficio no actualizado');
       rethrow;
     }
   }
 
-  Future eliminar(String id) async {
+  eliminar(String id) async {
     try {
       final json = await AgendaAPI.httpDelete('/beneficios/$id', {});
       final confirmado = json as bool;
       if (confirmado) {
         beneficios.removeWhere((beneficio) => beneficio.id == id);
-      } else {
-        throw Exception('No se ha eliminado el registro');
+        notifyListeners();
+        NotificationsService.showSnackbar('1 beneficio eliminado');
       }
-      notifyListeners();
-      return confirmado;
     } catch (e) {
+      NotificationsService.showSnackbarError('Beneficio no eliminado');
       rethrow;
     }
   }
 
-  validateForm() {
-    return formKey.currentState!.validate();
+  saveAndValidate() {
+    return formKey.currentState!.saveAndValidate();
   }
 
-  saveForm() {
-    formKey.currentState!.save();
+  formData() {
+    return formKey.currentState!.value;
   }
 }

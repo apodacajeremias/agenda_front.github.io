@@ -40,7 +40,6 @@ class RegisterView extends StatelessWidget {
                           }
                           return null;
                         },
-                        style: const TextStyle(color: Colors.white),
                         decoration: CustomInputs.form(
                             hint: 'Ingrese su nombre',
                             label: 'Nombre',
@@ -59,7 +58,6 @@ class RegisterView extends StatelessWidget {
                           }
                           return null;
                         },
-                        style: const TextStyle(color: Colors.white),
                         decoration: CustomInputs.form(
                             hint: 'Ingrese su correo',
                             label: 'Email',
@@ -83,7 +81,6 @@ class RegisterView extends StatelessWidget {
                           return null; // Válido
                         },
                         obscureText: true,
-                        style: const TextStyle(color: Colors.white),
                         decoration: CustomInputs.form(
                             hint: '*********',
                             label: 'Contraseña',

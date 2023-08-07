@@ -2,10 +2,11 @@ import 'package:agenda_front/datatables/grupo_datasource.dart';
 import 'package:agenda_front/providers/grupo_provider.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/services/navigation_service.dart';
+import 'package:agenda_front/ui/shared/indexs/index_footer.dart';
+import 'package:agenda_front/ui/shared/indexs/index_header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:agenda_front/ui/buttons/custom_icon_button.dart';
-import 'package:agenda_front/ui/labels/custom_labels.dart';
 
 class GrupoIndexView extends StatefulWidget {
   const GrupoIndexView({super.key});
@@ -31,7 +32,7 @@ class _GrupoIndexViewState extends State<GrupoIndexView> {
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
-          Text('Listado de grupos', style: CustomLabels.h1),
+          const IndexHeader(title: 'Grupos'),
           const SizedBox(height: 10),
           PaginatedDataTable(
             columns: const [
@@ -40,7 +41,7 @@ class _GrupoIndexViewState extends State<GrupoIndexView> {
               DataColumn(label: Text('Acciones')),
             ],
             source: GrupoDataSource(grupos, context),
-            header: const Text('Registros', maxLines: 2),
+            header: const Text('Listado de grupos', maxLines: 2),
             onRowsPerPageChanged: (value) {
               setState(() {
                 _rowsPerPage = value ?? 10;
@@ -50,14 +51,14 @@ class _GrupoIndexViewState extends State<GrupoIndexView> {
             actions: [
               CustomIconButton(
                 onPressed: () {
-                  NavigationService.navigateTo(
-                      Flurorouter.gruposCreateRoute);
+                  NavigationService.navigateTo(Flurorouter.gruposCreateRoute);
                 },
                 text: 'Nuevo',
                 icon: Icons.add_outlined,
               )
             ],
-          )
+          ),
+          const IndexFooter()
         ],
       ),
     );

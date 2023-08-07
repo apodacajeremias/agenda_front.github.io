@@ -27,14 +27,12 @@ class _LinkTextState extends State<LinkText> {
         onExit: (_) => setState(() => isHover = false),
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          child: Text(
-            widget.text,
-            style: TextStyle(
-                fontSize: 16,
-                color: widget.color ?? Colors.grey[700],
-                decoration:
-                    isHover ? TextDecoration.underline : TextDecoration.none),
-          ),
+          child: Text(widget.text,
+              style: Theme.of(context).textTheme.labelLarge?.apply(
+                  color: Colors.blue,
+                  decoration: isHover
+                      ? TextDecoration.underline
+                      : TextDecoration.none)),
         ),
       ),
     );

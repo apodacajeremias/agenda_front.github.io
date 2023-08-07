@@ -5,11 +5,11 @@ import 'package:agenda_front/models/enums/situacion.dart';
 import 'package:agenda_front/providers/agenda_provider.dart';
 import 'package:agenda_front/providers/colaborador_provider.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
-import 'package:agenda_front/services/fecha_util.dart';
-import 'package:agenda_front/ui/buttons/link_text.dart';
+import 'package:agenda_front/ui/shared/forms/form_footer.dart';
+import 'package:agenda_front/ui/shared/forms/form_header.dart';
+import 'package:agenda_front/utils/fecha_util.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
 import 'package:agenda_front/ui/inputs/custom_inputs.dart';
-import 'package:agenda_front/ui/labels/custom_labels.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_extra_fields/form_builder_extra_fields.dart';
@@ -44,19 +44,7 @@ class _AgendaFormViewState extends State<AgendaFormView> {
       child: ListView(
         physics: ClampingScrollPhysics(),
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Agendar',
-                style: CustomLabels.h1,
-              ),
-              LinkText(
-                  text: 'Volver',
-                  color: Colors.blue.withOpacity(0.5),
-                  onPressed: () => Navigator.of(context).pop())
-            ],
-          ),
+          FormHeader(title: 'Agendar'),
           WhiteCard(
               child: FormBuilder(
                   key: provider.formKey,
@@ -83,7 +71,7 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                           Expanded(
                               child: FormBuilderDateTimePicker(
                                   name: 'hora',
-                                  format: FechaUtil.dateFormat,
+                                  format: FechaUtil.timeFormat,
                                   decoration: CustomInputs.form(
                                       hint: 'Hora',
                                       label: 'Hora',
@@ -137,6 +125,7 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                           ),
                         ],
                       ),
+                      SizedBox(height: 10),
                       FormBuilderTextField(
                         name: 'observacion',
                         decoration: CustomInputs.form(
@@ -148,6 +137,19 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                         minLines: 2,
                         maxLines: 5, //
                       ),
+                      SizedBox(height: 10),
+                      FormFooter(onConfirm: () async {
+                        if (provider.saveAndValidate()) {
+                          try {
+                            provider.registrar(provider.formData());
+                            if (context.mounted) {
+                              Navigator.of(context).pop();
+                            }
+                          } catch (e) {
+                            rethrow;
+                          }
+                        }
+                      })
                     ],
                   )))
         ],

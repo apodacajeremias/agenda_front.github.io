@@ -12,7 +12,7 @@ class AgendaAPI {
     _dio.options.headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authentication': LocalStorage.prefs.getString('token') ?? ''
+      'Authorization': LocalStorage.prefs.getString('token')
     };
   }
 

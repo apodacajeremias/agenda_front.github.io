@@ -16,9 +16,8 @@ class ItemProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Item> buscar(String id) async {
-    final json = await AgendaAPI.httpGet('/items/$id');
-    return Item.fromJson(json);
+  Item? buscar(String id) {
+    return items.where((element) => element.id!.contains(id)).first;
   }
 
   registrar(Map<String, dynamic> data) async {
@@ -34,11 +33,12 @@ class ItemProvider extends ChangeNotifier {
   _guardar(Map<String, dynamic> data) async {
     try {
       final json = await AgendaAPI.httpPost('/items', data);
-      final itemNueva = Item.fromJson(json);
-      items.add(itemNueva);
+      final item = Item.fromJson(json);
+      items.add(item);
       notifyListeners();
       NotificationsService.showSnackbar('Agregado a items');
     } catch (e) {
+      NotificationsService.showSnackbarError('No agregado a items');
       rethrow;
     }
   }
@@ -46,14 +46,15 @@ class ItemProvider extends ChangeNotifier {
   _actualizar(String id, Map<String, dynamic> data) async {
     try {
       final json = await AgendaAPI.httpPut('/items/$id', data);
-      final itemModificada = Item.fromJson(json);
+      final item = Item.fromJson(json);
       // Buscamos el index en lista del ID Item
       final index = items.indexWhere((element) => element.id!.contains(id));
       // Se substituye la informacion del index por la informacion actualizada
-      items[index] = itemModificada;
+      items[index] = item;
       notifyListeners();
       NotificationsService.showSnackbar('Item actualizado');
     } catch (e) {
+      NotificationsService.showSnackbarError('Item no actualizado');
       rethrow;
     }
   }
@@ -68,6 +69,7 @@ class ItemProvider extends ChangeNotifier {
         NotificationsService.showSnackbar('1 item eliminado');
       }
     } catch (e) {
+      NotificationsService.showSnackbarError('Item no eliminado');
       rethrow;
     }
   }

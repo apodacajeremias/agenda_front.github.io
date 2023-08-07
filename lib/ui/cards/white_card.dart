@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class WhiteCard extends StatelessWidget {
   /// Titulo: puede ser nulo
@@ -19,20 +18,16 @@ class WhiteCard extends StatelessWidget {
       width: width,
       margin: const EdgeInsets.all(8),
       padding: const EdgeInsets.all(10),
-      decoration: buildBoxDecoration(),
+      decoration: buildBoxDecoration(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if(title != null)
-          ...[
+          if (title != null) ...[
             FittedBox(
               fit: BoxFit.contain,
               child: Text(
                 title!,
-                style: GoogleFonts.roboto(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold
-                ),
+                style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
             const Divider()
@@ -43,10 +38,12 @@ class WhiteCard extends StatelessWidget {
     );
   }
 
-  BoxDecoration buildBoxDecoration() => BoxDecoration(
-          color: Colors.white,
+  BoxDecoration buildBoxDecoration(BuildContext context) => BoxDecoration(
+          color: Theme.of(context).canvasColor,
           borderRadius: BorderRadius.circular(5),
           boxShadow: [
-            BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 5)
+            BoxShadow(
+                color: Theme.of(context).colorScheme.shadow.withOpacity(0.5),
+                blurRadius: 5)
           ]);
 }

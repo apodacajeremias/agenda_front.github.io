@@ -42,7 +42,6 @@ class AuthProvider extends ChangeNotifier {
       _authStatus = AuthStatus.authenticated;
       LocalStorage.prefs.setString('token', _token!);
       NavigationService.replaceTo(Flurorouter.dashboardRoute);
-      AgendaAPI.configureDio();
       notifyListeners();
     }).catchError((e) {
       if (kDebugMode) {
@@ -55,14 +54,13 @@ class AuthProvider extends ChangeNotifier {
   login(String email, String password) {
     final data = {'email': email, 'password': password};
     AgendaAPI.httpPost('/auth/login', data).then((json) {
-      print(json);
       final authResponse = AuthenticationResponse.fromJson(json);
       _token = authResponse.token;
       usuario = authResponse.usuario;
       _authStatus = AuthStatus.authenticated;
       LocalStorage.prefs.setString('token', _token!);
       NavigationService.replaceTo(Flurorouter.dashboardRoute);
-      AgendaAPI.configureDio();
+
       notifyListeners();
     }).catchError((e) {
       NotificationsService.showSnackbarError('Usuario / Password no válido');
@@ -70,32 +68,23 @@ class AuthProvider extends ChangeNotifier {
     });
   }
 
-  Future<bool> isAuthenticated() async {
+  isAuthenticated() async {
     final token = LocalStorage.prefs.getString('token');
-
     if (token == null) {
       _authStatus = AuthStatus.notAuthenticated;
       notifyListeners();
-      return false;
     }
-
     try {
       final resp = await AgendaAPI.httpGet('/auth/validate?token=$token');
       final authReponse = AuthenticationResponse.fromJson(resp);
       LocalStorage.prefs.setString('token', authReponse.token);
-
       usuario = authReponse.usuario;
       _authStatus = AuthStatus.authenticated;
       notifyListeners();
-      return true;
     } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
       LocalStorage.prefs.remove('token');
       _authStatus = AuthStatus.notAuthenticated;
       notifyListeners();
-      return false;
     }
   }
 

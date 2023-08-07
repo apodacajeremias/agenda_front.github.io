@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:agenda_front/ui/labels/custom_labels.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
 
 class IconsView extends StatelessWidget {
@@ -13,7 +12,7 @@ class IconsView extends StatelessWidget {
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
-          Text('Icons', style: CustomLabels.h1),
+          Text('Icons'),
           const SizedBox(height: 10),
           const Wrap(
             crossAxisAlignment: WrapCrossAlignment.start,

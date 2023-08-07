@@ -2,10 +2,11 @@ import 'package:agenda_front/datatables/item_datasource.dart';
 import 'package:agenda_front/providers/item_provider.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/services/navigation_service.dart';
+import 'package:agenda_front/ui/shared/indexs/index_footer.dart';
+import 'package:agenda_front/ui/shared/indexs/index_header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:agenda_front/ui/buttons/custom_icon_button.dart';
-import 'package:agenda_front/ui/labels/custom_labels.dart';
 
 class ItemIndexView extends StatefulWidget {
   const ItemIndexView({super.key});
@@ -31,7 +32,7 @@ class _ItemIndexViewState extends State<ItemIndexView> {
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
-          Text('Listado de items', style: CustomLabels.h1),
+          const IndexHeader(title: 'Items'),
           const SizedBox(height: 10),
           PaginatedDataTable(
             columns: const [
@@ -41,7 +42,7 @@ class _ItemIndexViewState extends State<ItemIndexView> {
               DataColumn(label: Text('Acciones')),
             ],
             source: ItemDataSource(items, context),
-            header: const Text('Registros', maxLines: 2),
+            header: const Text('Listado de items', maxLines: 2),
             onRowsPerPageChanged: (value) {
               setState(() {
                 _rowsPerPage = value ?? 10;
@@ -51,14 +52,14 @@ class _ItemIndexViewState extends State<ItemIndexView> {
             actions: [
               CustomIconButton(
                 onPressed: () {
-                  NavigationService.navigateTo(
-                      Flurorouter.itemsCreateRoute);
+                  NavigationService.navigateTo(Flurorouter.itemsCreateRoute);
                 },
                 text: 'Nuevo',
                 icon: Icons.add_outlined,
               )
             ],
-          )
+          ),
+          const IndexFooter()
         ],
       ),
     );

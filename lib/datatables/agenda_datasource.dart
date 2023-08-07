@@ -2,7 +2,7 @@
 
 import 'package:agenda_front/models/entities/agenda.dart';
 import 'package:agenda_front/providers/agenda_provider.dart';
-import 'package:agenda_front/services/fecha_util.dart';
+import 'package:agenda_front/utils/fecha_util.dart';
 import 'package:agenda_front/services/navigation_service.dart';
 import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/material.dart';
@@ -34,8 +34,8 @@ class AgendaDataSource extends DataTableSource {
             onPressed: () {
               final dialog = AlertDialog(
                   title: Text('Estas seguro de cancelarlo?'),
-                  content: Text(
-                      'Cancelar agendamiento de $agenda.persona.nombre?'),
+                  content:
+                      Text('Cancelar agendamiento de $agenda.persona.nombre?'),
                   actions: [
                     TextButton(
                       child: Text('No, mantener'),
@@ -65,7 +65,7 @@ class AgendaDataSource extends DataTableSource {
               showDialog(context: context, builder: (_) => dialog);
             },
             icon: Icon(Icons.delete),
-            color: Colors.red.withOpacity(0.8))
+            )
       ]))
     ]);
   }

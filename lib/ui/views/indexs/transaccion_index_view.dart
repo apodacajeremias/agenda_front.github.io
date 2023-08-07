@@ -2,10 +2,11 @@ import 'package:agenda_front/datatables/transaccion_datasource.dart';
 import 'package:agenda_front/providers/transaccion_provider.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/services/navigation_service.dart';
+import 'package:agenda_front/ui/shared/indexs/index_footer.dart';
+import 'package:agenda_front/ui/shared/indexs/index_header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:agenda_front/ui/buttons/custom_icon_button.dart';
-import 'package:agenda_front/ui/labels/custom_labels.dart';
 
 class TransaccionIndexView extends StatefulWidget {
   const TransaccionIndexView({super.key});
@@ -25,13 +26,14 @@ class _TransaccionIndexViewState extends State<TransaccionIndexView> {
 
   @override
   Widget build(BuildContext context) {
-    final transacciones = Provider.of<TransaccionProvider>(context).transacciones;
+    final transacciones =
+        Provider.of<TransaccionProvider>(context).transacciones;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
-          Text('Listado de transacciones', style: CustomLabels.h1),
+          const IndexHeader(title: 'Transacciones'),
           const SizedBox(height: 10),
           PaginatedDataTable(
             columns: const [
@@ -42,7 +44,7 @@ class _TransaccionIndexViewState extends State<TransaccionIndexView> {
               DataColumn(label: Text('Acciones')),
             ],
             source: TransaccionDataSource(transacciones, context),
-            header: const Text('Registros', maxLines: 2),
+            header: const Text('Listado de transacciones', maxLines: 2),
             onRowsPerPageChanged: (value) {
               setState(() {
                 _rowsPerPage = value ?? 10;
@@ -59,7 +61,8 @@ class _TransaccionIndexViewState extends State<TransaccionIndexView> {
                 icon: Icons.add_outlined,
               )
             ],
-          )
+          ),
+          const IndexFooter()
         ],
       ),
     );

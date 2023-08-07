@@ -2,10 +2,11 @@ import 'package:agenda_front/datatables/promocion_datasource.dart';
 import 'package:agenda_front/providers/promocion_provider.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/services/navigation_service.dart';
+import 'package:agenda_front/ui/shared/indexs/index_footer.dart';
+import 'package:agenda_front/ui/shared/indexs/index_header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:agenda_front/ui/buttons/custom_icon_button.dart';
-import 'package:agenda_front/ui/labels/custom_labels.dart';
 
 class PromocionIndexView extends StatefulWidget {
   const PromocionIndexView({super.key});
@@ -31,7 +32,7 @@ class _PromocionIndexViewState extends State<PromocionIndexView> {
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
-          Text('Listado de promociones', style: CustomLabels.h1),
+          const IndexHeader(title: 'Promociones'),
           const SizedBox(height: 10),
           PaginatedDataTable(
             columns: const [
@@ -42,7 +43,7 @@ class _PromocionIndexViewState extends State<PromocionIndexView> {
               DataColumn(label: Text('Acciones')),
             ],
             source: PromocionDataSource(promociones, context),
-            header: const Text('Registros', maxLines: 2),
+            header: const Text('Listado de promociones', maxLines: 2),
             onRowsPerPageChanged: (value) {
               setState(() {
                 _rowsPerPage = value ?? 10;
@@ -59,7 +60,7 @@ class _PromocionIndexViewState extends State<PromocionIndexView> {
                 icon: Icons.add_outlined,
               )
             ],
-          )
+          ), const IndexFooter()
         ],
       ),
     );
