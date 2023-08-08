@@ -6,7 +6,7 @@ import 'package:agenda_front/ui/shared/indexs/index_footer.dart';
 import 'package:agenda_front/ui/shared/indexs/index_header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:agenda_front/ui/buttons/custom_icon_button.dart';
+import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
 
 class PersonaIndexView extends StatefulWidget {
   const PersonaIndexView({super.key});
@@ -50,15 +50,16 @@ class _PersonaIndexViewState extends State<PersonaIndexView> {
             },
             rowsPerPage: _rowsPerPage,
             actions: [
-              CustomIconButton(
+              MyElevatedButton(
                 onPressed: () {
                   NavigationService.navigateTo(Flurorouter.personasCreateRoute);
                 },
                 text: 'Nuevo',
-                icon: Icons.add_outlined,
+                icon: Icons.add,
               )
             ],
-          ),const IndexFooter()
+          ),
+          const IndexFooter()
         ],
       ),
     );

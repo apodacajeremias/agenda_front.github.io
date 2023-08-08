@@ -6,7 +6,7 @@ import 'package:agenda_front/ui/shared/indexs/index_footer.dart';
 import 'package:agenda_front/ui/shared/indexs/index_header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:agenda_front/ui/buttons/custom_icon_button.dart';
+import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
 
 class BeneficioIndexView extends StatefulWidget {
   const BeneficioIndexView({super.key});
@@ -51,13 +51,13 @@ class _BeneficioIndexViewState extends State<BeneficioIndexView> {
             },
             rowsPerPage: _rowsPerPage,
             actions: [
-              CustomIconButton(
+              MyElevatedButton(
                 onPressed: () {
                   NavigationService.navigateTo(
                       Flurorouter.beneficiosCreateRoute);
                 },
                 text: 'Nuevo',
-                icon: Icons.add_outlined,
+                icon: Icons.add,
               )
             ],
           ),

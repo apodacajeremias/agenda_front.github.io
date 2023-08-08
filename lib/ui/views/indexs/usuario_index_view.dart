@@ -6,7 +6,7 @@ import 'package:agenda_front/ui/shared/indexs/index_footer.dart';
 import 'package:agenda_front/ui/shared/indexs/index_header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:agenda_front/ui/buttons/custom_icon_button.dart';
+import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
 
 class UsuarioIndexView extends StatefulWidget {
   const UsuarioIndexView({super.key});
@@ -51,7 +51,7 @@ class _UsuarioIndexViewState extends State<UsuarioIndexView> {
             },
             rowsPerPage: _rowsPerPage,
             actions: [
-              CustomIconButton(
+              MyElevatedButton(
                 onPressed: () {
                   // showModalBottomSheet(
                   //     backgroundColor: transparent,
@@ -59,7 +59,7 @@ class _UsuarioIndexViewState extends State<UsuarioIndexView> {
                   //     builder: (_) => const UsersModal(user: null));
                 },
                 text: 'Nuevo',
-                icon: Icons.add_outlined,
+                icon: Icons.add,
               )
             ],
           ),

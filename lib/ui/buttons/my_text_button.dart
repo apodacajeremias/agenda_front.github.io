@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 
-class LinkText extends StatefulWidget {
+class MyTextButton extends StatefulWidget {
   final String text;
   final Color? color;
   final Function? onPressed;
 
-  const LinkText({Key? key, required this.text, this.onPressed, this.color})
+  const MyTextButton({Key? key, required this.text, this.onPressed, this.color})
       : super(key: key);
 
   @override
-  State<LinkText> createState() => _LinkTextState();
+  State<MyTextButton> createState() => _MyTextButtonState();
 }
 
-class _LinkTextState extends State<LinkText> {
+class _MyTextButtonState extends State<MyTextButton> {
   bool isHover = false;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+    return TextButton(
+      onPressed: () {
         if (widget.onPressed != null) widget.onPressed!();
       },
       child: MouseRegion(
@@ -29,7 +29,6 @@ class _LinkTextState extends State<LinkText> {
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: Text(widget.text,
               style: Theme.of(context).textTheme.labelLarge?.apply(
-                  color: Colors.blue,
                   decoration: isHover
                       ? TextDecoration.underline
                       : TextDecoration.none)),

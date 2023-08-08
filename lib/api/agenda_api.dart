@@ -12,11 +12,15 @@ class AgendaAPI {
     _dio.options.headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': LocalStorage.prefs.getString('token')
+      'Authorization': LocalStorage.prefs.containsKey('token') &&
+              LocalStorage.prefs.getString('token') != null
+          ? 'Bearer ${LocalStorage.prefs.getString('token')}'
+          : null
     };
   }
 
   static Future httpGet(String path) async {
+    configureDio();
     try {
       final resp = await _dio.get(path);
       return resp.data;
@@ -26,6 +30,7 @@ class AgendaAPI {
   }
 
   static Future httpPost(String path, Map<String, dynamic> data) async {
+    configureDio();
     try {
       final response = await _dio.post(path, data: data);
       return response.data;
@@ -35,6 +40,7 @@ class AgendaAPI {
   }
 
   static Future httpPut(String path, Map<String, dynamic> data) async {
+    configureDio();
     try {
       final resp = await _dio.put(path, data: data);
       return resp.data;
@@ -44,6 +50,7 @@ class AgendaAPI {
   }
 
   static Future httpDelete(String path, Map<String, dynamic> data) async {
+    configureDio();
     final formData = FormData.fromMap(data);
     try {
       final resp = await _dio.delete(path, data: formData);

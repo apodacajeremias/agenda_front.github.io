@@ -6,7 +6,7 @@ import 'package:agenda_front/ui/shared/indexs/index_footer.dart';
 import 'package:agenda_front/ui/shared/indexs/index_header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:agenda_front/ui/buttons/custom_icon_button.dart';
+import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
 
 class GrupoIndexView extends StatefulWidget {
   const GrupoIndexView({super.key});
@@ -49,12 +49,12 @@ class _GrupoIndexViewState extends State<GrupoIndexView> {
             },
             rowsPerPage: _rowsPerPage,
             actions: [
-              CustomIconButton(
+              MyElevatedButton(
                 onPressed: () {
                   NavigationService.navigateTo(Flurorouter.gruposCreateRoute);
                 },
                 text: 'Nuevo',
-                icon: Icons.add_outlined,
+                icon: Icons.add,
               )
             ],
           ),

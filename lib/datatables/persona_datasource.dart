@@ -25,7 +25,7 @@ class PersonaDataSource extends DataTableSource {
             onPressed: () {
               NavigationService.navigateTo('/personas/${persona.id}');
             },
-            icon: Icon(Icons.edit_outlined)),
+            icon: Icon(Icons.edit)),
         IconButton(
             onPressed: () {
               final dialog = AlertDialog(

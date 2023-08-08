@@ -52,8 +52,7 @@ class ItemFormView extends StatelessWidget {
                                     title: Text(
                                       'Estado del registro'
                                     ),
-                                    initialValue: item?.activo,
-                                    decoration: CustomInputs.noBorder())),
+                                    initialValue: item?.activo)),
                           ],
                         )
                       ],

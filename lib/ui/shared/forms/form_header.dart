@@ -1,4 +1,4 @@
-import 'package:agenda_front/ui/buttons/link_text.dart';
+import 'package:agenda_front/ui/buttons/my_text_button.dart';
 import 'package:flutter/material.dart';
 
 class FormHeader extends StatelessWidget {
@@ -15,7 +15,7 @@ class FormHeader extends StatelessWidget {
           title,
           style: Theme.of(context).textTheme.headlineLarge,
         ),
-        LinkText(
+        MyTextButton(
             text: backText ?? 'Volver',
             onPressed: () => Navigator.of(context).pop())
       ],

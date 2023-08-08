@@ -62,7 +62,7 @@ class ItemProvider extends ChangeNotifier {
   eliminar(String id) async {
     try {
       final json = await AgendaAPI.httpDelete('/items/$id', {});
-      final confirmado = json as bool;
+      final confirmado = json;
       if (confirmado) {
         items.removeWhere((item) => item.id == id);
         notifyListeners();

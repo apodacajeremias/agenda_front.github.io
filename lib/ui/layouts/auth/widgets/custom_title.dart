@@ -23,7 +23,7 @@ class CustomTitle extends StatelessWidget {
           FittedBox(
             fit: BoxFit.contain,
             child: Text('Bienvenido',
-                style: Theme.of(context).textTheme.bodySmall),
+                style: Theme.of(context).textTheme.displaySmall),
           )
         ],
       ),

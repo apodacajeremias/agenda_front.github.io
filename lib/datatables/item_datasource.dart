@@ -31,7 +31,7 @@ class ItemDataSource extends DataTableSource {
             onPressed: () {
               final dialog = AlertDialog(
                   title: Text('Estas seguro de borrarlo?'),
-                  content: Text('Borrar item $item.nombre?'),
+                  content: Text('Borrar item $item.nombre'),
                   actions: [
                     TextButton(
                       child: Text('No, mantener'),

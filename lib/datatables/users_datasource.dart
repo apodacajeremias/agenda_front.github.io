@@ -20,7 +20,7 @@ class UsersDataSource extends DataTableSource {
       DataCell(Text(user.email!)),
       DataCell(Text(user.role!)),
       DataCell(IconButton(
-          icon: const Icon(Icons.edit_outlined),
+          icon: const Icon(Icons.edit),
           onPressed: () {
             NavigationService.replaceTo('/users/${user.id}');
           })),

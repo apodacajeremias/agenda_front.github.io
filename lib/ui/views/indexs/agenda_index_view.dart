@@ -2,11 +2,11 @@ import 'package:agenda_front/datatables/agenda_datasource.dart';
 import 'package:agenda_front/providers/agenda_provider.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/services/navigation_service.dart';
+import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
 import 'package:agenda_front/ui/shared/indexs/index_footer.dart';
 import 'package:agenda_front/ui/shared/indexs/index_header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:agenda_front/ui/buttons/custom_icon_button.dart';
 
 class AgendaIndexView extends StatefulWidget {
   const AgendaIndexView({super.key});
@@ -52,15 +52,14 @@ class _AgendaIndexViewState extends State<AgendaIndexView> {
             },
             rowsPerPage: _rowsPerPage,
             actions: [
-              CustomIconButton(
+              MyElevatedButton(
                 onPressed: () {
                   NavigationService.navigateTo(Flurorouter.agendasCreateRoute);
                 },
                 text: 'Nuevo',
-                icon: Icons.add_outlined,
+                icon: Icons.add,
               )
             ],
-            
           ),
           const IndexFooter()
         ],

@@ -53,8 +53,7 @@ class BeneficioFormView extends StatelessWidget {
                               child: FormBuilderSwitch(
                                   name: 'activo',
                                   title: Text('Estado del registro'),
-                                  initialValue: beneficio?.activo,
-                                  decoration: CustomInputs.noBorder()))
+                                  initialValue: beneficio?.activo))
                         ])
                   ],
                   SizedBox(height: 10),

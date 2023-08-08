@@ -102,7 +102,7 @@ class Sidebar extends StatelessWidget {
           const TextSeparator(text: 'Salir'),
           MenuItemCustom(
               text: 'Cerrar sesión',
-              icon: Icons.exit_to_app_outlined,
+              icon: Icons.exit_to_app,
               onPressed: () {
                 Provider.of<AuthProvider>(context, listen: false).logout();
               }),

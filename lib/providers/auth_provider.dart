@@ -26,6 +26,9 @@ class AuthProvider extends ChangeNotifier {
       print('SET $status');
     }
     _authStatus = status;
+    if (_authStatus == AuthStatus.notAuthenticated) {
+      LocalStorage.prefs.remove('token');
+    }
   }
 
   AuthProvider() {

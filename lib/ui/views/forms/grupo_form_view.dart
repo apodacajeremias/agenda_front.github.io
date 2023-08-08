@@ -4,7 +4,7 @@ import 'package:agenda_front/models/entities/grupo.dart';
 import 'package:agenda_front/providers/beneficio_provider.dart';
 import 'package:agenda_front/providers/grupo_provider.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
-import 'package:agenda_front/ui/buttons/custom_icon_button.dart';
+import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
 import 'package:agenda_front/ui/inputs/custom_inputs.dart';
 import 'package:agenda_front/ui/shared/forms/form_header.dart';
@@ -65,11 +65,8 @@ class _GrupoFormViewState extends State<GrupoFormView> {
                         Expanded(
                             child: FormBuilderSwitch(
                                 name: 'activo',
-                                title: Text(
-                                  'Estado del registro'
-                                ),
-                                initialValue: widget.grupo?.activo,
-                                decoration: CustomInputs.noBorder()))
+                                title: Text('Estado del registro'),
+                                initialValue: widget.grupo?.activo))
                       ],
                     ),
                   ],
@@ -103,19 +100,14 @@ class _GrupoFormViewState extends State<GrupoFormView> {
                       ),
                       SizedBox(width: 10),
                       Expanded(
-                        child: CustomIconButton(
-                            onPressed: () {
-                              // agregar persona a la lista
-                            },
-                            text: 'Agregar',
-                            icon: Icons.add),
-                      )
+                          child: MyElevatedButton(
+                        text: 'Agregar persona al grupo',
+                        icon: Icons.person_add,
+                      ))
                     ],
                   ),
                   // TODO: agregar una tabla que muestre los integrantes del grupo
                   // TODO: la tabla debe poseer un boton para quitar a los integrantes de grupo
-
-                  
                 ],
               ),
             ),

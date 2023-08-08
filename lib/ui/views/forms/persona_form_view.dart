@@ -36,25 +36,25 @@ class PersonaFormView extends StatelessWidget {
               children: [
                 if (persona?.id != null) ...[
                   SizedBox(height: 10),
-                  Row(children: [
-                    Expanded(
-                        flex: 2,
-                        child: FormBuilderTextField(
+                  Row(
+                    children: [
+                      Expanded(
+                          flex: 2,
+                          child: FormBuilderTextField(
                             name: 'id',
                             initialValue: persona?.id,
                             enabled: false,
                             decoration: CustomInputs.form(
-                                hint: 'Codigo Identificador',
-                                label: 'ID',
-                                icon: Icons.qr_code))),
-                    SizedBox(width: 10),
-                    Expanded(
-                        child: FormBuilderSwitch(
-                            name: 'activo',
-                            title: Text('Estado del registro'),
-                            initialValue: persona?.activo,
-                            decoration: CustomInputs.noBorder()))
-                  ])
+                                label: 'ID', hint: 'ID', icon: Icons.qr_code),
+                          )),
+                      SizedBox(width: 10),
+                      Expanded(
+                          child: FormBuilderSwitch(
+                              name: 'activo',
+                              title: Text('Estado del registro'),
+                              initialValue: persona?.activo)),
+                    ],
+                  )
                 ],
                 SizedBox(height: 10),
                 FormBuilderTextField(

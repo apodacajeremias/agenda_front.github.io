@@ -6,7 +6,7 @@ import 'package:agenda_front/ui/shared/indexs/index_footer.dart';
 import 'package:agenda_front/ui/shared/indexs/index_header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:agenda_front/ui/buttons/custom_icon_button.dart';
+import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
 
 class ItemIndexView extends StatefulWidget {
   const ItemIndexView({super.key});
@@ -50,12 +50,12 @@ class _ItemIndexViewState extends State<ItemIndexView> {
             },
             rowsPerPage: _rowsPerPage,
             actions: [
-              CustomIconButton(
+              MyElevatedButton(
                 onPressed: () {
                   NavigationService.navigateTo(Flurorouter.itemsCreateRoute);
                 },
                 text: 'Nuevo',
-                icon: Icons.add_outlined,
+                icon: Icons.add,
               )
             ],
           ),

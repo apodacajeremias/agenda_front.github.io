@@ -1,13 +1,13 @@
 import 'package:agenda_front/providers/auth_provider.dart';
 import 'package:agenda_front/providers/login_form_provider.dart';
+import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
 import 'package:agenda_front/routers/router.dart';
 
 import 'package:agenda_front/ui/inputs/custom_inputs.dart';
-import 'package:agenda_front/ui/buttons/custom_outlined_button.dart';
-import 'package:agenda_front/ui/buttons/link_text.dart';
+import 'package:agenda_front/ui/buttons/my_text_button.dart';
 import 'package:provider/provider.dart';
 
 class LoginView extends StatelessWidget {
@@ -50,7 +50,7 @@ class LoginView extends StatelessWidget {
                           decoration: CustomInputs.form(
                               hint: 'Ingrese su correo',
                               label: 'Email',
-                              icon: Icons.email_outlined),
+                              icon: Icons.email),
                         ),
 
                         const SizedBox(height: 20),
@@ -80,14 +80,14 @@ class LoginView extends StatelessWidget {
                         ),
 
                         const SizedBox(height: 20),
-                        CustomOutlinedButton(
+                        MyElevatedButton(
                           onPressed: () =>
                               onFormSubmit(loginFormProvider, authProvider),
                           text: 'Ingresar',
                         ),
 
                         const SizedBox(height: 20),
-                        LinkText(
+                        MyTextButton(
                           text: 'Nueva cuenta',
                           onPressed: () {
                             Navigator.pushReplacementNamed(

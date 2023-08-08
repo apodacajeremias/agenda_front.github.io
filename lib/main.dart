@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:agenda_front/api/agenda_api.dart';
 import 'package:agenda_front/providers/agenda_provider.dart';
 import 'package:agenda_front/providers/beneficio_provider.dart';
@@ -12,8 +10,6 @@ import 'package:agenda_front/providers/promocion_provider.dart';
 import 'package:agenda_front/providers/transaccion_provider.dart';
 import 'package:agenda_front/providers/usuario_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:json_theme/json_theme.dart';
 import 'package:provider/provider.dart';
 
 import 'package:agenda_front/ui/layouts/dashboard/dashboard_layout.dart';
@@ -32,19 +28,14 @@ import 'package:agenda_front/ui/layouts/auth/auth_layout.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  final themeStr = await rootBundle.loadString('assets/appainter_theme.json');
-  final themeJson = jsonDecode(themeStr);
-  final theme = ThemeDecoder.decodeThemeData(themeJson)!;
   await LocalStorage.configurePrefs();
   AgendaAPI.configureDio();
   Flurorouter.configureRoutes();
-  runApp(MyApp(theme: theme));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final ThemeData theme;
-  const MyApp({super.key, required this.theme});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -64,14 +55,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => TransaccionProvider()),
         ChangeNotifierProvider(create: (_) => UsuarioProvider()),
       ],
-      child: Dashboard(theme: theme),
+      child: const Dashboard(),
     );
   }
 }
 
 class Dashboard extends StatelessWidget {
-  final ThemeData theme;
-  const Dashboard({super.key, required this.theme});
+  const Dashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -95,19 +85,28 @@ class Dashboard extends StatelessWidget {
             return AuthLayout(child: child!);
           }
         },
-        theme: lightThemeData);
+        theme: theme,
+        darkTheme: darkTheme,
+        themeMode: ThemeMode.system);
   }
 }
 
-ThemeData lightThemeData = ThemeData(
-  useMaterial3: true,
-  colorScheme: ColorScheme.fromSeed(
-    seedColor: Colors.blue,
-    primary: Colors.blueAccent,
-    secondary: Colors.yellow,
-  ),
-  appBarTheme: const AppBarTheme(
-    color: Colors.blue,
-    //other options
-  ),
-);
+ThemeData theme = ThemeData(
+    useMaterial3: false,
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: Colors.indigo,
+      brightness: Brightness.light,
+    ),
+    inputDecorationTheme:
+        const InputDecorationTheme(border: OutlineInputBorder()),
+    fontFamily: 'Montserrat');
+
+ThemeData darkTheme = ThemeData(
+    useMaterial3: false,
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: Colors.indigo,
+      brightness: Brightness.dark,
+    ),
+    inputDecorationTheme:
+        const InputDecorationTheme(border: OutlineInputBorder()),
+    fontFamily: 'Montserrat');

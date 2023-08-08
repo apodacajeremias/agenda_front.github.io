@@ -1,4 +1,4 @@
-import 'package:agenda_front/ui/buttons/link_text.dart';
+import 'package:agenda_front/ui/buttons/my_text_button.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -14,24 +14,24 @@ class LinksBar extends StatelessWidget {
         child: Wrap(
           alignment: WrapAlignment.center,
           children: [
-            LinkText(
+            MyTextButton(
                 text: 'About',
                 onPressed: () {
                   if (kDebugMode) {
                     print('about');
                   }
                 }),
-            const LinkText(text: 'Help Center'),
-            const LinkText(text: 'Terms of Service'),
-            const LinkText(text: 'Privacy Policy'),
-            const LinkText(text: 'Cookie Policy'),
-            const LinkText(text: 'Ads info'),
-            const LinkText(text: 'Blog'),
-            const LinkText(text: 'Status'),
-            const LinkText(text: 'Careers'),
-            const LinkText(text: 'Brand Resources'),
-            const LinkText(text: 'Advertising'),
-            const LinkText(text: 'Marketing'),
+            const MyTextButton(text: 'Help Center'),
+            const MyTextButton(text: 'Terms of Service'),
+            const MyTextButton(text: 'Privacy Policy'),
+            const MyTextButton(text: 'Cookie Policy'),
+            const MyTextButton(text: 'Ads info'),
+            const MyTextButton(text: 'Blog'),
+            const MyTextButton(text: 'Status'),
+            const MyTextButton(text: 'Careers'),
+            const MyTextButton(text: 'Brand Resources'),
+            const MyTextButton(text: 'Advertising'),
+            const MyTextButton(text: 'Marketing'),
           ],
         ));
   }

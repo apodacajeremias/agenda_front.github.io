@@ -7,7 +7,7 @@ class NotificationsIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        const Icon(Icons.notifications_none_outlined),
+        const Icon(Icons.notifications_none),
         Positioned(
           left: 2,
           child: Container(

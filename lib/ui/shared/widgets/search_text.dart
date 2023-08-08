@@ -11,12 +11,12 @@ class SearchText extends StatelessWidget {
       height: 40,
       decoration: buildBoxDecoration(),
       child: TextField(
-        decoration:
-            CustomInputs.search(hint: 'Buscar', icon: Icons.search_outlined),
+        decoration: CustomInputs.form(
+            label: 'Buscar', hint: 'Realice su búsqueda', icon: Icons.search),
       ),
     );
   }
 
-  BoxDecoration buildBoxDecoration() => BoxDecoration(
-      borderRadius: BorderRadius.circular(10));
+  BoxDecoration buildBoxDecoration() =>
+      BoxDecoration(borderRadius: BorderRadius.circular(10));
 }

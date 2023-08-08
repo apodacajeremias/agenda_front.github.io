@@ -1,8 +1,8 @@
 import 'package:agenda_front/providers/auth_provider.dart';
 import 'package:agenda_front/providers/register_form_provider.dart';
 import 'package:agenda_front/routers/router.dart';
-import 'package:agenda_front/ui/buttons/custom_outlined_button.dart';
-import 'package:agenda_front/ui/buttons/link_text.dart';
+import 'package:agenda_front/ui/buttons/my_outlined_button.dart';
+import 'package:agenda_front/ui/buttons/my_text_button.dart';
 import 'package:agenda_front/ui/inputs/custom_inputs.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +61,7 @@ class RegisterView extends StatelessWidget {
                         decoration: CustomInputs.form(
                             hint: 'Ingrese su correo',
                             label: 'Email',
-                            icon: Icons.email_outlined),
+                            icon: Icons.email),
                       ),
 
                       const SizedBox(height: 20),
@@ -88,7 +88,7 @@ class RegisterView extends StatelessWidget {
                       ),
 
                       const SizedBox(height: 20),
-                      CustomOutlinedButton(
+                      MyOutlinedButton(
                         onPressed: () {
                           final validForm = registerFormProvider.validateForm();
                           if (!validForm) return;
@@ -103,7 +103,7 @@ class RegisterView extends StatelessWidget {
                       ),
 
                       const SizedBox(height: 20),
-                      LinkText(
+                      MyTextButton(
                         text: 'Ir al login',
                         onPressed: () {
                           Navigator.pushReplacementNamed(
