@@ -99,7 +99,7 @@ class PersonaFormView extends StatelessWidget {
                                     Text(toBeginningOfSentenceCase(e.name)!)))
                             .toList(),
                         validator: FormBuilderValidators.required(
-                            errorText: 'Tipo obligatorio'),
+                            errorText: 'Genero obligatorio'),
                         valueTransformer: (value) => value!.name,
                       ),
                     )
@@ -128,7 +128,7 @@ class PersonaFormView extends StatelessWidget {
                                     FechaUtil.calcularEdad(value!).toString());
                           },
                           inputType: InputType.date,
-                          valueTransformer: (value) => value!.toIso8601String(),
+                          valueTransformer: (value) => value?.toIso8601String(),
                         ),
                       ),
                       SizedBox(width: 10),

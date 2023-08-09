@@ -10,6 +10,7 @@ import 'package:agenda_front/ui/shared/forms/form_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -116,18 +117,25 @@ class EmpresaFormView extends StatelessWidget {
                                           toBeginningOfSentenceCase(e.name)!),
                                     ))
                                 .toList(),
+                            validator: FormBuilderValidators.required(
+                                errorText: 'Campo obligatorio'),
+                            valueTransformer: (value) => value?.name,
                           )),
                           SizedBox(width: 10),
                           Expanded(
                             child: FormBuilderDropdown(
-                                name: 'idioma',
-                                items: Idioma.values
-                                    .map((e) => DropdownMenuItem(
-                                          value: e,
-                                          child: Text(toBeginningOfSentenceCase(
-                                              e.name)!),
-                                        ))
-                                    .toList()),
+                              name: 'idioma',
+                              items: Idioma.values
+                                  .map((e) => DropdownMenuItem(
+                                        value: e,
+                                        child: Text(
+                                            toBeginningOfSentenceCase(e.name)!),
+                                      ))
+                                  .toList(),
+                              validator: FormBuilderValidators.required(
+                                  errorText: 'Campo obligatorio'),
+                              valueTransformer: (value) => value?.name,
+                            ),
                           )
                         ],
                       ),

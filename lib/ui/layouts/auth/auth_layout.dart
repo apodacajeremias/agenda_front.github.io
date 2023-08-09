@@ -82,7 +82,7 @@ class _DesktopBody extends StatelessWidget {
             height: double.infinity,
             child: Column(
               children: [
-                const SizedBox(height: 20),
+                const SizedBox(height: 50),
                 const CustomTitle(),
                 const SizedBox(height: 50),
                 Expanded(child: child),

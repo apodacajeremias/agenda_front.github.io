@@ -96,35 +96,43 @@ class BeneficioFormView extends StatelessWidget {
                       children: [
                         Expanded(
                             child: FormBuilderDropdown(
-                                name: 'tipo',
-                                initialValue: beneficio?.tipo,
-                                enabled: beneficio?.activo ?? true,
-                                decoration: CustomInputs.form(
-                                    label: 'Tipo de beneficio',
-                                    hint: 'Tipo de beneficio',
-                                    icon: Icons.loyalty),
-                                items: TipoBeneficio.values
-                                    .map((tipo) => DropdownMenuItem(
-                                        value: tipo.name,
-                                        child: Text(toBeginningOfSentenceCase(
-                                            tipo.name)!)))
-                                    .toList())),
+                          name: 'tipo',
+                          initialValue: beneficio?.tipo,
+                          enabled: beneficio?.activo ?? true,
+                          decoration: CustomInputs.form(
+                              label: 'Tipo de beneficio',
+                              hint: 'Tipo de beneficio',
+                              icon: Icons.loyalty),
+                          items: TipoBeneficio.values
+                              .map((tipo) => DropdownMenuItem(
+                                  value: tipo,
+                                  child: Text(
+                                      toBeginningOfSentenceCase(tipo.name)!)))
+                              .toList(),
+                          validator: FormBuilderValidators.required(
+                              errorText: 'Campo obligatorio'),
+                          valueTransformer: (value) => value?.name,
+                        )),
                         SizedBox(width: 10),
                         Expanded(
                             child: FormBuilderDropdown(
-                                name: 'tipoDescuento',
-                                initialValue: beneficio?.tipoDescuento,
-                                enabled: beneficio?.activo ?? true,
-                                decoration: CustomInputs.form(
-                                    label: 'Tipo de descuento',
-                                    hint: 'Tipo de descuento',
-                                    icon: Icons.discount),
-                                items: TipoDescuento.values
-                                    .map((descuento) => DropdownMenuItem(
-                                        value: descuento.name,
-                                        child: Text(toBeginningOfSentenceCase(
-                                            descuento.name)!)))
-                                    .toList()))
+                          name: 'tipoDescuento',
+                          initialValue: beneficio?.tipoDescuento,
+                          enabled: beneficio?.activo ?? true,
+                          decoration: CustomInputs.form(
+                              label: 'Tipo de descuento',
+                              hint: 'Tipo de descuento',
+                              icon: Icons.discount),
+                          items: TipoDescuento.values
+                              .map((descuento) => DropdownMenuItem(
+                                  value: descuento,
+                                  child: Text(toBeginningOfSentenceCase(
+                                      descuento.name)!)))
+                              .toList(),
+                          validator: FormBuilderValidators.required(
+                              errorText: 'Campo obligatorio'),
+                          valueTransformer: (value) => value?.name,
+                        ))
                       ]),
                   FormFooter(onConfirm: () async {
                     if (provider.saveAndValidate()) {

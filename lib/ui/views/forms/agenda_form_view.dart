@@ -66,7 +66,7 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                                       errorText: 'Campo obligatorio'),
                                   inputType: InputType.date,
                                   valueTransformer: (value) =>
-                                      value!.toIso8601String())),
+                                      value?.toIso8601String())),
                           SizedBox(width: 10),
                           Expanded(
                               child: FormBuilderDateTimePicker(
@@ -80,7 +80,7 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                                       errorText: 'Campo obligatorio'),
                                   inputType: InputType.time,
                                   valueTransformer: (value) =>
-                                      value!.toIso8601String())),
+                                      value?.toIso8601String())),
                         ],
                       ),
                       SizedBox(height: 10),
@@ -109,6 +109,9 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                                       child: Text(
                                           toBeginningOfSentenceCase(e.name)!)))
                                   .toList(),
+                              validator: FormBuilderValidators.required(
+                                  errorText: 'Campo obligatorio'),
+                              valueTransformer: (value) => value?.name,
                             ),
                           ),
                           SizedBox(width: 10),
@@ -121,6 +124,9 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                                       child: Text(
                                           toBeginningOfSentenceCase(e.name)!)))
                                   .toList(),
+                              validator: FormBuilderValidators.required(
+                                  errorText: 'Campo obligatorio'),
+                              valueTransformer: (value) => value?.name,
                             ),
                           ),
                         ],
