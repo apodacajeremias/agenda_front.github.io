@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 
 class ItemHandlers {
   static Handler index = Handler(handlerFunc: (context, parameters) {
-    final authProvider = Provider.of<AuthProvider>(context!);
+    final authProvider = Provider.of<AuthProvider>(context!, listen: false);
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.itemsIndexRoute);
     if (authProvider.authStatus == AuthStatus.authenticated) {
@@ -21,7 +21,7 @@ class ItemHandlers {
   });
 
   static Handler create = Handler(handlerFunc: (context, params) {
-    final authProvider = Provider.of<AuthProvider>(context!);
+    final authProvider = Provider.of<AuthProvider>(context!, listen: false);
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.itemsIndexRoute);
     if (authProvider.authStatus == AuthStatus.authenticated) {
@@ -32,7 +32,7 @@ class ItemHandlers {
   });
 
   static Handler edit = Handler(handlerFunc: (context, params) {
-    final authProvider = Provider.of<AuthProvider>(context!);
+    final authProvider = Provider.of<AuthProvider>(context!, listen: false);
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.itemsIndexRoute);
     final id = params['id']?.first;

@@ -84,17 +84,23 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                       ),
                       SizedBox(height: 10),
                       FormBuilderSearchableDropdown(
-                        name: 'persona',
+                        name: 'persona.id',
                         compareFn: (item1, item2) =>
                             item1.id!.contains(item2.id!),
                         items: personas,
+                        validator: FormBuilderValidators.required(
+                            errorText: 'Campo obligatorio'),
+                        valueTransformer: (value) => value?.id,
                       ),
                       SizedBox(height: 10),
                       FormBuilderSearchableDropdown(
-                        name: 'colaborador',
+                        name: 'colaborador.id',
                         compareFn: (item1, item2) =>
                             item1.id!.contains(item2.id!),
                         items: colaboradores,
+                        validator: FormBuilderValidators.required(
+                            errorText: 'Campo obligatorio'),
+                        valueTransformer: (value) => value?.id,
                       ),
                       SizedBox(height: 10),
                       Row(

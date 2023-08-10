@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 
 class PersonaHandlers {
   static Handler index = Handler(handlerFunc: (context, parameters) {
-    final authProvider = Provider.of<AuthProvider>(context!);
+    final authProvider = Provider.of<AuthProvider>(context!, listen: false);
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.personasIndexRoute);
     if (authProvider.authStatus == AuthStatus.authenticated) {
@@ -21,7 +21,7 @@ class PersonaHandlers {
   });
 
   static Handler create = Handler(handlerFunc: (context, params) {
-    final authProvider = Provider.of<AuthProvider>(context!);
+    final authProvider = Provider.of<AuthProvider>(context!, listen: false);
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.personasIndexRoute);
     if (authProvider.authStatus == AuthStatus.authenticated) {
@@ -32,7 +32,7 @@ class PersonaHandlers {
   });
 
   static Handler edit = Handler(handlerFunc: (context, params) {
-    final authProvider = Provider.of<AuthProvider>(context!);
+    final authProvider = Provider.of<AuthProvider>(context!, listen: false);
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.personasIndexRoute);
     final id = params['id']?.first;

@@ -134,7 +134,7 @@ class PromocionFormView extends StatelessWidget {
                                   .toList(),
                               validator: FormBuilderValidators.required(
                                   errorText: 'Tipo obligatorio'),
-                              valueTransformer: (value) => value!.name,
+                              valueTransformer: (value) => value?.name,
                             ),
                           )
                         ],

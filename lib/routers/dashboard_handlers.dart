@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 
 class DashboardHandlers {
   static Handler dashboard = Handler(handlerFunc: (context, params) {
-    final authProvider = Provider.of<AuthProvider>(context!);
+    final authProvider = Provider.of<AuthProvider>(context!, listen: false);
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.dashboardRoute);
 
@@ -22,7 +22,7 @@ class DashboardHandlers {
   });
 
   static Handler icons = Handler(handlerFunc: (context, params) {
-    final authProvider = Provider.of<AuthProvider>(context!);
+    final authProvider = Provider.of<AuthProvider>(context!, listen: false);
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.iconsRoute);
 
@@ -34,7 +34,7 @@ class DashboardHandlers {
   });
 
   static Handler blank = Handler(handlerFunc: (context, params) {
-    final authProvider = Provider.of<AuthProvider>(context!);
+    final authProvider = Provider.of<AuthProvider>(context!, listen: false);
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.blankRoute);
 
@@ -46,7 +46,7 @@ class DashboardHandlers {
   });
 
   static Handler categories = Handler(handlerFunc: (context, params) {
-    final authProvider = Provider.of<AuthProvider>(context!);
+    final authProvider = Provider.of<AuthProvider>(context!, listen: false);
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.categoriesRoute);
 
@@ -59,7 +59,7 @@ class DashboardHandlers {
   });
 
   static Handler users = Handler(handlerFunc: (context, params) {
-    final authProvider = Provider.of<AuthProvider>(context!);
+    final authProvider = Provider.of<AuthProvider>(context!, listen: false);
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.usersIndexRoute);
 

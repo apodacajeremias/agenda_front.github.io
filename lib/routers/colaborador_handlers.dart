@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 class ColaboradorHandlers {
   static Handler index = Handler(
     handlerFunc: (context, parameters) {
-      final authProvider = Provider.of<AuthProvider>(context!);
+      final authProvider = Provider.of<AuthProvider>(context!, listen: false);
       Provider.of<SideMenuProvider>(context, listen: false)
           .setCurrentPageUrl(Flurorouter.colaboradoresIndexRoute);
       if (authProvider.authStatus == AuthStatus.authenticated) {
@@ -22,7 +22,7 @@ class ColaboradorHandlers {
 
   static Handler create = Handler(
     handlerFunc: (context, parameters) {
-      final authProvider = Provider.of<AuthProvider>(context!);
+      final authProvider = Provider.of<AuthProvider>(context!, listen: false);
       Provider.of<SideMenuProvider>(context, listen: false)
           .setCurrentPageUrl(Flurorouter.colaboradoresIndexRoute);
       if (authProvider.authStatus == AuthStatus.authenticated) {
@@ -36,7 +36,7 @@ class ColaboradorHandlers {
 
   static Handler edit = Handler(
     handlerFunc: (context, parameters) {
-      final authProvider = Provider.of<AuthProvider>(context!);
+      final authProvider = Provider.of<AuthProvider>(context!, listen: false);
       Provider.of<SideMenuProvider>(context, listen: false)
           .setCurrentPageUrl(Flurorouter.colaboradoresIndexRoute);
 

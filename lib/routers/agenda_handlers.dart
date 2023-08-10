@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 
 class AgendaHandlers {
   static Handler index = Handler(handlerFunc: (context, params) {
-    final authProvider = Provider.of<AuthProvider>(context!);
+    final authProvider = Provider.of<AuthProvider>(context!, listen: false);
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.agendasIndexRoute);
     if (authProvider.authStatus == AuthStatus.authenticated) {
@@ -23,7 +23,7 @@ class AgendaHandlers {
   });
 
   static Handler create = Handler(handlerFunc: (context, params) {
-    final authProvider = Provider.of<AuthProvider>(context!);
+    final authProvider = Provider.of<AuthProvider>(context!, listen: false);
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.agendasIndexRoute);
     if (authProvider.authStatus == AuthStatus.authenticated) {
@@ -34,7 +34,7 @@ class AgendaHandlers {
   });
 
   static Handler reschedule = Handler(handlerFunc: (context, params) {
-    final authProvider = Provider.of<AuthProvider>(context!);
+    final authProvider = Provider.of<AuthProvider>(context!, listen: false);
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.agendasIndexRoute);
     final id = params['id']!.first;
@@ -48,7 +48,7 @@ class AgendaHandlers {
   });
 
   static Handler unschedule = Handler(handlerFunc: (context, params) {
-    final authProvider = Provider.of<AuthProvider>(context!);
+    final authProvider = Provider.of<AuthProvider>(context!, listen: false);
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.agendasIndexRoute);
     final id = params['id']!.first;
@@ -62,7 +62,7 @@ class AgendaHandlers {
   });
 
   static Handler prioritize = Handler(handlerFunc: (context, params) {
-    final authProvider = Provider.of<AuthProvider>(context!);
+    final authProvider = Provider.of<AuthProvider>(context!, listen: false);
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.agendasIndexRoute);
     final id = params['id']!.first;
@@ -77,7 +77,7 @@ class AgendaHandlers {
   });
 
   static Handler deprioritize = Handler(handlerFunc: (context, params) {
-    final authProvider = Provider.of<AuthProvider>(context!);
+    final authProvider = Provider.of<AuthProvider>(context!, listen: false);
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.agendasIndexRoute);
     final id = params['id']!.first;
@@ -92,7 +92,7 @@ class AgendaHandlers {
   });
 
   static Handler changeSituation = Handler(handlerFunc: (context, params) {
-    final authProvider = Provider.of<AuthProvider>(context!);
+    final authProvider = Provider.of<AuthProvider>(context!, listen: false);
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.agendasIndexRoute);
     final id = params['id']!.first;

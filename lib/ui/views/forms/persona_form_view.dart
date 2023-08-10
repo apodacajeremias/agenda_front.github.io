@@ -100,7 +100,7 @@ class PersonaFormView extends StatelessWidget {
                             .toList(),
                         validator: FormBuilderValidators.required(
                             errorText: 'Genero obligatorio'),
-                        valueTransformer: (value) => value!.name,
+                        valueTransformer: (value) => value?.name,
                       ),
                     )
                   ],

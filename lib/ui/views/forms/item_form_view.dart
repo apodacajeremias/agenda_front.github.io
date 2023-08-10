@@ -49,9 +49,7 @@ class ItemFormView extends StatelessWidget {
                             Expanded(
                                 child: FormBuilderSwitch(
                                     name: 'activo',
-                                    title: Text(
-                                      'Estado del registro'
-                                    ),
+                                    title: Text('Estado del registro'),
                                     initialValue: item?.activo)),
                           ],
                         )
@@ -100,7 +98,7 @@ class ItemFormView extends StatelessWidget {
                                   .toList(),
                               validator: FormBuilderValidators.required(
                                   errorText: 'Tipo obligatorio'),
-                              valueTransformer: (value) => value!.name,
+                              valueTransformer: (value) => value?.name,
                             ),
                           )
                         ],
