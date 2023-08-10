@@ -35,10 +35,9 @@ class _AgendaFormViewState extends State<AgendaFormView> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AgendaProvider>(context, listen: false);
-    final personas =
-        Provider.of<PersonaProvider>(context, listen: false).personas;
+    final personas = Provider.of<PersonaProvider>(context).personas;
     final colaboradores =
-        Provider.of<ColaboradorProvider>(context, listen: false).colaboradores;
+        Provider.of<ColaboradorProvider>(context).colaboradores;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: ListView(
