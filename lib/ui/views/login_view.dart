@@ -16,7 +16,6 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
-
     return ChangeNotifierProvider(
         create: (_) => LoginFormProvider(),
         child: Builder(builder: (context) {
@@ -72,11 +71,10 @@ class LoginView extends StatelessWidget {
                             return null; // Válido
                           },
                           obscureText: true,
-                          // style: const TextStyle(color: Colors.white),
                           decoration: CustomInputs.form(
                               hint: '*********',
                               label: 'Contraseña',
-                              icon: Icons.lock_outline_rounded),
+                              icon: Icons.lock),
                         ),
 
                         const SizedBox(height: 20),
