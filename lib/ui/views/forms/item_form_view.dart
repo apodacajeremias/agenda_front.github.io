@@ -7,6 +7,7 @@ import 'package:agenda_front/ui/cards/white_card.dart';
 import 'package:agenda_front/ui/inputs/custom_inputs.dart';
 import 'package:agenda_front/ui/shared/forms/form_footer.dart';
 import 'package:agenda_front/ui/shared/forms/form_header.dart';
+import 'package:agenda_front/ui/shared/inputs/form_builder_money.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -68,18 +69,25 @@ class ItemFormView extends StatelessWidget {
                       SizedBox(height: 10),
                       Row(
                         children: [
+                          // Expanded(
+                          //   child: FormBuilderTextField(
+                          //       name: 'precio',
+                          //       initialValue: item?.precio?.toString(),
+                          //       enabled: item?.activo ?? true,
+                          //       decoration: CustomInputs.form(
+                          //           label: 'Precio',
+                          //           hint: 'Precio del item',
+                          //           icon: Icons.tag),
+                          //       validator: FormBuilderValidators.min(1,
+                          //           errorText: 'Ingrese un valor'),
+                          //       inputFormatters: [CurrencyInputFormatter()]),
+                          // ),
                           Expanded(
-                            child: FormBuilderTextField(
-                                name: 'precio',
-                                initialValue: item?.precio?.toString(),
-                                enabled: item?.activo ?? true,
-                                decoration: CustomInputs.form(
-                                    label: 'Precio',
-                                    hint: 'Precio del item',
-                                    icon: Icons.tag),
-                                validator: FormBuilderValidators.min(1,
-                                    errorText: 'Ingrese un valor')),
-                          ),
+                              child: FormBuilderMoney(
+                                  name: 'precio',
+                                  label: 'Precio',
+                                  initialValue: item?.precio,
+                                  enabled: item?.activo ?? true)),
                           SizedBox(width: 10),
                           Expanded(
                             child: FormBuilderDropdown(
@@ -102,9 +110,6 @@ class ItemFormView extends StatelessWidget {
                             ),
                           )
                         ],
-                      ),
-                      SizedBox(
-                        height: 10,
                       ),
                       FormFooter(onConfirm: () async {
                         if (provider.saveAndValidate()) {

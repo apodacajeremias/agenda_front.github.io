@@ -72,17 +72,20 @@ class AuthProvider extends ChangeNotifier {
   }
 
   isAuthenticated() async {
-    final token = LocalStorage.prefs.getString('token');
-    if (token == null) {
+    if (!LocalStorage.prefs.containsKey('token') ||
+        LocalStorage.prefs.getString('token') == null) {
       _authStatus = AuthStatus.notAuthenticated;
       notifyListeners();
+      return;
     }
     try {
-      final resp = await AgendaAPI.httpGet('/auth/validate?token=$token');
-      final authReponse = AuthenticationResponse.fromJson(resp);
-      LocalStorage.prefs.setString('token', authReponse.token);
-      usuario = authReponse.usuario;
+      final resp = await AgendaAPI.httpGet(
+          '/auth/validate?token=${LocalStorage.prefs.getString('token')}');
+      final authResponse = AuthenticationResponse.fromJson(resp);
+      _token = authResponse.token;
+      usuario = authResponse.usuario;
       _authStatus = AuthStatus.authenticated;
+      LocalStorage.prefs.setString('token', _token!);
       notifyListeners();
     } catch (e) {
       LocalStorage.prefs.remove('token');

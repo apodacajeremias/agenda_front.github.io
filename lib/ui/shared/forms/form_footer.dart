@@ -10,23 +10,26 @@ class FormFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Expanded(
-            child: MyElevatedButton(
-          text: 'Continuar',
-          icon: Icons.save,
-          onPressed: onConfirm,
-        )),
-        SizedBox(
-          width: 10,
-        ),
-        Expanded(
-            child: MyOutlinedButton(
-                text: 'Cancelar',
-                onPressed: () => Navigator.of(context).pop())),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Expanded(
+              child: MyElevatedButton(
+            text: 'Continuar',
+            icon: Icons.save,
+            onPressed: onConfirm,
+          )),
+          SizedBox(
+            width: 10,
+          ),
+          Expanded(
+              child: MyOutlinedButton(
+                  text: 'Cancelar',
+                  onPressed: () => Navigator.of(context).pop())),
+        ],
+      ),
     );
   }
 }

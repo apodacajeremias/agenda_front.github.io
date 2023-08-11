@@ -152,6 +152,7 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                       FormFooter(onConfirm: () async {
                         if (provider.saveAndValidate()) {
                           try {
+                            print(provider.formData());
                             provider.registrar(provider.formData());
                             if (context.mounted) {
                               Navigator.of(context).pop();

@@ -31,6 +31,7 @@ environment:
 dependencies:
   age_calculator: ^1.0.0
   cupertino_icons: ^1.0.2
+  currency_textfield: ^4.0.0
   dio: ^5.1.2
   dropdown_search: ^5.0.6
   email_validator: ^2.1.17
