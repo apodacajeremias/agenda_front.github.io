@@ -4,6 +4,7 @@ import 'package:agenda_front/models/entities/item.dart';
 import 'package:agenda_front/providers/item_provider.dart';
 import 'package:agenda_front/services/navigation_service.dart';
 import 'package:agenda_front/services/notifications_service.dart';
+import 'package:agenda_front/ui/labels/text_currency.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +20,7 @@ class ItemDataSource extends DataTableSource {
     return DataRow.byIndex(index: index, cells: [
       DataCell(Text(item.nombre!)),
       DataCell(Text(item.tipo!.name)),
-      DataCell(Text(item.precio.toString())),
+      DataCell(TextCurrency(item.precio!)),
       DataCell(Row(children: [
         IconButton(
           onPressed: () {

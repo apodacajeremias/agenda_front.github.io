@@ -10,4 +10,8 @@ class CustomInputs {
         hintText: hint, // ADENTRO
         prefixIcon: Icon(icon));
   }
+
+  static InputDecoration noBorder() {
+    return InputDecoration(border: InputBorder.none);
+  }
 }

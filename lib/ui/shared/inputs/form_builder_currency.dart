@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
-class FormBuilderMoney extends StatelessWidget {
+class FormBuilderCurrency extends StatelessWidget {
   final String name;
   final String label;
   final double? initialValue;
   final bool enabled;
-  const FormBuilderMoney(
+  const FormBuilderCurrency(
       {super.key,
       required this.name,
       required this.label,
