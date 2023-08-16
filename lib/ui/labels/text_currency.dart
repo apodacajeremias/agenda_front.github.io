@@ -14,7 +14,7 @@ class TextCurrency extends StatelessWidget {
     return FormBuilderTextField(
       name: 'text-currency',
       controller: controller,
-      enabled: false,
+      readOnly: true,
       decoration: CustomInputs.noBorder(),
     );
   }

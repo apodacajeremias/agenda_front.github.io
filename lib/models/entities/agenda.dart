@@ -8,7 +8,7 @@ import 'package:agenda_front/models/entities/colaborador.dart';
 import 'package:agenda_front/models/entities/persona.dart';
 import 'package:agenda_front/models/enums/prioridad.dart';
 import 'package:agenda_front/models/enums/situacion.dart';
-
+import 'package:intl/intl.dart';
 
 Agenda agendaFromJson(String str) => Agenda.fromJson(json.decode(str));
 
@@ -46,10 +46,10 @@ class Agenda {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
-        fechaCreacion: DateTime.parse(json['fechaCreacion']),
-        fechaModificacion: DateTime.parse(json['fechaModificacion']),
-        fecha: DateTime.parse(json['fecha']),
-        hora: DateTime.parse(json['hora']),
+        fechaCreacion: DateTime.tryParse(json['fechaCreacion']),
+        fechaModificacion: DateTime.tryParse(json['fechaModificacion']),
+        fecha: DateTime.tryParse(json['fecha']),
+        hora: DateFormat("HH:mm:ss").parse(json['hora']),
         observacion: json['observacion'],
         situacion: Situacion.values.byName(json['situacion']),
         prioridad: Prioridad.values.byName(json['prioridad']),
@@ -74,4 +74,9 @@ class Agenda {
         'colaborador': colaborador?.toJson(),
         'persona': persona?.toJson(),
       };
+
+  @override
+  String toString() {
+    return nombre ?? 'N/A';
+  }
 }

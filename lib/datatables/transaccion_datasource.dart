@@ -20,8 +20,8 @@ class TransaccionDataSource extends DataTableSource {
     return DataRow.byIndex(index: index, cells: [
       DataCell(Text(transaccion.persona!.nombre!)),
       DataCell(Text(FechaUtil.formatDate(transaccion.fechaCreacion!))),
-      DataCell(Text(transaccion.tipo as String)),
-      DataCell(Text(transaccion.total as String)),
+      DataCell(Text(transaccion.tipo.toString())),
+      DataCell(Text(transaccion.total.toString())),
       DataCell(Row(children: [
         IconButton(
           onPressed: () {

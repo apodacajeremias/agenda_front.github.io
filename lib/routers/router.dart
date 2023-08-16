@@ -2,10 +2,15 @@ import 'package:agenda_front/providers/auth_provider.dart';
 import 'package:agenda_front/providers/sidemenu_provider.dart';
 import 'package:agenda_front/routers/admin_handlers.dart';
 import 'package:agenda_front/routers/agenda_handlers.dart';
+import 'package:agenda_front/routers/beneficio_handlers.dart';
+import 'package:agenda_front/routers/colaborador_handlers.dart';
 import 'package:agenda_front/routers/dashboard_handlers.dart';
+import 'package:agenda_front/routers/grupo_handlers.dart';
 import 'package:agenda_front/routers/item_handlers.dart';
 import 'package:agenda_front/routers/no_page_found_handlers.dart';
 import 'package:agenda_front/routers/persona_handlers.dart';
+import 'package:agenda_front/routers/promocion_handlers.dart';
+import 'package:agenda_front/routers/transaccion_handlers.dart';
 import 'package:agenda_front/ui/views/login_view.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
@@ -138,6 +143,32 @@ class Flurorouter {
         handler: AgendaHandlers.changeSituation,
         transitionType: _transitionType);
 
+    // Beneficio
+    router.define(beneficiosIndexRoute,
+        handler: BeneficioHandlers.index, transitionType: _transitionType);
+    router.define(beneficiosCreateRoute,
+        handler: BeneficioHandlers.create, transitionType: _transitionType);
+    router.define(beneficiosEditRoute,
+        handler: BeneficioHandlers.edit, transitionType: _transitionType);
+
+    // Colaborador
+    router.define(colaboradoresIndexRoute,
+        handler: ColaboradorHandlers.index, transitionType: _transitionType);
+    router.define(colaboradoresCreateRoute,
+        handler: ColaboradorHandlers.create, transitionType: _transitionType);
+    router.define(colaboradoresEditRoute,
+        handler: ColaboradorHandlers.edit, transitionType: _transitionType);
+
+// TODO: Empresa
+
+    // Grupo
+    router.define(gruposIndexRoute,
+        handler: GrupoHandlers.index, transitionType: _transitionType);
+    router.define(gruposCreateRoute,
+        handler: GrupoHandlers.create, transitionType: _transitionType);
+    router.define(gruposEditRoute,
+        handler: GrupoHandlers.edit, transitionType: _transitionType);
+
     // Item
     router.define(itemsIndexRoute,
         handler: ItemHandlers.index, transitionType: _transitionType);
@@ -153,6 +184,25 @@ class Flurorouter {
         handler: PersonaHandlers.create, transitionType: _transitionType);
     router.define(personasEditRoute,
         handler: PersonaHandlers.edit, transitionType: _transitionType);
+
+    // Promocion
+    router.define(promocionesIndexRoute,
+        handler: PromocionHandlers.index, transitionType: _transitionType);
+    router.define(promocionesCreateRoute,
+        handler: PromocionHandlers.create, transitionType: _transitionType);
+    router.define(promocionesEditRoute,
+        handler: PromocionHandlers.edit, transitionType: _transitionType);
+
+    // TODO: Token
+
+    // Transaccion
+    // TODO: faltan enlaces
+    router.define(transaccionesIndexRoute,
+        handler: TransaccionHandlers.index, transitionType: _transitionType);
+    router.define(transaccionesCreateRoute,
+        handler: TransaccionHandlers.create, transitionType: _transitionType);
+    router.define(transaccionesEditRoute,
+        handler: TransaccionHandlers.edit, transitionType: _transitionType);
 
     // Users
     router.define(usersIndexRoute,

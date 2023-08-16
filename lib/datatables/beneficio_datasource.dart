@@ -18,9 +18,9 @@ class BeneficioDataSource extends DataTableSource {
     final beneficio = beneficios[index];
     return DataRow.byIndex(index: index, cells: [
       DataCell(Text(beneficio.nombre!)),
-      DataCell(Text(beneficio.tipo as String)),
-      DataCell(Text(beneficio.tipoDescuento as String)),
-      DataCell(Text(beneficio.descuento as String)),
+      DataCell(Text(beneficio.tipo.toString())),
+      DataCell(Text(beneficio.tipoDescuento.toString())),
+      DataCell(Text(beneficio.descuento.toString())),
       DataCell(Row(children: [
         IconButton(
           onPressed: () {

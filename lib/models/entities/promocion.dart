@@ -40,10 +40,10 @@ class Promocion {
       id: json["id"],
       activo: json["activo"],
       nombre: json["nombre"],
-      fechaCreacion: DateTime.parse(json['fechaCreacion']),
-      fechaModificacion: DateTime.parse(json['fechaModificacion']),
-      inicio: DateTime.parse(json['inicio']),
-      fin: DateTime.parse(json['fin']),
+      fechaCreacion: DateTime.tryParse(json['fechaCreacion']),
+      fechaModificacion: DateTime.tryParse(json['fechaModificacion']),
+      inicio: DateTime.tryParse(json['inicio']),
+      fin: DateTime.tryParse(json['fin']),
       valor: json["valor"],
       tipoDescuento: TipoDescuento.values.byName(json['tipoDescuento']),
       beneficios: json['beneficios']);
@@ -57,4 +57,9 @@ class Promocion {
         "valor": valor,
         "tipoDescuento": tipoDescuento.toString().toUpperCase(),
       };
+
+  @override
+  String toString() {
+    return nombre ?? 'N/A';
+  }
 }

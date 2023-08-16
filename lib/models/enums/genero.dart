@@ -1,3 +1,12 @@
 // ignore_for_file: constant_identifier_names
 
-enum Genero { MASCULINO, FEMENINO, OTRO }
+enum Genero {
+  MASCULINO,
+  FEMENINO,
+  OTRO;
+
+  @override
+  String toString() {
+    return name;
+  }
+}

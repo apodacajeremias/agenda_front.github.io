@@ -38,12 +38,16 @@ class Beneficio {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
-        fechaCreacion: DateTime.parse(json['fechaCreacion']),
-        fechaModificacion: DateTime.parse(json['fechaModificacion']),
+        fechaCreacion: DateTime.tryParse(json['fechaCreacion']),
+        fechaModificacion: DateTime.tryParse(json['fechaModificacion']),
         tipo: TipoBeneficio.values.byName(json['tipo']),
         tipoDescuento: TipoDescuento.values.byName(json['tipoDescuento']),
         descuento: json['descuento'],
-        promociones: json['promociones'],
+        promociones: json.containsKey('promociones') &&
+                json['promociones'] != null
+            ? List<Promocion>.from(
+                json['promociones'].map((model) => Promocion.fromJson(model)))
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -54,4 +58,9 @@ class Beneficio {
         'tipoDescuento': tipoDescuento.toString().toUpperCase(),
         'descuento': descuento,
       };
+
+  @override
+  String toString() {
+    return nombre ?? 'N/A';
+  }
 }

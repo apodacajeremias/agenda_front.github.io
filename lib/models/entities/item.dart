@@ -33,8 +33,8 @@ class Item {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
-        fechaCreacion: DateTime.parse(json['fechaCreacion']),
-        fechaModificacion: DateTime.parse(json['fechaModificacion']),
+        fechaCreacion: DateTime.tryParse(json['fechaCreacion']),
+        fechaModificacion: DateTime.tryParse(json['fechaModificacion']),
         precio: json['precio'],
         tipo: TipoTransaccion.values.byName(json['tipo']),
       );
@@ -46,4 +46,9 @@ class Item {
         'precio': precio,
         'tipo': tipo.toString().toUpperCase(),
       };
+
+  @override
+  String toString() {
+    return nombre ?? 'N/A';
+  }
 }

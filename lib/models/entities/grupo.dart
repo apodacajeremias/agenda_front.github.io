@@ -34,8 +34,8 @@ class Grupo {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
-        fechaCreacion: DateTime.parse(json['fechaCreacion']),
-        fechaModificacion: DateTime.parse(json['fechaModificacion']),
+        fechaCreacion: DateTime.tryParse(json['fechaCreacion']),
+        fechaModificacion: DateTime.tryParse(json['fechaModificacion']),
         personas: json['personas'],
         beneficio: Beneficio.fromJson(json['promociones']),
       );
@@ -47,4 +47,9 @@ class Grupo {
         'personas': personas,
         'beneficio': beneficio?.toJson(),
       };
+
+  @override
+  String toString() {
+    return nombre ?? 'N/A';
+  }
 }

@@ -21,7 +21,7 @@ class PromocionDataSource extends DataTableSource {
       DataCell(Text(promocion.nombre!)),
       DataCell(Text(FechaUtil.formatDate(promocion.inicio!))),
       DataCell(Text(FechaUtil.formatDate(promocion.fin!))),
-      DataCell(Text(promocion.valor as String)),
+      DataCell(Text(promocion.valor.toString())),
       DataCell(Row(children: [
         IconButton(
           onPressed: () {

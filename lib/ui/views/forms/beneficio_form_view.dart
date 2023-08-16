@@ -34,7 +34,7 @@ class BeneficioFormView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  if (beneficio?.id == null) ...[
+                  if (beneficio?.id != null) ...[
                     SizedBox(height: 10),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -76,7 +76,7 @@ class BeneficioFormView extends StatelessWidget {
                       Expanded(
                           child: FormBuilderTextField(
                         name: 'descuento',
-                        initialValue: beneficio?.descuento as String,
+                        initialValue: beneficio?.descuento.toString(),
                         enabled: beneficio?.activo ?? true,
                         decoration: CustomInputs.form(
                             label: 'Valor del beneficio',

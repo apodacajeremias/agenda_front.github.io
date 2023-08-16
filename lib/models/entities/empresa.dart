@@ -45,11 +45,11 @@ class Empresa {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
-        fechaCreacion: DateTime.parse(json['fechaCreacion']),
-        fechaModificacion: DateTime.parse(json['fechaModificacion']),
+        fechaCreacion: DateTime.tryParse(json['fechaCreacion']),
+        fechaModificacion: DateTime.tryParse(json['fechaModificacion']),
         celular: json['celular'],
         telefono: json['telefono'],
-        fechaInauguracion: DateTime.parse(json['fechaInauguracion']),
+        fechaInauguracion: DateTime.tryParse(json['fechaInauguracion']),
         direccion: json['direccion'],
         registroContribuyente: json['registroContribuyente'],
         logo: json['logo'],
@@ -70,4 +70,9 @@ class Empresa {
         'moneda': moneda.toString().toUpperCase(),
         'idioma': idioma.toString().toUpperCase()
       };
+
+  @override
+  String toString() {
+    return nombre ?? 'N/A';
+  }
 }

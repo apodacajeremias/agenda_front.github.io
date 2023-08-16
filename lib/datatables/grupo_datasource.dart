@@ -18,7 +18,7 @@ class GrupoDataSource extends DataTableSource {
     final grupo = grupos[index];
     return DataRow.byIndex(index: index, cells: [
       DataCell(Text(grupo.nombre!)),
-      DataCell(Text(grupo.beneficio as String)),
+      DataCell(Text(grupo.beneficio.toString())),
       DataCell(Row(children: [
         IconButton(
           onPressed: () {

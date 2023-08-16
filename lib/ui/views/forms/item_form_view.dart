@@ -114,7 +114,7 @@ class ItemFormView extends StatelessWidget {
                       FormFooter(onConfirm: () async {
                         if (provider.saveAndValidate()) {
                           try {
-                            provider.registrar(provider.formData());
+                            await provider.registrar(provider.formData());
                             if (context.mounted) {
                               Navigator.of(context).pop();
                             }

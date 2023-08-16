@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:agenda_front/models/entities/colaborador.dart';
+import 'package:agenda_front/models/entities/persona.dart';
 import 'package:agenda_front/models/enums/prioridad.dart';
 import 'package:agenda_front/models/enums/situacion.dart';
 import 'package:agenda_front/providers/agenda_provider.dart';
@@ -57,6 +59,7 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                               child: FormBuilderDateTimePicker(
                                   name: 'fecha',
                                   format: FechaUtil.dateFormat,
+                                  initialDate: DateTime.now(),
                                   decoration: CustomInputs.form(
                                       hint: 'Fecha',
                                       label: 'Fecha',
@@ -71,6 +74,8 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                               child: FormBuilderDateTimePicker(
                                   name: 'hora',
                                   format: FechaUtil.timeFormat,
+                                  initialTime:
+                                      TimeOfDay.fromDateTime(DateTime.now()),
                                   decoration: CustomInputs.form(
                                       hint: 'Hora',
                                       label: 'Hora',
@@ -84,23 +89,23 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                       ),
                       SizedBox(height: 10),
                       FormBuilderSearchableDropdown(
-                        name: 'persona.id',
+                        name: 'persona',
                         compareFn: (item1, item2) =>
                             item1.id!.contains(item2.id!),
                         items: personas,
                         validator: FormBuilderValidators.required(
                             errorText: 'Campo obligatorio'),
-                        valueTransformer: (value) => value?.id,
+                        valueTransformer: (value) => Persona(id: value?.id),
                       ),
                       SizedBox(height: 10),
                       FormBuilderSearchableDropdown(
-                        name: 'colaborador.id',
+                        name: 'colaborador',
                         compareFn: (item1, item2) =>
                             item1.id!.contains(item2.id!),
                         items: colaboradores,
                         validator: FormBuilderValidators.required(
                             errorText: 'Campo obligatorio'),
-                        valueTransformer: (value) => value?.id,
+                        valueTransformer: (value) => Colaborador(id: value?.id),
                       ),
                       SizedBox(height: 10),
                       Row(
@@ -148,12 +153,11 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                         minLines: 2,
                         maxLines: 5, //
                       ),
-                      SizedBox(height: 10),
                       FormFooter(onConfirm: () async {
                         if (provider.saveAndValidate()) {
                           try {
                             print(provider.formData());
-                            provider.registrar(provider.formData());
+                            await provider.registrar(provider.formData());
                             if (context.mounted) {
                               Navigator.of(context).pop();
                             }

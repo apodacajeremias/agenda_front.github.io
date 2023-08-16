@@ -43,8 +43,8 @@ class TransaccionDetalle {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
-        fechaCreacion: DateTime.parse(json['fechaCreacion']),
-        fechaModificacion: DateTime.parse(json['fechaModificacion']),
+        fechaCreacion: DateTime.tryParse(json['fechaCreacion']),
+        fechaModificacion: DateTime.tryParse(json['fechaModificacion']),
         valor: json['valor'],
         cantidad: json['cantidad'],
         subtotal: json['subtotal'],
@@ -66,4 +66,9 @@ class TransaccionDetalle {
         'transaccion': transaccion?.toJson(),
         'item': item?.toJson(),
       };
+
+  @override
+  String toString() {
+    return id ?? 'N/A';
+  }
 }

@@ -23,8 +23,8 @@ class Colaborador {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
-        fechaCreacion: DateTime.parse(json['fechaCreacion']),
-        fechaModificacion: DateTime.parse(json['fechaModificacion']),
+        fechaCreacion: DateTime.tryParse(json['fechaCreacion']),
+        fechaModificacion: DateTime.tryParse(json['fechaModificacion']),
         registroContribuyente: json['registroContribuyente'],
         registroProfesional: json['registroProfesional'],
         profesion: json['profesion'],
@@ -40,6 +40,6 @@ class Colaborador {
 
   @override
   String toString() {
-    return nombre!;
+    return nombre ?? 'N/A';
   }
 }

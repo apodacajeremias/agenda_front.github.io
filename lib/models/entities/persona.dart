@@ -51,10 +51,10 @@ class Persona {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
-        fechaCreacion: DateTime.parse(json['fechaCreacion']),
-        fechaModificacion: DateTime.parse(json['fechaModificacion']),
+        fechaCreacion: DateTime.tryParse(json['fechaCreacion']),
+        fechaModificacion: DateTime.tryParse(json['fechaModificacion']),
         documentoIdentidad: json['documentoIdentidad'],
-        fechaNacimiento: DateTime.parse(json['fechaNacimiento']),
+        fechaNacimiento: DateTime.tryParse(json['fechaNacimiento']),
         genero: Genero.values.byName(json['genero']),
         telefono: json['telefono'],
         celular: json['celular'],
@@ -76,7 +76,7 @@ class Persona {
         'nombre': nombre,
         'documentoIdentidad': documentoIdentidad,
         'fechaNacimiento': fechaNacimiento?.toIso8601String(),
-        'genero': genero.toString().toUpperCase(),
+        'genero': genero,
         'telefono': telefono,
         'celular': celular,
         'direccion': direccion,
@@ -88,6 +88,6 @@ class Persona {
 
   @override
   String toString() {
-    return nombre!;
+    return nombre ?? 'N/A';
   }
 }
