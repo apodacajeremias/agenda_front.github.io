@@ -24,31 +24,24 @@ class RegisterView extends StatelessWidget {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 370),
           child: FormBuilder(
-              key: provider.formKey,
+              key: provider.registerKey,
               child: Column(
                 children: [
                   FormBuilderTextField(
-                    name: "email",
-                    decoration: CustomInputs.form(
-                        label: 'Correo electrónico',
-                        hint: 'Ingrese su correo',
-                        icon: Icons.supervised_user_circle_sharp),
-                    validator: FormBuilderValidators.compose([
-                      FormBuilderValidators.required(
-                          errorText: 'Correo electrónico obligatorio.'),
-                      FormBuilderValidators.email(
-                          errorText: 'El correo no es correcto.'),
-                      (val) {
-                        if (val != null) {
-                          return userProvider.existe(val)
-                              ? 'El correo no está disponible'
-                              : null;
-                        } else {
-                          return 'Correo electrónico obligatorio.';
-                        }
-                      },
-                    ]),
-                  ),
+                      name: "email",
+                      decoration: CustomInputs.form(
+                          label: 'Correo electrónico',
+                          hint: 'Ingrese su correo',
+                          icon: Icons.supervised_user_circle_sharp),
+                      validator: FormBuilderValidators.compose(
+                        [
+                          FormBuilderValidators.required(
+                              errorText: 'Correo electrónico obligatorio.'),
+                          FormBuilderValidators.email(
+                              errorText: 'El correo no es correcto.'),
+                        ],
+                      )),
+
                   const SizedBox(height: 20),
                   // Password
                   FormBuilderTextField(
@@ -63,6 +56,16 @@ class RegisterView extends StatelessWidget {
                       FormBuilderValidators.minLength(6,
                           errorText:
                               'La contraseña debe de ser de 6 caracteres'),
+                      (password) {
+                        final matchingPassword = provider.registerKey
+                            .currentState?.fields['matchingPassword']!.value;
+                        if (password != null) {
+                          return !password.contains(matchingPassword)
+                              ? 'Las contraseñas no coinciden'
+                              : null;
+                        }
+                        return 'Las contraseñas no coinciden';
+                      }
                     ]),
                     obscureText: true,
                   ),
@@ -80,6 +83,16 @@ class RegisterView extends StatelessWidget {
                       FormBuilderValidators.minLength(6,
                           errorText:
                               'La contraseña debe de ser de 6 caracteres'),
+                      (matchingPassword) {
+                        final password = provider.registerKey.currentState
+                            ?.fields['password']!.value;
+                        if (matchingPassword != null) {
+                          return !matchingPassword.contains(password)
+                              ? 'Las contraseñas no coinciden'
+                              : null;
+                        }
+                        return 'Las contraseñas no coinciden';
+                      }
                     ]),
                     obscureText: true,
                   ),
@@ -87,8 +100,15 @@ class RegisterView extends StatelessWidget {
                   const SizedBox(height: 20),
                   MyOutlinedButton(
                     onPressed: () async {
-                      if (provider.saveAndValidate()) {
-                        await provider.registrar(provider.formData());
+                      if (provider.saveAndValidateRegister()) {
+                        final email = provider
+                            .registerKey.currentState?.fields['email']!.value;
+                        if (await userProvider.existe(email)) {
+                          provider.registerKey.currentState!.fields['email']
+                              ?.invalidate('Correo no disponible.');
+                          return;
+                        }
+                        await provider.registrar(provider.formDataRegister());
                       }
                     },
                     text: 'Crear cuenta',

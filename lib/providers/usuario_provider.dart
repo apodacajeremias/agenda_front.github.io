@@ -78,13 +78,14 @@ class UsuarioProvider extends ChangeNotifier {
     }
   }
 
-  existe(String email) async {
+  Future<bool> existe(String email) async {
     try {
-      return await AgendaAPI.httpDelete('/users/existeEmail/$email', {});
+      return await AgendaAPI.httpGet('/users/existeEmail/$email');
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
+      rethrow;
     }
   }
 

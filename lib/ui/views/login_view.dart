@@ -24,7 +24,7 @@ class LoginView extends StatelessWidget {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 370),
           child: FormBuilder(
-              key: provider.formKey,
+              key: provider.loginKey,
               child: Column(
                 children: [
                   // Email
@@ -61,8 +61,8 @@ class LoginView extends StatelessWidget {
                   const SizedBox(height: 20),
                   MyElevatedButton(
                     onPressed: () async {
-                      if (provider.saveAndValidate()) {
-                        await provider.login(provider.formData());
+                      if (provider.saveAndValidateLogin()) {
+                        await provider.login(provider.formDataLogin());
                       }
                     },
                     text: 'Ingresar',

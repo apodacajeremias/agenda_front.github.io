@@ -21,7 +21,8 @@ class AuthProvider extends ChangeNotifier {
   Colaborador? colaborador;
   Empresa? empresa;
   AuthStatus _authStatus = AuthStatus.checking;
-  GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
+  GlobalKey<FormBuilderState> registerKey = GlobalKey<FormBuilderState>();
+  GlobalKey<FormBuilderState> loginKey = GlobalKey<FormBuilderState>();
 
   AuthStatus get authStatus {
     if (kDebugMode) {
@@ -116,11 +117,19 @@ class AuthProvider extends ChangeNotifier {
     }).catchError((e) {});
   }
 
-  saveAndValidate() {
-    return formKey.currentState!.saveAndValidate();
+  saveAndValidateRegister() {
+    return registerKey.currentState!.saveAndValidate();
   }
 
-  formData() {
-    return formKey.currentState!.value;
+  saveAndValidateLogin() {
+    return loginKey.currentState!.saveAndValidate();
+  }
+
+  formDataRegister() {
+    return registerKey.currentState!.value;
+  }
+
+  formDataLogin() {
+    return loginKey.currentState!.value;
   }
 }
