@@ -1,6 +1,7 @@
 import 'package:agenda_front/api/agenda_api.dart';
 import 'package:agenda_front/models/security/usuario.dart';
 import 'package:agenda_front/services/notifications_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
@@ -24,9 +25,9 @@ class UsuarioProvider extends ChangeNotifier {
     // Si data tiene un campo ID y este tiene informacion
     if (data.containsKey('id') && data['id'] != null) {
       // Actualiza
-      await _actualizar(data['id'], data);
+      return await _actualizar(data['id'], data);
     } else {
-      await _guardar(data);
+      return await _guardar(data);
     }
   }
 
@@ -37,6 +38,7 @@ class UsuarioProvider extends ChangeNotifier {
       usuarios.add(usuario);
       notifyListeners();
       NotificationsService.showSnackbar('Agregado a usuarios');
+      return Future.value(usuario);
     } catch (e) {
       NotificationsService.showSnackbarError('No agregado a usuarios');
       rethrow;
@@ -53,6 +55,7 @@ class UsuarioProvider extends ChangeNotifier {
       usuarios[index] = usuario;
       notifyListeners();
       NotificationsService.showSnackbar('Usuario actualizado');
+      return Future.value(usuario);
     } catch (e) {
       NotificationsService.showSnackbarError('Usuario no actualizado');
       rethrow;
@@ -68,9 +71,20 @@ class UsuarioProvider extends ChangeNotifier {
         notifyListeners();
         NotificationsService.showSnackbar('1 usuario eliminado');
       }
+      return Future.value(confirmado);
     } catch (e) {
       NotificationsService.showSnackbarError('Usuario no eliminado');
       rethrow;
+    }
+  }
+
+  existe(String email) async {
+    try {
+      return await AgendaAPI.httpDelete('/users/existeEmail/$email', {});
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 

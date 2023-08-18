@@ -11,10 +11,10 @@ class IconsView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: ListView(
         physics: const ClampingScrollPhysics(),
-        children: [
+        children: const [
           Text('Icons'),
-          const SizedBox(height: 10),
-          const Wrap(
+          SizedBox(height: 10),
+          Wrap(
             crossAxisAlignment: WrapCrossAlignment.start,
             direction: Axis.horizontal,
             children: [

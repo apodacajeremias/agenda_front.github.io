@@ -34,7 +34,6 @@ dependencies:
   currency_textfield: ^4.0.0
   dio: ^5.1.2
   dropdown_search: ^5.0.6
-  email_validator: ^2.1.17
   fluro: ^2.0.4
   flutter:
     sdk: flutter

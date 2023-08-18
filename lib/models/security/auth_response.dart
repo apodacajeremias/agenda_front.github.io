@@ -1,17 +1,17 @@
+import 'package:agenda_front/models/entities/empresa.dart';
 import 'package:agenda_front/models/security/usuario.dart';
 
 class AuthenticationResponse {
   String token;
   Usuario usuario;
+  Empresa? empresa;
 
-  AuthenticationResponse({
-    required this.token,
-    required this.usuario,
-  });
+  AuthenticationResponse(
+      {required this.token, required this.usuario, this.empresa});
 
   factory AuthenticationResponse.fromJson(Map<String, dynamic> json) =>
       AuthenticationResponse(
-        token: json['token'],
-        usuario: Usuario.fromJson(json['usuario']),
-      );
+          token: json['token'],
+          usuario: Usuario.fromJson(json['usuario']),
+          empresa: Empresa.fromJson(json['empresa']));
 }
