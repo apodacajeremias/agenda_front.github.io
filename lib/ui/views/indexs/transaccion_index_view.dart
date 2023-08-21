@@ -1,4 +1,4 @@
-import 'package:agenda_front/datatables/transaccion_datasource.dart';
+import 'package:agenda_front/datasources/transaccion_datasource.dart';
 import 'package:agenda_front/providers/transaccion_provider.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/services/navigation_service.dart';

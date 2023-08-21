@@ -44,7 +44,7 @@ class Item {
         'activo': activo,
         'nombre': nombre,
         'precio': precio,
-        'tipo': tipo.toString().toUpperCase(),
+        'tipo': tipo,
       };
 
   @override

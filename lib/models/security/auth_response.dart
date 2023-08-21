@@ -13,5 +13,7 @@ class AuthenticationResponse {
       AuthenticationResponse(
           token: json['token'],
           usuario: Usuario.fromJson(json['usuario']),
-          empresa: Empresa.fromJson(json['empresa']));
+          empresa: json.containsKey('empresa') && json['empresa'] != null
+              ? Empresa.fromJson(json['empresa'])
+              : null);
 }

@@ -67,8 +67,8 @@ class Empresa {
         'direccion': direccion,
         'registroContribuyente': registroContribuyente,
         'logo': logo,
-        'moneda': moneda.toString().toUpperCase(),
-        'idioma': idioma.toString().toUpperCase()
+        'moneda': moneda,
+        'idioma': idioma
       };
 
   @override

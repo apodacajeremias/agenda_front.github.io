@@ -1,4 +1,4 @@
-import 'package:agenda_front/datatables/item_datasource.dart';
+import 'package:agenda_front/datasources/item_datasource.dart';
 import 'package:agenda_front/providers/item_provider.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/services/navigation_service.dart';

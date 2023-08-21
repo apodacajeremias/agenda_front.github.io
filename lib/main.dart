@@ -10,6 +10,7 @@ import 'package:agenda_front/providers/promocion_provider.dart';
 import 'package:agenda_front/providers/transaccion_provider.dart';
 import 'package:agenda_front/providers/usuario_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'package:agenda_front/ui/layouts/dashboard/dashboard_layout.dart';
@@ -25,6 +26,7 @@ import 'package:agenda_front/services/navigation_service.dart';
 import 'package:agenda_front/services/notifications_service.dart';
 
 import 'package:agenda_front/ui/layouts/auth/auth_layout.dart';
+import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,41 +68,65 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: true,
-        title: 'Inicio',
-        initialRoute: '/',
-        onGenerateRoute: Flurorouter.router.generator,
-        navigatorKey: NavigationService.navigatorKey,
-        scaffoldMessengerKey: NotificationsService.messengerKey,
-        builder: (_, child) {
-          final authProvider = Provider.of<AuthProvider>(context);
+      debugShowCheckedModeBanner: true,
+      title: 'Inicio',
+      initialRoute: '/',
+      onGenerateRoute: Flurorouter.router.generator,
+      navigatorKey: NavigationService.navigatorKey,
+      scaffoldMessengerKey: NotificationsService.messengerKey,
+      builder: (_, child) {
+        final authProvider = Provider.of<AuthProvider>(context);
 
-          if (authProvider.authStatus == AuthStatus.checking) {
-            return const SplashLayout();
-          }
+        if (authProvider.authStatus == AuthStatus.checking) {
+          return const SplashLayout();
+        }
 
-          if (authProvider.authStatus == AuthStatus.authenticated) {
-            return DashboardLayout(child: child!);
-          } else {
-            return AuthLayout(child: child!);
-          }
-        },
-        theme: theme,
-        darkTheme: darkTheme,
-        themeMode: ThemeMode.system);
+        if (authProvider.authStatus == AuthStatus.authenticated) {
+          return DashboardLayout(child: child!);
+        } else {
+          return AuthLayout(child: child!);
+        }
+      },
+      theme: theme,
+      darkTheme: darkTheme,
+      themeMode: ThemeMode.system,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        SfGlobalLocalizations.delegate
+      ],
+      supportedLocales: const [
+        Locale('es'),
+        Locale('pt'),
+      ],
+      locale: const Locale('es'),
+    );
   }
 }
+
+// ThemeData theme = ThemeData(
+//     useMaterial3: false,
+//     colorScheme: ColorScheme.fromSeed(
+//       seedColor: const Color(0xFF007bc2),
+//       primary: const Color(0xFF00A8E0),
+//       secondary: const Color(0xFF3fc1cf),
+//       tertiary: const Color(0xFFa0d7da),
+//       background: const Color(0xFFe0e8eb),
+//       brightness: Brightness.light,
+//     ),
+//     inputDecorationTheme:
+//         const InputDecorationTheme(border: OutlineInputBorder()),
+//     fontFamily: 'Montserrat');
 
 ThemeData theme = ThemeData(
     useMaterial3: false,
     colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.indigo,
+      seedColor: const Color(0xFF0070cc),
       brightness: Brightness.light,
     ),
     inputDecorationTheme:
         const InputDecorationTheme(border: OutlineInputBorder()),
     fontFamily: 'Montserrat');
-
 ThemeData darkTheme = ThemeData(
     useMaterial3: false,
     colorScheme: ColorScheme.fromSeed(

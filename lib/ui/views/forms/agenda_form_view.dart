@@ -57,32 +57,32 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                           Expanded(
                               flex: 2,
                               child: FormBuilderDateTimePicker(
-                                  name: 'fecha',
+                                  name: 'inicio',
                                   format: FechaUtil.dateFormat,
                                   initialDate: DateTime.now(),
                                   decoration: CustomInputs.form(
-                                      hint: 'Fecha',
-                                      label: 'Fecha',
+                                      hint: 'Inicio',
+                                      label: 'Inicio',
                                       icon: Icons.event),
                                   validator: FormBuilderValidators.required(
                                       errorText: 'Campo obligatorio'),
-                                  inputType: InputType.date,
+                                  inputType: InputType.both,
                                   valueTransformer: (value) =>
                                       value?.toIso8601String())),
                           SizedBox(width: 10),
                           Expanded(
                               child: FormBuilderDateTimePicker(
-                                  name: 'hora',
+                                  name: 'fin',
                                   format: FechaUtil.timeFormat,
                                   initialTime:
                                       TimeOfDay.fromDateTime(DateTime.now()),
                                   decoration: CustomInputs.form(
-                                      hint: 'Hora',
-                                      label: 'Hora',
+                                      hint: 'Fin',
+                                      label: 'Fin',
                                       icon: Icons.schedule),
                                   validator: FormBuilderValidators.required(
                                       errorText: 'Campo obligatorio'),
-                                  inputType: InputType.time,
+                                  inputType: InputType.both,
                                   valueTransformer: (value) =>
                                       value?.toIso8601String())),
                         ],

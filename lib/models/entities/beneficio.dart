@@ -54,8 +54,8 @@ class Beneficio {
         'id': id,
         'activo': activo,
         'nombre': nombre,
-        'tipo': tipo.toString().toUpperCase(),
-        'tipoDescuento': tipoDescuento.toString().toUpperCase(),
+        'tipo': tipo,
+        'tipoDescuento': tipoDescuento,
         'descuento': descuento,
       };
 

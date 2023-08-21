@@ -1,41 +1,32 @@
-// To parse this JSON data, do
-//
-//     final agenda = agendaFromJson(jsonString);
-
 import 'dart:convert';
 
 import 'package:agenda_front/models/entities/colaborador.dart';
 import 'package:agenda_front/models/entities/persona.dart';
 import 'package:agenda_front/models/enums/prioridad.dart';
 import 'package:agenda_front/models/enums/situacion.dart';
-import 'package:intl/intl.dart';
 
 Agenda agendaFromJson(String str) => Agenda.fromJson(json.decode(str));
 
 String agendaToJson(Agenda data) => json.encode(data.toJson());
 
 class Agenda {
-  String? id;
+  String id;
   bool? activo;
   String? nombre;
-  DateTime? fechaCreacion;
-  DateTime? fechaModificacion;
-  DateTime? fecha;
-  DateTime? hora;
-  String? observacion;
+  DateTime inicio;
+  DateTime fin;
+  bool? diaCompleto;
   Situacion? situacion;
   Prioridad? prioridad;
   Colaborador? colaborador;
   Persona? persona;
   Agenda({
-    this.id,
+    required this.id,
     this.activo,
     this.nombre,
-    this.fechaCreacion,
-    this.fechaModificacion,
-    this.fecha,
-    this.hora,
-    this.observacion,
+    required this.inicio,
+    required this.fin,
+    this.diaCompleto,
     this.situacion,
     this.prioridad,
     this.colaborador,
@@ -46,11 +37,9 @@ class Agenda {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
-        fechaCreacion: DateTime.tryParse(json['fechaCreacion']),
-        fechaModificacion: DateTime.tryParse(json['fechaModificacion']),
-        fecha: DateTime.tryParse(json['fecha']),
-        hora: DateFormat("HH:mm:ss").parse(json['hora']),
-        observacion: json['observacion'],
+        inicio: DateTime.parse(json['inicio']),
+        fin: DateTime.parse(json['fin']),
+        diaCompleto: json['diaCompleto'],
         situacion: Situacion.values.byName(json['situacion']),
         prioridad: Prioridad.values.byName(json['prioridad']),
         colaborador:
@@ -66,11 +55,11 @@ class Agenda {
         'id': id,
         'activo': activo,
         'nombre': nombre,
-        'fecha': fecha,
-        'hora': hora,
-        'observacion': observacion,
-        'situacion': situacion.toString().toUpperCase(),
-        'prioridad': prioridad.toString().toUpperCase(),
+        'inicio': inicio.toIso8601String(),
+        'fin': fin.toIso8601String(),
+        'diaCompleto': diaCompleto,
+        'situacion': situacion,
+        'prioridad': prioridad,
         'colaborador': colaborador?.toJson(),
         'persona': persona?.toJson(),
       };

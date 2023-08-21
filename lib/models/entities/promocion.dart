@@ -55,7 +55,7 @@ class Promocion {
         "inicio": inicio,
         "fin": fin,
         "valor": valor,
-        "tipoDescuento": tipoDescuento.toString().toUpperCase(),
+        "tipoDescuento": tipoDescuento,
       };
 
   @override

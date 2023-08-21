@@ -1,12 +1,8 @@
-import 'package:agenda_front/datatables/agenda_datasource.dart';
+import 'package:agenda_front/datasources/agenda_datasource.dart';
 import 'package:agenda_front/providers/agenda_provider.dart';
-import 'package:agenda_front/routers/router.dart';
-import 'package:agenda_front/services/navigation_service.dart';
-import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
-import 'package:agenda_front/ui/shared/indexs/index_footer.dart';
-import 'package:agenda_front/ui/shared/indexs/index_header.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class AgendaIndexView extends StatefulWidget {
   const AgendaIndexView({super.key});
@@ -16,12 +12,10 @@ class AgendaIndexView extends StatefulWidget {
 }
 
 class _AgendaIndexViewState extends State<AgendaIndexView> {
-  int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
-
   @override
   void initState() {
-    super.initState();
     Provider.of<AgendaProvider>(context, listen: false).buscarTodos();
+    super.initState();
   }
 
   @override
@@ -29,40 +23,18 @@ class _AgendaIndexViewState extends State<AgendaIndexView> {
     final agendas = Provider.of<AgendaProvider>(context).agendas;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: ListView(
-        physics: const ClampingScrollPhysics(),
-        children: [
-          const IndexHeader(title: 'Agendas'),
-          const SizedBox(height: 10),
-          PaginatedDataTable(
-            columns: const [
-              DataColumn(label: Text('Persona')),
-              DataColumn(label: Text('Fecha')),
-              DataColumn(label: Text('Hora')),
-              DataColumn(label: Text('Colaborador')),
-              DataColumn(label: Text('Prioridad')),
-              DataColumn(label: Text('Acciones')),
-            ],
-            source: AgendaDataSource(agendas, context),
-            header: const Text('Listado de agendamientos', maxLines: 2),
-            onRowsPerPageChanged: (value) {
-              setState(() {
-                _rowsPerPage = value ?? 10;
-              });
-            },
-            rowsPerPage: _rowsPerPage,
-            actions: [
-              MyElevatedButton(
-                onPressed: () {
-                  NavigationService.navigateTo(Flurorouter.agendasCreateRoute);
-                },
-                text: 'Nuevo',
-                icon: Icons.add,
-              )
-            ],
-          ),
-          const IndexFooter()
+      child: SfCalendar(
+        view: CalendarView.month,
+        allowedViews: const [
+          CalendarView.schedule,
+          CalendarView.day,
+          CalendarView.week,
+          CalendarView.timelineMonth
         ],
+        dataSource: AgendaDataSource(agendas),
+        monthViewSettings: const MonthViewSettings(
+            appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+            showAgenda: true),
       ),
     );
   }

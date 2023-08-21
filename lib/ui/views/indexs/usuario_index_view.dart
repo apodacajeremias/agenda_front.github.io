@@ -1,6 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
-import 'package:agenda_front/datatables/users_datasource.dart';
+import 'package:agenda_front/datasources/users_datasource.dart';
 import 'package:agenda_front/providers/usuario_provider.dart';
 import 'package:agenda_front/ui/shared/indexs/index_footer.dart';
 import 'package:agenda_front/ui/shared/indexs/index_header.dart';

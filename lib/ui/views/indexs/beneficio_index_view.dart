@@ -1,4 +1,4 @@
-import 'package:agenda_front/datatables/beneficio_datasource.dart';
+import 'package:agenda_front/datasources/beneficio_datasource.dart';
 import 'package:agenda_front/providers/beneficio_provider.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/services/navigation_service.dart';

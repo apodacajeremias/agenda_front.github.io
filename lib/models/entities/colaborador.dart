@@ -23,8 +23,6 @@ class Colaborador {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
-        fechaCreacion: DateTime.tryParse(json['fechaCreacion']),
-        fechaModificacion: DateTime.tryParse(json['fechaModificacion']),
         registroContribuyente: json['registroContribuyente'],
         registroProfesional: json['registroProfesional'],
         profesion: json['profesion'],
