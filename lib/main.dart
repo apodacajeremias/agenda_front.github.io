@@ -93,6 +93,7 @@ class Dashboard extends StatelessWidget {
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
         SfGlobalLocalizations.delegate
       ],
       supportedLocales: const [

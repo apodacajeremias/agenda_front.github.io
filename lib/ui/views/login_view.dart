@@ -38,7 +38,7 @@ class LoginView extends StatelessWidget {
                       FormBuilderValidators.required(
                           errorText: 'Correo electrónico obligatorio.'),
                       FormBuilderValidators.email(
-                          errorText: 'El correo no es correcto.')
+                          errorText: 'El correo no es correcto.'),
                     ]),
                   ),
                   const SizedBox(height: 20),
@@ -51,10 +51,13 @@ class LoginView extends StatelessWidget {
                         icon: Icons.lock),
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(
-                          errorText: 'Contraseña obligatoria.'),
-                      FormBuilderValidators.minLength(6,
+                          errorText: 'Debe repetir la contraseña.'),
+                      FormBuilderValidators.minLength(8,
                           errorText:
-                              'La contraseña debe de ser de 6 caracteres'),
+                              'La contraseña debe tener minimo 8 caracteres'),
+                      FormBuilderValidators.maxLength(30,
+                          errorText:
+                              'La contraseña debe tener maximo 30 caracteres')
                     ]),
                     obscureText: true,
                   ),

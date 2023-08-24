@@ -11,9 +11,7 @@ enum Prioridad {
   String toString() {
     return name;
   }
-}
 
-extension PrioridadExtension on Prioridad {
   Color get color {
     switch (this) {
       case Prioridad.BAJA:
@@ -29,3 +27,20 @@ extension PrioridadExtension on Prioridad {
     }
   }
 }
+
+// extension PrioridadExtension on Prioridad {
+//   Color get color {
+//     switch (this) {
+//       case Prioridad.BAJA:
+//         return Colors.blue;
+//       case Prioridad.MEDIA:
+//         return Colors.yellow;
+//       case Prioridad.ALTA:
+//         return Colors.orange;
+//       case Prioridad.URGENTE:
+//         return Colors.red;
+//       default:
+//         return Colors.lightBlue;
+//     }
+//   }
+// }

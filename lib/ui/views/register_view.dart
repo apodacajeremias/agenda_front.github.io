@@ -28,19 +28,18 @@ class RegisterView extends StatelessWidget {
               child: Column(
                 children: [
                   FormBuilderTextField(
-                      name: "email",
-                      decoration: CustomInputs.form(
-                          label: 'Correo electrónico',
-                          hint: 'Ingrese su correo',
-                          icon: Icons.supervised_user_circle_sharp),
-                      validator: FormBuilderValidators.compose(
-                        [
-                          FormBuilderValidators.required(
-                              errorText: 'Correo electrónico obligatorio.'),
-                          FormBuilderValidators.email(
-                              errorText: 'El correo no es correcto.'),
-                        ],
-                      )),
+                    name: "email",
+                    decoration: CustomInputs.form(
+                        label: 'Correo electrónico',
+                        hint: 'Ingrese su correo',
+                        icon: Icons.supervised_user_circle_sharp),
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(
+                          errorText: 'Correo electrónico obligatorio.'),
+                      FormBuilderValidators.email(
+                          errorText: 'El correo no es correcto.'),
+                    ]),
+                  ),
 
                   const SizedBox(height: 20),
                   // Password
@@ -53,18 +52,18 @@ class RegisterView extends StatelessWidget {
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(
                           errorText: 'Contraseña obligatoria.'),
-                      FormBuilderValidators.minLength(6,
+                      FormBuilderValidators.minLength(8,
                           errorText:
-                              'La contraseña debe de ser de 6 caracteres'),
+                              'La contraseña debe tener minimo 8 caracteres'),
+                      FormBuilderValidators.maxLength(30,
+                          errorText:
+                              'La contraseña debe tener maximo 30 caracteres'),
                       (password) {
                         final matchingPassword = provider.registerKey
                             .currentState?.fields['matchingPassword']!.value;
-                        if (password != null) {
-                          return !password.contains(matchingPassword)
-                              ? 'Las contraseñas no coinciden'
-                              : null;
-                        }
-                        return 'Las contraseñas no coinciden';
+                        return matchingPassword.contains(password)
+                            ? null
+                            : 'Las contraseñas no coinciden';
                       }
                     ]),
                     obscureText: true,
@@ -79,19 +78,19 @@ class RegisterView extends StatelessWidget {
                         icon: Icons.lock_outline),
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(
-                          errorText: 'Contraseña obligatoria.'),
-                      FormBuilderValidators.minLength(6,
+                          errorText: 'Debe repetir la contraseña.'),
+                      FormBuilderValidators.minLength(8,
                           errorText:
-                              'La contraseña debe de ser de 6 caracteres'),
+                              'La contraseña debe tener minimo 8 caracteres'),
+                      FormBuilderValidators.maxLength(30,
+                          errorText:
+                              'La contraseña debe tener maximo 30 caracteres'),
                       (matchingPassword) {
                         final password = provider.registerKey.currentState
                             ?.fields['password']!.value;
-                        if (matchingPassword != null) {
-                          return !matchingPassword.contains(password)
-                              ? 'Las contraseñas no coinciden'
-                              : null;
-                        }
-                        return 'Las contraseñas no coinciden';
+                        return password.contains(matchingPassword)
+                            ? null
+                            : 'Las contraseñas no coinciden';
                       }
                     ]),
                     obscureText: true,
