@@ -44,7 +44,7 @@ class _AgendaIndexViewState extends State<AgendaIndexView> {
           isAllDay: e.diaCompleto!,
           id: e.id,
           resourceIds: [e.colaborador!.id!],
-          subject: e.nombre!,
+          subject: '${e.nombre!} ${e.persona!.nombre!}',
           notes: e.nombre!,
         )));
 

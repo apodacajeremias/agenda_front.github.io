@@ -15,8 +15,7 @@ class Grupo {
   String? id;
   bool? activo;
   String? nombre;
-  DateTime? fechaCreacion;
-  DateTime? fechaModificacion;
+
   List<Persona>? personas;
   Beneficio? beneficio;
 
@@ -24,8 +23,6 @@ class Grupo {
     this.id,
     this.activo,
     this.nombre,
-    this.fechaCreacion,
-    this.fechaModificacion,
     this.personas,
     this.beneficio,
   });
@@ -34,8 +31,6 @@ class Grupo {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
-        fechaCreacion: DateTime.tryParse(json['fechaCreacion']),
-        fechaModificacion: DateTime.tryParse(json['fechaModificacion']),
         personas: json['personas'],
         beneficio: Beneficio.fromJson(json['promociones']),
       );

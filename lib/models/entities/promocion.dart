@@ -15,8 +15,7 @@ class Promocion {
   String? id;
   bool? activo;
   String? nombre;
-  DateTime? fechaCreacion;
-  DateTime? fechaModificacion;
+
   DateTime? inicio;
   DateTime? fin;
   double? valor;
@@ -27,8 +26,6 @@ class Promocion {
     this.id,
     this.activo,
     this.nombre,
-    this.fechaCreacion,
-    this.fechaModificacion,
     this.inicio,
     this.fin,
     this.valor,
@@ -40,8 +37,6 @@ class Promocion {
       id: json["id"],
       activo: json["activo"],
       nombre: json["nombre"],
-      fechaCreacion: DateTime.tryParse(json['fechaCreacion']),
-      fechaModificacion: DateTime.tryParse(json['fechaModificacion']),
       inicio: DateTime.tryParse(json['inicio']),
       fin: DateTime.tryParse(json['fin']),
       valor: json["valor"],

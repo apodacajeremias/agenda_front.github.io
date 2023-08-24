@@ -2,7 +2,6 @@
 
 import 'package:agenda_front/models/entities/transaccion.dart';
 import 'package:agenda_front/providers/transaccion_provider.dart';
-import 'package:agenda_front/utils/fecha_util.dart';
 import 'package:agenda_front/services/navigation_service.dart';
 import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,6 @@ class TransaccionDataSource extends DataTableSource {
     final transaccion = transacciones[index];
     return DataRow.byIndex(index: index, cells: [
       DataCell(Text(transaccion.persona!.nombre!)),
-      DataCell(Text(FechaUtil.formatDate(transaccion.fechaCreacion!))),
       DataCell(Text(transaccion.tipo.toString())),
       DataCell(Text(transaccion.total.toString())),
       DataCell(Row(children: [

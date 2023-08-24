@@ -16,8 +16,7 @@ class Beneficio {
   String? id;
   bool? activo;
   String? nombre;
-  DateTime? fechaCreacion;
-  DateTime? fechaModificacion;
+
   TipoBeneficio? tipo;
   TipoDescuento? tipoDescuento;
   double? descuento;
@@ -27,8 +26,6 @@ class Beneficio {
       {this.id,
       this.activo,
       this.nombre,
-      this.fechaCreacion,
-      this.fechaModificacion,
       this.tipo,
       this.tipoDescuento,
       this.descuento,
@@ -38,8 +35,6 @@ class Beneficio {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
-        fechaCreacion: DateTime.tryParse(json['fechaCreacion']),
-        fechaModificacion: DateTime.tryParse(json['fechaModificacion']),
         tipo: TipoBeneficio.values.byName(json['tipo']),
         tipoDescuento: TipoDescuento.values.byName(json['tipoDescuento']),
         descuento: json['descuento'],

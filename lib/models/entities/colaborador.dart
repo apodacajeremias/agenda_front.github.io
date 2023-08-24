@@ -2,8 +2,7 @@ class Colaborador {
   String? id;
   bool? activo;
   String? nombre;
-  DateTime? fechaCreacion;
-  DateTime? fechaModificacion;
+
   String? registroContribuyente;
   String? registroProfesional;
   String? profesion;
@@ -12,8 +11,6 @@ class Colaborador {
     this.id,
     this.activo,
     this.nombre,
-    this.fechaCreacion,
-    this.fechaModificacion,
     this.registroContribuyente,
     this.registroProfesional,
     this.profesion,

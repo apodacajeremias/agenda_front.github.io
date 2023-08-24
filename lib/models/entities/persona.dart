@@ -16,8 +16,7 @@ class Persona {
   String? id;
   bool? activo;
   String? nombre;
-  DateTime? fechaCreacion;
-  DateTime? fechaModificacion;
+
   String? documentoIdentidad;
   DateTime? fechaNacimiento;
   Genero? genero;
@@ -33,8 +32,6 @@ class Persona {
     this.id,
     this.activo,
     this.nombre,
-    this.fechaCreacion,
-    this.fechaModificacion,
     this.documentoIdentidad,
     this.fechaNacimiento,
     this.genero,
@@ -51,8 +48,6 @@ class Persona {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
-        fechaCreacion: DateTime.tryParse(json['fechaCreacion']),
-        fechaModificacion: DateTime.tryParse(json['fechaModificacion']),
         documentoIdentidad: json['documentoIdentidad'],
         fechaNacimiento: DateTime.tryParse(json['fechaNacimiento']),
         genero: Genero.values.byName(json['genero']),

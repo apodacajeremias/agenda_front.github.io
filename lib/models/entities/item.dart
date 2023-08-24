@@ -14,8 +14,7 @@ class Item {
   String? id;
   bool? activo;
   String? nombre;
-  DateTime? fechaCreacion;
-  DateTime? fechaModificacion;
+
   double? precio;
   TipoTransaccion? tipo;
 
@@ -23,8 +22,6 @@ class Item {
     this.id,
     this.activo,
     this.nombre,
-    this.fechaCreacion,
-    this.fechaModificacion,
     this.precio,
     this.tipo,
   });
@@ -33,8 +30,6 @@ class Item {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
-        fechaCreacion: DateTime.tryParse(json['fechaCreacion']),
-        fechaModificacion: DateTime.tryParse(json['fechaModificacion']),
         precio: json['precio'],
         tipo: TipoTransaccion.values.byName(json['tipo']),
       );

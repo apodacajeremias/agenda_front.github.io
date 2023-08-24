@@ -17,8 +17,7 @@ class TransaccionDetalle {
   String? id;
   bool? activo;
   String? nombre;
-  DateTime? fechaCreacion;
-  DateTime? fechaModificacion;
+
   double? valor;
   double? cantidad;
   double? subtotal;
@@ -29,8 +28,6 @@ class TransaccionDetalle {
     this.id,
     this.activo,
     this.nombre,
-    this.fechaCreacion,
-    this.fechaModificacion,
     this.valor,
     this.cantidad,
     this.subtotal,
@@ -43,8 +40,6 @@ class TransaccionDetalle {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
-        fechaCreacion: DateTime.tryParse(json['fechaCreacion']),
-        fechaModificacion: DateTime.tryParse(json['fechaModificacion']),
         valor: json['valor'],
         cantidad: json['cantidad'],
         subtotal: json['subtotal'],

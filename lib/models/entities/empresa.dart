@@ -15,8 +15,7 @@ class Empresa {
   String? id;
   bool? activo;
   String? nombre;
-  DateTime? fechaCreacion;
-  DateTime? fechaModificacion;
+
   String? celular;
   String? telefono;
   DateTime? fechaInauguracion;
@@ -30,8 +29,6 @@ class Empresa {
       {this.id,
       this.activo,
       this.nombre,
-      this.fechaCreacion,
-      this.fechaModificacion,
       this.celular,
       this.telefono,
       this.fechaInauguracion,
@@ -45,8 +42,6 @@ class Empresa {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
-        fechaCreacion: DateTime.tryParse(json['fechaCreacion']),
-        fechaModificacion: DateTime.tryParse(json['fechaModificacion']),
         celular: json['celular'],
         telefono: json['telefono'],
         fechaInauguracion: DateTime.tryParse(json['fechaInauguracion']),

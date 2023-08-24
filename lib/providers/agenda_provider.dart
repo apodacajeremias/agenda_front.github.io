@@ -39,7 +39,6 @@ class AgendaProvider extends ChangeNotifier {
       NotificationsService.showSnackbar('Agregado a agendas');
     } catch (e) {
       NotificationsService.showSnackbarError('No agregado a agendas');
-      rethrow;
     }
   }
 
@@ -55,7 +54,6 @@ class AgendaProvider extends ChangeNotifier {
       NotificationsService.showSnackbar('Agenda actualizado');
     } catch (e) {
       NotificationsService.showSnackbarError('Agenda no actualizado');
-      rethrow;
     }
   }
 

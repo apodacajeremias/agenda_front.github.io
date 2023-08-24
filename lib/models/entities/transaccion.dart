@@ -21,8 +21,7 @@ class Transaccion {
   String? id;
   bool? activo;
   String? nombre;
-  DateTime? fechaCreacion;
-  DateTime? fechaModificacion;
+
   TipoTransaccion? tipo;
   double? total;
   double? descuento;
@@ -39,8 +38,6 @@ class Transaccion {
     this.id,
     this.activo,
     this.nombre,
-    this.fechaCreacion,
-    this.fechaModificacion,
     this.tipo,
     this.total,
     this.descuento,
@@ -58,8 +55,6 @@ class Transaccion {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
-        fechaCreacion: DateTime.tryParse(json['fechaCreacion']),
-        fechaModificacion: DateTime.tryParse(json['fechaModificacion']),
         tipo: TipoTransaccion.values.byName(json['tipo']),
         total: json['total'],
         descuento: json['descuento'],
