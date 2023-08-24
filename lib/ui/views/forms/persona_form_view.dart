@@ -8,6 +8,7 @@ import 'package:agenda_front/ui/cards/white_card.dart';
 import 'package:agenda_front/ui/inputs/custom_inputs.dart';
 import 'package:agenda_front/ui/shared/forms/form_footer.dart';
 import 'package:agenda_front/ui/shared/forms/form_header.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
@@ -50,9 +51,11 @@ class PersonaFormView extends StatelessWidget {
                       SizedBox(width: 10),
                       Expanded(
                           child: FormBuilderSwitch(
-                              name: 'activo',
-                              title: Text('Estado del registro'),
-                              initialValue: persona?.activo)),
+                        name: 'activo',
+                        title: Text('Estado del registro'),
+                        initialValue: persona?.activo,
+                        decoration: CustomInputs.noBorder(),
+                      )),
                     ],
                   )
                 ],
@@ -86,17 +89,23 @@ class PersonaFormView extends StatelessWidget {
                     Expanded(
                       child: FormBuilderDropdown(
                         name: 'genero',
-                        initialValue: persona?.genero,
+                        initialValue: persona?.genero ?? Genero.OTRO,
                         enabled: persona?.activo ?? true,
                         decoration: CustomInputs.form(
                             label: 'Genero',
                             hint: 'Genero de persona',
                             icon: Icons.info),
                         items: Genero.values
-                            .map((e) => DropdownMenuItem(
-                                value: e,
-                                child:
-                                    Text(toBeginningOfSentenceCase(e.name)!)))
+                            .map((g) => DropdownMenuItem(
+                                value: g,
+                                child: Row(
+                                  children: [
+                                    Icon(g.icon),
+                                    SizedBox(width: 5),
+                                    Text(toBeginningOfSentenceCase(
+                                        g.name.toLowerCase())!)
+                                  ],
+                                )))
                             .toList(),
                         validator: FormBuilderValidators.required(
                             errorText: 'Genero obligatorio'),
@@ -161,7 +170,8 @@ class PersonaFormView extends StatelessWidget {
                         icon: Icons.phone),
                     validator: FormBuilderValidators.minLength(7,
                         errorText:
-                            'Numero de telefono muy corto para ser válido')),
+                            'Numero de telefono muy corto para ser válido',
+                        allowEmpty: true)),
                 SizedBox(height: 10),
                 FormBuilderTextField(
                     name: 'celular',
@@ -173,7 +183,8 @@ class PersonaFormView extends StatelessWidget {
                         icon: Icons.phone_android),
                     validator: FormBuilderValidators.minLength(7,
                         errorText:
-                            'Numero de celular muy corto para ser válido')),
+                            'Numero de celular muy corto para ser válido',
+                        allowEmpty: true)),
                 SizedBox(height: 10),
                 FormBuilderTextField(
                     name: 'direccion',
@@ -185,7 +196,8 @@ class PersonaFormView extends StatelessWidget {
                         icon: Icons.gps_fixed),
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.minLength(5,
-                          errorText: 'Direccion muy corta, de mas detalles'),
+                          errorText: 'Direccion muy corta, de mas detalles',
+                          allowEmpty: true),
                       FormBuilderValidators.maxLength(255,
                           errorText: 'Direccion muy larga')
                     ])),
@@ -200,7 +212,8 @@ class PersonaFormView extends StatelessWidget {
                         icon: Icons.gps_fixed),
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.minLength(5,
-                          errorText: 'Observacion muy corta, de mas detalles'),
+                          errorText: 'Observacion muy corta, de mas detalles',
+                          allowEmpty: true),
                       FormBuilderValidators.maxLength(255,
                           errorText: 'Observacion muy larga')
                     ])),
@@ -212,10 +225,23 @@ class PersonaFormView extends StatelessWidget {
                       label: 'Foto de perfil',
                       icon: Icons.image),
                   maxImages: 1,
+                  // valueTransformer: (imagenes) {
+                  //   if (imagenes != null) {
+                  //     for (var imagen in imagenes) {
+                  //       return imagen.readAsBytes();
+                  //     }
+                  //   }
+                  // },
                 ),
                 FormFooter(onConfirm: () async {
                   if (provider.saveAndValidate()) {
-                    final data = provider.formData();
+                    Map<String, dynamic> data = Map.of(provider.formData());
+                    MultipartFile file = MultipartFile.fromBytes(
+                        await data['fotoPerfil']!.first.readAsBytes());
+
+                    data.update('fotoPerfil', (value) => file);
+                    print(file);
+                    print(data);
                     await provider.registrar(data);
                     if (context.mounted) {
                       Navigator.of(context).pop();

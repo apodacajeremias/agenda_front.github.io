@@ -35,11 +35,10 @@ class PersonaHandlers {
     final authProvider = Provider.of<AuthProvider>(context!, listen: false);
     Provider.of<SideMenuProvider>(context, listen: false)
         .setCurrentPageUrl(Flurorouter.personasIndexRoute);
-    final id = params['id']?.first;
-    final persona =
-        Provider.of<PersonaProvider>(context, listen: false).buscar(id!);
 
     if (authProvider.authStatus == AuthStatus.authenticated) {
+      final id = params['id']?.first;
+      final persona = Provider.of<PersonaProvider>(context).buscar(id!);
       return PersonaFormView(persona: persona);
     } else {
       return const LoginView();

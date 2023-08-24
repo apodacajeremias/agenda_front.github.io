@@ -30,7 +30,6 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   age_calculator: ^1.0.0
-  cupertino_icons: ^1.0.2
   currency_textfield: ^4.0.0
   dio: ^5.1.2
   fluro: ^2.0.4

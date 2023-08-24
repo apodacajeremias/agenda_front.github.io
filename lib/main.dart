@@ -11,6 +11,7 @@ import 'package:agenda_front/providers/transaccion_provider.dart';
 import 'package:agenda_front/providers/usuario_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:form_builder_validators/localization/l10n.dart';
 import 'package:provider/provider.dart';
 
 import 'package:agenda_front/ui/layouts/dashboard/dashboard_layout.dart';
@@ -94,13 +95,10 @@ class Dashboard extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
-        SfGlobalLocalizations.delegate
+        SfGlobalLocalizations.delegate,
+        FormBuilderLocalizations.delegate,
       ],
-      supportedLocales: const [
-        Locale('es'),
-        Locale('pt'),
-      ],
-      locale: const Locale('es'),
+      supportedLocales: FormBuilderLocalizations.supportedLocales,
     );
   }
 }
