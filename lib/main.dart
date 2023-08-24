@@ -105,20 +105,6 @@ class Dashboard extends StatelessWidget {
   }
 }
 
-// ThemeData theme = ThemeData(
-//     useMaterial3: false,
-//     colorScheme: ColorScheme.fromSeed(
-//       seedColor: const Color(0xFF007bc2),
-//       primary: const Color(0xFF00A8E0),
-//       secondary: const Color(0xFF3fc1cf),
-//       tertiary: const Color(0xFFa0d7da),
-//       background: const Color(0xFFe0e8eb),
-//       brightness: Brightness.light,
-//     ),
-//     inputDecorationTheme:
-//         const InputDecorationTheme(border: OutlineInputBorder()),
-//     fontFamily: 'Montserrat');
-
 ThemeData theme = ThemeData(
     useMaterial3: false,
     colorScheme: ColorScheme.fromSeed(
