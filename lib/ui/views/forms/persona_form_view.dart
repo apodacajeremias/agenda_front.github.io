@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:agenda_front/models/enums/genero.dart';
 import 'package:agenda_front/models/entities/persona.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
@@ -25,18 +23,18 @@ class PersonaFormView extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<PersonaProvider>(context, listen: false);
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: ListView(
-        physics: ClampingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         children: [
-          FormHeader(title: 'Persona'),
+          const FormHeader(title: 'Persona'),
           WhiteCard(
               child: FormBuilder(
             key: provider.formKey,
             child: Column(
               children: [
                 if (persona?.id != null) ...[
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Row(
                     children: [
                       Expanded(
@@ -48,18 +46,18 @@ class PersonaFormView extends StatelessWidget {
                             decoration: CustomInputs.form(
                                 label: 'ID', hint: 'ID', icon: Icons.qr_code),
                           )),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Expanded(
                           child: FormBuilderSwitch(
                         name: 'activo',
-                        title: Text('Estado del registro'),
+                        title: const Text('Estado del registro'),
                         initialValue: persona?.activo,
                         decoration: CustomInputs.noBorder(),
                       )),
                     ],
                   )
                 ],
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 FormBuilderTextField(
                     name: 'nombre',
                     initialValue: persona?.nombre,
@@ -70,7 +68,7 @@ class PersonaFormView extends StatelessWidget {
                         icon: Icons.info),
                     validator: FormBuilderValidators.required(
                         errorText: 'Campo obligatorio')),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Row(
                   children: [
                     Expanded(
@@ -85,7 +83,7 @@ class PersonaFormView extends StatelessWidget {
                                 icon: Icons.perm_identity),
                             validator: FormBuilderValidators.required(
                                 errorText: 'Campo obligatorio'))),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Expanded(
                       child: FormBuilderDropdown(
                         name: 'genero',
@@ -101,7 +99,7 @@ class PersonaFormView extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     Icon(g.icon),
-                                    SizedBox(width: 5),
+                                    const SizedBox(width: 5),
                                     Text(toBeginningOfSentenceCase(
                                         g.name.toLowerCase())!)
                                   ],
@@ -114,7 +112,7 @@ class PersonaFormView extends StatelessWidget {
                     )
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Row(children: [
                   Expanded(
                     child: Row(children: [
@@ -140,7 +138,7 @@ class PersonaFormView extends StatelessWidget {
                           valueTransformer: (value) => value?.toIso8601String(),
                         ),
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Expanded(
                         child: FormBuilderTextField(
                           name: 'edad',
@@ -159,7 +157,7 @@ class PersonaFormView extends StatelessWidget {
                     ]),
                   ),
                 ]),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 FormBuilderTextField(
                     name: 'telefono',
                     initialValue: persona?.telefono,
@@ -172,7 +170,7 @@ class PersonaFormView extends StatelessWidget {
                         errorText:
                             'Numero de telefono muy corto para ser válido',
                         allowEmpty: true)),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 FormBuilderTextField(
                     name: 'celular',
                     initialValue: persona?.celular,
@@ -185,7 +183,7 @@ class PersonaFormView extends StatelessWidget {
                         errorText:
                             'Numero de celular muy corto para ser válido',
                         allowEmpty: true)),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 FormBuilderTextField(
                     name: 'direccion',
                     initialValue: persona?.direccion,
@@ -201,7 +199,7 @@ class PersonaFormView extends StatelessWidget {
                       FormBuilderValidators.maxLength(255,
                           errorText: 'Direccion muy larga')
                     ])),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 FormBuilderTextField(
                     name: 'observacion',
                     initialValue: persona?.observacion,
@@ -217,7 +215,7 @@ class PersonaFormView extends StatelessWidget {
                       FormBuilderValidators.maxLength(255,
                           errorText: 'Observacion muy larga')
                     ])),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 FormBuilderImagePicker(
                   name: 'fotoPerfil',
                   decoration: CustomInputs.form(
@@ -235,14 +233,49 @@ class PersonaFormView extends StatelessWidget {
                 ),
                 FormFooter(onConfirm: () async {
                   if (provider.saveAndValidate()) {
-                    Map<String, dynamic> data = Map.of(provider.formData());
-                    MultipartFile file = MultipartFile.fromBytes(
+                    Map<String, dynamic> data = Map.from(provider.formData());
+                    MultipartFile avatar = MultipartFile.fromBytes(
                         await data['fotoPerfil']!.first.readAsBytes());
 
-                    data.update('fotoPerfil', (value) => file);
-                    print(file);
+                    data.addAll({'avatar': avatar});
+                    data.remove('fotoPerfil');
                     print(data);
-                    await provider.registrar(data);
+                    // Create a Dio instance
+                    final Dio dio = Dio();
+
+                    // Set up the request options
+
+                    Options options = Options(method: 'PUT');
+
+                    // Create a FormData instance to hold the files you want to upload
+                    FormData formData = FormData.fromMap(data);
+                    formData.fields
+                        .removeWhere((element) => element.key == 'fotoPerfil');
+                    // Add the files to the FormData instance
+                    // formData.files.addAll([
+                    //   MapEntry(
+                    //       'avatar',
+                    //       MultipartFile.fromBytes(
+                    //           await data['fotoPerfil']!.first.readAsBytes())),
+                    //   // Add more files here if you want
+                    // ]);
+
+                    print(formData.files);
+                    print(formData.fields);
+
+                    try {
+                      // Send the POST request
+                      Response response = await dio.put(
+                          'http://localhost:8080/api/personas/' + data['id'],
+                          data: formData,
+                          options: options);
+
+                      // Do something with the response
+                      print(response.data);
+                    } catch (e) {
+                      // show my error
+                      print(e);
+                    }
                     if (context.mounted) {
                       Navigator.of(context).pop();
                     }

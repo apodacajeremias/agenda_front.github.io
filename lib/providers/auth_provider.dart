@@ -74,7 +74,7 @@ class AuthProvider extends ChangeNotifier {
       empresa = authResponse.empresa;
       _authStatus = AuthStatus.authenticated;
       LocalStorage.prefs.setString('token', _token!);
-      NavigationService.replaceTo(Flurorouter.dashboardRoute);
+      // NavigationService.replaceTo(Flurorouter.dashboardRoute);
       notifyListeners();
     }).catchError((e) {
       LocalStorage.prefs.remove('token');
