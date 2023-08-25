@@ -14,6 +14,9 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+// ignore: depend_on_referenced_packages
+import 'package:http/http.dart' as http;
+
 class PersonaFormView extends StatelessWidget {
   final Persona? persona;
 
@@ -233,49 +236,33 @@ class PersonaFormView extends StatelessWidget {
                 ),
                 FormFooter(onConfirm: () async {
                   if (provider.saveAndValidate()) {
+                    final dio = Dio();
                     Map<String, dynamic> data = Map.from(provider.formData());
-                    MultipartFile avatar = MultipartFile.fromBytes(
-                        await data['fotoPerfil']!.first.readAsBytes());
 
-                    data.addAll({'avatar': avatar});
-                    data.remove('fotoPerfil');
-                    print(data);
-                    // Create a Dio instance
-                    final Dio dio = Dio();
+                    // final formData = FormData.fromMap({
+                    //   'file': MultipartFile.fromBytes(
+                    //       await data['fotoPerfil']!.first.readAsBytes())
+                    // });
 
-                    // Set up the request options
+                    // try {
+                    //   // Send the POST request
+                    //   Response response = await dio.post(
+                    //       'http://localhost:8080/api/uploadFile',
+                    //       data: formData);
 
-                    Options options = Options(method: 'PUT');
+                    //   // Do something with the response
+                    //   print(response.data);
+                    // } catch (e) {
+                    //   // show my error
+                    //   print(e);
+                    // }
 
-                    // Create a FormData instance to hold the files you want to upload
-                    FormData formData = FormData.fromMap(data);
-                    formData.fields
-                        .removeWhere((element) => element.key == 'fotoPerfil');
-                    // Add the files to the FormData instance
-                    // formData.files.addAll([
-                    //   MapEntry(
-                    //       'avatar',
-                    //       MultipartFile.fromBytes(
-                    //           await data['fotoPerfil']!.first.readAsBytes())),
-                    //   // Add more files here if you want
-                    // ]);
-
-                    print(formData.files);
-                    print(formData.fields);
-
-                    try {
-                      // Send the POST request
-                      Response response = await dio.put(
-                          'http://localhost:8080/api/personas/' + data['id'],
-                          data: formData,
-                          options: options);
-
-                      // Do something with the response
-                      print(response.data);
-                    } catch (e) {
-                      // show my error
-                      print(e);
-                    }
+                    var request = http.MultipartRequest('POST',
+                        Uri.parse('http://localhost:8080/api/uploadFile'));
+                    request.files.add(http.MultipartFile.fromBytes(
+                        'file', await data['fotoPerfil']!.first.readAsBytes(),
+                        filename: 'filenamelast'));
+                    var res = await request.send();
                     if (context.mounted) {
                       Navigator.of(context).pop();
                     }
