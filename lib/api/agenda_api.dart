@@ -1,5 +1,12 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:agenda_front/services/local_storage.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:form_builder_image_picker/form_builder_image_picker.dart';
+import 'package:cross_file/src/types/interface.dart';
+import 'package:cross_file/src/types/base.dart';
 
 class AgendaAPI {
   static final Dio _dio = Dio();
@@ -39,7 +46,7 @@ class AgendaAPI {
   static Future httpPost(String path, Map<String, dynamic> data) async {
     configureDio();
     try {
-      final response = await _dio.post(path, data: data);
+      final response = await _dio.post(path, data: _request(data));
       return response.data;
     } catch (e) {
       rethrow;
@@ -49,8 +56,8 @@ class AgendaAPI {
   static Future httpPut(String path, Map<String, dynamic> data) async {
     configureDio();
     try {
-      final resp = await _dio.put(path, data: data);
-      return resp.data;
+      final response = await _dio.put(path, data: _request(data));
+      return response.data;
     } catch (e) {
       rethrow;
     }
@@ -65,5 +72,30 @@ class AgendaAPI {
     } catch (e) {
       rethrow;
     }
+  }
+
+  static FormData _request(Map<String, dynamic> data) {
+    // Buscar XFile
+    data.forEach((key, value) {
+      if (kDebugMode) {
+        print('${key} ${value.runtimeType}');
+      }
+      if (value is List) {
+        for (var e in value) {
+          print(' ${e.runtimeType}');
+          if (e is XFile) {
+            print('  Hay XFile');
+          } else if (e is XFileBase) {
+            print('  Hay XFileBase');
+          } else if (e is XFileImage) {
+            print('  Hay XFileImage');
+          } else {
+            print('  No hay XFile o XFileImage o XFileBase');
+          }
+        }
+      }
+    });
+    // Contar cuantos hay
+    return FormData.fromMap(data);
   }
 }

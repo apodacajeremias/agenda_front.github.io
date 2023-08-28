@@ -32,7 +32,7 @@ class ItemFormView extends StatelessWidget {
                   child: Column(
                     children: [
                       if (item?.id != null) ...[
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Row(
                           children: [
                             Expanded(
@@ -46,12 +46,14 @@ class ItemFormView extends StatelessWidget {
                                       hint: 'ID',
                                       icon: Icons.qr_code),
                                 )),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Expanded(
                                 child: FormBuilderSwitch(
-                                    name: 'activo',
-                                    title: Text('Estado del registro'),
-                                    initialValue: item?.activo)),
+                              name: 'activo',
+                              title: const Text('Estado del registro'),
+                              initialValue: item?.activo,
+                              decoration: CustomInputs.noBorder(),
+                            )),
                           ],
                         )
                       ],
@@ -113,6 +115,7 @@ class ItemFormView extends StatelessWidget {
                       ),
                       FormFooter(onConfirm: () async {
                         if (provider.saveAndValidate()) {
+                          print(provider.formData());
                           try {
                             await provider.registrar(provider.formData());
                             if (context.mounted) {

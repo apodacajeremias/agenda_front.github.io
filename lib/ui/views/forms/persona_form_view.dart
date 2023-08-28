@@ -7,15 +7,13 @@ import 'package:agenda_front/ui/inputs/custom_inputs.dart';
 import 'package:agenda_front/ui/shared/forms/form_footer.dart';
 import 'package:agenda_front/ui/shared/forms/form_header.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
-// ignore: depend_on_referenced_packages
-import 'package:http/http.dart' as http;
 
 class PersonaFormView extends StatelessWidget {
   final Persona? persona;
@@ -43,7 +41,7 @@ class PersonaFormView extends StatelessWidget {
                       Expanded(
                           flex: 2,
                           child: FormBuilderTextField(
-                            name: 'id',
+                            name: 'ID',
                             initialValue: persona?.id,
                             enabled: false,
                             decoration: CustomInputs.form(
@@ -225,7 +223,7 @@ class PersonaFormView extends StatelessWidget {
                       hint: 'Selecciona una foto para el perfil',
                       label: 'Foto de perfil',
                       icon: Icons.image),
-                  maxImages: 1,
+                  maxImages: 3,
                   // valueTransformer: (imagenes) {
                   //   if (imagenes != null) {
                   //     for (var imagen in imagenes) {
@@ -236,36 +234,61 @@ class PersonaFormView extends StatelessWidget {
                 ),
                 FormFooter(onConfirm: () async {
                   if (provider.saveAndValidate()) {
-                    final dio = Dio();
-                    Map<String, dynamic> data = Map.from(provider.formData());
+                    print(provider.formData());
+                    await provider.registrar(provider.formData());
+                    // final dio = Dio();
+                    // Map<String, dynamic> data = Map.from(provider.formData());
+                    // MultipartFile file = MultipartFile.fromBytes(
+                    //   await data['fotoPerfil']!.first.readAsBytes(),
+                    //   filename: 'uploaded.png',
+                    // );
+                    // data.remove('fotoPerfil');
+                    // final formData = FormData.fromMap(data);
+                    // formData.files.add(MapEntry('file', file));
+                    // final response = await dio.post(
+                    //     'http://localhost:8080/api/personas',
+                    //     data: formData);
+
+                    // final dio = Dio();
+                    // Map<String, dynamic> data = Map.from(provider.formData());
+                    // MultipartFile file = MultipartFile.fromBytes(
+                    //   await data['fotoPerfil']!.first.readAsBytes(),
+                    //   filename: 'upload.png',
+                    // );
+                    // data.remove('fotoPerfil');
+                    // final formData = FormData.fromMap(data);
+                    // formData.files.add(MapEntry('file', file));
+                    // final response = await dio.post(
+                    //     'http://localhost:8080/api/uploadFile',
+                    //     data: formData);
 
                     // final formData = FormData.fromMap({
+                    //   'name': 'dio',
+                    //   'date': DateTime.now().toIso8601String(),
                     //   'file': MultipartFile.fromBytes(
-                    //       await data['fotoPerfil']!.first.readAsBytes())
+                    //     await data['fotoPerfil']!.first.readAsBytes(),
+                    //     filename: 'upload.png',
+                    //   ),
                     // });
+                    // final response = await dio.post(
+                    //     'http://localhost:8080/api/uploadFile',
+                    //     data: formData);
 
-                    // try {
-                    //   // Send the POST request
-                    //   Response response = await dio.post(
-                    //       'http://localhost:8080/api/uploadFile',
-                    //       data: formData);
-
-                    //   // Do something with the response
-                    //   print(response.data);
-                    // } catch (e) {
-                    //   // show my error
-                    //   print(e);
+                    // var request = http.MultipartRequest('POST',
+                    //     Uri.parse('http://localhost:8080/api/uploadFile'));
+                    // request.files.add(http.MultipartFile.fromBytes(
+                    //     'file', await data['fotoPerfil']!.first.readAsBytes(),
+                    //     filename: 'filenamelast'));
+                    // var res = await request.send();
+                    // if (response.statusCode == 200) {
+                    //   if (context.mounted) {
+                    //     Navigator.of(context).pop();
+                    //   }
+                    // } else {
+                    //   if (kDebugMode) {
+                    //     print('error');
+                    //   }
                     // }
-
-                    var request = http.MultipartRequest('POST',
-                        Uri.parse('http://localhost:8080/api/uploadFile'));
-                    request.files.add(http.MultipartFile.fromBytes(
-                        'file', await data['fotoPerfil']!.first.readAsBytes(),
-                        filename: 'filenamelast'));
-                    var res = await request.send();
-                    if (context.mounted) {
-                      Navigator.of(context).pop();
-                    }
                   }
                 }),
               ],
