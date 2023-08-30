@@ -15,32 +15,15 @@ enum Prioridad {
   Color get color {
     switch (this) {
       case Prioridad.BAJA:
-        return Colors.blue;
+        return Colors.blueAccent;
       case Prioridad.MEDIA:
-        return Colors.yellow;
+        return Colors.yellowAccent;
       case Prioridad.ALTA:
-        return Colors.orange;
+        return Colors.orangeAccent;
       case Prioridad.URGENTE:
-        return Colors.red;
+        return Colors.redAccent;
       default:
         return Colors.lightBlue;
     }
   }
 }
-
-// extension PrioridadExtension on Prioridad {
-//   Color get color {
-//     switch (this) {
-//       case Prioridad.BAJA:
-//         return Colors.blue;
-//       case Prioridad.MEDIA:
-//         return Colors.yellow;
-//       case Prioridad.ALTA:
-//         return Colors.orange;
-//       case Prioridad.URGENTE:
-//         return Colors.red;
-//       default:
-//         return Colors.lightBlue;
-//     }
-//   }
-// }
