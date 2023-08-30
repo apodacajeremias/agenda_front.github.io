@@ -10,8 +10,8 @@ class ColaboradorProvider extends ChangeNotifier {
 
   buscarTodos() async {
     final response = await AgendaAPI.httpGet('/colaboradores');
-    List<Colaborador> colaboradoresResponse =
-        List<Colaborador>.from(response.map((model) => Colaborador.fromJson(model)));
+    List<Colaborador> colaboradoresResponse = List<Colaborador>.from(
+        response.map((model) => Colaborador.fromJson(model)));
     colaboradores = [...colaboradoresResponse];
     notifyListeners();
   }
@@ -22,9 +22,9 @@ class ColaboradorProvider extends ChangeNotifier {
 
   registrar(Map<String, dynamic> data) async {
     // Si data tiene un campo ID y este tiene informacion
-    if (data.containsKey('id') && data['id'] != null) {
+    if (data.containsKey('ID') && data['ID'] != null) {
       // Actualiza
-      await _actualizar(data['id'], data);
+      await _actualizar(data['ID'], data);
     } else {
       await _guardar(data);
     }
@@ -48,7 +48,8 @@ class ColaboradorProvider extends ChangeNotifier {
       final json = await AgendaAPI.httpPut('/colaboradores/$id', data);
       final colaborador = Colaborador.fromJson(json);
       // Buscamos el index en lista del ID Colaborador
-      final index = colaboradores.indexWhere((element) => element.id!.contains(id));
+      final index =
+          colaboradores.indexWhere((element) => element.id!.contains(id));
       // Se substituye la informacion del index por la informacion actualizada
       colaboradores[index] = colaborador;
       notifyListeners();

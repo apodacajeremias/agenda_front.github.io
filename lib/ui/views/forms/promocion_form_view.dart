@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/models/entities/promocion.dart';
 import 'package:agenda_front/models/enums/tipo_descuento.dart';
 import 'package:agenda_front/providers/promocion_provider.dart';
@@ -19,7 +20,7 @@ class PromocionFormView extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<PromocionProvider>(context, listen: false);
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: EdgeInsets.all(defaultPadding),
       child: ListView(
         children: [
           FormHeader(title: 'Promoción'),
@@ -29,13 +30,13 @@ class PromocionFormView extends StatelessWidget {
                   child: Column(
                     children: [
                       if (promocion?.id != null) ...[
-                        SizedBox(height: 10),
+                        const SizedBox(height: defaultPadding),
                         Row(
                           children: [
                             Expanded(
                                 flex: 2,
                                 child: FormBuilderTextField(
-                                  name: 'id',
+                                  name: 'ID',
                                   initialValue: promocion?.id,
                                   enabled: false,
                                   decoration: CustomInputs.form(
@@ -43,12 +44,14 @@ class PromocionFormView extends StatelessWidget {
                                       hint: 'ID',
                                       icon: Icons.qr_code),
                                 )),
-                            SizedBox(width: 10),
+                            const SizedBox(width: defaultPadding),
                             Expanded(
                                 child: FormBuilderSwitch(
-                                    name: 'activo',
-                                    title: Text('Estado del registro'),
-                                    initialValue: promocion?.activo)),
+                              name: 'activo',
+                              title: const Text('Estado del registro'),
+                              initialValue: promocion?.activo,
+                              decoration: CustomInputs.noBorder(),
+                            )),
                           ],
                         )
                       ],

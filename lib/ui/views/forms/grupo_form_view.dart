@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/models/entities/grupo.dart';
 import 'package:agenda_front/providers/beneficio_provider.dart';
 import 'package:agenda_front/providers/grupo_provider.dart';
@@ -39,7 +40,7 @@ class _GrupoFormViewState extends State<GrupoFormView> {
     final personas =
         Provider.of<PersonaProvider>(context, listen: false).personas;
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: EdgeInsets.all(defaultPadding),
       child: ListView(
         physics: ClampingScrollPhysics(),
         children: [
@@ -51,24 +52,28 @@ class _GrupoFormViewState extends State<GrupoFormView> {
               child: Column(
                 children: [
                   if (widget.grupo?.id != null) ...[
+                    const SizedBox(height: defaultPadding),
                     Row(
                       children: [
                         Expanded(
+                            flex: 2,
                             child: FormBuilderTextField(
-                          name: 'id',
-                          initialValue: widget.grupo?.id,
-                          enabled: false,
-                          decoration: CustomInputs.form(
-                              label: 'ID', hint: 'ID', icon: Icons.qr_code),
-                        )),
-                        SizedBox(width: 10),
+                              name: 'ID',
+                              initialValue: widget.grupo?.id,
+                              enabled: false,
+                              decoration: CustomInputs.form(
+                                  label: 'ID', hint: 'ID', icon: Icons.qr_code),
+                            )),
+                        const SizedBox(width: defaultPadding),
                         Expanded(
                             child: FormBuilderSwitch(
-                                name: 'activo',
-                                title: Text('Estado del registro'),
-                                initialValue: widget.grupo?.activo))
+                          name: 'activo',
+                          title: const Text('Estado del registro'),
+                          initialValue: widget.grupo?.activo,
+                          decoration: CustomInputs.noBorder(),
+                        )),
                       ],
-                    ),
+                    )
                   ],
                   SizedBox(height: 10),
                   FormBuilderTextField(

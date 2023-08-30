@@ -1,3 +1,4 @@
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/datasources/grupo_datasource.dart';
 import 'package:agenda_front/providers/grupo_provider.dart';
 import 'package:agenda_front/routers/router.dart';
@@ -28,12 +29,12 @@ class _GrupoIndexViewState extends State<GrupoIndexView> {
   Widget build(BuildContext context) {
     final grupos = Provider.of<GrupoProvider>(context).grupos;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.all(defaultPadding),
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
           const IndexHeader(title: 'Grupos'),
-          const SizedBox(height: 10),
+          const SizedBox(height: defaultPadding),
           PaginatedDataTable(
             columns: const [
               DataColumn(label: Text('Grupo')),

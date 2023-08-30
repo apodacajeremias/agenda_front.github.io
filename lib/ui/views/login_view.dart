@@ -1,3 +1,4 @@
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/providers/auth_provider.dart';
 import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +19,8 @@ class LoginView extends StatelessWidget {
     final provider = Provider.of<AuthProvider>(context);
 
     return Container(
-      margin: const EdgeInsets.only(top: 100),
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      margin: const EdgeInsets.only(top: defaultPadding * 5),
+      padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 370),
@@ -41,7 +42,7 @@ class LoginView extends StatelessWidget {
                           errorText: 'El correo no es correcto.'),
                     ]),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: defaultPadding),
                   // Password
                   FormBuilderTextField(
                     name: "password",
@@ -61,7 +62,7 @@ class LoginView extends StatelessWidget {
                     ]),
                     obscureText: true,
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: defaultPadding),
                   MyElevatedButton(
                     onPressed: () async {
                       if (provider.saveAndValidateLogin()) {
@@ -70,7 +71,7 @@ class LoginView extends StatelessWidget {
                     },
                     text: 'Ingresar',
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: defaultPadding),
                   MyTextButton(
                     text: 'Nueva cuenta',
                     onPressed: () {

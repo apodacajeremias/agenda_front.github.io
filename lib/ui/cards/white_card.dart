@@ -1,3 +1,4 @@
+import 'package:agenda_front/constants.dart';
 import 'package:flutter/material.dart';
 
 class WhiteCard extends StatelessWidget {
@@ -16,8 +17,8 @@ class WhiteCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      margin: const EdgeInsets.all(8),
-      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.all(defaultPadding / 2),
+      padding: const EdgeInsets.all(defaultPadding),
       decoration: buildBoxDecoration(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

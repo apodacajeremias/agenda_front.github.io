@@ -22,9 +22,9 @@ class PersonaProvider extends ChangeNotifier {
 
   registrar(Map<String, dynamic> data) async {
     // Si data tiene un campo ID y este tiene informacion
-    if (data.containsKey('id') && data['id'] != null) {
+    if (data.containsKey('ID') && data['ID'] != null) {
       // Actualiza
-      await _actualizar(data['id'], data);
+      await _actualizar(data['ID'], data);
     } else {
       await _guardar(data);
     }
@@ -52,9 +52,9 @@ class PersonaProvider extends ChangeNotifier {
       // Se substituye la informacion del index por la informacion actualizada
       personas[index] = persona;
       notifyListeners();
-      NotificationsService.showSnackbar('Persona actualizado');
+      NotificationsService.showSnackbar('Persona actualizada');
     } catch (e) {
-      NotificationsService.showSnackbarError('Persona no actualizado');
+      NotificationsService.showSnackbarError('Persona no actualizada');
       rethrow;
     }
   }

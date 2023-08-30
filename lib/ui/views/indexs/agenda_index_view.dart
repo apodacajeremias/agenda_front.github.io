@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/datasources/agenda_datasource.dart';
 import 'package:agenda_front/providers/agenda_provider.dart';
 import 'package:agenda_front/providers/colaborador_provider.dart';
@@ -49,7 +50,7 @@ class _AgendaIndexViewState extends State<AgendaIndexView> {
         )));
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.all(defaultPadding),
       child: SfCalendar(
         view: CalendarView.timelineMonth,
         monthViewSettings: const MonthViewSettings(showAgenda: true),

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/models/entities/item.dart';
 import 'package:agenda_front/models/enums/tipo_transaccion.dart';
 import 'package:agenda_front/providers/item_provider.dart';
@@ -22,7 +23,7 @@ class ItemFormView extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<ItemProvider>(context, listen: false);
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: EdgeInsets.all(defaultPadding),
       child: ListView(
         children: [
           FormHeader(title: 'Item'),
@@ -32,13 +33,13 @@ class ItemFormView extends StatelessWidget {
                   child: Column(
                     children: [
                       if (item?.id != null) ...[
-                        const SizedBox(height: 10),
+                        const SizedBox(height: defaultPadding),
                         Row(
                           children: [
                             Expanded(
                                 flex: 2,
                                 child: FormBuilderTextField(
-                                  name: 'id',
+                                  name: 'ID',
                                   initialValue: item?.id,
                                   enabled: false,
                                   decoration: CustomInputs.form(
@@ -46,7 +47,7 @@ class ItemFormView extends StatelessWidget {
                                       hint: 'ID',
                                       icon: Icons.qr_code),
                                 )),
-                            const SizedBox(width: 10),
+                            const SizedBox(width: defaultPadding),
                             Expanded(
                                 child: FormBuilderSwitch(
                               name: 'activo',
@@ -115,7 +116,6 @@ class ItemFormView extends StatelessWidget {
                       ),
                       FormFooter(onConfirm: () async {
                         if (provider.saveAndValidate()) {
-                          print(provider.formData());
                           try {
                             await provider.registrar(provider.formData());
                             if (context.mounted) {

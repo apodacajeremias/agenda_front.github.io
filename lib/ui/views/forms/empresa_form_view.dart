@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/models/entities/empresa.dart';
 import 'package:agenda_front/models/enums/idioma.dart';
 import 'package:agenda_front/models/enums/moneda.dart';
@@ -22,7 +23,7 @@ class EmpresaFormView extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<EmpresaProvider>(context, listen: false);
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: EdgeInsets.all(defaultPadding),
         child: ListView(
           physics: ClampingScrollPhysics(),
           children: [
@@ -32,8 +33,33 @@ class EmpresaFormView extends StatelessWidget {
                 child: FormBuilder(
                   key: provider.formKey,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      if (empresa.id != null) ...[
+                        const SizedBox(height: defaultPadding),
+                        Row(
+                          children: [
+                            Expanded(
+                                flex: 2,
+                                child: FormBuilderTextField(
+                                  name: 'ID',
+                                  initialValue: empresa.id,
+                                  enabled: false,
+                                  decoration: CustomInputs.form(
+                                      label: 'ID',
+                                      hint: 'ID',
+                                      icon: Icons.qr_code),
+                                )),
+                            const SizedBox(width: defaultPadding),
+                            Expanded(
+                                child: FormBuilderSwitch(
+                              name: 'activo',
+                              title: const Text('Estado del registro'),
+                              initialValue: empresa.activo,
+                              decoration: CustomInputs.noBorder(),
+                            )),
+                          ],
+                        )
+                      ],
                       FormBuilderTextField(
                         name: 'nombre',
                         initialValue: empresa.nombre,

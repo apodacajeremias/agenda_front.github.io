@@ -1,3 +1,4 @@
+import 'package:agenda_front/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,12 +13,12 @@ class DashboardView extends StatelessWidget {
   Widget build(BuildContext context) {
     final persona = Provider.of<AuthProvider>(context).usuario!.persona!;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.all(defaultPadding),
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
           Text('Inicio', style: Theme.of(context).textTheme.headlineLarge),
-          const SizedBox(height: 10),
+          const SizedBox(height: defaultPadding),
           WhiteCard(title: persona.nombre, child: Text(persona.id!))
         ],
       ),

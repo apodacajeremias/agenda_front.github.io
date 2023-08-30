@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/models/entities/beneficio.dart';
 import 'package:agenda_front/models/enums/tipo_beneficio.dart';
 import 'package:agenda_front/models/enums/tipo_descuento.dart';
@@ -22,7 +23,7 @@ class BeneficioFormView extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<BeneficioProvider>(context, listen: false);
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: EdgeInsets.all(defaultPadding),
       child: ListView(
         physics: ClampingScrollPhysics(),
         children: [
@@ -32,33 +33,33 @@ class BeneficioFormView extends StatelessWidget {
             child: FormBuilder(
               key: provider.formKey,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   if (beneficio?.id != null) ...[
-                    SizedBox(height: 10),
+                    const SizedBox(height: defaultPadding),
                     Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                              child: FormBuilderTextField(
-                                  name: 'id',
-                                  initialValue: beneficio?.id,
-                                  enabled: false,
-                                  decoration: CustomInputs.form(
-                                      label: 'ID',
-                                      hint: 'ID',
-                                      icon: Icons.qr_code))),
-                          SizedBox(width: 10),
-                          Expanded(
-                              child: FormBuilderSwitch(
-                                  name: 'activo',
-                                  title: Text('Estado del registro'),
-                                  initialValue: beneficio?.activo))
-                        ])
+                      children: [
+                        Expanded(
+                            flex: 2,
+                            child: FormBuilderTextField(
+                              name: 'ID',
+                              initialValue: beneficio?.id,
+                              enabled: false,
+                              decoration: CustomInputs.form(
+                                  label: 'ID', hint: 'ID', icon: Icons.qr_code),
+                            )),
+                        const SizedBox(width: defaultPadding),
+                        Expanded(
+                            child: FormBuilderSwitch(
+                          name: 'activo',
+                          title: const Text('Estado del registro'),
+                          initialValue: beneficio?.activo,
+                          decoration: CustomInputs.noBorder(),
+                        )),
+                      ],
+                    )
                   ],
                   SizedBox(height: 10),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Expanded(
                         child: FormBuilderTextField(
@@ -91,49 +92,47 @@ class BeneficioFormView extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 10),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Expanded(
-                            child: FormBuilderDropdown(
-                          name: 'tipo',
-                          initialValue: beneficio?.tipo,
-                          enabled: beneficio?.activo ?? true,
-                          decoration: CustomInputs.form(
-                              label: 'Tipo de beneficio',
-                              hint: 'Tipo de beneficio',
-                              icon: Icons.loyalty),
-                          items: TipoBeneficio.values
-                              .map((tipo) => DropdownMenuItem(
-                                  value: tipo,
-                                  child: Text(
-                                      toBeginningOfSentenceCase(tipo.name)!)))
-                              .toList(),
-                          validator: FormBuilderValidators.required(
-                              errorText: 'Campo obligatorio'),
-                          valueTransformer: (value) => value?.name,
-                        )),
-                        SizedBox(width: 10),
-                        Expanded(
-                            child: FormBuilderDropdown(
-                          name: 'tipoDescuento',
-                          initialValue: beneficio?.tipoDescuento,
-                          enabled: beneficio?.activo ?? true,
-                          decoration: CustomInputs.form(
-                              label: 'Tipo de descuento',
-                              hint: 'Tipo de descuento',
-                              icon: Icons.discount),
-                          items: TipoDescuento.values
-                              .map((descuento) => DropdownMenuItem(
-                                  value: descuento,
-                                  child: Text(toBeginningOfSentenceCase(
-                                      descuento.name)!)))
-                              .toList(),
-                          validator: FormBuilderValidators.required(
-                              errorText: 'Campo obligatorio'),
-                          valueTransformer: (value) => value?.name,
-                        ))
-                      ]),
+                  Row(children: [
+                    Expanded(
+                        child: FormBuilderDropdown(
+                      name: 'tipo',
+                      initialValue: beneficio?.tipo,
+                      enabled: beneficio?.activo ?? true,
+                      decoration: CustomInputs.form(
+                          label: 'Tipo de beneficio',
+                          hint: 'Tipo de beneficio',
+                          icon: Icons.loyalty),
+                      items: TipoBeneficio.values
+                          .map((tipo) => DropdownMenuItem(
+                              value: tipo,
+                              child:
+                                  Text(toBeginningOfSentenceCase(tipo.name)!)))
+                          .toList(),
+                      validator: FormBuilderValidators.required(
+                          errorText: 'Campo obligatorio'),
+                      valueTransformer: (value) => value?.name,
+                    )),
+                    SizedBox(width: 10),
+                    Expanded(
+                        child: FormBuilderDropdown(
+                      name: 'tipoDescuento',
+                      initialValue: beneficio?.tipoDescuento,
+                      enabled: beneficio?.activo ?? true,
+                      decoration: CustomInputs.form(
+                          label: 'Tipo de descuento',
+                          hint: 'Tipo de descuento',
+                          icon: Icons.discount),
+                      items: TipoDescuento.values
+                          .map((descuento) => DropdownMenuItem(
+                              value: descuento,
+                              child: Text(
+                                  toBeginningOfSentenceCase(descuento.name)!)))
+                          .toList(),
+                      validator: FormBuilderValidators.required(
+                          errorText: 'Campo obligatorio'),
+                      valueTransformer: (value) => value?.name,
+                    ))
+                  ]),
                   FormFooter(onConfirm: () async {
                     if (provider.saveAndValidate()) {
                       final data = provider.formData();

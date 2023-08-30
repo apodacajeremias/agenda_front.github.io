@@ -1,3 +1,4 @@
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/datasources/item_datasource.dart';
 import 'package:agenda_front/providers/item_provider.dart';
 import 'package:agenda_front/routers/router.dart';
@@ -28,12 +29,12 @@ class _ItemIndexViewState extends State<ItemIndexView> {
   Widget build(BuildContext context) {
     final items = Provider.of<ItemProvider>(context).items;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.all(defaultPadding),
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
           const IndexHeader(title: 'Items'),
-          const SizedBox(height: 10),
+          const SizedBox(height: defaultPadding),
           PaginatedDataTable(
             columns: const [
               DataColumn(label: Text('Item')),

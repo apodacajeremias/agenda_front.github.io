@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
 import 'package:agenda_front/ui/buttons/my_outlined_button.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +12,8 @@ class FormFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: defaultPadding),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Expanded(
               child: MyElevatedButton(
@@ -21,9 +21,7 @@ class FormFooter extends StatelessWidget {
             icon: Icons.save,
             onPressed: onConfirm,
           )),
-          SizedBox(
-            width: 10,
-          ),
+          SizedBox(width: defaultPadding),
           Expanded(
               child: MyOutlinedButton(
                   text: 'Cancelar',

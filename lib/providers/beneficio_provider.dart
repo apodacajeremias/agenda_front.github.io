@@ -10,8 +10,8 @@ class BeneficioProvider extends ChangeNotifier {
 
   buscarTodos() async {
     final response = await AgendaAPI.httpGet('/beneficios');
-    List<Beneficio> beneficiosResponse =
-        List<Beneficio>.from(response.map((model) => Beneficio.fromJson(model)));
+    List<Beneficio> beneficiosResponse = List<Beneficio>.from(
+        response.map((model) => Beneficio.fromJson(model)));
     beneficios = [...beneficiosResponse];
     notifyListeners();
   }
@@ -22,9 +22,9 @@ class BeneficioProvider extends ChangeNotifier {
 
   registrar(Map<String, dynamic> data) async {
     // Si data tiene un campo ID y este tiene informacion
-    if (data.containsKey('id') && data['id'] != null) {
+    if (data.containsKey('ID') && data['ID'] != null) {
       // Actualiza
-      await _actualizar(data['id'], data);
+      await _actualizar(data['ID'], data);
     } else {
       await _guardar(data);
     }
@@ -48,7 +48,8 @@ class BeneficioProvider extends ChangeNotifier {
       final json = await AgendaAPI.httpPut('/beneficios/$id', data);
       final beneficio = Beneficio.fromJson(json);
       // Buscamos el index en lista del ID Beneficio
-      final index = beneficios.indexWhere((element) => element.id!.contains(id));
+      final index =
+          beneficios.indexWhere((element) => element.id!.contains(id));
       // Se substituye la informacion del index por la informacion actualizada
       beneficios[index] = beneficio;
       notifyListeners();

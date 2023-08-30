@@ -1,3 +1,4 @@
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/datasources/colaborador_datasource.dart';
 import 'package:agenda_front/providers/colaborador_provider.dart';
 import 'package:agenda_front/routers/router.dart';
@@ -29,12 +30,12 @@ class _ColaboradorIndexViewState extends State<ColaboradorIndexView> {
     final colaboradores =
         Provider.of<ColaboradorProvider>(context).colaboradores;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.all(defaultPadding),
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
           const IndexHeader(title: 'Colaboradores'),
-          const SizedBox(height: 10),
+          const SizedBox(height: defaultPadding),
           PaginatedDataTable(
             columns: const [
               DataColumn(label: Text('Colaborador')),

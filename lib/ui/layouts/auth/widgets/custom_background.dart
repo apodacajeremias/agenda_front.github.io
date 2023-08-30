@@ -2,6 +2,7 @@
 
 import 'dart:math';
 
+import 'package:agenda_front/constants.dart';
 import 'package:flutter/material.dart';
 
 class CustomBackground extends StatelessWidget {
@@ -15,7 +16,7 @@ class CustomBackground extends StatelessWidget {
         constraints: const BoxConstraints(maxWidth: 400),
         child: const Center(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30),
+            padding: EdgeInsets.symmetric(horizontal: defaultPadding * 2),
             child: Image(image: AssetImage('logo.png'), width: 400),
           ),
         ),

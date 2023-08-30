@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/models/entities/colaborador.dart';
 import 'package:agenda_front/models/entities/persona.dart';
 import 'package:agenda_front/models/enums/prioridad.dart';
@@ -41,7 +42,7 @@ class _AgendaFormViewState extends State<AgendaFormView> {
     final colaboradores =
         Provider.of<ColaboradorProvider>(context).colaboradores;
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: EdgeInsets.all(defaultPadding),
       child: ListView(
         physics: ClampingScrollPhysics(),
         children: [
@@ -156,7 +157,6 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                       FormFooter(onConfirm: () async {
                         if (provider.saveAndValidate()) {
                           try {
-                            print(provider.formData());
                             await provider.registrar(provider.formData());
                             if (context.mounted) {
                               Navigator.of(context).pop();

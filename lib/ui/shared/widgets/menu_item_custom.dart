@@ -1,3 +1,4 @@
+import 'package:agenda_front/constants.dart';
 import 'package:flutter/material.dart';
 
 class MenuItemCustom extends StatefulWidget {
@@ -36,7 +37,8 @@ class _MenuItemState extends State<MenuItemCustom> {
           // onTap: widget.isActive ? null : () => widget.onPressed(),
           onTap: () => widget.onPressed(),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            padding: const EdgeInsets.symmetric(
+                horizontal: defaultPadding * 2, vertical: defaultPadding / 2),
             child: MouseRegion(
               onEnter: (_) => setState(() => isHovered = true),
               onExit: (_) => setState(() => isHovered = false),
@@ -49,7 +51,7 @@ class _MenuItemState extends State<MenuItemCustom> {
                           : widget.isActive
                               ? Colors.white
                               : Colors.white.withOpacity(0.5)),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: defaultPadding),
                   Text(
                     widget.text,
                     style: Theme.of(context).textTheme.labelMedium?.apply(

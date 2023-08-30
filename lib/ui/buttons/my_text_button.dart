@@ -1,3 +1,4 @@
+import 'package:agenda_front/constants.dart';
 import 'package:flutter/material.dart';
 
 class MyTextButton extends StatefulWidget {
@@ -26,7 +27,8 @@ class _MyTextButtonState extends State<MyTextButton> {
         onEnter: (_) => setState(() => isHover = true),
         onExit: (_) => setState(() => isHover = false),
         child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          margin: const EdgeInsets.symmetric(
+              horizontal: defaultPadding, vertical: defaultPadding / 2),
           child: Text(widget.text,
               style: Theme.of(context).textTheme.labelLarge?.apply(
                   decoration: isHover

@@ -1,3 +1,4 @@
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/providers/sidemenu_provider.dart';
 import 'package:agenda_front/ui/shared/widgets/navbar_avatar.dart';
 import 'package:agenda_front/ui/shared/widgets/notifications_indicator.dart';
@@ -34,7 +35,7 @@ class Navbar extends StatelessWidget {
           const Spacer(),
 
           const NotificationsIndicator(),
-          const SizedBox(width: 10),
+          const SizedBox(width: defaultPadding),
           const NavbarAvatar(),
           const SizedBox(width: 10)
         ],

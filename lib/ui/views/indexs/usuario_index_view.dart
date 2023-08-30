@@ -1,5 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/datasources/users_datasource.dart';
 import 'package:agenda_front/providers/usuario_provider.dart';
 import 'package:agenda_front/ui/shared/indexs/index_footer.dart';
@@ -29,12 +30,12 @@ class _UsuarioIndexViewState extends State<UsuarioIndexView> {
     final usuarios = Provider.of<UsuarioProvider>(context).usuarios;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.all(defaultPadding),
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
           const IndexHeader(title: 'Usuarios'),
-          const SizedBox(height: 10),
+          const SizedBox(height: defaultPadding),
           PaginatedDataTable(
             columns: const [
               DataColumn(label: Text('ID')),

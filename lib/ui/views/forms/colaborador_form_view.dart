@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/models/entities/colaborador.dart';
 import 'package:agenda_front/providers/colaborador_provider.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
@@ -19,7 +20,7 @@ class ColaboradorFormView extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<ColaboradorProvider>(context, listen: false);
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: EdgeInsets.all(defaultPadding),
       child: ListView(
         physics: ClampingScrollPhysics(),
         children: [
@@ -29,29 +30,30 @@ class ColaboradorFormView extends StatelessWidget {
             child: FormBuilder(
               key: provider.formKey,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   if (colaborador?.id != null) ...[
-                    SizedBox(height: 10),
+                    const SizedBox(height: defaultPadding),
                     Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                              child: FormBuilderTextField(
-                                  name: 'id',
-                                  initialValue: colaborador?.id,
-                                  enabled: false,
-                                  decoration: CustomInputs.form(
-                                      label: 'ID',
-                                      hint: 'ID',
-                                      icon: Icons.qr_code))),
-                          SizedBox(width: 10),
-                          Expanded(
-                              child: FormBuilderSwitch(
-                                  name: 'activo',
-                                  title: Text('Estado del registro'),
-                                  initialValue: colaborador?.activo))
-                        ])
+                      children: [
+                        Expanded(
+                            flex: 2,
+                            child: FormBuilderTextField(
+                              name: 'ID',
+                              initialValue: colaborador?.id,
+                              enabled: false,
+                              decoration: CustomInputs.form(
+                                  label: 'ID', hint: 'ID', icon: Icons.qr_code),
+                            )),
+                        const SizedBox(width: defaultPadding),
+                        Expanded(
+                            child: FormBuilderSwitch(
+                          name: 'activo',
+                          title: const Text('Estado del registro'),
+                          initialValue: colaborador?.activo,
+                          decoration: CustomInputs.noBorder(),
+                        )),
+                      ],
+                    )
                   ],
                   SizedBox(height: 10),
                   FormBuilderTextField(
@@ -67,7 +69,6 @@ class ColaboradorFormView extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Expanded(
                           child: FormBuilderTextField(

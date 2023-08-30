@@ -1,3 +1,4 @@
+import 'package:agenda_front/constants.dart';
 import 'package:flutter/material.dart';
 
 import 'package:agenda_front/ui/layouts/auth/widgets/custom_background.dart';
@@ -42,7 +43,7 @@ class _MobileBody extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const SizedBox(height: 20),
+          const SizedBox(height: defaultPadding),
           const CustomTitle(),
           SizedBox(
             width: double.infinity,

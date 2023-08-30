@@ -1,3 +1,4 @@
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/providers/auth_provider.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/services/navigation_service.dart';
@@ -15,12 +16,12 @@ class Logo extends StatelessWidget {
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         child: Container(
-          padding: const EdgeInsets.only(top: 30),
+          padding: const EdgeInsets.only(top: defaultPadding * 2),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(Icons.account_circle, color: Colors.white),
-              const SizedBox(width: 10),
+              const SizedBox(width: defaultPadding),
               Text(
                 authProvider.usuario?.persona?.nombre!.split(' ').first ??
                     'N/A',

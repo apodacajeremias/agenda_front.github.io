@@ -1,3 +1,4 @@
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/models/enums/genero.dart';
 import 'package:agenda_front/models/entities/persona.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
@@ -6,8 +7,6 @@ import 'package:agenda_front/ui/cards/white_card.dart';
 import 'package:agenda_front/ui/inputs/custom_inputs.dart';
 import 'package:agenda_front/ui/shared/forms/form_footer.dart';
 import 'package:agenda_front/ui/shared/forms/form_header.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
@@ -24,7 +23,7 @@ class PersonaFormView extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<PersonaProvider>(context, listen: false);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.all(defaultPadding),
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
@@ -35,7 +34,7 @@ class PersonaFormView extends StatelessWidget {
             child: Column(
               children: [
                 if (persona?.id != null) ...[
-                  const SizedBox(height: 10),
+                  const SizedBox(height: defaultPadding),
                   Row(
                     children: [
                       Expanded(
@@ -47,7 +46,7 @@ class PersonaFormView extends StatelessWidget {
                             decoration: CustomInputs.form(
                                 label: 'ID', hint: 'ID', icon: Icons.qr_code),
                           )),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: defaultPadding),
                       Expanded(
                           child: FormBuilderSwitch(
                         name: 'activo',
@@ -58,7 +57,7 @@ class PersonaFormView extends StatelessWidget {
                     ],
                   )
                 ],
-                const SizedBox(height: 10),
+                const SizedBox(height: defaultPadding),
                 FormBuilderTextField(
                     name: 'nombre',
                     initialValue: persona?.nombre,
@@ -69,7 +68,7 @@ class PersonaFormView extends StatelessWidget {
                         icon: Icons.info),
                     validator: FormBuilderValidators.required(
                         errorText: 'Campo obligatorio')),
-                const SizedBox(height: 10),
+                const SizedBox(height: defaultPadding),
                 Row(
                   children: [
                     Expanded(
@@ -84,7 +83,7 @@ class PersonaFormView extends StatelessWidget {
                                 icon: Icons.perm_identity),
                             validator: FormBuilderValidators.required(
                                 errorText: 'Campo obligatorio'))),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: defaultPadding),
                     Expanded(
                       child: FormBuilderDropdown(
                         name: 'genero',
@@ -113,7 +112,7 @@ class PersonaFormView extends StatelessWidget {
                     )
                   ],
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: defaultPadding),
                 Row(children: [
                   Expanded(
                     child: Row(children: [
@@ -139,7 +138,7 @@ class PersonaFormView extends StatelessWidget {
                           valueTransformer: (value) => value?.toIso8601String(),
                         ),
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: defaultPadding),
                       Expanded(
                         child: FormBuilderTextField(
                           name: 'edad',
@@ -158,7 +157,7 @@ class PersonaFormView extends StatelessWidget {
                     ]),
                   ),
                 ]),
-                const SizedBox(height: 10),
+                const SizedBox(height: defaultPadding),
                 FormBuilderTextField(
                     name: 'telefono',
                     initialValue: persona?.telefono,
@@ -171,7 +170,7 @@ class PersonaFormView extends StatelessWidget {
                         errorText:
                             'Numero de telefono muy corto para ser válido',
                         allowEmpty: true)),
-                const SizedBox(height: 10),
+                const SizedBox(height: defaultPadding),
                 FormBuilderTextField(
                     name: 'celular',
                     initialValue: persona?.celular,
@@ -184,7 +183,7 @@ class PersonaFormView extends StatelessWidget {
                         errorText:
                             'Numero de celular muy corto para ser válido',
                         allowEmpty: true)),
-                const SizedBox(height: 10),
+                const SizedBox(height: defaultPadding),
                 FormBuilderTextField(
                     name: 'direccion',
                     initialValue: persona?.direccion,
@@ -200,7 +199,7 @@ class PersonaFormView extends StatelessWidget {
                       FormBuilderValidators.maxLength(255,
                           errorText: 'Direccion muy larga')
                     ])),
-                const SizedBox(height: 10),
+                const SizedBox(height: defaultPadding),
                 FormBuilderTextField(
                     name: 'observacion',
                     initialValue: persona?.observacion,
@@ -216,81 +215,38 @@ class PersonaFormView extends StatelessWidget {
                       FormBuilderValidators.maxLength(255,
                           errorText: 'Observacion muy larga')
                     ])),
-                const SizedBox(height: 10),
+                const SizedBox(height: defaultPadding),
                 FormBuilderImagePicker(
-                  name: 'fotoPerfil',
+                  name: 'file',
                   decoration: CustomInputs.form(
                       hint: 'Selecciona una foto para el perfil',
                       label: 'Foto de perfil',
                       icon: Icons.image),
-                  maxImages: 3,
-                  // valueTransformer: (imagenes) {
-                  //   if (imagenes != null) {
-                  //     for (var imagen in imagenes) {
-                  //       return imagen.readAsBytes();
+                  maxImages: 1,
+                  // valueTransformer: (images) async {
+                  //   if (images != null) {
+                  //     var multipartFile = [];
+                  //     for (final image in images) {
+                  //       multipartFile.add(MultipartFile.fromBytes(
+                  //           await image.readAsBytes(),
+                  //           filename: image.name));
                   //     }
+                  //     return multipartFile;
                   //   }
                   // },
                 ),
                 FormFooter(onConfirm: () async {
                   if (provider.saveAndValidate()) {
-                    print(provider.formData());
-                    await provider.registrar(provider.formData());
-                    // final dio = Dio();
-                    // Map<String, dynamic> data = Map.from(provider.formData());
-                    // MultipartFile file = MultipartFile.fromBytes(
-                    //   await data['fotoPerfil']!.first.readAsBytes(),
-                    //   filename: 'uploaded.png',
-                    // );
-                    // data.remove('fotoPerfil');
-                    // final formData = FormData.fromMap(data);
-                    // formData.files.add(MapEntry('file', file));
-                    // final response = await dio.post(
-                    //     'http://localhost:8080/api/personas',
-                    //     data: formData);
-
-                    // final dio = Dio();
-                    // Map<String, dynamic> data = Map.from(provider.formData());
-                    // MultipartFile file = MultipartFile.fromBytes(
-                    //   await data['fotoPerfil']!.first.readAsBytes(),
-                    //   filename: 'upload.png',
-                    // );
-                    // data.remove('fotoPerfil');
-                    // final formData = FormData.fromMap(data);
-                    // formData.files.add(MapEntry('file', file));
-                    // final response = await dio.post(
-                    //     'http://localhost:8080/api/uploadFile',
-                    //     data: formData);
-
-                    // final formData = FormData.fromMap({
-                    //   'name': 'dio',
-                    //   'date': DateTime.now().toIso8601String(),
-                    //   'file': MultipartFile.fromBytes(
-                    //     await data['fotoPerfil']!.first.readAsBytes(),
-                    //     filename: 'upload.png',
-                    //   ),
-                    // });
-                    // final response = await dio.post(
-                    //     'http://localhost:8080/api/uploadFile',
-                    //     data: formData);
-
-                    // var request = http.MultipartRequest('POST',
-                    //     Uri.parse('http://localhost:8080/api/uploadFile'));
-                    // request.files.add(http.MultipartFile.fromBytes(
-                    //     'file', await data['fotoPerfil']!.first.readAsBytes(),
-                    //     filename: 'filenamelast'));
-                    // var res = await request.send();
-                    // if (response.statusCode == 200) {
-                    //   if (context.mounted) {
-                    //     Navigator.of(context).pop();
-                    //   }
-                    // } else {
-                    //   if (kDebugMode) {
-                    //     print('error');
-                    //   }
-                    // }
+                    try {
+                      await provider.registrar(provider.formData());
+                      if (context.mounted) {
+                        Navigator.of(context).pop();
+                      }
+                    } catch (e) {
+                      rethrow;
+                    }
                   }
-                }),
+                })
               ],
             ),
           ))

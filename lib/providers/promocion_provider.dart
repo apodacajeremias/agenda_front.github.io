@@ -10,8 +10,8 @@ class PromocionProvider extends ChangeNotifier {
 
   buscarTodos() async {
     final response = await AgendaAPI.httpGet('/promociones');
-    List<Promocion> promocionesResponse =
-        List<Promocion>.from(response.map((model) => Promocion.fromJson(model)));
+    List<Promocion> promocionesResponse = List<Promocion>.from(
+        response.map((model) => Promocion.fromJson(model)));
     promociones = [...promocionesResponse];
     notifyListeners();
   }
@@ -22,9 +22,9 @@ class PromocionProvider extends ChangeNotifier {
 
   registrar(Map<String, dynamic> data) async {
     // Si data tiene un campo ID y este tiene informacion
-    if (data.containsKey('id') && data['id'] != null) {
+    if (data.containsKey('ID') && data['ID'] != null) {
       // Actualiza
-      await _actualizar(data['id'], data);
+      await _actualizar(data['ID'], data);
     } else {
       await _guardar(data);
     }
@@ -48,7 +48,8 @@ class PromocionProvider extends ChangeNotifier {
       final json = await AgendaAPI.httpPut('/promociones/$id', data);
       final promocion = Promocion.fromJson(json);
       // Buscamos el index en lista del ID Promocion
-      final index = promociones.indexWhere((element) => element.id!.contains(id));
+      final index =
+          promociones.indexWhere((element) => element.id!.contains(id));
       // Se substituye la informacion del index por la informacion actualizada
       promociones[index] = promocion;
       notifyListeners();

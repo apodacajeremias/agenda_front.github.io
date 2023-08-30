@@ -1,3 +1,4 @@
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/providers/auth_provider.dart';
 import 'package:agenda_front/providers/usuario_provider.dart';
 import 'package:agenda_front/routers/router.dart';
@@ -18,8 +19,8 @@ class RegisterView extends StatelessWidget {
     final provider = Provider.of<AuthProvider>(context);
     final userProvider = Provider.of<UsuarioProvider>(context, listen: false);
     return Container(
-      margin: const EdgeInsets.only(top: 50),
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      margin: const EdgeInsets.only(top: defaultPadding * 5),
+      padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 370),
@@ -41,7 +42,7 @@ class RegisterView extends StatelessWidget {
                     ]),
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: defaultPadding),
                   // Password
                   FormBuilderTextField(
                     name: "password",
@@ -68,7 +69,7 @@ class RegisterView extends StatelessWidget {
                     ]),
                     obscureText: true,
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: defaultPadding),
                   // Matching Password
                   FormBuilderTextField(
                     name: "matchingPassword",
@@ -96,7 +97,7 @@ class RegisterView extends StatelessWidget {
                     obscureText: true,
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: defaultPadding),
                   MyOutlinedButton(
                     onPressed: () async {
                       if (provider.saveAndValidateRegister()) {
@@ -113,7 +114,7 @@ class RegisterView extends StatelessWidget {
                     text: 'Crear cuenta',
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: defaultPadding),
                   MyTextButton(
                     text: 'Ir al login',
                     onPressed: () {

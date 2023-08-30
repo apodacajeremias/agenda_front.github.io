@@ -1,3 +1,4 @@
+import 'package:agenda_front/constants.dart';
 import 'package:flutter/material.dart';
 
 class TextSeparator extends StatelessWidget {
@@ -8,10 +9,13 @@ class TextSeparator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      margin: const EdgeInsets.only(bottom: 5),
+      padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+      margin: const EdgeInsets.only(bottom: defaultPadding / 2),
       child: Text(text,
-          style: Theme.of(context).textTheme.labelLarge?.apply(color: Colors.white)),
+          style: Theme.of(context)
+              .textTheme
+              .labelLarge
+              ?.apply(color: Colors.white)),
     );
   }
 }

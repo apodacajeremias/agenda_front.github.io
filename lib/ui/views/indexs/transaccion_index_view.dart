@@ -1,3 +1,4 @@
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/datasources/transaccion_datasource.dart';
 import 'package:agenda_front/providers/transaccion_provider.dart';
 import 'package:agenda_front/routers/router.dart';
@@ -29,12 +30,12 @@ class _TransaccionIndexViewState extends State<TransaccionIndexView> {
     final transacciones =
         Provider.of<TransaccionProvider>(context).transacciones;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.all(defaultPadding),
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
           const IndexHeader(title: 'Transacciones'),
-          const SizedBox(height: 10),
+          const SizedBox(height: defaultPadding),
           PaginatedDataTable(
             columns: const [
               DataColumn(label: Text('Persona')),

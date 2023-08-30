@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/models/entities/transaccion.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/providers/transaccion_provider.dart';
@@ -32,7 +33,7 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
     final provider = Provider.of<TransaccionProvider>(context, listen: false);
     final personas = Provider.of<PersonaProvider>(context).personas;
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: EdgeInsets.all(defaultPadding),
       child: ListView(
         physics: ClampingScrollPhysics(),
         children: [
@@ -43,13 +44,13 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                   child: Column(
                     children: [
                       if (widget.transaccion?.id != null) ...[
-                        SizedBox(height: 10),
+                        const SizedBox(height: defaultPadding),
                         Row(
                           children: [
                             Expanded(
                                 flex: 2,
                                 child: FormBuilderTextField(
-                                  name: 'id',
+                                  name: 'ID',
                                   initialValue: widget.transaccion?.id,
                                   enabled: false,
                                   decoration: CustomInputs.form(
@@ -57,14 +58,16 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                                       hint: 'ID',
                                       icon: Icons.qr_code),
                                 )),
-                            SizedBox(width: 10),
+                            const SizedBox(width: defaultPadding),
                             Expanded(
                                 child: FormBuilderSwitch(
-                                    name: 'activo',
-                                    title: Text('Estado del registro'),
-                                    initialValue: widget.transaccion?.activo)),
+                              name: 'activo',
+                              title: const Text('Estado del registro'),
+                              initialValue: widget.transaccion?.activo,
+                              decoration: CustomInputs.noBorder(),
+                            )),
                           ],
-                        ),
+                        )
                       ],
                       SizedBox(height: 10),
                       FormBuilderSearchableDropdown(
