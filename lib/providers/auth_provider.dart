@@ -3,7 +3,6 @@ import 'package:agenda_front/models/entities/colaborador.dart';
 import 'package:agenda_front/models/entities/empresa.dart';
 import 'package:agenda_front/models/entities/persona.dart';
 import 'package:agenda_front/models/security/auth_response.dart';
-import 'package:agenda_front/models/security/usuario.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/services/local_storage.dart';
 import 'package:agenda_front/services/navigation_service.dart';
@@ -16,7 +15,6 @@ enum AuthStatus { checking, authenticated, notAuthenticated }
 
 class AuthProvider extends ChangeNotifier {
   String? _token;
-  Usuario? usuario;
   Persona? persona;
   Colaborador? colaborador;
   Empresa? empresa;
@@ -45,13 +43,13 @@ class AuthProvider extends ChangeNotifier {
     isAuthenticated();
   }
 
-  registrar(Map<String, dynamic> data) {
+  register(Map<String, dynamic> data) {
     AgendaAPI.httpPost('/auth/register', data).then((json) {
       final authResponse = AuthenticationResponse.fromJson(json);
       _token = authResponse.token;
-      usuario = authResponse.usuario;
-      persona = authResponse.usuario.persona;
-      colaborador = authResponse.usuario.persona?.colaborador;
+      // usuario = authResponse.usuario;
+      persona = authResponse.persona;
+      colaborador = authResponse.persona?.colaborador;
       empresa = authResponse.empresa;
       _authStatus = AuthStatus.authenticated;
       LocalStorage.prefs.setString('token', _token!);
@@ -64,13 +62,13 @@ class AuthProvider extends ChangeNotifier {
     });
   }
 
-  login(Map<String, dynamic> data) {
-    AgendaAPI.httpPost('/auth/login', data).then((json) {
+  authenticate(Map<String, dynamic> data) {
+    AgendaAPI.httpPost('/auth/authenticate', data).then((json) {
       final authResponse = AuthenticationResponse.fromJson(json);
       _token = authResponse.token;
-      usuario = authResponse.usuario;
-      persona = authResponse.usuario.persona;
-      colaborador = authResponse.usuario.persona?.colaborador;
+      // usuario = authResponse.usuario;
+      persona = authResponse.persona;
+      colaborador = authResponse.persona?.colaborador;
       empresa = authResponse.empresa;
       _authStatus = AuthStatus.authenticated;
       LocalStorage.prefs.setString('token', _token!);
@@ -90,23 +88,6 @@ class AuthProvider extends ChangeNotifier {
       notifyListeners();
       return;
     }
-    try {
-      final resp = await AgendaAPI.httpGet(
-          '/auth/validate/${LocalStorage.prefs.getString('token')}');
-      final authResponse = AuthenticationResponse.fromJson(resp);
-      _token = authResponse.token;
-      usuario = authResponse.usuario;
-      persona = authResponse.usuario.persona;
-      colaborador = authResponse.usuario.persona?.colaborador;
-      empresa = authResponse.empresa;
-      _authStatus = AuthStatus.authenticated;
-      LocalStorage.prefs.setString('token', _token!);
-      notifyListeners();
-    } catch (e) {
-      LocalStorage.prefs.remove('token');
-      _authStatus = AuthStatus.notAuthenticated;
-      notifyListeners();
-    }
   }
 
   logout() {
@@ -114,7 +95,11 @@ class AuthProvider extends ChangeNotifier {
       LocalStorage.prefs.remove('token');
       _authStatus = AuthStatus.notAuthenticated;
       notifyListeners();
-    }).catchError((e) {});
+    }).catchError((e) {
+      LocalStorage.prefs.remove('token');
+      _authStatus = AuthStatus.notAuthenticated;
+      notifyListeners();
+    });
   }
 
   saveAndValidateRegister() {

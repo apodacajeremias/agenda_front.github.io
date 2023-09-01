@@ -217,24 +217,12 @@ class PersonaFormView extends StatelessWidget {
                     ])),
                 const SizedBox(height: defaultPadding),
                 FormBuilderImagePicker(
-                  name: 'file',
-                  decoration: CustomInputs.form(
-                      hint: 'Selecciona una foto para el perfil',
-                      label: 'Foto de perfil',
-                      icon: Icons.image),
-                  maxImages: 1,
-                  // valueTransformer: (images) async {
-                  //   if (images != null) {
-                  //     var multipartFile = [];
-                  //     for (final image in images) {
-                  //       multipartFile.add(MultipartFile.fromBytes(
-                  //           await image.readAsBytes(),
-                  //           filename: image.name));
-                  //     }
-                  //     return multipartFile;
-                  //   }
-                  // },
-                ),
+                    name: 'file',
+                    decoration: CustomInputs.form(
+                        hint: 'Selecciona una foto para el perfil',
+                        label: 'Foto de perfil',
+                        icon: Icons.image),
+                    maxImages: 1),
                 FormFooter(onConfirm: () async {
                   if (provider.saveAndValidate()) {
                     try {

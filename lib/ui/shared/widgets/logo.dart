@@ -23,8 +23,7 @@ class Logo extends StatelessWidget {
               const Icon(Icons.account_circle, color: Colors.white),
               const SizedBox(width: defaultPadding),
               Text(
-                authProvider.usuario?.persona?.nombre!.split(' ').first ??
-                    'N/A',
+                authProvider.persona?.nombre!.split(' ').first ?? 'N/A',
                 style: Theme.of(context)
                     .textTheme
                     .labelLarge

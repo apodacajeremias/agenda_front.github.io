@@ -73,21 +73,17 @@ class AgendaAPI {
   static _request(Map<String, dynamic> data) async {
     FormData formData = FormData.fromMap(data);
     // Buscamos los archivos para enviar
-    Future.forEach(data.values, (value) async {
+    Future.forEach(data.entries, (e) async {
       // FormBuilderImagePicker retorna List<dynamic>
-      if (value is List) {
+      if (e.value is List) {
         // Se recorre List<dynamic>
-        for (var val in value) {
+        for (var val in e.value) {
           // Buscar Instance of XFile
           if (val is XFileBase) {
             // ignore: list_remove_unrelated_type
-            formData.fields.remove(value);
-            MultipartFile file = await getMultipartFile(val);
-            if (value.length == 1) {
-              formData.files.add(MapEntry('file', file));
-            } else if (value.length > 1) {
-              formData.files.add(MapEntry('files', file));
-            }
+            formData.fields.removeWhere((element) => element.key == e.key);
+            MultipartFile file = await _getMultipartFile(val);
+            formData.files.add(MapEntry(e.key, file));
           }
         }
       }
@@ -95,7 +91,7 @@ class AgendaAPI {
     return formData;
   }
 
-  static Future getMultipartFile(file) async {
+  static Future _getMultipartFile(file) async {
     return MultipartFile.fromBytes(await file.readAsBytes(),
         filename: file.name);
   }

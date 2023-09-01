@@ -108,7 +108,7 @@ class RegisterView extends StatelessWidget {
                               ?.invalidate('Correo no disponible.');
                           return;
                         }
-                        await provider.registrar(provider.formDataRegister());
+                        await provider.register(provider.formDataRegister());
                       }
                     },
                     text: 'Crear cuenta',

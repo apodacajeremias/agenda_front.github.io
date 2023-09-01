@@ -66,7 +66,7 @@ class LoginView extends StatelessWidget {
                   MyElevatedButton(
                     onPressed: () async {
                       if (provider.saveAndValidateLogin()) {
-                        await provider.login(provider.formDataLogin());
+                        await provider.authenticate(provider.formDataLogin());
                       }
                     },
                     text: 'Ingresar',
