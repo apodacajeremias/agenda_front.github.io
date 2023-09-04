@@ -14,7 +14,7 @@ class FormBuilderCurrency extends StatelessWidget {
       required this.name,
       required this.label,
       this.initialValue,
-      required this.enabled});
+      this.enabled = true});
 
   @override
   Widget build(BuildContext context) {

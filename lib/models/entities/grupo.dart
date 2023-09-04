@@ -32,7 +32,9 @@ class Grupo {
         activo: json['activo'],
         nombre: json['nombre'],
         personas: json['personas'],
-        beneficio: Beneficio.fromJson(json['promociones']),
+        beneficio: json.containsKey('beneficio') && json['beneficio'] != null
+            ? Beneficio.fromJson(json['promociones'])
+            : null,
       );
 
   Map<String, dynamic> toJson() => {

@@ -1,13 +1,16 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:agenda_front/constants.dart';
+import 'package:agenda_front/models/entities/grupo.dart';
 import 'package:agenda_front/models/entities/persona.dart';
 import 'package:agenda_front/models/entities/transaccion.dart';
 import 'package:agenda_front/models/enums/tipo_transaccion.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/providers/transaccion_provider.dart';
+import 'package:agenda_front/response.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
 import 'package:agenda_front/ui/inputs/custom_inputs.dart';
+import 'package:agenda_front/ui/inputs/form_builder_currency.dart';
 import 'package:agenda_front/ui/shared/forms/form_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -25,6 +28,8 @@ class TransaccionFormView extends StatefulWidget {
 }
 
 class _TransaccionFormViewState extends State<TransaccionFormView> {
+  List<Grupo>? grupos;
+
   @override
   void initState() {
     Provider.of<PersonaProvider>(context, listen: false).buscarTodos();
@@ -73,46 +78,108 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                           ],
                         )
                       ],
-                      SizedBox(height: defaultPadding),
-                      FormBuilderSearchableDropdown(
-                        name: 'persona',
-                        initialValue: widget.transaccion?.persona,
-                        enabled: widget.transaccion?.activo ?? true,
-                        decoration: CustomInputs.form(
-                            label: 'Asociar transacción a la persona',
-                            hint: 'Seleccione una persona',
-                            icon: Icons.supervised_user_circle),
-                        compareFn: (item1, item2) =>
-                            item1.id!.contains(item2.id!),
-                        items: personas,
-                        validator: FormBuilderValidators.required(
-                            errorText: 'Campo obligatorio'),
-                      ),
-                      SizedBox(height: defaultPadding),
-                      FormBuilderDropdown(
-                        name: 'tipo',
-                        initialValue:
-                            widget.transaccion?.tipo ?? TipoTransaccion.VENTA,
-                        enabled: widget.transaccion?.activo ?? true,
-                        decoration: CustomInputs.form(
-                            label: 'Tipo de transaccion',
-                            hint: 'Seleccione un tipo',
-                            icon: Icons.info),
-                        items: TipoTransaccion.values
-                            .map((t) => DropdownMenuItem(
-                                value: t,
-                                child: Row(
-                                  children: [
-                                    Icon(t.icon),
-                                    const SizedBox(width: defaultPadding / 2),
-                                    Text(toBeginningOfSentenceCase(
-                                        t.name.toLowerCase())!)
-                                  ],
-                                )))
-                            .toList(),
-                        validator: FormBuilderValidators.required(
-                            errorText: 'Campo obligatorio'),
-                      )
+                      Row(children: [
+                        SizedBox(height: defaultPadding),
+                        Expanded(
+                          child: Column(children: [
+                            FormBuilderSearchableDropdown(
+                              name: 'persona',
+                              initialValue: widget.transaccion?.persona,
+                              enabled: widget.transaccion?.activo ?? true,
+                              decoration: CustomInputs.form(
+                                  label: 'Asociar transacción a la persona',
+                                  hint: 'Seleccione una persona',
+                                  icon: Icons.supervised_user_circle),
+                              compareFn: (item1, item2) =>
+                                  item1.id!.contains(item2.id!),
+                              items: personas,
+                              validator: FormBuilderValidators.required(
+                                  errorText: 'Campo obligatorio'),
+                              onChanged: (value) => setState(() {
+                                grupos = value?.grupos;
+                                print(value?.grupos);
+                              }),
+                            ),
+                            if (grupos != null) ...[
+                              SizedBox(height: defaultPadding),
+                              FormBuilderSearchableDropdown(
+                                name: 'grupo',
+                                initialValue: widget.transaccion?.grupo,
+                                enabled: widget.transaccion?.activo ?? true,
+                                decoration: CustomInputs.form(
+                                    label:
+                                        'Asociar transacción a un grupo para descuento',
+                                    hint: 'Seleccione un grupo',
+                                    icon: Icons.supervised_user_circle),
+                                compareFn: (item1, item2) =>
+                                    item1.id!.contains(item2.id!),
+                                items: grupos!,
+                              ),
+                            ],
+                            SizedBox(height: defaultPadding),
+                            FormBuilderDropdown(
+                              name: 'tipo',
+                              initialValue: widget.transaccion?.tipo ??
+                                  TipoTransaccion.VENTA,
+                              enabled: widget.transaccion?.activo ?? true,
+                              decoration: CustomInputs.form(
+                                  label: 'Tipo de transaccion',
+                                  hint: 'Seleccione un tipo',
+                                  icon: Icons.info),
+                              items: TipoTransaccion.values
+                                  .map((t) => DropdownMenuItem(
+                                      value: t,
+                                      child: Row(
+                                        children: [
+                                          Icon(t.icon),
+                                          const SizedBox(
+                                              width: defaultPadding / 2),
+                                          Text(toBeginningOfSentenceCase(
+                                              t.name.toLowerCase())!)
+                                        ],
+                                      )))
+                                  .toList(),
+                              validator: FormBuilderValidators.required(
+                                  errorText: 'Campo obligatorio'),
+                            ),
+                            SizedBox(height: defaultPadding),
+                            FormBuilderTextField(
+                              name: 'activo-x',
+                              initialValue:
+                                  (widget.transaccion?.activo ?? false)
+                                      ? 'ACTIVO'
+                                      : 'INACTIVO',
+                              readOnly: true,
+                              decoration: CustomInputs.form(
+                                  label: 'Estado',
+                                  hint: 'Estado',
+                                  icon: Icons.info),
+                            ),
+                          ]),
+                        ),
+                        SizedBox(width: defaultPadding),
+                        Expanded(
+                          child: Column(children: [
+                            FormBuilderCurrency(
+                              name: 'sumatoria',
+                              label: 'Sumatoria Total',
+                              initialValue: widget.transaccion?.sumatoria ?? 0,
+                            ),
+                            SizedBox(height: defaultPadding),
+                            FormBuilderCurrency(
+                              name: 'descuento',
+                              label: 'Descuento',
+                              initialValue: widget.transaccion?.descuento ?? 0,
+                            ),
+                            SizedBox(height: defaultPadding),
+                            FormBuilderCurrency(
+                              name: 'Total',
+                              label: 'Total a pagar',
+                              initialValue: widget.transaccion?.total ?? 0,
+                            ),
+                          ]),
+                        )
+                      ]),
                     ],
                   )))
         ],

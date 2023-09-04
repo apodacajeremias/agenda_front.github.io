@@ -34,12 +34,16 @@ class LoginView extends StatelessWidget {
                         label: 'Correo electrónico',
                         hint: 'Ingrese su correo',
                         icon: Icons.supervised_user_circle_sharp),
-                    validator: FormBuilderValidators.compose([
-                      FormBuilderValidators.required(
-                          errorText: 'Correo electrónico obligatorio.'),
-                      FormBuilderValidators.email(
-                          errorText: 'El correo no es correcto.'),
-                    ]),
+                    autofillHints: const [AutofillHints.email],
+                    keyboardType: TextInputType.emailAddress,
+                    validator: FormBuilderValidators.compose(
+                      [
+                        FormBuilderValidators.required(
+                            errorText: 'Correo electrónico obligatorio.'),
+                        FormBuilderValidators.email(
+                            errorText: 'El correo no es correcto.'),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: defaultPadding),
                   // Password
@@ -49,6 +53,7 @@ class LoginView extends StatelessWidget {
                         label: 'Contraseña de seguridad',
                         hint: '********',
                         icon: Icons.lock),
+                    autofillHints: const [AutofillHints.password],
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(
                           errorText: 'Debe repetir la contraseña.'),
