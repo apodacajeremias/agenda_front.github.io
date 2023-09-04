@@ -55,7 +55,7 @@ class PromocionFormView extends StatelessWidget {
                           ],
                         )
                       ],
-                      SizedBox(height: 10),
+                      SizedBox(height: defaultPadding),
                       FormBuilderTextField(
                         name: 'nombre',
                         initialValue: promocion?.nombre,
@@ -67,7 +67,7 @@ class PromocionFormView extends StatelessWidget {
                         validator: FormBuilderValidators.required(
                             errorText: 'Campo obligatorio'),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: defaultPadding),
                       Row(
                         children: [
                           Expanded(
@@ -85,7 +85,7 @@ class PromocionFormView extends StatelessWidget {
                                 value?.toIso8601String(),
                             inputType: InputType.date,
                           )),
-                          SizedBox(height: 10),
+                          SizedBox(height: defaultPadding),
                           Expanded(
                               child: FormBuilderDateTimePicker(
                             name: 'fin',
@@ -103,7 +103,7 @@ class PromocionFormView extends StatelessWidget {
                           )),
                         ],
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: defaultPadding),
                       Row(
                         children: [
                           Expanded(
@@ -119,7 +119,7 @@ class PromocionFormView extends StatelessWidget {
                                   errorText: 'Campo obligatorio'),
                             ),
                           ),
-                          SizedBox(width: 10),
+                          SizedBox(width: defaultPadding),
                           Expanded(
                             child: FormBuilderDropdown(
                               name: 'tipoDescuento',

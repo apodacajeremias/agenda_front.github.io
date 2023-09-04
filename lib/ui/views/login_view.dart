@@ -16,8 +16,7 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<AuthProvider>(context);
-
+    final formKey = GlobalKey<FormBuilderState>();
     return Container(
       margin: const EdgeInsets.only(top: defaultPadding * 5),
       padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
@@ -25,7 +24,7 @@ class LoginView extends StatelessWidget {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 370),
           child: FormBuilder(
-              key: provider.loginKey,
+              key: formKey,
               child: Column(
                 children: [
                   // Email
@@ -65,8 +64,9 @@ class LoginView extends StatelessWidget {
                   const SizedBox(height: defaultPadding),
                   MyElevatedButton(
                     onPressed: () async {
-                      if (provider.saveAndValidateLogin()) {
-                        await provider.authenticate(provider.formDataLogin());
+                      if (formKey.currentState!.saveAndValidate()) {
+                        await Provider.of<AuthProvider>(context, listen: false)
+                            .authenticate(formKey.currentState!.value);
                       }
                     },
                     text: 'Ingresar',

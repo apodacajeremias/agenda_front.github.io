@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:agenda_front/constants.dart';
+import 'package:agenda_front/models/entities/persona.dart';
 import 'package:agenda_front/models/entities/transaccion.dart';
+import 'package:agenda_front/models/enums/tipo_transaccion.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/providers/transaccion_provider.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
@@ -11,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_extra_fields/form_builder_extra_fields.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class TransaccionFormView extends StatefulWidget {
@@ -39,6 +42,7 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
         children: [
           FormHeader(title: 'Transacción'),
           WhiteCard(
+              title: widget.transaccion?.id ?? 'Nueva transacción',
               child: FormBuilder(
                   key: provider.formKey,
                   child: Column(
@@ -69,9 +73,9 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                           ],
                         )
                       ],
-                      SizedBox(height: 10),
+                      SizedBox(height: defaultPadding),
                       FormBuilderSearchableDropdown(
-                        name: 'persona.id',
+                        name: 'persona',
                         initialValue: widget.transaccion?.persona,
                         enabled: widget.transaccion?.activo ?? true,
                         decoration: CustomInputs.form(
@@ -83,7 +87,31 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                         items: personas,
                         validator: FormBuilderValidators.required(
                             errorText: 'Campo obligatorio'),
-                        valueTransformer: (value) => value?.id,
+                      ),
+                      SizedBox(height: defaultPadding),
+                      FormBuilderDropdown(
+                        name: 'tipo',
+                        initialValue:
+                            widget.transaccion?.tipo ?? TipoTransaccion.VENTA,
+                        enabled: widget.transaccion?.activo ?? true,
+                        decoration: CustomInputs.form(
+                            label: 'Tipo de transaccion',
+                            hint: 'Seleccione un tipo',
+                            icon: Icons.info),
+                        items: TipoTransaccion.values
+                            .map((t) => DropdownMenuItem(
+                                value: t,
+                                child: Row(
+                                  children: [
+                                    Icon(t.icon),
+                                    const SizedBox(width: defaultPadding / 2),
+                                    Text(toBeginningOfSentenceCase(
+                                        t.name.toLowerCase())!)
+                                  ],
+                                )))
+                            .toList(),
+                        validator: FormBuilderValidators.required(
+                            errorText: 'Campo obligatorio'),
                       )
                     ],
                   )))

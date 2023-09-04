@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final agenda = agendaFromJson(jsonString);
-
 import 'dart:convert';
 
 import 'package:agenda_front/models/entities/beneficio.dart';

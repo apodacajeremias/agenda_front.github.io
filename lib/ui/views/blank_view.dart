@@ -14,7 +14,7 @@ class BlankView extends StatelessWidget {
         physics: const ClampingScrollPhysics(),
         children: const [
           Text('Blank View'),
-          SizedBox(height: 10),
+          SizedBox(height: defaultPadding),
           WhiteCard(title: 'Blank Page', child: Text('Hola Mundo!!'))
         ],
       ),

@@ -58,7 +58,7 @@ class ItemFormView extends StatelessWidget {
                           ],
                         )
                       ],
-                      SizedBox(height: 10),
+                      SizedBox(height: defaultPadding),
                       FormBuilderTextField(
                           name: 'nombre',
                           initialValue: item?.nombre,
@@ -69,7 +69,7 @@ class ItemFormView extends StatelessWidget {
                               icon: Icons.info),
                           validator: FormBuilderValidators.required(
                               errorText: 'Campo obligatorio')),
-                      SizedBox(height: 10),
+                      SizedBox(height: defaultPadding),
                       Row(
                         children: [
                           // Expanded(
@@ -91,7 +91,7 @@ class ItemFormView extends StatelessWidget {
                                   label: 'Precio',
                                   initialValue: item?.precio,
                                   enabled: item?.activo ?? true)),
-                          SizedBox(width: 10),
+                          SizedBox(width: defaultPadding),
                           Expanded(
                             child: FormBuilderDropdown(
                               name: 'tipo',

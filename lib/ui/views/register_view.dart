@@ -16,8 +16,8 @@ class RegisterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<AuthProvider>(context);
-    final userProvider = Provider.of<UsuarioProvider>(context, listen: false);
+    final formKey = GlobalKey<FormBuilderState>();
+    final provider = Provider.of<AuthProvider>(context, listen: false);
     return Container(
       margin: const EdgeInsets.only(top: defaultPadding * 5),
       padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
@@ -25,7 +25,7 @@ class RegisterView extends StatelessWidget {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 370),
           child: FormBuilder(
-              key: provider.registerKey,
+              key: formKey,
               child: Column(
                 children: [
                   FormBuilderTextField(
@@ -58,14 +58,7 @@ class RegisterView extends StatelessWidget {
                               'La contraseña debe tener minimo 8 caracteres'),
                       FormBuilderValidators.maxLength(30,
                           errorText:
-                              'La contraseña debe tener maximo 30 caracteres'),
-                      (password) {
-                        final matchingPassword = provider.registerKey
-                            .currentState?.fields['matchingPassword']!.value;
-                        return matchingPassword.contains(password)
-                            ? null
-                            : 'Las contraseñas no coinciden';
-                      }
+                              'La contraseña debe tener maximo 30 caracteres')
                     ]),
                     obscureText: true,
                   ),
@@ -87,8 +80,8 @@ class RegisterView extends StatelessWidget {
                           errorText:
                               'La contraseña debe tener maximo 30 caracteres'),
                       (matchingPassword) {
-                        final password = provider.registerKey.currentState
-                            ?.fields['password']!.value;
+                        final password =
+                            formKey.currentState?.fields['password']!.value;
                         return password.contains(matchingPassword)
                             ? null
                             : 'Las contraseñas no coinciden';
@@ -100,15 +93,18 @@ class RegisterView extends StatelessWidget {
                   const SizedBox(height: defaultPadding),
                   MyOutlinedButton(
                     onPressed: () async {
-                      if (provider.saveAndValidateRegister()) {
-                        final email = provider
-                            .registerKey.currentState?.fields['email']!.value;
-                        if (await userProvider.existe(email)) {
-                          provider.registerKey.currentState!.fields['email']
+                      if (formKey.currentState!.saveAndValidate()) {
+                        final email =
+                            formKey.currentState!.fields['email']!.value;
+                        if (await Provider.of<UsuarioProvider>(context,
+                                listen: false)
+                            .existe(email)) {
+                          formKey.currentState!.fields['email']
                               ?.invalidate('Correo no disponible.');
                           return;
+                        } else {
+                          await provider.register(formKey.currentState!.value);
                         }
-                        await provider.register(provider.formDataRegister());
                       }
                     },
                     text: 'Crear cuenta',

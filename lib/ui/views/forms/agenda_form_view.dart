@@ -52,7 +52,7 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                   key: provider.formKey,
                   child: Column(
                     children: [
-                      SizedBox(height: 10),
+                      SizedBox(height: defaultPadding),
                       Row(
                         children: [
                           Expanded(
@@ -70,7 +70,7 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                                   inputType: InputType.both,
                                   valueTransformer: (value) =>
                                       value?.toIso8601String())),
-                          SizedBox(width: 10),
+                          SizedBox(width: defaultPadding),
                           Expanded(
                               child: FormBuilderDateTimePicker(
                                   name: 'fin',
@@ -88,7 +88,7 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                                       value?.toIso8601String())),
                         ],
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: defaultPadding),
                       FormBuilderSearchableDropdown(
                         name: 'persona',
                         compareFn: (item1, item2) =>
@@ -98,7 +98,7 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                             errorText: 'Campo obligatorio'),
                         valueTransformer: (value) => Persona(id: value?.id),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: defaultPadding),
                       FormBuilderSearchableDropdown(
                         name: 'colaborador',
                         compareFn: (item1, item2) =>
@@ -108,7 +108,7 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                             errorText: 'Campo obligatorio'),
                         valueTransformer: (value) => Colaborador(id: value?.id),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: defaultPadding),
                       Row(
                         children: [
                           Expanded(
@@ -125,7 +125,7 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                               valueTransformer: (value) => value?.name,
                             ),
                           ),
-                          SizedBox(width: 10),
+                          SizedBox(width: defaultPadding),
                           Expanded(
                             child: FormBuilderDropdown(
                               name: 'prioridad',
@@ -142,7 +142,7 @@ class _AgendaFormViewState extends State<AgendaFormView> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: defaultPadding),
                       FormBuilderTextField(
                         name: 'observacion',
                         decoration: CustomInputs.form(

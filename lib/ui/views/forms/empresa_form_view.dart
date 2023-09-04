@@ -69,7 +69,7 @@ class EmpresaFormView extends StatelessWidget {
                             hint: 'Nombre con el cual actua la empresa',
                             icon: Icons.info),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: defaultPadding),
                       FormBuilderTextField(
                         name: 'direccion',
                         initialValue: empresa.direccion,
@@ -82,7 +82,7 @@ class EmpresaFormView extends StatelessWidget {
                         minLines: 2,
                         maxLines: 5,
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: defaultPadding),
                       Row(
                         children: [
                           Expanded(
@@ -94,7 +94,7 @@ class EmpresaFormView extends StatelessWidget {
                                 hint: 'Celular de contacto',
                                 icon: Icons.phone),
                           )),
-                          SizedBox(width: 10),
+                          SizedBox(width: defaultPadding),
                           Expanded(
                               child: FormBuilderTextField(
                             name: 'telefono',
@@ -106,7 +106,7 @@ class EmpresaFormView extends StatelessWidget {
                           ))
                         ],
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: defaultPadding),
                       Row(
                         children: [
                           Expanded(
@@ -118,7 +118,7 @@ class EmpresaFormView extends StatelessWidget {
                                 hint: 'Inicio de las actividades',
                                 icon: Icons.schedule),
                           )),
-                          SizedBox(width: 10),
+                          SizedBox(width: defaultPadding),
                           Expanded(
                               child: FormBuilderTextField(
                             name: 'registroContribuyente',
@@ -130,7 +130,7 @@ class EmpresaFormView extends StatelessWidget {
                           ))
                         ],
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: defaultPadding),
                       Row(
                         children: [
                           Expanded(
@@ -147,7 +147,7 @@ class EmpresaFormView extends StatelessWidget {
                                 errorText: 'Campo obligatorio'),
                             valueTransformer: (value) => value?.name,
                           )),
-                          SizedBox(width: 10),
+                          SizedBox(width: defaultPadding),
                           Expanded(
                             child: FormBuilderDropdown(
                               name: 'idioma',
@@ -165,7 +165,7 @@ class EmpresaFormView extends StatelessWidget {
                           )
                         ],
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: defaultPadding),
                       FormBuilderImagePicker(
                         name: 'logo',
                         decoration: CustomInputs.form(

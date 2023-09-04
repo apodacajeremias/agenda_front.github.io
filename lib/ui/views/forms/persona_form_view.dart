@@ -99,7 +99,7 @@ class PersonaFormView extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     Icon(g.icon),
-                                    const SizedBox(width: 5),
+                                    const SizedBox(width: defaultPadding / 2),
                                     Text(toBeginningOfSentenceCase(
                                         g.name.toLowerCase())!)
                                   ],

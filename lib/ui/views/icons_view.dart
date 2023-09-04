@@ -14,7 +14,7 @@ class IconsView extends StatelessWidget {
         physics: const ClampingScrollPhysics(),
         children: const [
           Text('Icons'),
-          SizedBox(height: 10),
+          SizedBox(height: defaultPadding),
           Wrap(
             crossAxisAlignment: WrapCrossAlignment.start,
             direction: Axis.horizontal,

@@ -55,7 +55,7 @@ class ColaboradorFormView extends StatelessWidget {
                       ],
                     )
                   ],
-                  SizedBox(height: 10),
+                  SizedBox(height: defaultPadding),
                   FormBuilderTextField(
                     name: 'profesion',
                     initialValue: colaborador?.profesion,
@@ -67,7 +67,7 @@ class ColaboradorFormView extends StatelessWidget {
                     validator: FormBuilderValidators.required(
                         errorText: 'Campo obligatorio'),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: defaultPadding),
                   Row(
                     children: [
                       Expanded(
@@ -82,7 +82,7 @@ class ColaboradorFormView extends StatelessWidget {
                         validator: FormBuilderValidators.required(
                             errorText: 'Campo obligatorio'),
                       )),
-                      SizedBox(width: 10),
+                      SizedBox(width: defaultPadding),
                       Expanded(
                           child: FormBuilderTextField(
                         name: 'registroContribuyente',

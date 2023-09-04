@@ -58,7 +58,7 @@ class BeneficioFormView extends StatelessWidget {
                       ],
                     )
                   ],
-                  SizedBox(height: 10),
+                  SizedBox(height: defaultPadding),
                   Row(
                     children: [
                       Expanded(
@@ -73,7 +73,7 @@ class BeneficioFormView extends StatelessWidget {
                             validator: FormBuilderValidators.required(
                                 errorText: 'Campo obligatorio')),
                       ),
-                      SizedBox(width: 10),
+                      SizedBox(width: defaultPadding),
                       Expanded(
                           child: FormBuilderTextField(
                         name: 'descuento',
@@ -91,7 +91,7 @@ class BeneficioFormView extends StatelessWidget {
                       ))
                     ],
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: defaultPadding),
                   Row(children: [
                     Expanded(
                         child: FormBuilderDropdown(
@@ -112,7 +112,7 @@ class BeneficioFormView extends StatelessWidget {
                           errorText: 'Campo obligatorio'),
                       valueTransformer: (value) => value?.name,
                     )),
-                    SizedBox(width: 10),
+                    SizedBox(width: defaultPadding),
                     Expanded(
                         child: FormBuilderDropdown(
                       name: 'tipoDescuento',

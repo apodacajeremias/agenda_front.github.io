@@ -75,7 +75,7 @@ class _GrupoFormViewState extends State<GrupoFormView> {
                       ],
                     )
                   ],
-                  SizedBox(height: 10),
+                  SizedBox(height: defaultPadding),
                   FormBuilderTextField(
                       name: 'nombre',
                       initialValue: widget.grupo?.nombre,
@@ -86,7 +86,7 @@ class _GrupoFormViewState extends State<GrupoFormView> {
                           icon: Icons.info),
                       validator: FormBuilderValidators.required(
                           errorText: 'Campo obligatorio')),
-                  SizedBox(height: 10),
+                  SizedBox(height: defaultPadding),
                   FormBuilderSearchableDropdown(
                       name: 'beneficio',
                       compareFn: (item1, item2) =>
@@ -103,7 +103,7 @@ class _GrupoFormViewState extends State<GrupoFormView> {
                                 item1.id!.contains(item2.id!),
                             items: personas),
                       ),
-                      SizedBox(width: 10),
+                      SizedBox(width: defaultPadding),
                       Expanded(
                           child: MyElevatedButton(
                         text: 'Agregar persona al grupo',
