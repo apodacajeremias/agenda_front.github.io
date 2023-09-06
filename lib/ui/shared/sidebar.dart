@@ -112,9 +112,10 @@ class Sidebar extends StatelessWidget {
   }
 
   BoxDecoration buildBoxDecoration(BuildContext context) => BoxDecoration(
+          color: Theme.of(context).primaryColor,
           gradient: LinearGradient(colors: [
-            Theme.of(context).colorScheme.primary,
-            Theme.of(context).colorScheme.primary,
+            Theme.of(context).primaryColorDark,
+            Theme.of(context).primaryColor,
           ]),
           boxShadow: [
             BoxShadow(

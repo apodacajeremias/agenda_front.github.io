@@ -19,6 +19,7 @@ class Persona {
 
   String? documentoIdentidad;
   DateTime? fechaNacimiento;
+  int? edad;
   Genero? genero;
   String? telefono;
   String? celular;
@@ -34,6 +35,7 @@ class Persona {
     this.nombre,
     this.documentoIdentidad,
     this.fechaNacimiento,
+    this.edad,
     this.genero,
     this.telefono,
     this.celular,
@@ -50,6 +52,7 @@ class Persona {
         nombre: json['nombre'],
         documentoIdentidad: json['documentoIdentidad'],
         fechaNacimiento: DateTime.tryParse(json['fechaNacimiento']),
+        edad: json['edad'],
         genero: Genero.values.byName(json['genero']),
         telefono: json['telefono'],
         celular: json['celular'],

@@ -17,7 +17,18 @@ class DashboardView extends StatelessWidget {
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
+          Text('Inicio', style: Theme.of(context).textTheme.displayLarge),
+          Text('Inicio', style: Theme.of(context).textTheme.displayMedium),
+          Text('Inicio', style: Theme.of(context).textTheme.displaySmall),
           Text('Inicio', style: Theme.of(context).textTheme.headlineLarge),
+          Text('Inicio', style: Theme.of(context).textTheme.headlineMedium),
+          Text('Inicio', style: Theme.of(context).textTheme.headlineSmall),
+          Text('Inicio', style: Theme.of(context).textTheme.titleLarge),
+          Text('Inicio', style: Theme.of(context).textTheme.titleMedium),
+          Text('Inicio', style: Theme.of(context).textTheme.titleSmall),
+          Text('Inicio', style: Theme.of(context).textTheme.bodyLarge),
+          Text('Inicio', style: Theme.of(context).textTheme.bodyMedium),
+          Text('Inicio', style: Theme.of(context).textTheme.bodySmall),
           const SizedBox(height: defaultPadding),
           WhiteCard(title: persona.nombre, child: Text(persona.id!))
         ],

@@ -27,9 +27,9 @@ class _MenuItemState extends State<MenuItemCustom> {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
       color: isHovered
-          ? Colors.white.withOpacity(0.1)
+          ? Theme.of(context).scaffoldBackgroundColor.withOpacity(0.1)
           : widget.isActive
-              ? Colors.white.withOpacity(0.2)
+              ? Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2)
               : Colors.transparent,
       child: Material(
         color: Colors.transparent,
@@ -47,19 +47,27 @@ class _MenuItemState extends State<MenuItemCustom> {
                 children: [
                   Icon(widget.icon,
                       color: isHovered
-                          ? Colors.white.withOpacity(0.7)
+                          ? Theme.of(context)
+                              .scaffoldBackgroundColor
+                              .withOpacity(0.7)
                           : widget.isActive
-                              ? Colors.white
-                              : Colors.white.withOpacity(0.5)),
+                              ? Theme.of(context).scaffoldBackgroundColor
+                              : Theme.of(context)
+                                  .scaffoldBackgroundColor
+                                  .withOpacity(0.5)),
                   const SizedBox(width: defaultPadding),
                   Text(
                     widget.text,
                     style: Theme.of(context).textTheme.labelMedium?.apply(
                         color: isHovered
-                            ? Colors.white.withOpacity(0.7)
+                            ? Theme.of(context)
+                                .scaffoldBackgroundColor
+                                .withOpacity(0.7)
                             : widget.isActive
-                                ? Colors.white
-                                : Colors.white.withOpacity(0.5)),
+                                ? Theme.of(context).scaffoldBackgroundColor
+                                : Theme.of(context)
+                                    .scaffoldBackgroundColor
+                                    .withOpacity(0.5)),
                   )
                 ],
               ),

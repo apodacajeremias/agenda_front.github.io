@@ -30,7 +30,6 @@ import 'package:agenda_front/ui/layouts/auth/auth_layout.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
   await LocalStorage.configurePrefs();
   AgendaAPI.configureDio();
   Flurorouter.configureRoutes();
