@@ -1,9 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:agenda_front/constants.dart';
+import 'package:agenda_front/models/entities/beneficio.dart';
 import 'package:agenda_front/models/entities/grupo.dart';
 import 'package:agenda_front/models/entities/persona.dart';
 import 'package:agenda_front/models/entities/transaccion.dart';
+import 'package:agenda_front/models/enums/tipo_beneficio.dart';
+import 'package:agenda_front/models/enums/tipo_descuento.dart';
 import 'package:agenda_front/models/enums/tipo_transaccion.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/providers/transaccion_provider.dart';
@@ -96,8 +99,15 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                               validator: FormBuilderValidators.required(
                                   errorText: 'Campo obligatorio'),
                               onChanged: (value) => setState(() {
+                                provider.formKey.currentState?.fields['grupo']
+                                    ?.didChange(null);
+                                provider.formKey.currentState
+                                    ?.fields['tipoBeneficio']
+                                    ?.didChange(null);
+                                provider.formKey.currentState
+                                    ?.fields['tipoDescuento']
+                                    ?.didChange(null);
                                 grupos = value?.grupos;
-                                print(value?.grupos);
                               }),
                             ),
                             if (grupos != null) ...[
@@ -114,7 +124,64 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                                 compareFn: (item1, item2) =>
                                     item1.id!.contains(item2.id!),
                                 items: grupos!,
+                                onChanged: (value) {
+                                  provider.formKey.currentState
+                                      ?.fields['tipoBeneficio']
+                                      ?.didChange(value?.beneficio?.tipo);
+                                  provider.formKey.currentState
+                                      ?.fields['tipoDescuento']
+                                      ?.didChange(
+                                          value?.beneficio?.tipoDescuento);
+                                },
                               ),
+                              SizedBox(height: defaultPadding),
+                              FormBuilderDropdown(
+                                  name: 'tipoBeneficio',
+                                  initialValue:
+                                      widget.transaccion?.tipoBeneficio,
+                                  enabled: false,
+                                  decoration: CustomInputs.form(
+                                      label: 'Tipo de beneficio',
+                                      hint: 'Seleccione un tipo',
+                                      icon: Icons.info),
+                                  items: TipoBeneficio.values
+                                      .map((t) => DropdownMenuItem(
+                                            value: t,
+                                            child: Row(
+                                              children: [
+                                                Icon(t.icon),
+                                                const SizedBox(
+                                                    width: defaultPadding / 2),
+                                                Text(toBeginningOfSentenceCase(
+                                                    t.name.toLowerCase())!)
+                                              ],
+                                            ),
+                                          ))
+                                      .toList()),
+                              SizedBox(height: defaultPadding),
+                              FormBuilderDropdown(
+                                  name: 'tipoDescuento',
+                                  initialValue:
+                                      widget.transaccion?.tipoDescuento,
+                                  enabled: false,
+                                  decoration: CustomInputs.form(
+                                      label: 'Tipo de descuento',
+                                      hint: 'Seleccione un tipo',
+                                      icon: Icons.info),
+                                  items: TipoDescuento.values
+                                      .map((t) => DropdownMenuItem(
+                                            value: t,
+                                            child: Row(
+                                              children: [
+                                                Icon(t.icon),
+                                                const SizedBox(
+                                                    width: defaultPadding / 2),
+                                                Text(toBeginningOfSentenceCase(
+                                                    t.name.toLowerCase())!)
+                                              ],
+                                            ),
+                                          ))
+                                      .toList()),
                             ],
                             SizedBox(height: defaultPadding),
                             FormBuilderDropdown(
@@ -149,7 +216,7 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                                   (widget.transaccion?.activo ?? false)
                                       ? 'ACTIVO'
                                       : 'INACTIVO',
-                              readOnly: true,
+                              enabled: false,
                               decoration: CustomInputs.form(
                                   label: 'Estado',
                                   hint: 'Estado',

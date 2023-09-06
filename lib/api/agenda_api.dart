@@ -63,8 +63,8 @@ class AgendaAPI {
     configureDio();
     final formData = FormData.fromMap(data);
     try {
-      final resp = await _dio.delete(path, data: formData);
-      return resp.data;
+      final response = await _dio.delete(path, data: formData);
+      return response.data;
     } catch (e) {
       rethrow;
     }

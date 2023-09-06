@@ -19,7 +19,7 @@ enum Genero {
       case Genero.FEMENINO:
         return Icons.female;
       default:
-        return Icons.adjust;
+        return Icons.fiber_manual_record;
     }
   }
 }

@@ -17,6 +17,8 @@ class PersonaProvider extends ChangeNotifier {
   }
 
   Persona? buscar(String id) {
+    if (personas.isEmpty) return null;
+
     return personas.where((element) => element.id!.contains(id)).first;
   }
 

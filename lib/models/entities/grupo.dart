@@ -33,7 +33,7 @@ class Grupo {
         nombre: json['nombre'],
         personas: json['personas'],
         beneficio: json.containsKey('beneficio') && json['beneficio'] != null
-            ? Beneficio.fromJson(json['promociones'])
+            ? Beneficio.fromJson(json['beneficio'])
             : null,
       );
 

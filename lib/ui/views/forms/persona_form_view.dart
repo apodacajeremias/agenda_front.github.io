@@ -1,7 +1,12 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:agenda_front/api/agenda_api.dart';
 import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/models/enums/genero.dart';
 import 'package:agenda_front/models/entities/persona.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
+import 'package:agenda_front/services/local_storage.dart';
 import 'package:agenda_front/utils/fecha_util.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
 import 'package:agenda_front/ui/inputs/custom_inputs.dart';
@@ -22,6 +27,63 @@ class PersonaFormView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<PersonaProvider>(context, listen: false);
+    return _profile(provider, context);
+  }
+
+  Widget _profile(PersonaProvider provider, BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(defaultPadding),
+      child: Row(
+        children: [
+          Expanded(
+            child: WhiteCard(
+              child: Column(
+                children: [
+                  ClipOval(
+                    child: SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: FutureBuilder(
+                          future: AgendaAPI.httpGet('/downloadFile/TESTEO.png'),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              print(snapshot.data.runtimeType);
+                              return Image.memory(Uint8List.fromList(
+                                  utf8.encode(snapshot.data)));
+                            } else {
+                              return Container(color: Colors.black12);
+                            }
+                          },
+                        )),
+                  ),
+                  ClipOval(
+                    child: SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: Image.network(
+                          'http://localhost:8080/api/downloadFile/TESTEO.png',
+                          headers: {
+                            'Authorization':
+                                'Bearer ${LocalStorage.prefs.getString('token')}'
+                          },
+                        )),
+                  )
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(width: defaultPadding),
+          Expanded(
+              flex: 3,
+              child: Container(
+                color: Colors.amber,
+              ))
+        ],
+      ),
+    );
+  }
+
+  Widget _form(PersonaProvider provider, BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(defaultPadding),
       child: ListView(
