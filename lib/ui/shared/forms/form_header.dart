@@ -13,7 +13,7 @@ class FormHeader extends StatelessWidget {
       children: [
         Text(
           title,
-          style: Theme.of(context).textTheme.headlineLarge,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
         MyTextButton(
             text: backText ?? 'Volver',

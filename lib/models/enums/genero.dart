@@ -15,11 +15,11 @@ enum Genero {
   IconData get icon {
     switch (this) {
       case Genero.MASCULINO:
-        return Icons.male;
+        return Icons.male_outlined;
       case Genero.FEMENINO:
-        return Icons.female;
+        return Icons.female_outlined;
       default:
-        return Icons.fiber_manual_record;
+        return Icons.transgender_outlined;
     }
   }
 }

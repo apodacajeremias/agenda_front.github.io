@@ -38,108 +38,151 @@ class _PersonaFormViewState extends State<PersonaFormView> {
 
   Widget _profile(PersonaProvider provider, BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(defaultPadding),
-      child: Row(
+      padding: EdgeInsets.all(defaultPadding),
+      child: ListView(
+        physics: ClampingScrollPhysics(),
         children: [
-          Expanded(
-            child: WhiteCard(
+          const FormHeader(title: 'Perfil'),
+          WhiteCard(
+              title: widget.persona?.nombre,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Center(
-                    child: ClipOval(
-                      child: SizedBox(
-                          height: 150,
-                          width: 150,
-                          child: Image.network(
-                            'http://localhost:8080/api/downloadFile/TESTEO.png',
-                            headers: {
-                              'Authorization':
-                                  'Bearer ${LocalStorage.prefs.getString('token')}'
-                            },
-                          )),
+                    child: CircleAvatar(
+                      radius: 100,
+                      backgroundImage: NetworkImage(
+                        'http://localhost:8080/api/downloadFile/TESTEO.png',
+                        headers: {
+                          'Authorization':
+                              'Bearer ${LocalStorage.prefs.getString('token')}'
+                        },
+                      ),
                     ),
                   ),
-                  const SizedBox(height: defaultPadding / 2),
-                  Text(
-                      widget.persona?.nombre ??
-                          'Id anim excepteur nostrud in reprehenderit non labore quis tempor sunt ipsum consequat cupidatat.',
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium
-                          ?.copyWith(fontWeight: FontWeight.bold)),
-                  const SizedBox(height: defaultPadding / 2),
-                  const TextSeparator(
-                    text: 'Info',
-                    color: Colors.black,
+                  Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          widget.persona?.nombre ??
+                              'Eiusmod commodo duis ea ut Lorem sunt duis commodo consequat qui nisi reprehenderit sunt proident.',
+                          maxLines: 3,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                            widget.persona?.colaborador != null
+                                ? 'Colaborador'
+                                : 'Cliente',
+                            maxLines: 3,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.titleSmall),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: defaultPadding / 2),
+                  Divider(),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Transacciones',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall
+                                ?.copyWith(fontWeight: FontWeight.bold)),
+                        Text('0',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall
+                                ?.copyWith(color: Colors.blue)),
+                      ]),
+                  Divider(),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Pagos',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall
+                                ?.copyWith(fontWeight: FontWeight.bold)),
+                        Text('0',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall
+                                ?.copyWith(color: Colors.blue)),
+                      ]),
+                  Divider(),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Agendamientos',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall
+                                ?.copyWith(fontWeight: FontWeight.bold)),
+                        Text('0',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall
+                                ?.copyWith(color: Colors.blue)),
+                      ]),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: MyElevatedButton(
+                        text: 'Editar',
+                        icon: Icons.edit_outlined,
+                        onPressed: () => setState(() {
+                          print('edit pressed');
+                        }),
+                      ))
+                    ],
+                  )
+                ],
+              )),
+          WhiteCard(
+              title: 'Sobre mí',
+              child: Column(
+                children: [
                   TextProfileDetail(
                       icon: Icons.badge_outlined,
                       title: 'Documento',
                       text: widget.persona!.documentoIdentidad),
-                  const SizedBox(height: defaultPadding / 2),
                   TextProfileDetail(
                       icon: Icons.cake_outlined,
                       text: FechaUtil.formatDate(
                           widget.persona?.fechaNacimiento ?? DateTime.now())),
-                  const SizedBox(height: defaultPadding / 2),
                   TextProfileDetail(
                       icon: Icons.info_outline,
                       title: 'Edad',
                       text: widget.persona?.edad.toString()),
-                  const SizedBox(height: defaultPadding / 2),
                   TextProfileDetail(
                       icon: widget.persona!.genero!.icon,
-                      text: widget.persona!.genero!.toString()),
+                      text: widget.persona!.genero!.toString(),
+                      hasDivider: false),
                   if (widget.persona?.colaborador != null) ...[
                     const SizedBox(height: defaultPadding / 2),
                     const TextSeparator(
-                        text: 'Colaborador', color: Colors.black),
+                        text: 'Información profesional', color: Colors.black),
                     const SizedBox(height: defaultPadding / 2),
                     TextProfileDetail(
                         icon: Icons.info_outline,
                         title: 'Registro de Contribuyente',
                         text:
                             widget.persona!.colaborador?.registroContribuyente),
-                    const SizedBox(height: defaultPadding / 2),
                     TextProfileDetail(
                         icon: Icons.info_outline,
                         title: 'Registro de Profesional',
                         text: widget.persona!.colaborador?.registroProfesional),
-                    const SizedBox(height: defaultPadding / 2),
                     TextProfileDetail(
                         icon: Icons.info_outline,
                         title: 'Profesión',
-                        text: widget.persona!.colaborador?.profesion),
+                        text: widget.persona!.colaborador?.profesion,
+                        hasDivider: false),
                   ],
-                  const SizedBox(height: defaultPadding),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: MyElevatedButton(
-                          text: 'Editar',
-                          icon: Icons.edit_outlined,
-                          onPressed: () => setState(() {
-                            isProfile = !isProfile;
-                          }),
-                        ),
-                      ),
-                    ],
-                  )
                 ],
-              ),
-            ),
-          ),
-          const SizedBox(width: defaultPadding),
-          Expanded(
-              flex: 3,
-              child: Container(
-                  color: widget.persona!.activo ?? false
-                      ? Colors.amber
-                      : Colors.blue))
+              ))
         ],
       ),
     );
@@ -239,46 +282,42 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                 const SizedBox(height: defaultPadding / 2),
                 Row(children: [
                   Expanded(
-                    child: Row(children: [
-                      Expanded(
-                        child: FormBuilderDateTimePicker(
-                          name: 'fechaNacimiento',
-                          format: FechaUtil.dateFormat,
-                          initialValue:
-                              widget.persona?.fechaNacimiento ?? DateTime.now(),
-                          enabled: widget.persona?.activo ?? true,
-                          decoration: CustomInputs.form(
-                              hint: 'Fecha de nacimiento',
-                              label: 'Fecha de nacimiento',
-                              icon: Icons.cake),
-                          validator: FormBuilderValidators.required(
-                              errorText: 'Campo obligatorio'),
-                          onChanged: (value) {
-                            provider.formKey.currentState!.fields['edad']!
-                                .didChange(
-                                    FechaUtil.calcularEdad(value!).toString());
-                          },
-                          inputType: InputType.date,
-                          valueTransformer: (value) => value?.toIso8601String(),
-                        ),
-                      ),
-                      const SizedBox(width: defaultPadding),
-                      Expanded(
-                        child: FormBuilderTextField(
-                          name: 'edad',
-                          initialValue: (widget.persona != null)
-                              ? FechaUtil.calcularEdad(
-                                      widget.persona!.fechaNacimiento!)
-                                  .toString()
-                              : '0',
-                          enabled: widget.persona?.activo ?? true,
-                          decoration: CustomInputs.form(
-                              hint: 'Edad de la persona',
-                              label: 'Edad hasta la fecha',
-                              icon: Icons.numbers),
-                        ),
-                      ),
-                    ]),
+                    child: FormBuilderDateTimePicker(
+                      name: 'fechaNacimiento',
+                      format: FechaUtil.dateFormat,
+                      initialValue:
+                          widget.persona?.fechaNacimiento ?? DateTime.now(),
+                      enabled: widget.persona?.activo ?? true,
+                      decoration: CustomInputs.form(
+                          hint: 'Fecha de nacimiento',
+                          label: 'Fecha de nacimiento',
+                          icon: Icons.cake),
+                      validator: FormBuilderValidators.required(
+                          errorText: 'Campo obligatorio'),
+                      onChanged: (value) {
+                        provider.formKey.currentState!.fields['edad']!
+                            .didChange(
+                                FechaUtil.calcularEdad(value!).toString());
+                      },
+                      inputType: InputType.date,
+                      valueTransformer: (value) => value?.toIso8601String(),
+                    ),
+                  ),
+                  const SizedBox(width: defaultPadding),
+                  Expanded(
+                    child: FormBuilderTextField(
+                      name: 'edad',
+                      initialValue: (widget.persona != null)
+                          ? FechaUtil.calcularEdad(
+                                  widget.persona!.fechaNacimiento!)
+                              .toString()
+                          : '0',
+                      enabled: widget.persona?.activo ?? true,
+                      decoration: CustomInputs.form(
+                          hint: 'Edad de la persona',
+                          label: 'Edad hasta la fecha',
+                          icon: Icons.numbers),
+                    ),
                   ),
                 ]),
                 const SizedBox(height: defaultPadding / 2),

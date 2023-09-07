@@ -28,7 +28,7 @@ class WhiteCard extends StatelessWidget {
               fit: BoxFit.contain,
               child: Text(
                 title!,
-                style: Theme.of(context).textTheme.titleLarge,
+                style: Theme.of(context).textTheme.titleMedium,
               ),
             ),
             const Divider()
