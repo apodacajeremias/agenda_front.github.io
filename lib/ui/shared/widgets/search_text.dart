@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../../inputs/custom_inputs.dart';
 
 class SearchText extends StatelessWidget {
-  const SearchText({super.key});
+  final Color? color;
+  const SearchText({super.key, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +14,7 @@ class SearchText extends StatelessWidget {
       child: TextField(
         decoration: CustomInputs.form(
             label: 'Buscar', hint: 'Realice su búsqueda', icon: Icons.search),
+        style: TextStyle(color: color),
       ),
     );
   }

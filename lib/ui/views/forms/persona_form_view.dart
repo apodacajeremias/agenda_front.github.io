@@ -2,7 +2,6 @@ import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/models/enums/genero.dart';
 import 'package:agenda_front/models/entities/persona.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
-import 'package:agenda_front/services/local_storage.dart';
 import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
 import 'package:agenda_front/ui/labels/text_profile_detail.dart';
 import 'package:agenda_front/ui/shared/widgets/avatar.dart';
@@ -38,12 +37,23 @@ class _PersonaFormViewState extends State<PersonaFormView> {
   }
 
   Widget _profile(PersonaProvider provider, BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(defaultPadding),
-      child: ListView(
-        physics: const ClampingScrollPhysics(),
+    return ListView(children: [
+      const FormHeader(title: 'Perfil'),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const FormHeader(title: 'Perfil'),
+          Expanded(child: _profileDetails(context)),
+          Expanded(child: _profileDashboard(context))
+        ],
+      ),
+    ]);
+  }
+
+  Widget _profileDetails(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(defaultPadding / 2),
+      child: Column(
+        children: [
           WhiteCard(
               title: widget.persona!.nombre,
               child: Column(
@@ -177,6 +187,56 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                   ],
                 ],
               ))
+        ],
+      ),
+    );
+  }
+
+  Widget _profileDashboard(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(defaultPadding / 2),
+      child: Column(
+        children: [
+          WhiteCard(
+              child: Column(
+            children: [
+              Center(
+                  child: Avatar(
+                widget.persona!.fotoPerfil ?? '',
+                size: 200,
+              )),
+            ],
+          )),
+          WhiteCard(
+              child: Column(
+            children: [
+              Center(
+                  child: Avatar(
+                widget.persona!.fotoPerfil ?? '',
+                size: 200,
+              )),
+            ],
+          )),
+          WhiteCard(
+              child: Column(
+            children: [
+              Center(
+                  child: Avatar(
+                widget.persona!.fotoPerfil ?? '',
+                size: 200,
+              )),
+            ],
+          )),
+          WhiteCard(
+              child: Column(
+            children: [
+              Center(
+                  child: Avatar(
+                widget.persona!.fotoPerfil ?? '',
+                size: 200,
+              )),
+            ],
+          ))
         ],
       ),
     );

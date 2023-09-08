@@ -18,7 +18,7 @@ class WhiteCard extends StatelessWidget {
     return Container(
       width: width,
       margin: const EdgeInsets.all(defaultPadding / 2),
-      padding: const EdgeInsets.all(defaultPadding),
+      padding: const EdgeInsets.all(defaultPadding / 2),
       decoration: buildBoxDecoration(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

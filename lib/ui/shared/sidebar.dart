@@ -24,12 +24,13 @@ class Sidebar extends StatelessWidget {
     return Container(
       width: 200,
       height: size.height,
+      padding: const EdgeInsets.all(defaultPadding / 4),
       decoration: buildBoxDecoration(context),
       child: ListView(
         // physics: const ClampingScrollPhysics(),
         children: [
           const AvatarPlaceholder(),
-          const TextSeparator(text: 'Principal'),
+          const Divider(),
           MenuItemCustom(
             text: 'Inicio',
             icon: Icons.cottage,
