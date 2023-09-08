@@ -13,8 +13,8 @@ class Agenda {
   String id;
   bool? activo;
   String? nombre;
-  DateTime inicio;
-  DateTime fin;
+  DateTime? inicio;
+  DateTime? fin;
   bool? diaCompleto;
   Situacion? situacion;
   Prioridad? prioridad;
@@ -55,8 +55,8 @@ class Agenda {
         'id': id,
         'activo': activo,
         'nombre': nombre,
-        'inicio': inicio.toIso8601String(),
-        'fin': fin.toIso8601String(),
+        'inicio': inicio?.toIso8601String(),
+        'fin': fin?.toIso8601String(),
         'diaCompleto': diaCompleto,
         'situacion': situacion,
         'prioridad': prioridad,

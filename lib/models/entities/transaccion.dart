@@ -17,6 +17,7 @@ class Transaccion {
   String? id;
   bool? activo;
   String? nombre;
+  DateTime? fechaCreacion;
 
   TipoTransaccion? tipo;
   double? total;
@@ -34,6 +35,7 @@ class Transaccion {
     this.id,
     this.activo,
     this.nombre,
+    this.fechaCreacion,
     this.tipo,
     this.total,
     this.descuento,
@@ -51,13 +53,20 @@ class Transaccion {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
+        fechaCreacion: DateTime.tryParse(json['fechaCreacion']),
         tipo: TipoTransaccion.values.byName(json['tipo']),
         total: json['total'],
         descuento: json['descuento'],
         sumatoria: json['sumatoria'],
         aplicarPromocion: json['aplicarPromocion'],
-        tipoBeneficio: TipoBeneficio.values.byName(json['tipoBeneficio']),
-        tipoDescuento: TipoDescuento.values.byName(json['tipoDescuento']),
+        tipoBeneficio:
+            (json.containsKey('tipoBeneficio') && json['tipoBeneficio'] != null)
+                ? TipoBeneficio.values.byName(json['tipoBeneficio'])
+                : null,
+        tipoDescuento:
+            (json.containsKey('tipoDescuento') && json['tipoDescuento'] != null)
+                ? TipoDescuento.values.byName(json['tipoDescuento'])
+                : null,
         persona: (json.containsKey('persona') && json['persona'] != null)
             ? Persona.fromJson(json['persona'])
             : null,
@@ -67,7 +76,10 @@ class Transaccion {
         beneficio: (json.containsKey('beneficio') && json['beneficio'] != null)
             ? Beneficio.fromJson(json['beneficio'])
             : null,
-        detalles: json['detalles'],
+        detalles: (json.containsKey('detalles') && json['detalles'] != null)
+            ? List.from(
+                json['detalles'].map((td) => TransaccionDetalle.fromJson(td)))
+            : null,
       );
 
   Map<String, dynamic> toJson() => {

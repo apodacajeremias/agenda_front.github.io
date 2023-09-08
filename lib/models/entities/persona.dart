@@ -4,8 +4,10 @@
 
 import 'dart:convert';
 
+import 'package:agenda_front/models/entities/agenda.dart';
 import 'package:agenda_front/models/entities/colaborador.dart';
 import 'package:agenda_front/models/entities/grupo.dart';
+import 'package:agenda_front/models/entities/transaccion.dart';
 import 'package:agenda_front/models/enums/genero.dart';
 
 Persona personaFromJson(String str) => Persona.fromJson(json.decode(str));
@@ -28,23 +30,26 @@ class Persona {
   String? fotoPerfil;
   Colaborador? colaborador;
   List<Grupo>? grupos;
+  List<Agenda>? agendas;
+  List<Transaccion>? transacciones;
 
-  Persona({
-    this.id,
-    this.activo,
-    this.nombre,
-    this.documentoIdentidad,
-    this.fechaNacimiento,
-    this.edad,
-    this.genero,
-    this.telefono,
-    this.celular,
-    this.direccion,
-    this.observacion,
-    this.fotoPerfil,
-    this.colaborador,
-    this.grupos,
-  });
+  Persona(
+      {this.id,
+      this.activo,
+      this.nombre,
+      this.documentoIdentidad,
+      this.fechaNacimiento,
+      this.edad,
+      this.genero,
+      this.telefono,
+      this.celular,
+      this.direccion,
+      this.observacion,
+      this.fotoPerfil,
+      this.colaborador,
+      this.grupos,
+      this.agendas,
+      this.transacciones});
 
   factory Persona.fromJson(Map<String, dynamic> json) => Persona(
         id: json['id'],
@@ -66,6 +71,14 @@ class Persona {
         grupos: json.containsKey('grupos') && json['grupos'] != null
             ? List.from(json['grupos'].map((g) => Grupo.fromJson(g)))
             : null,
+        agendas: json.containsKey('agendas') && json['agendas'] != null
+            ? List.from(json['agendas'].map((a) => Agenda.fromJson(a)))
+            : List.empty(),
+        transacciones:
+            json.containsKey('transacciones') && json['transacciones'] != null
+                ? List.from(
+                    json['transacciones'].map((t) => Transaccion.fromJson(t)))
+                : List.empty(),
       );
 
   Map<String, dynamic> toJson() => {

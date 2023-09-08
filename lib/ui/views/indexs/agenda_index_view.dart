@@ -39,8 +39,8 @@ class _AgendaIndexViewState extends State<AgendaIndexView> {
 
     List<Appointment> source = <Appointment>[];
     source.addAll(agendas.map((e) => Appointment(
-          startTime: e.inicio,
-          endTime: e.fin,
+          startTime: e.inicio!,
+          endTime: e.fin!,
           color: e.prioridad!.color,
           isAllDay: e.diaCompleto!,
           id: e.id,
