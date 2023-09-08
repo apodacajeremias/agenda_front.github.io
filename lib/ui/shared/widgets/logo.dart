@@ -20,10 +20,10 @@ class Logo extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.account_circle, color: Colors.white),
+              const Icon(Icons.account_circle_outlined, color: Colors.white),
               const SizedBox(width: defaultPadding),
               Text(
-                authProvider.persona?.nombre!.split(' ').first ?? 'N/A',
+                authProvider.persona?.nombre!.split(' ').first ?? '',
                 style: Theme.of(context)
                     .textTheme
                     .labelLarge

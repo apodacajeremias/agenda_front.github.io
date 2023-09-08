@@ -5,6 +5,7 @@ import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/services/local_storage.dart';
 import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
 import 'package:agenda_front/ui/labels/text_profile_detail.dart';
+import 'package:agenda_front/ui/shared/widgets/avatar.dart';
 import 'package:agenda_front/ui/shared/widgets/text_separator.dart';
 import 'package:agenda_front/utils/fecha_util.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
@@ -38,27 +39,20 @@ class _PersonaFormViewState extends State<PersonaFormView> {
 
   Widget _profile(PersonaProvider provider, BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(defaultPadding),
+      padding: const EdgeInsets.all(defaultPadding),
       child: ListView(
-        physics: ClampingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         children: [
           const FormHeader(title: 'Perfil'),
           WhiteCard(
-              title: widget.persona?.nombre,
+              title: widget.persona!.nombre,
               child: Column(
                 children: [
                   Center(
-                    child: CircleAvatar(
-                      radius: 100,
-                      backgroundImage: NetworkImage(
-                        'http://localhost:8080/api/downloadFile/TESTEO.png',
-                        headers: {
-                          'Authorization':
-                              'Bearer ${LocalStorage.prefs.getString('token')}'
-                        },
-                      ),
-                    ),
-                  ),
+                      child: Avatar(
+                    widget.persona!.fotoPerfil ?? '',
+                    size: 200,
+                  )),
                   Center(
                     child: Column(
                       children: [
@@ -82,7 +76,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                       ],
                     ),
                   ),
-                  Divider(),
+                  const Divider(),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -97,7 +91,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                                 .titleSmall
                                 ?.copyWith(color: Colors.blue)),
                       ]),
-                  Divider(),
+                  const Divider(),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -112,7 +106,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                                 .titleSmall
                                 ?.copyWith(color: Colors.blue)),
                       ]),
-                  Divider(),
+                  const Divider(),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

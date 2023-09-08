@@ -1,9 +1,11 @@
 import 'package:agenda_front/constants.dart';
+import 'package:agenda_front/providers/auth_provider.dart';
 import 'package:agenda_front/providers/sidemenu_provider.dart';
-import 'package:agenda_front/ui/shared/widgets/navbar_avatar.dart';
+import 'package:agenda_front/ui/shared/widgets/avatar.dart';
 import 'package:agenda_front/ui/shared/widgets/notifications_indicator.dart';
 import 'package:agenda_front/ui/shared/widgets/search_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Navbar extends StatelessWidget {
   const Navbar({super.key});
@@ -11,6 +13,8 @@ class Navbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final personaEnSesion =
+        Provider.of<AuthProvider>(context, listen: false).persona;
 
     return Container(
       width: double.infinity,
@@ -36,7 +40,7 @@ class Navbar extends StatelessWidget {
 
           const NotificationsIndicator(),
           const SizedBox(width: defaultPadding),
-          const NavbarAvatar(),
+          Avatar(personaEnSesion?.fotoPerfil ?? ''),
           const SizedBox(width: 10)
         ],
       ),
