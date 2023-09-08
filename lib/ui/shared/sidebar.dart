@@ -1,8 +1,9 @@
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/providers/auth_provider.dart';
 import 'package:agenda_front/providers/sidemenu_provider.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/services/navigation_service.dart';
-import 'package:agenda_front/ui/shared/widgets/logo.dart';
+import 'package:agenda_front/ui/shared/widgets/avatar_placeholder.dart';
 import 'package:agenda_front/ui/shared/widgets/menu_item_custom.dart';
 import 'package:agenda_front/ui/shared/widgets/text_separator.dart';
 import 'package:flutter/material.dart';
@@ -19,16 +20,15 @@ class Sidebar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sideMenuProvider = Provider.of<SideMenuProvider>(context);
-
+    final size = MediaQuery.of(context).size;
     return Container(
       width: 200,
-      height: double.infinity,
+      height: size.height,
       decoration: buildBoxDecoration(context),
       child: ListView(
-        physics: const ClampingScrollPhysics(),
+        // physics: const ClampingScrollPhysics(),
         children: [
-          const Logo(),
-          const SizedBox(height: 50),
+          const AvatarPlaceholder(),
           const TextSeparator(text: 'Principal'),
           MenuItemCustom(
             text: 'Inicio',
@@ -98,7 +98,6 @@ class Sidebar extends StatelessWidget {
               onPressed: () => navigateTo(Flurorouter.transaccionesIndexRoute),
               isActive: sideMenuProvider.currentPage ==
                   Flurorouter.transaccionesEditRoute),
-          const SizedBox(height: 50),
           const TextSeparator(text: 'Salir'),
           MenuItemCustom(
               text: 'Cerrar sesión',
