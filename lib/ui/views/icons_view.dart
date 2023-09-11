@@ -20,31 +20,31 @@ class IconsView extends StatelessWidget {
             direction: Axis.horizontal,
             children: [
               WhiteCard(
-                  title: 'ac_unit',
+                  // title: 'ac_unit',
                   width: 170,
                   child: Center(child: Icon(Icons.ac_unit))),
               WhiteCard(
-                  title: 'access_alarms',
+                  // title: 'access_alarms',
                   width: 170,
                   child: Center(child: Icon(Icons.access_alarms))),
               WhiteCard(
-                  title: 'access_time_rounded',
+                  // title: 'access_time_rounded',
                   width: 170,
                   child: Center(child: Icon(Icons.access_time_rounded))),
               WhiteCard(
-                  title: 'all_inbox',
+                  // title: 'all_inbox',
                   width: 170,
                   child: Center(child: Icon(Icons.all_inbox))),
               WhiteCard(
-                  title: 'desktop_mac_sharp',
+                  // title: 'desktop_mac_sharp',
                   width: 170,
                   child: Center(child: Icon(Icons.desktop_mac_sharp))),
               WhiteCard(
-                  title: 'keyboard_tab_rounded',
+                  // title: 'keyboard_tab_rounded',
                   width: 170,
                   child: Center(child: Icon(Icons.keyboard_tab_rounded))),
               WhiteCard(
-                  title: 'not_listed_location',
+                  // title: 'not_listed_location',
                   width: 170,
                   child: Center(child: Icon(Icons.not_listed_location))),
             ],

@@ -29,7 +29,7 @@ class EmpresaFormView extends StatelessWidget {
           children: [
             FormHeader(title: 'Datos sobre la empresa'),
             WhiteCard(
-                title: 'Configurar datos',
+                header: Text('Configurar datos de empresa'),
                 child: FormBuilder(
                   key: provider.formKey,
                   child: Column(

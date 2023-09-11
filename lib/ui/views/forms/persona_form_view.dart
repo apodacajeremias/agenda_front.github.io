@@ -1,9 +1,13 @@
 import 'package:agenda_front/constants.dart';
+import 'package:agenda_front/datasources/transaccion_datasource.dart';
 import 'package:agenda_front/models/enums/genero.dart';
 import 'package:agenda_front/models/entities/persona.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
+import 'package:agenda_front/routers/router.dart';
+import 'package:agenda_front/services/navigation_service.dart';
 import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
 import 'package:agenda_front/ui/labels/text_profile_detail.dart';
+import 'package:agenda_front/ui/shared/indexs/my_index.dart';
 import 'package:agenda_front/ui/shared/widgets/avatar.dart';
 import 'package:agenda_front/ui/shared/widgets/text_separator.dart';
 import 'package:agenda_front/ui/views/indexs/transaccion_index_view.dart';
@@ -56,7 +60,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
       child: Column(
         children: [
           WhiteCard(
-              title: '${widget.persona!.nombre}',
+              header: Text('${widget.persona?.nombre}'),
               child: Column(
                 children: [
                   Center(
@@ -147,7 +151,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                 ],
               )),
           WhiteCard(
-              title: 'Sobre mí',
+              header: const Text('Sobre mí'),
               child: Column(
                 children: [
                   TextProfileDetail(
@@ -198,7 +202,57 @@ class _PersonaFormViewState extends State<PersonaFormView> {
     return Container(
       padding: const EdgeInsets.all(defaultPadding / 2),
       child: Column(
-        children: [],
+        children: [
+          MyElevatedButton(
+            onPressed: () {
+              NavigationService.navigateTo(
+                  Flurorouter.transaccionesCreateRoute);
+            },
+            text: 'Nuevo',
+            icon: Icons.add,
+          ),
+          FutureBuilder(
+            future: provider.transacciones(widget.persona!.id!),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return SizedBox(
+                  height: 100,
+                  child: Column(
+                    children: [
+                      const CircularProgressIndicator(),
+                      Text('Cargando...',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall
+                              ?.copyWith(fontWeight: FontWeight.bold))
+                    ],
+                  ),
+                );
+              } else if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasData) {
+                  return MyIndex(
+                      columns: TransaccionDataSourceProfile.columns,
+                      source: TransaccionDataSourceProfile(
+                          snapshot.data!, context));
+                } else {
+                  return const SizedBox(
+                    height: 50,
+                    child: Column(
+                      children: [Icon(Icons.warning), Text('No hay registros')],
+                    ),
+                  );
+                }
+              } else {
+                return const SizedBox(
+                  height: 50,
+                  child: Column(
+                    children: [Icon(Icons.error), Text('Error al cargar')],
+                  ),
+                );
+              }
+            },
+          ),
+        ],
       ),
     );
   }

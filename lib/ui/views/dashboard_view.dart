@@ -30,7 +30,9 @@ class DashboardView extends StatelessWidget {
           Text('Inicio', style: Theme.of(context).textTheme.bodyMedium),
           Text('Inicio', style: Theme.of(context).textTheme.bodySmall),
           const SizedBox(height: defaultPadding),
-          WhiteCard(title: persona.nombre, child: Text(persona.id!))
+          WhiteCard(
+              // title: persona.nombre,
+              child: Text(persona.id!))
         ],
       ),
     );

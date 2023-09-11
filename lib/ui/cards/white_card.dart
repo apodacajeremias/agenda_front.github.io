@@ -2,16 +2,20 @@ import 'package:agenda_front/constants.dart';
 import 'package:flutter/material.dart';
 
 class WhiteCard extends StatelessWidget {
-  /// Titulo: puede ser nulo
-  final String? title;
+  /// CABECERA: puede ser nulo
+  final Widget? header;
 
   /// Contenido: no puede ser nulo
   final Widget child;
 
+  /// PIE: puede ser nulo
+  final Widget? footer;
+
   /// Ancho: puede ser nulo
   final double? width;
 
-  const WhiteCard({super.key, this.title, this.width, required this.child});
+  const WhiteCard(
+      {super.key, this.header, required this.child, this.footer, this.width});
 
   @override
   Widget build(BuildContext context) {
@@ -23,17 +27,9 @@ class WhiteCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (title != null) ...[
-            FittedBox(
-              fit: BoxFit.contain,
-              child: Text(
-                title!,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-            ),
-            const Divider()
-          ],
-          child
+          if (header != null) ...[header!, const Divider()],
+          child,
+          if (footer != null) ...[const Divider(), footer!],
         ],
       ),
     );

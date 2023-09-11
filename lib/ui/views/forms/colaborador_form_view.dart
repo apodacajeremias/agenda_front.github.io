@@ -26,7 +26,7 @@ class ColaboradorFormView extends StatelessWidget {
         children: [
           FormHeader(title: 'Colaborador'),
           WhiteCard(
-            title: colaborador?.nombre,
+            header: Text('${colaborador?.nombre}'),
             child: FormBuilder(
               key: provider.formKey,
               child: Column(

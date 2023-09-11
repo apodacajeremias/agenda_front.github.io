@@ -4,6 +4,7 @@ import 'package:agenda_front/models/entities/transaccion.dart';
 import 'package:agenda_front/providers/transaccion_provider.dart';
 import 'package:agenda_front/services/navigation_service.dart';
 import 'package:agenda_front/services/notifications_service.dart';
+import 'package:agenda_front/utils/fecha_util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +16,7 @@ class TransaccionDataSource extends DataTableSource {
 
   static List<DataColumn> columns = [
     DataColumn(label: Text('Persona')),
+    DataColumn(label: Text('Fecha')),
     DataColumn(label: Text('Tipo')),
     DataColumn(label: Text('Total')),
     DataColumn(label: Text('Acciones')),
@@ -25,6 +27,7 @@ class TransaccionDataSource extends DataTableSource {
     final transaccion = transacciones[index];
     return DataRow.byIndex(index: index, cells: [
       DataCell(Text(transaccion.persona!.nombre!)),
+      DataCell(Text(FechaUtil.formatDate(transaccion.fechaCreacion!))),
       DataCell(Text(transaccion.tipo.toString())),
       DataCell(Text(transaccion.total.toString())),
       DataCell(Row(children: [
@@ -69,6 +72,38 @@ class TransaccionDataSource extends DataTableSource {
             },
             icon: Icon(Icons.delete))
       ]))
+    ]);
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => transacciones.length;
+
+  @override
+  int get selectedRowCount => 0;
+}
+
+class TransaccionDataSourceProfile extends DataTableSource {
+  final List<Transaccion> transacciones;
+  final BuildContext context;
+
+  TransaccionDataSourceProfile(this.transacciones, this.context);
+
+  static List<DataColumn> columns = [
+    DataColumn(label: Text('Fecha')),
+    DataColumn(label: Text('Tipo')),
+    DataColumn(label: Text('Total'))
+  ];
+
+  @override
+  DataRow? getRow(int index) {
+    final transaccion = transacciones[index];
+    return DataRow.byIndex(index: index, cells: [
+      DataCell(Text(FechaUtil.formatDate(transaccion.fechaCreacion!))),
+      DataCell(Text(transaccion.tipo.toString())),
+      DataCell(Text(transaccion.total.toString())),
     ]);
   }
 

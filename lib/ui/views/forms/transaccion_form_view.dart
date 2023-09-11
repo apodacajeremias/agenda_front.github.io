@@ -11,6 +11,7 @@ import 'package:agenda_front/models/enums/tipo_transaccion.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/providers/transaccion_provider.dart';
 import 'package:agenda_front/response.dart';
+import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
 import 'package:agenda_front/ui/inputs/custom_inputs.dart';
 import 'package:agenda_front/ui/inputs/form_builder_currency.dart';
@@ -50,7 +51,27 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
         children: [
           FormHeader(title: 'Transacción'),
           WhiteCard(
-              title: widget.transaccion?.id ?? 'Nueva transacción',
+              header: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(widget.transaccion?.id ?? 'Crear transacción'),
+                  MyElevatedButton(
+                      text: 'Crear',
+                      icon: Icons.add,
+                      onPressed: () async {
+                        if (provider.saveAndValidate()) {
+                          try {
+                            await provider.registrar(provider.formData());
+                            if (context.mounted) {
+                              Navigator.of(context).pop();
+                            }
+                          } catch (e) {
+                            rethrow;
+                          }
+                        }
+                      })
+                ],
+              ),
               child: FormBuilder(
                   key: provider.formKey,
                   child: Column(
@@ -109,6 +130,7 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                                     ?.didChange(null);
                                 grupos = value?.grupos;
                               }),
+                              valueTransformer: (value) => value?.id,
                             ),
                             if (grupos != null) ...[
                               SizedBox(height: defaultPadding),
@@ -133,6 +155,7 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                                       ?.didChange(
                                           value?.beneficio?.tipoDescuento);
                                 },
+                                valueTransformer: (value) => value?.id,
                               ),
                               SizedBox(height: defaultPadding),
                               FormBuilderDropdown(

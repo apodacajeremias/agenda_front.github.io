@@ -15,7 +15,9 @@ class BlankView extends StatelessWidget {
         children: const [
           Text('Blank View'),
           SizedBox(height: defaultPadding),
-          WhiteCard(title: 'Blank Page', child: Text('Hola Mundo!!'))
+          WhiteCard(
+              // title: 'Blank Page',
+              child: Text('Hola Mundo!!'))
         ],
       ),
     );
