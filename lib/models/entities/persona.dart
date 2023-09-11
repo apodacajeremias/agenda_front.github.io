@@ -1,13 +1,6 @@
-// To parse this JSON data, do
-//
-//     final persona = personaFromJson(jsonString);
-
 import 'dart:convert';
-
-import 'package:agenda_front/models/entities/agenda.dart';
 import 'package:agenda_front/models/entities/colaborador.dart';
 import 'package:agenda_front/models/entities/grupo.dart';
-import 'package:agenda_front/models/entities/transaccion.dart';
 import 'package:agenda_front/models/enums/genero.dart';
 
 Persona personaFromJson(String str) => Persona.fromJson(json.decode(str));
@@ -30,56 +23,44 @@ class Persona {
   String? fotoPerfil;
   Colaborador? colaborador;
   List<Grupo>? grupos;
-  List<Agenda>? agendas;
-  List<Transaccion>? transacciones;
 
-  Persona(
-      {this.id,
-      this.activo,
-      this.nombre,
-      this.documentoIdentidad,
-      this.fechaNacimiento,
-      this.edad,
-      this.genero,
-      this.telefono,
-      this.celular,
-      this.direccion,
-      this.observacion,
-      this.fotoPerfil,
-      this.colaborador,
-      this.grupos,
-      this.agendas,
-      this.transacciones});
+  Persona({
+    this.id,
+    this.activo,
+    this.nombre,
+    this.documentoIdentidad,
+    this.fechaNacimiento,
+    this.edad,
+    this.genero,
+    this.telefono,
+    this.celular,
+    this.direccion,
+    this.observacion,
+    this.fotoPerfil,
+    this.colaborador,
+    this.grupos,
+  });
 
   factory Persona.fromJson(Map<String, dynamic> json) => Persona(
-        id: json['id'],
-        activo: json['activo'],
-        nombre: json['nombre'],
-        documentoIdentidad: json['documentoIdentidad'],
-        fechaNacimiento: DateTime.tryParse(json['fechaNacimiento']),
-        edad: json['edad'],
-        genero: Genero.values.byName(json['genero']),
-        telefono: json['telefono'],
-        celular: json['celular'],
-        direccion: json['direccion'],
-        observacion: json['observacion'],
-        fotoPerfil: json['fotoPerfil'],
-        colaborador:
-            json.containsKey('colaborador') && json['colaborador'] != null
-                ? Colaborador.fromJson(json['colaborador'])
-                : null,
-        grupos: json.containsKey('grupos') && json['grupos'] != null
-            ? List.from(json['grupos'].map((g) => Grupo.fromJson(g)))
-            : null,
-        agendas: json.containsKey('agendas') && json['agendas'] != null
-            ? List.from(json['agendas'].map((a) => Agenda.fromJson(a)))
-            : List.empty(),
-        transacciones:
-            json.containsKey('transacciones') && json['transacciones'] != null
-                ? List.from(
-                    json['transacciones'].map((t) => Transaccion.fromJson(t)))
-                : List.empty(),
-      );
+      id: json['id'],
+      activo: json['activo'],
+      nombre: json['nombre'],
+      documentoIdentidad: json['documentoIdentidad'],
+      fechaNacimiento: DateTime.tryParse(json['fechaNacimiento']),
+      edad: json['edad'],
+      genero: Genero.values.byName(json['genero']),
+      telefono: json['telefono'],
+      celular: json['celular'],
+      direccion: json['direccion'],
+      observacion: json['observacion'],
+      fotoPerfil: json['fotoPerfil'],
+      colaborador:
+          json.containsKey('colaborador') && json['colaborador'] != null
+              ? Colaborador.fromJson(json['colaborador'])
+              : null,
+      grupos: json.containsKey('grupos') && json['grupos'] != null
+          ? List.from(json['grupos'].map((g) => Grupo.fromJson(g)))
+          : List.empty());
 
   Map<String, dynamic> toJson() => {
         'id': id,

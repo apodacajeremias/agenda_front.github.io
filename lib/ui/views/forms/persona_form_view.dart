@@ -3,11 +3,10 @@ import 'package:agenda_front/models/enums/genero.dart';
 import 'package:agenda_front/models/entities/persona.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
-import 'package:agenda_front/ui/buttons/my_outlined_button.dart';
-import 'package:agenda_front/ui/labels/text_currency.dart';
 import 'package:agenda_front/ui/labels/text_profile_detail.dart';
 import 'package:agenda_front/ui/shared/widgets/avatar.dart';
 import 'package:agenda_front/ui/shared/widgets/text_separator.dart';
+import 'package:agenda_front/ui/views/indexs/transaccion_index_view.dart';
 import 'package:agenda_front/utils/fecha_util.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
 import 'package:agenda_front/ui/inputs/custom_inputs.dart';
@@ -57,7 +56,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
       child: Column(
         children: [
           WhiteCard(
-              title: widget.persona!.nombre,
+              title: '${widget.persona!.nombre}',
               child: Column(
                 children: [
                   Center(
@@ -97,9 +96,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                                 .textTheme
                                 .titleSmall
                                 ?.copyWith(fontWeight: FontWeight.bold)),
-                        Text(
-                            widget.persona?.transacciones?.length.toString() ??
-                                '0',
+                        Text('0',
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall
@@ -129,7 +126,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                                 .textTheme
                                 .titleSmall
                                 ?.copyWith(fontWeight: FontWeight.bold)),
-                        Text(widget.persona?.agendas?.length.toString() ?? '0',
+                        Text('0',
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall
@@ -197,78 +194,11 @@ class _PersonaFormViewState extends State<PersonaFormView> {
   }
 
   Widget _profileDashboard(BuildContext context) {
+    final provider = Provider.of<PersonaProvider>(context, listen: false);
     return Container(
       padding: const EdgeInsets.all(defaultPadding / 2),
       child: Column(
-        children: [
-          WhiteCard(
-              child: Column(
-            children: [
-              Center(
-                  child: Avatar(
-                widget.persona!.fotoPerfil ?? '',
-                size: 200,
-              )),
-            ],
-          )),
-          WhiteCard(
-            title: 'Transacciones',
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: widget.persona!.transacciones!.length,
-              itemBuilder: (context, index) {
-                var transaccion = widget.persona!.transacciones![index];
-                return ListTile(
-                  leading:
-                      Icon(transaccion.activo! ? Icons.check : Icons.remove),
-                  title: Wrap(
-                    children: [
-                      Text(FechaUtil.formatDate(transaccion.fechaCreacion!)),
-                      const SizedBox(
-                        width: defaultPadding / 2,
-                      ),
-                      TextCurrency(transaccion.total!)
-                    ],
-                  ),
-                  trailing: const MyOutlinedButton(text: 'Ver'),
-                );
-              },
-            ),
-          ),
-          WhiteCard(
-            title: 'Agendamientos',
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: widget.persona!.agendas?.length,
-              itemBuilder: (context, index) {
-                var agenda = widget.persona!.agendas![index];
-                return ListTile(
-                  leading: Icon(agenda.activo! ? Icons.check : Icons.remove),
-                  title: Wrap(
-                    children: [
-                      Text(FechaUtil.formatDate(agenda.inicio!)),
-                      const SizedBox(
-                        width: defaultPadding / 2,
-                      ),
-                      Text(FechaUtil.formatTime(agenda.inicio!)),
-                    ],
-                  ),
-                  trailing: const MyOutlinedButton(text: 'Ver'),
-                );
-              },
-            ),
-          ),
-          WhiteCard(
-              child: Column(
-            children: [
-              Center(
-                  child: Avatar(
-                widget.persona!.fotoPerfil ?? '',
-                size: 200,
-              )),
-            ],
-          ))
-        ],
+        children: [],
       ),
     );
   }

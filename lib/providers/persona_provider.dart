@@ -1,5 +1,6 @@
 import 'package:agenda_front/api/agenda_api.dart';
 import 'package:agenda_front/models/entities/persona.dart';
+import 'package:agenda_front/models/entities/transaccion.dart';
 import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -75,6 +76,19 @@ class PersonaProvider extends ChangeNotifier {
       rethrow;
     }
   }
+
+  Future<List<Transaccion>> transacciones(String id) async {
+    try {
+      final json = await AgendaAPI.httpGet('/personas/$id/transacciones');
+      List<Transaccion> response =
+          List.from(json.map((model) => Transaccion.fromJson(model)));
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  //////////
 
   saveAndValidate() {
     return formKey.currentState!.saveAndValidate();

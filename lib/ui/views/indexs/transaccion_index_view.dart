@@ -37,13 +37,7 @@ class _TransaccionIndexViewState extends State<TransaccionIndexView> {
           const IndexHeader(title: 'Transacciones'),
           const SizedBox(height: defaultPadding),
           PaginatedDataTable(
-            columns: const [
-              DataColumn(label: Text('Persona')),
-              DataColumn(label: Text('Fecha')),
-              DataColumn(label: Text('Tipo')),
-              DataColumn(label: Text('Total')),
-              DataColumn(label: Text('Acciones')),
-            ],
+            columns: TransaccionDataSource.columns,
             source: TransaccionDataSource(transacciones, context),
             header: const Text('Listado de transacciones', maxLines: 2),
             onRowsPerPageChanged: (value) {

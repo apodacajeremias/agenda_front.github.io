@@ -17,7 +17,7 @@ class AgendaProvider extends ChangeNotifier {
   }
 
   Agenda? buscar(String id) {
-    return agendas.where((element) => element.id!.contains(id)).first;
+    return agendas.where((element) => element.id.contains(id)).first;
   }
 
   registrar(Map<String, dynamic> data) async {
@@ -47,7 +47,7 @@ class AgendaProvider extends ChangeNotifier {
       final json = await AgendaAPI.httpPut('/agendas/$id', data);
       final agenda = Agenda.fromJson(json);
       // Buscamos el index en lista del ID Agenda
-      final index = agendas.indexWhere((element) => element.id!.contains(id));
+      final index = agendas.indexWhere((element) => element.id.contains(id));
       // Se substituye la informacion del index por la informacion actualizada
       agendas[index] = agenda;
       notifyListeners();

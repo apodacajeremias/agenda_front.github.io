@@ -13,6 +13,13 @@ class TransaccionDataSource extends DataTableSource {
 
   TransaccionDataSource(this.transacciones, this.context);
 
+  static List<DataColumn> columns = [
+    DataColumn(label: Text('Persona')),
+    DataColumn(label: Text('Tipo')),
+    DataColumn(label: Text('Total')),
+    DataColumn(label: Text('Acciones')),
+  ];
+
   @override
   DataRow? getRow(int index) {
     final transaccion = transacciones[index];

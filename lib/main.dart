@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:agenda_front/api/agenda_api.dart';
 import 'package:agenda_front/providers/agenda_provider.dart';
 import 'package:agenda_front/providers/beneficio_provider.dart';
@@ -27,7 +29,6 @@ import 'package:agenda_front/services/navigation_service.dart';
 import 'package:agenda_front/services/notifications_service.dart';
 
 import 'package:agenda_front/ui/layouts/auth/auth_layout.dart';
-import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 
 void main() async {
   await LocalStorage.configurePrefs();
@@ -94,7 +95,6 @@ class Dashboard extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
-        SfGlobalLocalizations.delegate,
         FormBuilderLocalizations.delegate,
       ],
       supportedLocales: FormBuilderLocalizations.supportedLocales,
