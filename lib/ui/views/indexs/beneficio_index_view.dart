@@ -31,6 +31,7 @@ class _BeneficioIndexViewState extends State<BeneficioIndexView> {
     return Container(
       padding: const EdgeInsets.all(defaultPadding),
       child: ListView(
+        shrinkWrap: true,
         physics: const ClampingScrollPhysics(),
         children: [
           const IndexHeader(title: 'Beneficios'),

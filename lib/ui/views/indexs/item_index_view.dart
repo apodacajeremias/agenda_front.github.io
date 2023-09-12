@@ -31,6 +31,7 @@ class _ItemIndexViewState extends State<ItemIndexView> {
     return Container(
       padding: const EdgeInsets.all(defaultPadding),
       child: ListView(
+        shrinkWrap: true,
         physics: const ClampingScrollPhysics(),
         children: [
           const IndexHeader(title: 'Items'),

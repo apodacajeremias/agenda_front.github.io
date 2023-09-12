@@ -12,6 +12,10 @@ import 'package:agenda_front/ui/labels/text_profile_detail.dart';
 import 'package:agenda_front/ui/shared/indexs/my_index.dart';
 import 'package:agenda_front/ui/shared/widgets/avatar.dart';
 import 'package:agenda_front/ui/shared/widgets/text_separator.dart';
+import 'package:agenda_front/ui/views/indexs/beneficio_index_view.dart';
+import 'package:agenda_front/ui/views/indexs/grupo_index_view.dart';
+import 'package:agenda_front/ui/views/indexs/item_index_view.dart';
+import 'package:agenda_front/ui/views/indexs/promocion_index_view.dart';
 import 'package:agenda_front/ui/views/indexs/transaccion_index_view.dart';
 import 'package:agenda_front/utils/fecha_util.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
@@ -193,110 +197,13 @@ class _PersonaFormViewState extends State<PersonaFormView> {
 
   Widget _profileDashboard(BuildContext context) {
     final provider = Provider.of<PersonaProvider>(context, listen: false);
-    return Container(
-      padding: const EdgeInsets.all(defaultPadding / 2),
-      child: Column(
-        children: [
-          WhiteCard(
-            title: 'Agendamientos',
-            actions: MyOutlinedButton(
-                text: 'Crear', icon: Icons.add, onPressed: () {}),
-            child: FutureBuilder(
-              future: provider.agendas(widget.persona!.id!),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return SizedBox(
-                    height: 100,
-                    child: Column(
-                      children: [
-                        const CircularProgressIndicator(),
-                        Text('Cargando...',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall
-                                ?.copyWith(fontWeight: FontWeight.w300))
-                      ],
-                    ),
-                  );
-                } else if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasData) {
-                    return MyIndex(
-                        columns: AgendaDataSourceProfile.columns,
-                        source:
-                            AgendaDataSourceProfile(snapshot.data!, context));
-                  } else {
-                    return const SizedBox(
-                      height: 50,
-                      child: Column(
-                        children: [
-                          Icon(Icons.warning),
-                          Text('No hay registros')
-                        ],
-                      ),
-                    );
-                  }
-                } else {
-                  return const SizedBox(
-                    height: 50,
-                    child: Column(
-                      children: [Icon(Icons.error), Text('Error al cargar')],
-                    ),
-                  );
-                }
-              },
-            ),
-          ),
-          WhiteCard(
-            title: 'Transacciones',
-            actions: MyOutlinedButton(
-                text: 'Crear', icon: Icons.add, onPressed: () {}),
-            child: FutureBuilder(
-              future: provider.transacciones(widget.persona!.id!),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return SizedBox(
-                    height: 100,
-                    child: Column(
-                      children: [
-                        const CircularProgressIndicator(),
-                        Text('Cargando...',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall
-                                ?.copyWith(fontWeight: FontWeight.w300))
-                      ],
-                    ),
-                  );
-                } else if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasData) {
-                    return MyIndex(
-                        columns: TransaccionDataSourceProfile.columns,
-                        source: TransaccionDataSourceProfile(
-                            snapshot.data!, context));
-                  } else {
-                    return const SizedBox(
-                      height: 50,
-                      child: Column(
-                        children: [
-                          Icon(Icons.warning),
-                          Text('No hay registros')
-                        ],
-                      ),
-                    );
-                  }
-                } else {
-                  return const SizedBox(
-                    height: 50,
-                    child: Column(
-                      children: [Icon(Icons.error), Text('Error al cargar')],
-                    ),
-                  );
-                }
-              },
-            ),
-          ),
-        ],
-      ),
+    return const Column(
+      children: [
+        GrupoIndexView(),
+        TransaccionIndexView(),
+        PromocionIndexView(),
+        ItemIndexView(),
+      ],
     );
   }
 

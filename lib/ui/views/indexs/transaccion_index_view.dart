@@ -32,6 +32,7 @@ class _TransaccionIndexViewState extends State<TransaccionIndexView> {
     return Container(
       padding: const EdgeInsets.all(defaultPadding),
       child: ListView(
+        shrinkWrap: true,
         physics: const ClampingScrollPhysics(),
         children: [
           const IndexHeader(title: 'Transacciones'),
