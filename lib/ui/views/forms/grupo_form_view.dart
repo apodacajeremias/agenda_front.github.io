@@ -46,7 +46,6 @@ class _GrupoFormViewState extends State<GrupoFormView> {
         children: [
           FormHeader(title: 'Grupo'),
           WhiteCard(
-            header: Text('Configurar grupo'),
             child: FormBuilder(
               key: provider.formKey,
               child: Column(

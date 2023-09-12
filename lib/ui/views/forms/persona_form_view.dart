@@ -1,4 +1,5 @@
 import 'package:agenda_front/constants.dart';
+import 'package:agenda_front/datasources/agenda_datasource.dart';
 import 'package:agenda_front/datasources/transaccion_datasource.dart';
 import 'package:agenda_front/models/enums/genero.dart';
 import 'package:agenda_front/models/entities/persona.dart';
@@ -6,6 +7,7 @@ import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/services/navigation_service.dart';
 import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
+import 'package:agenda_front/ui/buttons/my_outlined_button.dart';
 import 'package:agenda_front/ui/labels/text_profile_detail.dart';
 import 'package:agenda_front/ui/shared/indexs/my_index.dart';
 import 'package:agenda_front/ui/shared/widgets/avatar.dart';
@@ -60,7 +62,13 @@ class _PersonaFormViewState extends State<PersonaFormView> {
       child: Column(
         children: [
           WhiteCard(
-              header: Text('${widget.persona?.nombre}'),
+              footer: MyElevatedButton(
+                text: 'Editar',
+                icon: Icons.edit_outlined,
+                onPressed: () => setState(() {
+                  print('edit pressed');
+                }),
+              ),
               child: Column(
                 children: [
                   Center(
@@ -136,62 +144,48 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                                 .titleSmall
                                 ?.copyWith(color: Colors.blue)),
                       ]),
-                  Row(
-                    children: [
-                      Expanded(
-                          child: MyElevatedButton(
-                        text: 'Editar',
-                        icon: Icons.edit_outlined,
-                        onPressed: () => setState(() {
-                          print('edit pressed');
-                        }),
-                      ))
-                    ],
-                  )
                 ],
               )),
           WhiteCard(
-              header: const Text('Sobre mí'),
               child: Column(
-                children: [
-                  TextProfileDetail(
-                      icon: Icons.badge_outlined,
-                      title: 'Documento',
-                      text: widget.persona!.documentoIdentidad),
-                  TextProfileDetail(
-                      icon: Icons.cake_outlined,
-                      text: FechaUtil.formatDate(
-                          widget.persona?.fechaNacimiento ?? DateTime.now())),
-                  TextProfileDetail(
-                      icon: Icons.info_outline,
-                      title: 'Edad',
-                      text: widget.persona?.edad.toString()),
-                  TextProfileDetail(
-                      icon: widget.persona!.genero!.icon,
-                      text: widget.persona!.genero!.toString(),
-                      hasDivider: false),
-                  if (widget.persona?.colaborador != null) ...[
-                    const SizedBox(height: defaultPadding / 2),
-                    const TextSeparator(
-                        text: 'Información profesional', color: Colors.black),
-                    const SizedBox(height: defaultPadding / 2),
-                    TextProfileDetail(
-                        icon: Icons.info_outline,
-                        title: 'Registro de Contribuyente',
-                        text:
-                            widget.persona!.colaborador?.registroContribuyente),
-                    TextProfileDetail(
-                        icon: Icons.info_outline,
-                        title: 'Registro de Profesional',
-                        text: widget.persona!.colaborador?.registroProfesional),
-                    TextProfileDetail(
-                        icon: Icons.info_outline,
-                        title: 'Profesión',
-                        text: widget.persona!.colaborador?.profesion,
-                        hasDivider: false),
-                  ],
-                ],
-              ))
+            children: [
+              TextProfileDetail(
+                  icon: Icons.badge_outlined,
+                  title: 'Documento',
+                  text: widget.persona!.documentoIdentidad),
+              TextProfileDetail(
+                  icon: Icons.cake_outlined,
+                  text: FechaUtil.formatDate(
+                      widget.persona?.fechaNacimiento ?? DateTime.now())),
+              TextProfileDetail(
+                  icon: Icons.info_outline,
+                  title: 'Edad',
+                  text: widget.persona?.edad.toString()),
+              TextProfileDetail(
+                  icon: widget.persona!.genero!.icon,
+                  text: widget.persona!.genero!.toString(),
+                  hasDivider: false),
+              if (widget.persona?.colaborador != null) ...[
+                const SizedBox(height: defaultPadding / 2),
+                const TextSeparator(
+                    text: 'Información profesional', color: Colors.black),
+                const SizedBox(height: defaultPadding / 2),
+                TextProfileDetail(
+                    icon: Icons.info_outline,
+                    title: 'Registro de Contribuyente',
+                    text: widget.persona!.colaborador?.registroContribuyente),
+                TextProfileDetail(
+                    icon: Icons.info_outline,
+                    title: 'Registro de Profesional',
+                    text: widget.persona!.colaborador?.registroProfesional),
+                TextProfileDetail(
+                    icon: Icons.info_outline,
+                    title: 'Profesión',
+                    text: widget.persona!.colaborador?.profesion,
+                    hasDivider: false),
+              ],
+            ],
+          ))
         ],
       ),
     );
@@ -203,54 +197,103 @@ class _PersonaFormViewState extends State<PersonaFormView> {
       padding: const EdgeInsets.all(defaultPadding / 2),
       child: Column(
         children: [
-          MyElevatedButton(
-            onPressed: () {
-              NavigationService.navigateTo(
-                  Flurorouter.transaccionesCreateRoute);
-            },
-            text: 'Nuevo',
-            icon: Icons.add,
-          ),
-          FutureBuilder(
-            future: provider.transacciones(widget.persona!.id!),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return SizedBox(
-                  height: 100,
-                  child: Column(
-                    children: [
-                      const CircularProgressIndicator(),
-                      Text('Cargando...',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleSmall
-                              ?.copyWith(fontWeight: FontWeight.bold))
-                    ],
-                  ),
-                );
-              } else if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasData) {
-                  return MyIndex(
-                      columns: TransaccionDataSourceProfile.columns,
-                      source: TransaccionDataSourceProfile(
-                          snapshot.data!, context));
+          WhiteCard(
+            title: 'Agendamientos',
+            actions: MyOutlinedButton(
+                text: 'Crear', icon: Icons.add, onPressed: () {}),
+            child: FutureBuilder(
+              future: provider.agendas(widget.persona!.id!),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return SizedBox(
+                    height: 100,
+                    child: Column(
+                      children: [
+                        const CircularProgressIndicator(),
+                        Text('Cargando...',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall
+                                ?.copyWith(fontWeight: FontWeight.w300))
+                      ],
+                    ),
+                  );
+                } else if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
+                    return MyIndex(
+                        columns: AgendaDataSourceProfile.columns,
+                        source:
+                            AgendaDataSourceProfile(snapshot.data!, context));
+                  } else {
+                    return const SizedBox(
+                      height: 50,
+                      child: Column(
+                        children: [
+                          Icon(Icons.warning),
+                          Text('No hay registros')
+                        ],
+                      ),
+                    );
+                  }
                 } else {
                   return const SizedBox(
                     height: 50,
                     child: Column(
-                      children: [Icon(Icons.warning), Text('No hay registros')],
+                      children: [Icon(Icons.error), Text('Error al cargar')],
                     ),
                   );
                 }
-              } else {
-                return const SizedBox(
-                  height: 50,
-                  child: Column(
-                    children: [Icon(Icons.error), Text('Error al cargar')],
-                  ),
-                );
-              }
-            },
+              },
+            ),
+          ),
+          WhiteCard(
+            title: 'Transacciones',
+            actions: MyOutlinedButton(
+                text: 'Crear', icon: Icons.add, onPressed: () {}),
+            child: FutureBuilder(
+              future: provider.transacciones(widget.persona!.id!),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return SizedBox(
+                    height: 100,
+                    child: Column(
+                      children: [
+                        const CircularProgressIndicator(),
+                        Text('Cargando...',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall
+                                ?.copyWith(fontWeight: FontWeight.w300))
+                      ],
+                    ),
+                  );
+                } else if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
+                    return MyIndex(
+                        columns: TransaccionDataSourceProfile.columns,
+                        source: TransaccionDataSourceProfile(
+                            snapshot.data!, context));
+                  } else {
+                    return const SizedBox(
+                      height: 50,
+                      child: Column(
+                        children: [
+                          Icon(Icons.warning),
+                          Text('No hay registros')
+                        ],
+                      ),
+                    );
+                  }
+                } else {
+                  return const SizedBox(
+                    height: 50,
+                    child: Column(
+                      children: [Icon(Icons.error), Text('Error al cargar')],
+                    ),
+                  );
+                }
+              },
+            ),
           ),
         ],
       ),

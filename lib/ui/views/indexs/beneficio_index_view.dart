@@ -36,13 +36,7 @@ class _BeneficioIndexViewState extends State<BeneficioIndexView> {
           const IndexHeader(title: 'Beneficios'),
           const SizedBox(height: defaultPadding),
           PaginatedDataTable(
-            columns: const [
-              DataColumn(label: Text('Beneficio')),
-              DataColumn(label: Text('Tipo')),
-              DataColumn(label: Text('Descuento')),
-              DataColumn(label: Text('Valor')),
-              DataColumn(label: Text('Acciones')),
-            ],
+            columns: BeneficioDataSource.columns,
             source: BeneficioDataSource(beneficios, context),
             header: const Text('Listado de beneficios', maxLines: 2),
             onRowsPerPageChanged: (value) {

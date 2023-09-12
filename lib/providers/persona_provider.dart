@@ -1,4 +1,5 @@
 import 'package:agenda_front/api/agenda_api.dart';
+import 'package:agenda_front/models/entities/agenda.dart';
 import 'package:agenda_front/models/entities/persona.dart';
 import 'package:agenda_front/models/entities/transaccion.dart';
 import 'package:agenda_front/services/notifications_service.dart';
@@ -82,6 +83,17 @@ class PersonaProvider extends ChangeNotifier {
       final json = await AgendaAPI.httpGet('/personas/$id/transacciones');
       List<Transaccion> response =
           List.from(json.map((model) => Transaccion.fromJson(model)));
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<Agenda>> agendas(String id) async {
+    try {
+      final json = await AgendaAPI.httpGet('/personas/$id/agendas');
+      List<Agenda> response =
+          List.from(json.map((model) => Agenda.fromJson(model)));
       return response;
     } catch (e) {
       rethrow;

@@ -1,37 +1,37 @@
-import 'package:agenda_front/models/entities/transaccion.dart';
-import 'package:agenda_front/providers/transaccion_provider.dart';
+import 'package:agenda_front/models/entities/agenda.dart';
+import 'package:agenda_front/providers/agenda_provider.dart';
 import 'package:agenda_front/services/navigation_service.dart';
 import 'package:agenda_front/services/notifications_service.dart';
 import 'package:agenda_front/utils/fecha_util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class TransaccionDataSource extends DataTableSource {
-  final List<Transaccion> transacciones;
+class AgendaDataSource extends DataTableSource {
+  final List<Agenda> agendas;
   final BuildContext context;
 
-  TransaccionDataSource(this.transacciones, this.context);
+  AgendaDataSource(this.agendas, this.context);
 
   static List<DataColumn> columns = [
     const DataColumn(label: Text('Persona')),
-    const DataColumn(label: Text('Fecha')),
-    const DataColumn(label: Text('Tipo')),
-    const DataColumn(label: Text('Total')),
+    const DataColumn(label: Text('Colaborador')),
+    const DataColumn(label: Text('Inicio')),
+    const DataColumn(label: Text('Fin')),
     const DataColumn(label: Text('Acciones')),
   ];
 
   @override
   DataRow? getRow(int index) {
-    final transaccion = transacciones[index];
+    final agenda = agendas[index];
     return DataRow.byIndex(index: index, cells: [
-      DataCell(Text(transaccion.persona!.nombre!)),
-      DataCell(Text(FechaUtil.formatDate(transaccion.fechaCreacion!))),
-      DataCell(Text(transaccion.tipo.toString())),
-      DataCell(Text(transaccion.total.toString())),
+      DataCell(Text(agenda.persona!.nombre!)),
+      DataCell(Text(agenda.colaborador!.nombre!)),
+      DataCell(Text(FechaUtil.formatDateTime(agenda.inicio!))),
+      DataCell(Text(FechaUtil.formatDateTime(agenda.fin!))),
       DataCell(Row(children: [
         IconButton(
           onPressed: () {
-            NavigationService.navigateTo('/transacciones/${transaccion.id}');
+            NavigationService.navigateTo('/agendas/${agenda.id}');
           },
           icon: const Icon(Icons.edit),
         ),
@@ -39,7 +39,7 @@ class TransaccionDataSource extends DataTableSource {
             onPressed: () {
               final dialog = AlertDialog(
                   title: const Text('Estas seguro de borrarlo?'),
-                  content: Text('Borrar transaccion $transaccion.nombre?'),
+                  content: Text('Borrar agenda $agenda.nombre?'),
                   actions: [
                     TextButton(
                       child: const Text('No, mantener'),
@@ -50,16 +50,16 @@ class TransaccionDataSource extends DataTableSource {
                     TextButton(
                         child: const Text('Si, borrar'),
                         onPressed: () async {
-                          var confirmado =
-                              await Provider.of<TransaccionProvider>(context,
-                                      listen: false)
-                                  .eliminar(transaccion.id!);
+                          var confirmado = await Provider.of<AgendaProvider>(
+                                  context,
+                                  listen: false)
+                              .eliminar(agenda.id);
                           if (confirmado) {
                             NotificationsService.showSnackbar(
-                                'Transaccion eliminada exitosamente');
+                                'Agenda eliminada exitosamente');
                           } else {
                             NotificationsService.showSnackbar(
-                                'Transaccion no ha sido eliminada');
+                                'Agenda no ha sido eliminada');
                           }
                           if (context.mounted) {
                             Navigator.of(context).pop();
@@ -77,31 +77,31 @@ class TransaccionDataSource extends DataTableSource {
   bool get isRowCountApproximate => false;
 
   @override
-  int get rowCount => transacciones.length;
+  int get rowCount => agendas.length;
 
   @override
   int get selectedRowCount => 0;
 }
 
-class TransaccionDataSourceProfile extends DataTableSource {
-  final List<Transaccion> transacciones;
+class AgendaDataSourceProfile extends DataTableSource {
+  final List<Agenda> agendas;
   final BuildContext context;
 
-  TransaccionDataSourceProfile(this.transacciones, this.context);
+  AgendaDataSourceProfile(this.agendas, this.context);
 
   static List<DataColumn> columns = [
-    const DataColumn(label: Text('Fecha')),
-    const DataColumn(label: Text('Tipo')),
-    const DataColumn(label: Text('Total'))
+    const DataColumn(label: Text('Colaborador')),
+    const DataColumn(label: Text('Inicio')),
+    const DataColumn(label: Text('Fin')),
   ];
 
   @override
   DataRow? getRow(int index) {
-    final transaccion = transacciones[index];
+    final agenda = agendas[index];
     return DataRow.byIndex(index: index, cells: [
-      DataCell(Text(FechaUtil.formatDate(transaccion.fechaCreacion!))),
-      DataCell(Text(transaccion.tipo.toString())),
-      DataCell(Text(transaccion.total.toString())),
+      DataCell(Text(agenda.colaborador!.nombre!)),
+      DataCell(Text(FechaUtil.formatDateTime(agenda.inicio!))),
+      DataCell(Text(FechaUtil.formatDateTime(agenda.fin!))),
     ]);
   }
 
@@ -109,7 +109,7 @@ class TransaccionDataSourceProfile extends DataTableSource {
   bool get isRowCountApproximate => false;
 
   @override
-  int get rowCount => transacciones.length;
+  int get rowCount => agendas.length;
 
   @override
   int get selectedRowCount => 0;

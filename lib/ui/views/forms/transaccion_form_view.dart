@@ -51,27 +51,22 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
         children: [
           FormHeader(title: 'Transacción'),
           WhiteCard(
-              header: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(widget.transaccion?.id ?? 'Crear transacción'),
-                  MyElevatedButton(
-                      text: 'Crear',
-                      icon: Icons.add,
-                      onPressed: () async {
-                        if (provider.saveAndValidate()) {
-                          try {
-                            await provider.registrar(provider.formData());
-                            if (context.mounted) {
-                              Navigator.of(context).pop();
-                            }
-                          } catch (e) {
-                            rethrow;
-                          }
+              title: widget.transaccion?.id ?? 'Crear transacción',
+              actions: MyElevatedButton(
+                  text: 'Crear',
+                  icon: Icons.add,
+                  onPressed: () async {
+                    if (provider.saveAndValidate()) {
+                      try {
+                        await provider.registrar(provider.formData());
+                        if (context.mounted) {
+                          Navigator.of(context).pop();
                         }
-                      })
-                ],
-              ),
+                      } catch (e) {
+                        rethrow;
+                      }
+                    }
+                  }),
               child: FormBuilder(
                   key: provider.formKey,
                   child: Column(

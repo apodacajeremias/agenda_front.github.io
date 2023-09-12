@@ -29,154 +29,151 @@ class EmpresaFormView extends StatelessWidget {
           children: [
             FormHeader(title: 'Datos sobre la empresa'),
             WhiteCard(
-                header: Text('Configurar datos de empresa'),
                 child: FormBuilder(
-                  key: provider.formKey,
-                  child: Column(
-                    children: [
-                      if (empresa.id != null) ...[
-                        const SizedBox(height: defaultPadding),
-                        Row(
-                          children: [
-                            Expanded(
-                                flex: 2,
-                                child: FormBuilderTextField(
-                                  name: 'ID',
-                                  initialValue: empresa.id,
-                                  enabled: false,
-                                  decoration: CustomInputs.form(
-                                      label: 'ID',
-                                      hint: 'ID',
-                                      icon: Icons.qr_code),
-                                )),
-                            const SizedBox(width: defaultPadding),
-                            Expanded(
-                                child: FormBuilderSwitch(
-                              name: 'activo',
-                              title: const Text('Estado del registro'),
-                              initialValue: empresa.activo,
-                              decoration: CustomInputs.noBorder(),
+              key: provider.formKey,
+              child: Column(
+                children: [
+                  if (empresa.id != null) ...[
+                    const SizedBox(height: defaultPadding),
+                    Row(
+                      children: [
+                        Expanded(
+                            flex: 2,
+                            child: FormBuilderTextField(
+                              name: 'ID',
+                              initialValue: empresa.id,
+                              enabled: false,
+                              decoration: CustomInputs.form(
+                                  label: 'ID', hint: 'ID', icon: Icons.qr_code),
                             )),
-                          ],
-                        )
+                        const SizedBox(width: defaultPadding),
+                        Expanded(
+                            child: FormBuilderSwitch(
+                          name: 'activo',
+                          title: const Text('Estado del registro'),
+                          initialValue: empresa.activo,
+                          decoration: CustomInputs.noBorder(),
+                        )),
                       ],
-                      FormBuilderTextField(
-                        name: 'nombre',
-                        initialValue: empresa.nombre,
+                    )
+                  ],
+                  FormBuilderTextField(
+                    name: 'nombre',
+                    initialValue: empresa.nombre,
+                    enabled: empresa.activo ?? true,
+                    decoration: CustomInputs.form(
+                        label: 'Nombre de la empresa',
+                        hint: 'Nombre con el cual actua la empresa',
+                        icon: Icons.info),
+                  ),
+                  SizedBox(height: defaultPadding),
+                  FormBuilderTextField(
+                    name: 'direccion',
+                    initialValue: empresa.direccion,
+                    enabled: empresa.activo ?? true,
+                    decoration: CustomInputs.form(
+                        label: 'Dirrecion de la empresa',
+                        hint: 'Calles, barrio, estado, pais.',
+                        icon: Icons.info),
+                    keyboardType: TextInputType.multiline,
+                    minLines: 2,
+                    maxLines: 5,
+                  ),
+                  SizedBox(height: defaultPadding),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: FormBuilderTextField(
+                        name: 'celular',
                         enabled: empresa.activo ?? true,
                         decoration: CustomInputs.form(
-                            label: 'Nombre de la empresa',
-                            hint: 'Nombre con el cual actua la empresa',
-                            icon: Icons.info),
-                      ),
-                      SizedBox(height: defaultPadding),
-                      FormBuilderTextField(
-                        name: 'direccion',
-                        initialValue: empresa.direccion,
+                            label: 'Celular',
+                            hint: 'Celular de contacto',
+                            icon: Icons.phone),
+                      )),
+                      SizedBox(width: defaultPadding),
+                      Expanded(
+                          child: FormBuilderTextField(
+                        name: 'telefono',
                         enabled: empresa.activo ?? true,
                         decoration: CustomInputs.form(
-                            label: 'Dirrecion de la empresa',
-                            hint: 'Calles, barrio, estado, pais.',
-                            icon: Icons.info),
-                        keyboardType: TextInputType.multiline,
-                        minLines: 2,
-                        maxLines: 5,
-                      ),
-                      SizedBox(height: defaultPadding),
-                      Row(
-                        children: [
-                          Expanded(
-                              child: FormBuilderTextField(
-                            name: 'celular',
-                            enabled: empresa.activo ?? true,
-                            decoration: CustomInputs.form(
-                                label: 'Celular',
-                                hint: 'Celular de contacto',
-                                icon: Icons.phone),
-                          )),
-                          SizedBox(width: defaultPadding),
-                          Expanded(
-                              child: FormBuilderTextField(
-                            name: 'telefono',
-                            enabled: empresa.activo ?? true,
-                            decoration: CustomInputs.form(
-                                label: 'Telefono',
-                                hint: 'Telefono de contacto',
-                                icon: Icons.phone),
-                          ))
-                        ],
-                      ),
-                      SizedBox(height: defaultPadding),
-                      Row(
-                        children: [
-                          Expanded(
-                              child: FormBuilderDateTimePicker(
-                            name: 'fechaInauguracion',
-                            enabled: empresa.activo ?? true,
-                            decoration: CustomInputs.form(
-                                label: 'Fecha de Inauguracion',
-                                hint: 'Inicio de las actividades',
-                                icon: Icons.schedule),
-                          )),
-                          SizedBox(width: defaultPadding),
-                          Expanded(
-                              child: FormBuilderTextField(
-                            name: 'registroContribuyente',
-                            enabled: empresa.activo ?? true,
-                            decoration: CustomInputs.form(
-                                label: 'Registro de Contribuyente',
-                                hint: 'RUC, CNPJ, RUT',
-                                icon: Icons.request_quote),
-                          ))
-                        ],
-                      ),
-                      SizedBox(height: defaultPadding),
-                      Row(
-                        children: [
-                          Expanded(
-                              child: FormBuilderDropdown(
-                            name: 'moneda',
-                            items: Moneda.values
-                                .map((e) => DropdownMenuItem(
-                                      value: e,
-                                      child: Text(
-                                          toBeginningOfSentenceCase(e.name)!),
-                                    ))
-                                .toList(),
-                            validator: FormBuilderValidators.required(
-                                errorText: 'Campo obligatorio'),
-                            valueTransformer: (value) => value?.name,
-                          )),
-                          SizedBox(width: defaultPadding),
-                          Expanded(
-                            child: FormBuilderDropdown(
-                              name: 'idioma',
-                              items: Idioma.values
-                                  .map((e) => DropdownMenuItem(
-                                        value: e,
-                                        child: Text(
-                                            toBeginningOfSentenceCase(e.name)!),
-                                      ))
-                                  .toList(),
-                              validator: FormBuilderValidators.required(
-                                  errorText: 'Campo obligatorio'),
-                              valueTransformer: (value) => value?.name,
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: defaultPadding),
-                      FormBuilderImagePicker(
-                        name: 'logo',
-                        decoration: CustomInputs.form(
-                            hint: 'Selecciona una foto para el logo',
-                            label: 'Imagen de logo',
-                            icon: Icons.image),
-                        maxImages: 1,
-                      ),
+                            label: 'Telefono',
+                            hint: 'Telefono de contacto',
+                            icon: Icons.phone),
+                      ))
                     ],
                   ),
-                )),
+                  SizedBox(height: defaultPadding),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: FormBuilderDateTimePicker(
+                        name: 'fechaInauguracion',
+                        enabled: empresa.activo ?? true,
+                        decoration: CustomInputs.form(
+                            label: 'Fecha de Inauguracion',
+                            hint: 'Inicio de las actividades',
+                            icon: Icons.schedule),
+                      )),
+                      SizedBox(width: defaultPadding),
+                      Expanded(
+                          child: FormBuilderTextField(
+                        name: 'registroContribuyente',
+                        enabled: empresa.activo ?? true,
+                        decoration: CustomInputs.form(
+                            label: 'Registro de Contribuyente',
+                            hint: 'RUC, CNPJ, RUT',
+                            icon: Icons.request_quote),
+                      ))
+                    ],
+                  ),
+                  SizedBox(height: defaultPadding),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: FormBuilderDropdown(
+                        name: 'moneda',
+                        items: Moneda.values
+                            .map((e) => DropdownMenuItem(
+                                  value: e,
+                                  child:
+                                      Text(toBeginningOfSentenceCase(e.name)!),
+                                ))
+                            .toList(),
+                        validator: FormBuilderValidators.required(
+                            errorText: 'Campo obligatorio'),
+                        valueTransformer: (value) => value?.name,
+                      )),
+                      SizedBox(width: defaultPadding),
+                      Expanded(
+                        child: FormBuilderDropdown(
+                          name: 'idioma',
+                          items: Idioma.values
+                              .map((e) => DropdownMenuItem(
+                                    value: e,
+                                    child: Text(
+                                        toBeginningOfSentenceCase(e.name)!),
+                                  ))
+                              .toList(),
+                          validator: FormBuilderValidators.required(
+                              errorText: 'Campo obligatorio'),
+                          valueTransformer: (value) => value?.name,
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: defaultPadding),
+                  FormBuilderImagePicker(
+                    name: 'logo',
+                    decoration: CustomInputs.form(
+                        hint: 'Selecciona una foto para el logo',
+                        label: 'Imagen de logo',
+                        icon: Icons.image),
+                    maxImages: 1,
+                  ),
+                ],
+              ),
+            )),
           ],
         ));
   }

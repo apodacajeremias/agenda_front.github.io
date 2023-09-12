@@ -13,6 +13,14 @@ class BeneficioDataSource extends DataTableSource {
 
   BeneficioDataSource(this.beneficios, this.context);
 
+  static List<DataColumn> columns = [
+    DataColumn(label: Text('Beneficio')),
+    DataColumn(label: Text('Tipo')),
+    DataColumn(label: Text('Descuento')),
+    DataColumn(label: Text('Valor')),
+    DataColumn(label: Text('Acciones')),
+  ];
+
   @override
   DataRow? getRow(int index) {
     final beneficio = beneficios[index];

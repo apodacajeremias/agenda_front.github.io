@@ -29,7 +29,6 @@ class BeneficioFormView extends StatelessWidget {
         children: [
           FormHeader(title: 'Beneficio'),
           WhiteCard(
-            header: Text('${beneficio?.nombre}'),
             child: FormBuilder(
               key: provider.formKey,
               child: Column(

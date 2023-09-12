@@ -5,7 +5,7 @@ class FechaUtil {
   static final DateFormat dateFormat = DateFormat('dd/MM/yy');
   static final DateFormat timeFormat = DateFormat('HH:mm');
 
-static String formatDate(DateTime date) {
+  static String formatDate(DateTime date) {
     return dateFormat.format(date);
   }
 
@@ -27,6 +27,10 @@ static String formatDate(DateTime date) {
     } catch (e) {
       throw FormatException('Invalid date format $timeString');
     }
+  }
+
+  static String formatDateTime(DateTime dateTime) {
+    return '${dateFormat.format(dateTime)} ${timeFormat.format(dateTime)}';
   }
 
   static int calcularEdad(DateTime fechaNacimiento) {
