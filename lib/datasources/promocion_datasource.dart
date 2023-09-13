@@ -14,6 +14,14 @@ class PromocionDataSource extends DataTableSource {
 
   PromocionDataSource(this.promociones, this.context);
 
+  static List<DataColumn> columns = const [
+    DataColumn(label: Text('Promoción')),
+    DataColumn(label: Text('Inicio')),
+    DataColumn(label: Text('Fin')),
+    DataColumn(label: Text('Valor')),
+    DataColumn(label: Text('Acciones')),
+  ];
+
   @override
   DataRow? getRow(int index) {
     final promocion = promociones[index];

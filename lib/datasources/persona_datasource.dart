@@ -13,6 +13,13 @@ class PersonaDataSource extends DataTableSource {
 
   PersonaDataSource(this.personas, this.context);
 
+  static List<DataColumn> columns = const [
+    DataColumn(label: Text('Nombre')),
+    DataColumn(label: Text('Documento')),
+    DataColumn(label: Text('Contacto')),
+    DataColumn(label: Text('Acciones')),
+  ];
+
   @override
   DataRow? getRow(int index) {
     final persona = personas[index];

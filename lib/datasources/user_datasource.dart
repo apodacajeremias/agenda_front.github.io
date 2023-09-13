@@ -3,11 +3,18 @@ import 'package:flutter/material.dart';
 
 import 'package:agenda_front/services/navigation_service.dart';
 
-class UsersDataSource extends DataTableSource {
+class UserDataSource extends DataTableSource {
   final List<Usuario> users;
   final BuildContext context;
 
-  UsersDataSource(this.users, this.context);
+  UserDataSource(this.users, this.context);
+
+  static List<DataColumn> columns = const [
+    DataColumn(label: Text('ID')),
+    DataColumn(label: Text('Correo')),
+    DataColumn(label: Text('Rol')),
+    DataColumn(label: Text('Acciones')),
+  ];
 
   @override
   DataRow getRow(int index) {

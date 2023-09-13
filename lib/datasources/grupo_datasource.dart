@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:agenda_front/models/entities/grupo.dart';
 import 'package:agenda_front/providers/grupo_provider.dart';
 import 'package:agenda_front/services/navigation_service.dart';
@@ -13,6 +11,12 @@ class GrupoDataSource extends DataTableSource {
 
   GrupoDataSource(this.grupos, this.context);
 
+  static List<DataColumn> columns = [
+    const DataColumn(label: Text('Grupo')),
+    const DataColumn(label: Text('Beneficio')),
+    const DataColumn(label: Text('Acciones')),
+  ];
+
   @override
   DataRow? getRow(int index) {
     final grupo = grupos[index];
@@ -24,22 +28,22 @@ class GrupoDataSource extends DataTableSource {
           onPressed: () {
             NavigationService.navigateTo('/grupos/${grupo.id}');
           },
-          icon: Icon(Icons.edit),
+          icon: const Icon(Icons.edit),
         ),
         IconButton(
             onPressed: () {
               final dialog = AlertDialog(
-                  title: Text('Estas seguro de borrarlo?'),
+                  title: const Text('Estas seguro de borrarlo?'),
                   content: Text('Borrar grupo $grupo.nombre?'),
                   actions: [
                     TextButton(
-                      child: Text('No, mantener'),
+                      child: const Text('No, mantener'),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
                     ),
                     TextButton(
-                        child: Text('Si, borrar'),
+                        child: const Text('Si, borrar'),
                         onPressed: () async {
                           var confirmado = await Provider.of<GrupoProvider>(
                                   context,
@@ -59,7 +63,7 @@ class GrupoDataSource extends DataTableSource {
                   ]);
               showDialog(context: context, builder: (_) => dialog);
             },
-            icon: Icon(Icons.delete))
+            icon: const Icon(Icons.delete))
       ]))
     ]);
   }

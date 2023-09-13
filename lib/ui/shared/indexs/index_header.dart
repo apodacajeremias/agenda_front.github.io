@@ -1,3 +1,4 @@
+import 'package:agenda_front/constants.dart';
 import 'package:flutter/material.dart';
 
 class IndexHeader extends StatelessWidget {
@@ -7,20 +8,26 @@ class IndexHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: Theme.of(context).textTheme.headlineLarge,
-        ),
-        if (optionalText != null) ...[
-          Text(
-            optionalText!,
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-        ]
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(defaultPadding),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(title,
+              maxLines: 3,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge
+                  ?.copyWith(fontWeight: FontWeight.bold)),
+          const SizedBox(width: defaultPadding / 2),
+          if (optionalText != null) ...[
+            Text(
+              optionalText!,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ]
+        ],
+      ),
     );
   }
 }

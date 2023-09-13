@@ -1,3 +1,4 @@
+import 'package:agenda_front/utils/fecha_util.dart';
 import 'package:flutter/material.dart';
 
 class IndexFooter extends StatelessWidget {
@@ -5,13 +6,9 @@ class IndexFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Row(
-      children: [
-        SizedBox(
-          height: size.height * 0.01,
-        )
-      ],
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [Text(FechaUtil.formatDate(DateTime.now()))],
     );
   }
 }

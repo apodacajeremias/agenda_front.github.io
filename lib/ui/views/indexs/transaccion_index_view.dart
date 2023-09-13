@@ -1,13 +1,9 @@
-import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/datasources/transaccion_datasource.dart';
 import 'package:agenda_front/providers/transaccion_provider.dart';
 import 'package:agenda_front/routers/router.dart';
-import 'package:agenda_front/services/navigation_service.dart';
-import 'package:agenda_front/ui/shared/indexs/index_footer.dart';
-import 'package:agenda_front/ui/shared/indexs/index_header.dart';
+import 'package:agenda_front/ui/shared/indexs/my_index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
 
 class TransaccionIndexView extends StatefulWidget {
   const TransaccionIndexView({super.key});
@@ -17,50 +13,19 @@ class TransaccionIndexView extends StatefulWidget {
 }
 
 class _TransaccionIndexViewState extends State<TransaccionIndexView> {
-  int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
-
   @override
   void initState() {
-    super.initState();
     Provider.of<TransaccionProvider>(context, listen: false).buscarTodos();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final transacciones =
-        Provider.of<TransaccionProvider>(context).transacciones;
-    return Container(
-      padding: const EdgeInsets.all(defaultPadding),
-      child: ListView(
-        shrinkWrap: true,
-        physics: const ClampingScrollPhysics(),
-        children: [
-          const IndexHeader(title: 'Transacciones'),
-          const SizedBox(height: defaultPadding),
-          PaginatedDataTable(
-            columns: TransaccionDataSource.columns,
-            source: TransaccionDataSource(transacciones, context),
-            header: const Text('Listado de transacciones', maxLines: 2),
-            onRowsPerPageChanged: (value) {
-              setState(() {
-                _rowsPerPage = value ?? 10;
-              });
-            },
-            rowsPerPage: _rowsPerPage,
-            actions: [
-              MyElevatedButton(
-                onPressed: () {
-                  NavigationService.navigateTo(
-                      Flurorouter.transaccionesCreateRoute);
-                },
-                text: 'Nuevo',
-                icon: Icons.add,
-              )
-            ],
-          ),
-          const IndexFooter()
-        ],
-      ),
-    );
+    final data = Provider.of<TransaccionProvider>(context).transacciones;
+    return MyIndex(
+        title: 'Transaccions',
+        columns: TransaccionDataSource.columns,
+        source: TransaccionDataSource(data, context),
+        createRoute: Flurorouter.transaccionesCreateRoute);
   }
 }

@@ -14,6 +14,13 @@ class ItemDataSource extends DataTableSource {
 
   ItemDataSource(this.items, this.context);
 
+  static List<DataColumn> columns = const [
+    DataColumn(label: Text('Item')),
+    DataColumn(label: Text('Tipo')),
+    DataColumn(label: Text('Precio')),
+    DataColumn(label: Text('Acciones')),
+  ];
+
   @override
   DataRow? getRow(int index) {
     final item = items[index];

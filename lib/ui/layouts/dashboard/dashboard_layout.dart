@@ -1,3 +1,4 @@
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/providers/sidemenu_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -44,6 +45,7 @@ class _DashboardLayoutState extends State<DashboardLayout>
                       // View
                       Expanded(
                           child: Container(
+                        padding: const EdgeInsets.all(defaultPadding),
                         child: widget.child,
                       )),
                     ],

@@ -1,13 +1,9 @@
-import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/datasources/grupo_datasource.dart';
 import 'package:agenda_front/providers/grupo_provider.dart';
 import 'package:agenda_front/routers/router.dart';
-import 'package:agenda_front/services/navigation_service.dart';
-import 'package:agenda_front/ui/shared/indexs/index_footer.dart';
-import 'package:agenda_front/ui/shared/indexs/index_header.dart';
+import 'package:agenda_front/ui/shared/indexs/my_index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
 
 class GrupoIndexView extends StatefulWidget {
   const GrupoIndexView({super.key});
@@ -17,52 +13,19 @@ class GrupoIndexView extends StatefulWidget {
 }
 
 class _GrupoIndexViewState extends State<GrupoIndexView> {
-  int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
-
   @override
   void initState() {
-    super.initState();
     Provider.of<GrupoProvider>(context, listen: false).buscarTodos();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final grupos = Provider.of<GrupoProvider>(context).grupos;
-    return Container(
-      padding: const EdgeInsets.all(defaultPadding),
-      child: ListView(
-        shrinkWrap: true,
-        physics: const ClampingScrollPhysics(),
-        children: [
-          const IndexHeader(title: 'Grupos'),
-          const SizedBox(height: defaultPadding),
-          PaginatedDataTable(
-            columns: const [
-              DataColumn(label: Text('Grupo')),
-              DataColumn(label: Text('Beneficio')),
-              DataColumn(label: Text('Acciones')),
-            ],
-            source: GrupoDataSource(grupos, context),
-            header: const Text('Listado de grupos', maxLines: 2),
-            onRowsPerPageChanged: (value) {
-              setState(() {
-                _rowsPerPage = value ?? 10;
-              });
-            },
-            rowsPerPage: _rowsPerPage,
-            actions: [
-              MyElevatedButton(
-                onPressed: () {
-                  NavigationService.navigateTo(Flurorouter.gruposCreateRoute);
-                },
-                text: 'Nuevo',
-                icon: Icons.add,
-              )
-            ],
-          ),
-          const IndexFooter()
-        ],
-      ),
-    );
+    final data = Provider.of<GrupoProvider>(context).grupos;
+    return MyIndex(
+        title: 'Grupos',
+        columns: GrupoDataSource.columns,
+        source: GrupoDataSource(data, context),
+        createRoute: Flurorouter.gruposCreateRoute);
   }
 }

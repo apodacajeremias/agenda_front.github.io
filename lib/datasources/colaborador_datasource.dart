@@ -13,12 +13,20 @@ class ColaboradorDataSource extends DataTableSource {
 
   ColaboradorDataSource(this.colaboradores, this.context);
 
+  static List<DataColumn> columns = const [
+    DataColumn(label: Text('Colaborador')),
+    DataColumn(label: Text('Profesion')),
+    DataColumn(label: Text('Registro Contribuyente')),
+    DataColumn(label: Text('Registro Profesional')),
+    DataColumn(label: Text('Acciones')),
+  ];
+
   @override
   DataRow? getRow(int index) {
     final colaborador = colaboradores[index];
     return DataRow.byIndex(index: index, cells: [
       DataCell(Text(colaborador.nombre!)),
-      DataCell(Text(colaborador.profesion!)),
+      DataCell(Text(colaborador.profesion ?? 'Sin registro.')),
       DataCell(Text(colaborador.registroContribuyente!)),
       DataCell(Text(colaborador.registroProfesional!)),
       DataCell(Row(children: [

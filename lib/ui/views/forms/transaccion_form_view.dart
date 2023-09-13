@@ -1,16 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:agenda_front/constants.dart';
-import 'package:agenda_front/models/entities/beneficio.dart';
 import 'package:agenda_front/models/entities/grupo.dart';
-import 'package:agenda_front/models/entities/persona.dart';
 import 'package:agenda_front/models/entities/transaccion.dart';
 import 'package:agenda_front/models/enums/tipo_beneficio.dart';
 import 'package:agenda_front/models/enums/tipo_descuento.dart';
 import 'package:agenda_front/models/enums/tipo_transaccion.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/providers/transaccion_provider.dart';
-import 'package:agenda_front/response.dart';
 import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
 import 'package:agenda_front/ui/inputs/custom_inputs.dart';
