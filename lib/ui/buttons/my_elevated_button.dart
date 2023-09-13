@@ -7,6 +7,14 @@ class MyElevatedButton extends StatelessWidget {
   const MyElevatedButton(
       {super.key, required this.text, this.icon, this.onPressed});
 
+  factory MyElevatedButton.create({required Function onPressed}) =>
+      MyElevatedButton(
+          text: 'Crear', icon: Icons.add_outlined, onPressed: onPressed);
+
+  factory MyElevatedButton.edit({required Function onPressed}) =>
+      MyElevatedButton(
+          text: 'Editar', icon: Icons.edit_outlined, onPressed: onPressed);
+
   @override
   Widget build(BuildContext context) {
     if (icon != null) {

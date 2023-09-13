@@ -49,7 +49,10 @@ class WhiteCard extends StatelessWidget {
             const Divider(),
           ],
           child,
-          if (footer != null) ...[const Divider(), footer!],
+          if (footer != null) ...[
+            const Divider(),
+            Row(children: [Expanded(child: footer!)])
+          ],
         ],
       ),
     );

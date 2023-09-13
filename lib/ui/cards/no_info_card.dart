@@ -6,22 +6,23 @@ import 'package:agenda_front/ui/shared/my_header.dart';
 import 'package:flutter/material.dart';
 
 class NoInfoCard extends StatelessWidget {
-  /// Titulo: puede ser nulo
   final String? title;
-  const NoInfoCard({super.key, this.title});
+  final Widget? action;
+  const NoInfoCard({super.key, this.title, this.action});
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
       if (title != null) ...[MyHeader(title: title!)],
       WhiteCard(
+          footer: action,
           child: Column(
-        children: [
-          Center(child: _buildImage()),
-          const SizedBox(height: defaultPadding),
-          const Text('No se ha encontrado información.')
-        ],
-      )),
+            children: [
+              Center(child: _buildImage()),
+              const SizedBox(height: defaultPadding),
+              const Text('No se ha encontrado información.')
+            ],
+          )),
     ]);
   }
 

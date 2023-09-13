@@ -1,85 +1,93 @@
 import 'package:agenda_front/constants.dart';
-import 'package:agenda_front/models/enums/genero.dart';
 import 'package:agenda_front/models/entities/persona.dart';
+import 'package:agenda_front/models/enums/tipo_transaccion.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
+import 'package:agenda_front/providers/transaccion_provider.dart';
 import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
 import 'package:agenda_front/ui/cards/no_info_card.dart';
 import 'package:agenda_front/ui/cards/waiting_card.dart';
 import 'package:agenda_front/ui/labels/text_profile_detail.dart';
 import 'package:agenda_front/ui/shared/widgets/avatar.dart';
 import 'package:agenda_front/ui/shared/widgets/text_separator.dart';
-import 'package:agenda_front/ui/views/indexs/grupo_index_view.dart';
-import 'package:agenda_front/ui/views/indexs/item_index_view.dart';
-import 'package:agenda_front/ui/views/indexs/promocion_index_view.dart';
 import 'package:agenda_front/ui/views/indexs/transaccion_index_view.dart';
 import 'package:agenda_front/utils/fecha_util.dart';
 import 'package:agenda_front/ui/cards/white_card.dart';
-import 'package:agenda_front/ui/inputs/custom_inputs.dart';
-import 'package:agenda_front/ui/shared/forms/form_footer.dart';
 import 'package:agenda_front/ui/shared/forms/form_header.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_image_picker/form_builder_image_picker.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class PersonaFormView extends StatefulWidget {
+class PersonaView extends StatefulWidget {
   final Persona? persona;
 
-  const PersonaFormView({super.key, this.persona});
+  const PersonaView({super.key, this.persona});
 
   @override
-  State<PersonaFormView> createState() => _PersonaFormViewState();
+  State<PersonaView> createState() => _PersonaViewState();
 }
 
-class _PersonaFormViewState extends State<PersonaFormView> {
-  bool isProfile = true;
+class _PersonaViewState extends State<PersonaView> {
+  bool isProfile = false;
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<PersonaProvider>(context, listen: false);
-    return isProfile ? _profile(provider, context) : _form(provider, context);
+    isProfile = widget.persona != null;
+    return isProfile ? _PersonaProfile(widget.persona!) : _form();
   }
 
-  Widget _profile(PersonaProvider provider, BuildContext context) {
+  Widget _form() {
+    return Container(
+      child: Center(
+        child: Text('buuuuuuuuuuuuuug'),
+      ),
+    );
+  }
+}
+
+class _PersonaProfile extends StatelessWidget {
+  final Persona persona;
+  const _PersonaProfile(this.persona);
+
+  @override
+  Widget build(BuildContext context) {
     return ListView(children: [
       const FormHeader(title: 'Perfil'),
       Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(flex: 1, child: _profileDetails(context)),
-          Expanded(flex: 4, child: _profileDashboard(context))
+          Expanded(flex: 1, child: _PersonaProfileDetails(persona)),
+          Expanded(flex: 4, child: _PersonaProfileDashboard(persona))
         ],
       ),
     ]);
   }
+}
 
-  Widget _profileDetails(BuildContext context) {
+class _PersonaProfileDetails extends StatelessWidget {
+  final Persona persona;
+  const _PersonaProfileDetails(this.persona);
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(defaultPadding / 2),
       child: Column(
         children: [
           WhiteCard(
-              footer: MyElevatedButton(
-                text: 'Editar',
-                icon: Icons.edit_outlined,
-                onPressed: () => setState(() {
-                  print('edit pressed');
-                }),
-              ),
+              footer: MyElevatedButton.edit(onPressed: () {
+                print('EDIT PRESSED');
+              }),
               child: Column(
                 children: [
                   Center(
                       child: Avatar(
-                    widget.persona!.fotoPerfil ?? '',
+                    persona.fotoPerfil ?? '',
                     size: 200,
                   )),
                   Center(
                     child: Column(
                       children: [
                         Text(
-                          widget.persona?.nombre ??
+                          persona.nombre ??
                               'Eiusmod commodo duis ea ut Lorem sunt duis commodo consequat qui nisi reprehenderit sunt proident.',
                           maxLines: 3,
                           textAlign: TextAlign.center,
@@ -89,7 +97,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         Text(
-                            widget.persona?.colaborador != null
+                            persona.colaborador != null
                                 ? 'Colaborador'
                                 : 'Cliente',
                             maxLines: 3,
@@ -151,20 +159,20 @@ class _PersonaFormViewState extends State<PersonaFormView> {
               TextProfileDetail(
                   icon: Icons.badge_outlined,
                   title: 'Documento',
-                  text: widget.persona!.documentoIdentidad),
+                  text: persona.documentoIdentidad),
               TextProfileDetail(
                   icon: Icons.cake_outlined,
                   text: FechaUtil.formatDate(
-                      widget.persona?.fechaNacimiento ?? DateTime.now())),
+                      persona.fechaNacimiento ?? DateTime.now())),
               TextProfileDetail(
                   icon: Icons.info_outline,
                   title: 'Edad',
-                  text: widget.persona?.edad.toString()),
+                  text: persona.edad.toString()),
               TextProfileDetail(
-                  icon: widget.persona!.genero!.icon,
-                  text: widget.persona!.genero!.toString(),
+                  icon: persona.genero!.icon,
+                  text: persona.genero!.toString(),
                   hasDivider: false),
-              if (widget.persona?.colaborador != null) ...[
+              if (persona.colaborador != null) ...[
                 const SizedBox(height: defaultPadding / 2),
                 const TextSeparator(
                     text: 'Información profesional', color: Colors.black),
@@ -172,15 +180,15 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                 TextProfileDetail(
                     icon: Icons.info_outline,
                     title: 'Registro de Contribuyente',
-                    text: widget.persona!.colaborador?.registroContribuyente),
+                    text: persona.colaborador?.registroContribuyente),
                 TextProfileDetail(
                     icon: Icons.info_outline,
                     title: 'Registro de Profesional',
-                    text: widget.persona!.colaborador?.registroProfesional),
+                    text: persona.colaborador?.registroProfesional),
                 TextProfileDetail(
                     icon: Icons.info_outline,
                     title: 'Profesión',
-                    text: widget.persona!.colaborador?.profesion,
+                    text: persona.colaborador?.profesion,
                     hasDivider: false),
               ],
             ],
@@ -189,13 +197,27 @@ class _PersonaFormViewState extends State<PersonaFormView> {
       ),
     );
   }
+}
 
-  Widget _profileDashboard(BuildContext context) {
+class _PersonaProfileDashboard extends StatefulWidget {
+  final Persona persona;
+  const _PersonaProfileDashboard(this.persona);
+
+  @override
+  State<_PersonaProfileDashboard> createState() =>
+      _PersonaProfileDashboardState();
+}
+
+class _PersonaProfileDashboardState extends State<_PersonaProfileDashboard> {
+  @override
+  Widget build(BuildContext context) {
     final provider = Provider.of<PersonaProvider>(context);
+    final providerTransaccion =
+        Provider.of<TransaccionProvider>(context, listen: false);
     return Column(
       children: [
         FutureBuilder(
-          future: provider.transacciones(widget.persona!.id!),
+          future: provider.transacciones(widget.persona.id!),
           builder: (context, snapshot) {
             String title = 'Transacciones';
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -207,228 +229,19 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                 return TransaccionIndexView(data: snapshot.data);
               }
             }
-            return NoInfoCard(title: title);
+            return NoInfoCard(
+                title: title,
+                action: MyElevatedButton.create(onPressed: () async {
+                  var data = {
+                    'persona': widget.persona.id!,
+                    'tipo': TipoTransaccion.VENTA
+                  };
+                  await providerTransaccion.registrar(data);
+                  setState(() {});
+                }));
           },
         )
       ],
-    );
-  }
-
-  Widget _form(PersonaProvider provider, BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(defaultPadding),
-      child: ListView(
-        physics: const ClampingScrollPhysics(),
-        children: [
-          const FormHeader(title: 'Persona'),
-          WhiteCard(
-              child: FormBuilder(
-            key: provider.formKey,
-            child: Column(
-              children: [
-                if (widget.persona?.id != null) ...[
-                  const SizedBox(height: defaultPadding / 2),
-                  Row(
-                    children: [
-                      Expanded(
-                          flex: 2,
-                          child: FormBuilderTextField(
-                            name: 'ID',
-                            initialValue: widget.persona?.id,
-                            enabled: false,
-                            decoration: CustomInputs.form(
-                                label: 'ID', hint: 'ID', icon: Icons.qr_code),
-                          )),
-                      const SizedBox(width: defaultPadding),
-                      Expanded(
-                          child: FormBuilderSwitch(
-                        name: 'activo',
-                        title: const Text('Estado del registro'),
-                        initialValue: widget.persona?.activo,
-                        decoration: CustomInputs.noBorder(),
-                      )),
-                    ],
-                  )
-                ],
-                const SizedBox(height: defaultPadding / 2),
-                FormBuilderTextField(
-                    name: 'nombre',
-                    initialValue: widget.persona?.nombre,
-                    enabled: widget.persona?.activo ?? true,
-                    decoration: CustomInputs.form(
-                        hint: 'Nombre completo',
-                        label: 'Nombre y Apellido',
-                        icon: Icons.info),
-                    validator: FormBuilderValidators.required(
-                        errorText: 'Campo obligatorio')),
-                const SizedBox(height: defaultPadding / 2),
-                Row(
-                  children: [
-                    Expanded(
-                        child: FormBuilderTextField(
-                            name: 'documentoIdentidad',
-                            initialValue: widget.persona?.documentoIdentidad,
-                            enabled: widget.persona?.activo ?? true,
-                            decoration: CustomInputs.form(
-                                hint:
-                                    'Numero de documento, C.I., R.G., C.P.F., D.N.I., pasaporte...',
-                                label: 'Documento de Identidad',
-                                icon: Icons.perm_identity),
-                            validator: FormBuilderValidators.required(
-                                errorText: 'Campo obligatorio'))),
-                    const SizedBox(width: defaultPadding),
-                    Expanded(
-                      child: FormBuilderDropdown(
-                        name: 'genero',
-                        initialValue: widget.persona?.genero ?? Genero.OTRO,
-                        enabled: widget.persona?.activo ?? true,
-                        decoration: CustomInputs.form(
-                            label: 'Genero',
-                            hint: 'Genero de persona',
-                            icon: Icons.info),
-                        items: Genero.values
-                            .map((g) => DropdownMenuItem(
-                                value: g,
-                                child: Row(
-                                  children: [
-                                    Icon(g.icon),
-                                    const SizedBox(width: defaultPadding / 2),
-                                    Text(toBeginningOfSentenceCase(
-                                        g.name.toLowerCase())!)
-                                  ],
-                                )))
-                            .toList(),
-                        validator: FormBuilderValidators.required(
-                            errorText: 'Genero obligatorio'),
-                        valueTransformer: (value) => value?.name,
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(height: defaultPadding / 2),
-                Row(children: [
-                  Expanded(
-                    child: FormBuilderDateTimePicker(
-                      name: 'fechaNacimiento',
-                      format: FechaUtil.dateFormat,
-                      initialValue:
-                          widget.persona?.fechaNacimiento ?? DateTime.now(),
-                      enabled: widget.persona?.activo ?? true,
-                      decoration: CustomInputs.form(
-                          hint: 'Fecha de nacimiento',
-                          label: 'Fecha de nacimiento',
-                          icon: Icons.cake),
-                      validator: FormBuilderValidators.required(
-                          errorText: 'Campo obligatorio'),
-                      onChanged: (value) {
-                        provider.formKey.currentState!.fields['edad']!
-                            .didChange(
-                                FechaUtil.calcularEdad(value!).toString());
-                      },
-                      inputType: InputType.date,
-                      valueTransformer: (value) => value?.toIso8601String(),
-                    ),
-                  ),
-                  const SizedBox(width: defaultPadding),
-                  Expanded(
-                    child: FormBuilderTextField(
-                      name: 'edad',
-                      initialValue: (widget.persona != null)
-                          ? FechaUtil.calcularEdad(
-                                  widget.persona!.fechaNacimiento!)
-                              .toString()
-                          : '0',
-                      enabled: widget.persona?.activo ?? true,
-                      decoration: CustomInputs.form(
-                          hint: 'Edad de la persona',
-                          label: 'Edad hasta la fecha',
-                          icon: Icons.numbers),
-                    ),
-                  ),
-                ]),
-                const SizedBox(height: defaultPadding / 2),
-                FormBuilderTextField(
-                    name: 'telefono',
-                    initialValue: widget.persona?.telefono,
-                    enabled: widget.persona?.activo ?? true,
-                    decoration: CustomInputs.form(
-                        hint: 'Telefono de contacto',
-                        label: 'Telefono',
-                        icon: Icons.phone),
-                    validator: FormBuilderValidators.minLength(7,
-                        errorText:
-                            'Numero de telefono muy corto para ser válido',
-                        allowEmpty: true)),
-                const SizedBox(height: defaultPadding / 2),
-                FormBuilderTextField(
-                    name: 'celular',
-                    initialValue: widget.persona?.celular,
-                    enabled: widget.persona?.activo ?? true,
-                    decoration: CustomInputs.form(
-                        hint: 'Celular de contacto',
-                        label: 'Celular',
-                        icon: Icons.phone_android),
-                    validator: FormBuilderValidators.minLength(7,
-                        errorText:
-                            'Numero de celular muy corto para ser válido',
-                        allowEmpty: true)),
-                const SizedBox(height: defaultPadding / 2),
-                FormBuilderTextField(
-                    name: 'direccion',
-                    initialValue: widget.persona?.direccion,
-                    enabled: widget.persona?.activo ?? true,
-                    decoration: CustomInputs.form(
-                        hint: 'Direccion de domicilio',
-                        label: 'Direccion',
-                        icon: Icons.gps_fixed),
-                    validator: FormBuilderValidators.compose([
-                      FormBuilderValidators.minLength(5,
-                          errorText: 'Direccion muy corta, de mas detalles',
-                          allowEmpty: true),
-                      FormBuilderValidators.maxLength(255,
-                          errorText: 'Direccion muy larga')
-                    ])),
-                const SizedBox(height: defaultPadding / 2),
-                FormBuilderTextField(
-                    name: 'observacion',
-                    initialValue: widget.persona?.observacion,
-                    enabled: widget.persona?.activo ?? true,
-                    decoration: CustomInputs.form(
-                        hint: 'Observacion',
-                        label: 'Observaciones',
-                        icon: Icons.gps_fixed),
-                    validator: FormBuilderValidators.compose([
-                      FormBuilderValidators.minLength(5,
-                          errorText: 'Observacion muy corta, de mas detalles',
-                          allowEmpty: true),
-                      FormBuilderValidators.maxLength(255,
-                          errorText: 'Observacion muy larga')
-                    ])),
-                const SizedBox(height: defaultPadding / 2),
-                FormBuilderImagePicker(
-                    name: 'file',
-                    decoration: CustomInputs.form(
-                        hint: 'Selecciona una foto para el perfil',
-                        label: 'Foto de perfil',
-                        icon: Icons.image),
-                    maxImages: 1),
-                FormFooter(onConfirm: () async {
-                  if (provider.saveAndValidate()) {
-                    try {
-                      await provider.registrar(provider.formData());
-                      if (context.mounted) {
-                        Navigator.of(context).pop();
-                      }
-                    } catch (e) {
-                      rethrow;
-                    }
-                  }
-                })
-              ],
-            ),
-          ))
-        ],
-      ),
     );
   }
 }

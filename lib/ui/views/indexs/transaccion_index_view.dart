@@ -2,6 +2,8 @@ import 'package:agenda_front/datasources/transaccion_datasource.dart';
 import 'package:agenda_front/models/entities/transaccion.dart';
 import 'package:agenda_front/providers/transaccion_provider.dart';
 import 'package:agenda_front/routers/router.dart';
+import 'package:agenda_front/services/navigation_service.dart';
+import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
 import 'package:agenda_front/ui/shared/indexs/my_index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,9 +28,14 @@ class _TransaccionIndexViewState extends State<TransaccionIndexView> {
     final data =
         widget.data ?? Provider.of<TransaccionProvider>(context).transacciones;
     return MyIndex(
-        title: 'Transacciones',
-        columns: TransaccionDataSource.columns,
-        source: TransaccionDataSource(data, context),
-        createRoute: Flurorouter.transaccionesCreateRoute);
+      title: 'Transacciones',
+      columns: TransaccionDataSource.columns,
+      source: TransaccionDataSource(data, context),
+      actions: [
+        MyElevatedButton.create(
+            onPressed: () => NavigationService.navigateTo(
+                Flurorouter.transaccionesCreateRoute))
+      ],
+    );
   }
 }

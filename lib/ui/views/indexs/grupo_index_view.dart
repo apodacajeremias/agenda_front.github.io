@@ -1,6 +1,8 @@
 import 'package:agenda_front/datasources/grupo_datasource.dart';
 import 'package:agenda_front/providers/grupo_provider.dart';
 import 'package:agenda_front/routers/router.dart';
+import 'package:agenda_front/services/navigation_service.dart';
+import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
 import 'package:agenda_front/ui/shared/indexs/my_index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,9 +25,14 @@ class _GrupoIndexViewState extends State<GrupoIndexView> {
   Widget build(BuildContext context) {
     final data = Provider.of<GrupoProvider>(context).grupos;
     return MyIndex(
-        title: 'Grupos',
-        columns: GrupoDataSource.columns,
-        source: GrupoDataSource(data, context),
-        createRoute: Flurorouter.gruposCreateRoute);
+      title: 'Grupos',
+      columns: GrupoDataSource.columns,
+      source: GrupoDataSource(data, context),
+      actions: [
+        MyElevatedButton.create(
+            onPressed: () =>
+                NavigationService.navigateTo(Flurorouter.gruposCreateRoute))
+      ],
+    );
   }
 }

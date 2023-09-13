@@ -1,5 +1,3 @@
-import 'package:agenda_front/services/navigation_service.dart';
-import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
 import 'package:agenda_front/ui/shared/indexs/index_footer.dart';
 import 'package:agenda_front/ui/shared/indexs/index_header.dart';
 import 'package:flutter/material.dart';
@@ -9,14 +7,15 @@ class MyIndex extends StatefulWidget {
   final String? subtitle;
   final List<DataColumn> columns;
   final DataTableSource source;
-  final String createRoute;
+  final List<Widget>? actions;
+
   const MyIndex(
       {super.key,
       required this.title,
       this.subtitle,
       required this.columns,
       required this.source,
-      required this.createRoute});
+      this.actions});
 
   @override
   State<MyIndex> createState() => _MyIndexState();
@@ -39,15 +38,7 @@ class _MyIndexState extends State<MyIndex> {
         PaginatedDataTable(
           columns: widget.columns,
           source: widget.source,
-          actions: [
-            MyElevatedButton(
-              onPressed: () {
-                NavigationService.navigateTo(widget.createRoute);
-              },
-              text: 'Crear',
-              icon: Icons.add,
-            )
-          ],
+          actions: widget.actions,
           header: Text(widget.subtitle ?? 'Listado',
               style: Theme.of(context).textTheme.titleMedium),
           onRowsPerPageChanged: (value) {

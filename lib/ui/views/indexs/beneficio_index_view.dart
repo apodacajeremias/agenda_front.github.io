@@ -1,6 +1,8 @@
 import 'package:agenda_front/datasources/beneficio_datasource.dart';
 import 'package:agenda_front/providers/beneficio_provider.dart';
 import 'package:agenda_front/routers/router.dart';
+import 'package:agenda_front/services/navigation_service.dart';
+import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
 import 'package:agenda_front/ui/shared/indexs/my_index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,9 +25,14 @@ class _BeneficioIndexViewState extends State<BeneficioIndexView> {
   Widget build(BuildContext context) {
     final data = Provider.of<BeneficioProvider>(context).beneficios;
     return MyIndex(
-        title: 'Beneficios',
-        columns: BeneficioDataSource.columns,
-        source: BeneficioDataSource(data, context),
-        createRoute: Flurorouter.beneficiosCreateRoute);
+      title: 'Beneficios',
+      columns: BeneficioDataSource.columns,
+      source: BeneficioDataSource(data, context),
+      actions: [
+        MyElevatedButton.create(
+            onPressed: () =>
+                NavigationService.navigateTo(Flurorouter.beneficiosCreateRoute))
+      ],
+    );
   }
 }
