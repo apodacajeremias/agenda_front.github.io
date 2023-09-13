@@ -3,6 +3,8 @@ import 'package:agenda_front/models/enums/genero.dart';
 import 'package:agenda_front/models/entities/persona.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
+import 'package:agenda_front/ui/cards/no_info_card.dart';
+import 'package:agenda_front/ui/cards/waiting_card.dart';
 import 'package:agenda_front/ui/labels/text_profile_detail.dart';
 import 'package:agenda_front/ui/shared/widgets/avatar.dart';
 import 'package:agenda_front/ui/shared/widgets/text_separator.dart';
@@ -189,13 +191,25 @@ class _PersonaFormViewState extends State<PersonaFormView> {
   }
 
   Widget _profileDashboard(BuildContext context) {
-    final provider = Provider.of<PersonaProvider>(context, listen: false);
-    return const Column(
+    final provider = Provider.of<PersonaProvider>(context);
+    return Column(
       children: [
-        GrupoIndexView(),
-        TransaccionIndexView(),
-        PromocionIndexView(),
-        ItemIndexView(),
+        FutureBuilder(
+          future: provider.transacciones(widget.persona!.id!),
+          builder: (context, snapshot) {
+            String title = 'Transacciones';
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return WaitingCard(title: title);
+            } else if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasData &&
+                  snapshot.data != null &&
+                  snapshot.data!.isNotEmpty) {
+                return TransaccionIndexView(data: snapshot.data);
+              }
+            }
+            return NoInfoCard(title: title);
+          },
+        )
       ],
     );
   }
