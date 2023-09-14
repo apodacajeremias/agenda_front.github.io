@@ -4,7 +4,6 @@ import 'package:agenda_front/ui/shared/my_header.dart';
 import 'package:flutter/material.dart';
 
 class WaitingCard extends StatelessWidget {
-  /// Titulo: puede ser nulo
   final String? title;
   const WaitingCard({super.key, this.title});
 
