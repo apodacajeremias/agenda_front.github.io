@@ -1,4 +1,5 @@
 import 'package:agenda_front/datasources/agenda_datasource.dart';
+import 'package:agenda_front/models/entities/agenda.dart';
 import 'package:agenda_front/providers/agenda_provider.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/services/navigation_service.dart';
@@ -8,7 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AgendaIndexView extends StatefulWidget {
-  const AgendaIndexView({super.key});
+  final List<Agenda>? data;
+  const AgendaIndexView({super.key, this.data});
 
   @override
   State<AgendaIndexView> createState() => _AgendaIndexViewState();
@@ -17,13 +19,14 @@ class AgendaIndexView extends StatefulWidget {
 class _AgendaIndexViewState extends State<AgendaIndexView> {
   @override
   void initState() {
-    Provider.of<AgendaProvider>(context, listen: false).buscarTodos();
+    widget.data ??
+        Provider.of<AgendaProvider>(context, listen: false).buscarTodos();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final data = Provider.of<AgendaProvider>(context).agendas;
+    final data = widget.data ?? Provider.of<AgendaProvider>(context).agendas;
     return MyIndex(
       title: 'Agendas',
       columns: AgendaDataSource.columns,

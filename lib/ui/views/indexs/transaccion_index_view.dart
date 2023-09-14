@@ -19,7 +19,8 @@ class TransaccionIndexView extends StatefulWidget {
 class _TransaccionIndexViewState extends State<TransaccionIndexView> {
   @override
   void initState() {
-    Provider.of<TransaccionProvider>(context, listen: false).buscarTodos();
+    widget.data ??
+        Provider.of<TransaccionProvider>(context, listen: false).buscarTodos();
     super.initState();
   }
 
