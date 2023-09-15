@@ -1,6 +1,7 @@
 import 'package:agenda_front/api/agenda_api.dart';
 import 'package:agenda_front/models/entities/agenda.dart';
 import 'package:agenda_front/services/notifications_service.dart';
+import 'package:agenda_front/utils/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
@@ -20,13 +21,18 @@ class AgendaProvider extends ChangeNotifier {
     return agendas.where((element) => element.id.contains(id)).first;
   }
 
-  registrar(Map<String, dynamic> data) async {
-    // Si data tiene un campo ID y este tiene informacion
-    if (data.containsKey('ID') && data['ID'] != null) {
-      // Actualiza
-      await _actualizar(data['ID'], data);
-    } else {
-      await _guardar(data);
+  registrar() async {
+    // Se guardan los datos y se valida
+    if (formKey.currentState!.saveAndValidate()) {
+      // Datos guardados
+      var data = formKey.currentState!.value;
+      // Si data tiene un campo ID y este tiene informacion
+      if (data.containsKey('id') && data['id'] != null) {
+        // Actualiza
+        await _actualizar(data['id'], data);
+      } else {
+        await _guardar(data);
+      }
     }
   }
 
@@ -39,6 +45,7 @@ class AgendaProvider extends ChangeNotifier {
       NotificationsService.showSnackbar('Agregado a agendas');
     } catch (e) {
       NotificationsService.showSnackbarError('No agregado a agendas');
+      rethrow;
     }
   }
 
@@ -54,13 +61,14 @@ class AgendaProvider extends ChangeNotifier {
       NotificationsService.showSnackbar('Agenda actualizado');
     } catch (e) {
       NotificationsService.showSnackbarError('Agenda no actualizado');
+      rethrow;
     }
   }
 
   eliminar(String id) async {
     try {
       final json = await AgendaAPI.httpDelete('/agendas/$id', {});
-      final confirmado = json as bool;
+      final confirmado = json.toString().toBoolean();
       if (confirmado) {
         agendas.removeWhere((agenda) => agenda.id == id);
         notifyListeners();
@@ -70,13 +78,5 @@ class AgendaProvider extends ChangeNotifier {
       NotificationsService.showSnackbarError('Agenda no eliminado');
       rethrow;
     }
-  }
-
-  saveAndValidate() {
-    return formKey.currentState!.saveAndValidate();
-  }
-
-  formData() {
-    return formKey.currentState!.value;
   }
 }

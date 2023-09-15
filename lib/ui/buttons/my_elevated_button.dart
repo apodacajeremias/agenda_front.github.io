@@ -15,6 +15,10 @@ class MyElevatedButton extends StatelessWidget {
       MyElevatedButton(
           text: 'Editar', icon: Icons.edit_outlined, onPressed: onPressed);
 
+  factory MyElevatedButton.done({required Function onPressed}) =>
+      MyElevatedButton(
+          text: 'Listo', icon: Icons.done_outlined, onPressed: onPressed);
+
   @override
   Widget build(BuildContext context) {
     if (icon != null) {

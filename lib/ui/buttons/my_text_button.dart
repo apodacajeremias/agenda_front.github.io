@@ -9,6 +9,12 @@ class MyTextButton extends StatefulWidget {
   const MyTextButton({Key? key, required this.text, this.onPressed, this.color})
       : super(key: key);
 
+  factory MyTextButton.cancel({required Function onPressed}) =>
+      MyTextButton(text: 'No, cancelar', onPressed: onPressed);
+
+  factory MyTextButton.back({required Function onPressed}) =>
+      MyTextButton(text: 'Volver', onPressed: onPressed);
+
   @override
   State<MyTextButton> createState() => _MyTextButtonState();
 }

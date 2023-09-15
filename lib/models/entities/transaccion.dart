@@ -14,7 +14,7 @@ Transaccion transaccionFromJson(String str) =>
 String transaccionToJson(Transaccion data) => json.encode(data.toJson());
 
 class Transaccion {
-  String? id;
+  String id;
   bool? activo;
   String? nombre;
   DateTime? fechaCreacion;
@@ -32,7 +32,7 @@ class Transaccion {
   List<TransaccionDetalle>? detalles;
 
   Transaccion({
-    this.id,
+    required this.id,
     this.activo,
     this.nombre,
     this.fechaCreacion,

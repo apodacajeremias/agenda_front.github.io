@@ -2,7 +2,7 @@
 
 import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
-import 'package:agenda_front/ui/buttons/my_outlined_button.dart';
+import 'package:agenda_front/ui/buttons/my_text_button.dart';
 import 'package:flutter/material.dart';
 
 class FormFooter extends StatelessWidget {
@@ -16,16 +16,13 @@ class FormFooter extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-              child: MyElevatedButton(
-            text: 'Continuar',
-            icon: Icons.save,
-            onPressed: onConfirm,
-          )),
+              child: MyTextButton.cancel(
+                  onPressed: () => Navigator.of(context).pop())),
           SizedBox(width: defaultPadding),
           Expanded(
-              child: MyOutlinedButton(
-                  text: 'Cancelar',
-                  onPressed: () => Navigator.of(context).pop())),
+              child: MyElevatedButton.done(
+            onPressed: onConfirm,
+          )),
         ],
       ),
     );
