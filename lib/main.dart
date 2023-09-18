@@ -11,6 +11,7 @@ import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/providers/promocion_provider.dart';
 import 'package:agenda_front/providers/transaccion_provider.dart';
 import 'package:agenda_front/providers/user_provider.dart';
+import 'package:agenda_front/ui/layouts/profile/no_profile_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:form_builder_validators/localization/l10n.dart';
@@ -80,6 +81,10 @@ class Dashboard extends StatelessWidget {
 
         if (authProvider.authStatus == AuthStatus.checking) {
           return const SplashLayout();
+        }
+
+        if (authProvider.authStatus == AuthStatus.notProfile) {
+          return const NoProfileLayout();
         }
 
         if (authProvider.authStatus == AuthStatus.authenticated) {

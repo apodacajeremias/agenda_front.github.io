@@ -8,7 +8,7 @@ import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-enum AuthStatus { checking, authenticated, notAuthenticated }
+enum AuthStatus { checking, authenticated, notAuthenticated, notProfile }
 
 class AuthProvider extends ChangeNotifier {
   String? _token;
@@ -21,11 +21,7 @@ class AuthProvider extends ChangeNotifier {
 
   register(Map<String, dynamic> data) {
     AgendaAPI.httpPost('/auth/register', data).then((json) {
-      final authResponse = AuthenticationResponse.fromJson(json);
-      _token = authResponse.token;
-      persona = authResponse.user.persona;
-      authStatus = AuthStatus.authenticated;
-      LocalStorage.prefs.setString('token', _token!);
+      _login(json);
       NavigationService.replaceTo(Flurorouter.dashboardRoute);
       notifyListeners();
     }).catchError((e) {
@@ -37,11 +33,7 @@ class AuthProvider extends ChangeNotifier {
 
   authenticate(Map<String, dynamic> data) {
     AgendaAPI.httpPost('/auth/authenticate', data).then((json) {
-      final authResponse = AuthenticationResponse.fromJson(json);
-      _token = authResponse.token;
-      persona = authResponse.user.persona;
-      authStatus = AuthStatus.authenticated;
-      LocalStorage.prefs.setString('token', _token!);
+      _login(json);
       notifyListeners();
       NotificationsService.showSnackbar('Bienvenido');
     }).catchError((e) {
@@ -61,18 +53,12 @@ class AuthProvider extends ChangeNotifier {
     }
 
     try {
-      final resp = await AgendaAPI.httpGet('/auth/$token');
-      final authResponse = AuthenticationResponse.fromJson(resp);
-      LocalStorage.prefs.setString('token', authResponse.token);
-
-      persona = authResponse.user.persona;
-      authStatus = AuthStatus.authenticated;
+      final json = await AgendaAPI.httpGet('/auth/$token');
+      _login(json);
       notifyListeners();
       return true;
     } catch (e) {
-      print(e);
-      authStatus = AuthStatus.notAuthenticated;
-      notifyListeners();
+      logout();
       return false;
     }
   }
@@ -87,5 +73,14 @@ class AuthProvider extends ChangeNotifier {
       authStatus = AuthStatus.notAuthenticated;
       notifyListeners();
     });
+  }
+
+  _login(json) {
+    final authResponse = AuthenticationResponse.fromJson(json);
+    _token = authResponse.token;
+    persona = authResponse.user.persona;
+    authStatus = AuthStatus.authenticated;
+    LocalStorage.prefs.setString('token', _token!);
+    if (persona == null) authStatus = AuthStatus.notProfile;
   }
 }

@@ -15,7 +15,6 @@ class AuthLayout extends StatelessWidget {
 
     return Scaffold(
         body: Scrollbar(
-      // isAlwaysShown: true,
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
