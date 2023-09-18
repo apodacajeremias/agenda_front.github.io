@@ -10,7 +10,7 @@ import 'package:agenda_front/providers/item_provider.dart';
 import 'package:agenda_front/providers/persona_provider.dart';
 import 'package:agenda_front/providers/promocion_provider.dart';
 import 'package:agenda_front/providers/transaccion_provider.dart';
-import 'package:agenda_front/providers/usuario_provider.dart';
+import 'package:agenda_front/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:form_builder_validators/localization/l10n.dart';
@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => PersonaProvider()),
         ChangeNotifierProvider(create: (_) => PromocionProvider()),
         ChangeNotifierProvider(create: (_) => TransaccionProvider()),
-        ChangeNotifierProvider(create: (_) => UsuarioProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: const Dashboard(),
     );

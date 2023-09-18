@@ -1,10 +1,10 @@
-import 'package:agenda_front/models/security/usuario.dart';
+import 'package:agenda_front/models/security/user.dart';
 import 'package:flutter/material.dart';
 
 import 'package:agenda_front/services/navigation_service.dart';
 
 class UserDataSource extends DataTableSource {
-  final List<Usuario> users;
+  final List<User> users;
   final BuildContext context;
 
   UserDataSource(this.users, this.context);
@@ -18,7 +18,7 @@ class UserDataSource extends DataTableSource {
 
   @override
   DataRow getRow(int index) {
-    final Usuario user = users[index];
+    final User user = users[index];
     const image =
         Image(image: AssetImage('no-image.jpg'), width: 35, height: 35);
     return DataRow.byIndex(index: index, cells: [

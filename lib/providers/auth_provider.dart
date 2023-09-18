@@ -23,7 +23,7 @@ class AuthProvider extends ChangeNotifier {
     AgendaAPI.httpPost('/auth/register', data).then((json) {
       final authResponse = AuthenticationResponse.fromJson(json);
       _token = authResponse.token;
-      persona = authResponse.persona;
+      persona = authResponse.user.persona;
       authStatus = AuthStatus.authenticated;
       LocalStorage.prefs.setString('token', _token!);
       NavigationService.replaceTo(Flurorouter.dashboardRoute);
@@ -39,7 +39,7 @@ class AuthProvider extends ChangeNotifier {
     AgendaAPI.httpPost('/auth/authenticate', data).then((json) {
       final authResponse = AuthenticationResponse.fromJson(json);
       _token = authResponse.token;
-      persona = authResponse.persona;
+      persona = authResponse.user.persona;
       authStatus = AuthStatus.authenticated;
       LocalStorage.prefs.setString('token', _token!);
       notifyListeners();
@@ -62,10 +62,10 @@ class AuthProvider extends ChangeNotifier {
 
     try {
       final resp = await AgendaAPI.httpGet('/auth/$token');
-      final authReponse = AuthenticationResponse.fromJson(resp);
-      LocalStorage.prefs.setString('token', authReponse.token);
+      final authResponse = AuthenticationResponse.fromJson(resp);
+      LocalStorage.prefs.setString('token', authResponse.token);
 
-      persona = authReponse.persona;
+      persona = authResponse.user.persona;
       authStatus = AuthStatus.authenticated;
       notifyListeners();
       return true;

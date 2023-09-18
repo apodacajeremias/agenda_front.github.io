@@ -1,6 +1,6 @@
 import 'package:agenda_front/models/entities/persona.dart';
 
-class Usuario {
+class User {
   String? email;
   bool? changePassword;
   String? lastPasswordChange;
@@ -12,7 +12,7 @@ class Usuario {
   String? id;
   bool? enabled;
   Persona? persona;
-  Usuario(
+  User(
       {this.email,
       this.changePassword,
       this.lastPasswordChange,
@@ -25,7 +25,7 @@ class Usuario {
       this.enabled,
       this.persona});
 
-  factory Usuario.fromJson(Map<String, dynamic> json) => Usuario(
+  factory User.fromJson(Map<String, dynamic> json) => User(
       email: json['email'],
       changePassword: json['changePassword'],
       lastPasswordChange: json['lastPasswordChange'],

@@ -1,5 +1,5 @@
 import 'package:agenda_front/datasources/user_datasource.dart';
-import 'package:agenda_front/providers/usuario_provider.dart';
+import 'package:agenda_front/providers/user_provider.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/services/navigation_service.dart';
 import 'package:agenda_front/ui/buttons/my_elevated_button.dart';
@@ -17,13 +17,13 @@ class UsuarioIndexView extends StatefulWidget {
 class _UsuarioIndexViewState extends State<UsuarioIndexView> {
   @override
   void initState() {
-    Provider.of<UsuarioProvider>(context, listen: false).buscarTodos();
+    Provider.of<UserProvider>(context, listen: false).buscarTodos();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final data = Provider.of<UsuarioProvider>(context).usuarios;
+    final data = Provider.of<UserProvider>(context).users;
     return MyIndex(
       title: 'Users',
       columns: UserDataSource.columns,

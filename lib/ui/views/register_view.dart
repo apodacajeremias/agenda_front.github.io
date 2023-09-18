@@ -1,6 +1,6 @@
 import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/providers/auth_provider.dart';
-import 'package:agenda_front/providers/usuario_provider.dart';
+import 'package:agenda_front/providers/user_provider.dart';
 import 'package:agenda_front/routers/router.dart';
 import 'package:agenda_front/ui/buttons/my_outlined_button.dart';
 import 'package:agenda_front/ui/buttons/my_text_button.dart';
@@ -96,7 +96,7 @@ class RegisterView extends StatelessWidget {
                       if (formKey.currentState!.saveAndValidate()) {
                         final email =
                             formKey.currentState!.fields['email']!.value;
-                        if (await Provider.of<UsuarioProvider>(context,
+                        if (await Provider.of<UserProvider>(context,
                                 listen: false)
                             .existe(email)) {
                           formKey.currentState!.fields['email']

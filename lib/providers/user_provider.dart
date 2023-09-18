@@ -1,24 +1,24 @@
 import 'package:agenda_front/api/agenda_api.dart';
-import 'package:agenda_front/models/security/usuario.dart';
+import 'package:agenda_front/models/security/user.dart';
 import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
-class UsuarioProvider extends ChangeNotifier {
-  List<Usuario> usuarios = [];
+class UserProvider extends ChangeNotifier {
+  List<User> users = [];
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   buscarTodos() async {
     final response = await AgendaAPI.httpGet('/users');
-    List<Usuario> usuariosResponse =
-        List<Usuario>.from(response.map((model) => Usuario.fromJson(model)));
-    usuarios = [...usuariosResponse];
+    List<User> usersResponse =
+        List<User>.from(response.map((model) => User.fromJson(model)));
+    users = [...usersResponse];
     notifyListeners();
   }
 
-  Usuario? buscar(String id) {
-    return usuarios.where((element) => element.id!.contains(id)).first;
+  User? buscar(String id) {
+    return users.where((element) => element.id!.contains(id)).first;
   }
 
   registrar(Map<String, dynamic> data) async {
@@ -34,13 +34,13 @@ class UsuarioProvider extends ChangeNotifier {
   _guardar(Map<String, dynamic> data) async {
     try {
       final json = await AgendaAPI.httpPost('/users', data);
-      final usuario = Usuario.fromJson(json);
-      usuarios.add(usuario);
+      final usuario = User.fromJson(json);
+      users.add(usuario);
       notifyListeners();
-      NotificationsService.showSnackbar('Agregado a usuarios');
+      NotificationsService.showSnackbar('Agregado a users');
       return Future.value(usuario);
     } catch (e) {
-      NotificationsService.showSnackbarError('No agregado a usuarios');
+      NotificationsService.showSnackbarError('No agregado a users');
       rethrow;
     }
   }
@@ -48,16 +48,16 @@ class UsuarioProvider extends ChangeNotifier {
   _actualizar(String id, Map<String, dynamic> data) async {
     try {
       final json = await AgendaAPI.httpPut('/users/$id', data);
-      final usuario = Usuario.fromJson(json);
-      // Buscamos el index en lista del ID Usuario
-      final index = usuarios.indexWhere((element) => element.id!.contains(id));
+      final usuario = User.fromJson(json);
+      // Buscamos el index en lista del ID User
+      final index = users.indexWhere((element) => element.id!.contains(id));
       // Se substituye la informacion del index por la informacion actualizada
-      usuarios[index] = usuario;
+      users[index] = usuario;
       notifyListeners();
-      NotificationsService.showSnackbar('Usuario actualizado');
+      NotificationsService.showSnackbar('User actualizado');
       return Future.value(usuario);
     } catch (e) {
-      NotificationsService.showSnackbarError('Usuario no actualizado');
+      NotificationsService.showSnackbarError('User no actualizado');
       rethrow;
     }
   }
@@ -67,13 +67,13 @@ class UsuarioProvider extends ChangeNotifier {
       final json = await AgendaAPI.httpDelete('/users/$id', {});
       final confirmado = json as bool;
       if (confirmado) {
-        usuarios.removeWhere((usuario) => usuario.id == id);
+        users.removeWhere((usuario) => usuario.id == id);
         notifyListeners();
         NotificationsService.showSnackbar('1 usuario eliminado');
       }
       return Future.value(confirmado);
     } catch (e) {
-      NotificationsService.showSnackbarError('Usuario no eliminado');
+      NotificationsService.showSnackbarError('User no eliminado');
       rethrow;
     }
   }
