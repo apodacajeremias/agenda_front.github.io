@@ -1,4 +1,5 @@
 import 'package:agenda_front/api/agenda_api.dart';
+import 'package:agenda_front/models/entities/empresa.dart';
 import 'package:agenda_front/models/entities/persona.dart';
 import 'package:agenda_front/models/security/auth_response.dart';
 import 'package:agenda_front/routers/router.dart';
@@ -8,12 +9,19 @@ import 'package:agenda_front/services/notifications_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-enum AuthStatus { checking, authenticated, notAuthenticated, notProfile }
+enum AuthStatus {
+  checking,
+  authenticated,
+  notAuthenticated,
+  notProfile,
+  notConfigured
+}
 
 class AuthProvider extends ChangeNotifier {
   String? _token;
   AuthStatus authStatus = AuthStatus.checking;
   Persona? persona;
+  Empresa? empresa;
 
   AuthProvider() {
     isAuthenticated();
@@ -79,8 +87,10 @@ class AuthProvider extends ChangeNotifier {
     final authResponse = AuthenticationResponse.fromJson(json);
     _token = authResponse.token;
     persona = authResponse.user.persona;
+    empresa = authResponse.empresa;
     authStatus = AuthStatus.authenticated;
     LocalStorage.prefs.setString('token', _token!);
+    if (empresa == null) authStatus = AuthStatus.notConfigured;
     if (persona == null) authStatus = AuthStatus.notProfile;
   }
 }

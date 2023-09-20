@@ -2,7 +2,7 @@ import 'package:agenda_front/constants.dart';
 import 'package:flutter/material.dart';
 
 import 'package:agenda_front/ui/layouts/auth/widgets/custom_background.dart';
-import 'package:agenda_front/ui/layouts/auth/widgets/custom_title.dart';
+import 'package:agenda_front/ui/layouts/auth/widgets/my_title.dart';
 
 class AuthLayout extends StatelessWidget {
   final Widget child;
@@ -43,7 +43,7 @@ class _MobileBody extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const SizedBox(height: defaultPadding),
-          const CustomTitle(),
+          const MyTitle(title: 'Bienvenido', asset: 'logo.png'),
           SizedBox(
             width: double.infinity,
             height: 420,
@@ -83,7 +83,7 @@ class _DesktopBody extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: 50),
-                const CustomTitle(),
+                const MyTitle(title: 'Bienvenido', asset: 'logo.png'),
                 const SizedBox(height: 50),
                 Expanded(child: child),
               ],

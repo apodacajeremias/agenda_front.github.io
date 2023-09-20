@@ -12,7 +12,7 @@ Empresa empresaFromJson(String str) => Empresa.fromJson(json.decode(str));
 String empresaToJson(Empresa data) => json.encode(data.toJson());
 
 class Empresa {
-  String? id;
+  String id;
   bool? activo;
   String? nombre;
 
@@ -26,7 +26,7 @@ class Empresa {
   Idioma? idioma;
 
   Empresa(
-      {this.id,
+      {required this.id,
       this.activo,
       this.nombre,
       this.celular,

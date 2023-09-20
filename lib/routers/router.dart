@@ -1,5 +1,3 @@
-import 'package:agenda_front/providers/auth_provider.dart';
-import 'package:agenda_front/providers/sidemenu_provider.dart';
 import 'package:agenda_front/routers/admin_handlers.dart';
 import 'package:agenda_front/routers/agenda_handlers.dart';
 import 'package:agenda_front/routers/beneficio_handlers.dart';
@@ -11,10 +9,7 @@ import 'package:agenda_front/routers/no_page_found_handlers.dart';
 import 'package:agenda_front/routers/persona_handlers.dart';
 import 'package:agenda_front/routers/promocion_handlers.dart';
 import 'package:agenda_front/routers/transaccion_handlers.dart';
-import 'package:agenda_front/ui/views/login_view.dart';
 import 'package:fluro/fluro.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class Flurorouter {
   static const TransitionType _transitionType = TransitionType.native;
@@ -26,6 +21,8 @@ class Flurorouter {
   // Auth Router
   static String loginRoute = '/auth/login';
   static String registerRoute = '/auth/register';
+  // Configure
+  static String configureRoute = '/auth/configure';
 
   // Dashboard
   static String dashboardRoute = '/dashboard';
@@ -114,6 +111,8 @@ class Flurorouter {
         handler: AdminHandlers.login, transitionType: _transitionType);
     router.define(registerRoute,
         handler: AdminHandlers.register, transitionType: _transitionType);
+    router.define(configureRoute,
+        handler: AdminHandlers.configure, transitionType: _transitionType);
 
     // Dashboard
     router.define(dashboardRoute,
@@ -210,16 +209,5 @@ class Flurorouter {
 
     // 404
     router.notFoundHandler = NoPageFoundHandlers.noPageFound;
-  }
-
-  static Widget build(BuildContext context, String flurorouter, Widget child) {
-    final authProvider = Provider.of<AuthProvider>(context);
-    Provider.of<SideMenuProvider>(context, listen: false)
-        .setCurrentPageUrl(flurorouter);
-    if (authProvider.authStatus == AuthStatus.authenticated) {
-      return child;
-    } else {
-      return const LoginView();
-    }
   }
 }

@@ -1,12 +1,10 @@
-// ignore_for_file: prefer_const_constructors
-
-import 'dart:math';
-
 import 'package:agenda_front/constants.dart';
 import 'package:flutter/material.dart';
 
-class CustomTitle extends StatelessWidget {
-  const CustomTitle({super.key});
+class MyTitle extends StatelessWidget {
+  final String title;
+  final String asset;
+  const MyTitle({super.key, required this.title, required this.asset});
 
   @override
   Widget build(BuildContext context) {
@@ -16,23 +14,17 @@ class CustomTitle extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image(
-            image: AssetImage('logo.png'),
+            image: AssetImage(asset),
             width: 50,
             height: 50,
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: defaultPadding),
           FittedBox(
             fit: BoxFit.contain,
-            child: Text('Bienvenido',
-                style: Theme.of(context).textTheme.displaySmall),
+            child: Text(title, style: Theme.of(context).textTheme.displaySmall),
           )
         ],
       ),
     );
-  }
-
-  _buildAsset(String asset, int max, {int min = 1}) {
-    int random = Random().nextInt(max) + min;
-    return '$asset-$random';
   }
 }

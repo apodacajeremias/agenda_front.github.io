@@ -84,7 +84,7 @@ class Dashboard extends StatelessWidget {
         }
 
         if (authProvider.authStatus == AuthStatus.notProfile) {
-          return const NoProfileLayout();
+          return NoProfileLayout(child: child!);
         }
 
         if (authProvider.authStatus == AuthStatus.authenticated) {

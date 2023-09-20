@@ -16,8 +16,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class EmpresaFormView extends StatelessWidget {
-  final Empresa empresa;
-  const EmpresaFormView({super.key, required this.empresa});
+  final Empresa? empresa;
+  const EmpresaFormView({super.key, this.empresa});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class EmpresaFormView extends StatelessWidget {
               key: provider.formKey,
               child: Column(
                 children: [
-                  if (empresa.id != null) ...[
+                  if (empresa?.id != null) ...[
                     const SizedBox(height: defaultPadding),
                     Row(
                       children: [
@@ -41,7 +41,7 @@ class EmpresaFormView extends StatelessWidget {
                             flex: 2,
                             child: FormBuilderTextField(
                               name: 'ID',
-                              initialValue: empresa.id,
+                              initialValue: empresa?.id,
                               enabled: false,
                               decoration: CustomInputs.form(
                                   label: 'ID', hint: 'ID', icon: Icons.qr_code),
@@ -51,7 +51,7 @@ class EmpresaFormView extends StatelessWidget {
                             child: FormBuilderSwitch(
                           name: 'activo',
                           title: const Text('Estado del registro'),
-                          initialValue: empresa.activo,
+                          initialValue: empresa?.activo,
                           decoration: CustomInputs.noBorder(),
                         )),
                       ],
@@ -59,8 +59,8 @@ class EmpresaFormView extends StatelessWidget {
                   ],
                   FormBuilderTextField(
                     name: 'nombre',
-                    initialValue: empresa.nombre,
-                    enabled: empresa.activo ?? true,
+                    initialValue: empresa?.nombre,
+                    enabled: empresa?.activo ?? true,
                     decoration: CustomInputs.form(
                         label: 'Nombre de la empresa',
                         hint: 'Nombre con el cual actua la empresa',
@@ -69,8 +69,8 @@ class EmpresaFormView extends StatelessWidget {
                   SizedBox(height: defaultPadding),
                   FormBuilderTextField(
                     name: 'direccion',
-                    initialValue: empresa.direccion,
-                    enabled: empresa.activo ?? true,
+                    initialValue: empresa?.direccion,
+                    enabled: empresa?.activo ?? true,
                     decoration: CustomInputs.form(
                         label: 'Dirrecion de la empresa',
                         hint: 'Calles, barrio, estado, pais.',
@@ -85,7 +85,7 @@ class EmpresaFormView extends StatelessWidget {
                       Expanded(
                           child: FormBuilderTextField(
                         name: 'celular',
-                        enabled: empresa.activo ?? true,
+                        enabled: empresa?.activo ?? true,
                         decoration: CustomInputs.form(
                             label: 'Celular',
                             hint: 'Celular de contacto',
@@ -95,7 +95,7 @@ class EmpresaFormView extends StatelessWidget {
                       Expanded(
                           child: FormBuilderTextField(
                         name: 'telefono',
-                        enabled: empresa.activo ?? true,
+                        enabled: empresa?.activo ?? true,
                         decoration: CustomInputs.form(
                             label: 'Telefono',
                             hint: 'Telefono de contacto',
@@ -109,7 +109,7 @@ class EmpresaFormView extends StatelessWidget {
                       Expanded(
                           child: FormBuilderDateTimePicker(
                         name: 'fechaInauguracion',
-                        enabled: empresa.activo ?? true,
+                        enabled: empresa?.activo ?? true,
                         decoration: CustomInputs.form(
                             label: 'Fecha de Inauguracion',
                             hint: 'Inicio de las actividades',
@@ -119,7 +119,7 @@ class EmpresaFormView extends StatelessWidget {
                       Expanded(
                           child: FormBuilderTextField(
                         name: 'registroContribuyente',
-                        enabled: empresa.activo ?? true,
+                        enabled: empresa?.activo ?? true,
                         decoration: CustomInputs.form(
                             label: 'Registro de Contribuyente',
                             hint: 'RUC, CNPJ, RUT',
