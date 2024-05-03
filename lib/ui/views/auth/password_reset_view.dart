@@ -17,7 +17,7 @@ class PasswordResetView extends StatelessWidget {
     final formKey = GlobalKey<FormBuilderState>();
     final provider = Provider.of<AuthProvider>(context, listen: false);
     return Container(
-      margin: const EdgeInsets.only(top: maximunSizing),
+      margin: const EdgeInsets.only(top: maximumSizing),
       padding: const EdgeInsets.symmetric(horizontal: defaultSizing),
       child: Center(
         child: ConstrainedBox(

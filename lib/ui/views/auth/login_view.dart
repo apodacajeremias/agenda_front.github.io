@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
+import 'package:agenda_front/translate.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -17,7 +18,7 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormBuilderState>();
     return Container(
-      margin: const EdgeInsets.only(top: maximunSizing),
+      margin: const EdgeInsets.only(top: maximumSizing),
       padding: const EdgeInsets.symmetric(horizontal: defaultSizing),
       child: Center(
         child: ConstrainedBox(
@@ -30,17 +31,19 @@ class LoginView extends StatelessWidget {
                   FormBuilderTextField(
                     name: "email",
                     decoration: CustomInputs.form(
-                        label: 'Correo electrónico',
-                        hint: 'Ingrese su correo',
+                        label: AppLocalizations.of(context)!.correoTag,
+                        hint: AppLocalizations.of(context)!.correoHint,
                         icon: Icons.supervised_user_circle_sharp),
                     autofillHints: const [AutofillHints.email],
                     keyboardType: TextInputType.emailAddress,
                     validator: FormBuilderValidators.compose(
                       [
                         FormBuilderValidators.required(
-                            errorText: 'Correo electrónico obligatorio.'),
+                            errorText: AppLocalizations.of(context)!
+                                .correoObligatorio),
                         FormBuilderValidators.email(
-                            errorText: 'El correo no es correcto.'),
+                            errorText:
+                                AppLocalizations.of(context)!.correoInvalido),
                       ],
                     ),
                   ),
@@ -49,19 +52,20 @@ class LoginView extends StatelessWidget {
                   FormBuilderTextField(
                     name: "password",
                     decoration: CustomInputs.form(
-                        label: 'Contraseña de seguridad',
+                        label: AppLocalizations.of(context)!.contrasenaTag,
                         hint: '********',
                         icon: Icons.lock),
                     autofillHints: const [AutofillHints.password],
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(
-                          errorText: 'Debe repetir la contraseña.'),
+                          errorText: AppLocalizations.of(context)!
+                              .contrasenaObligatoria),
                       FormBuilderValidators.minLength(8,
-                          errorText:
-                              'La contraseña debe tener minimo 8 caracteres'),
+                          errorText: AppLocalizations.of(context)!
+                              .contrasenaSinLargor('min')),
                       FormBuilderValidators.maxLength(30,
-                          errorText:
-                              'La contraseña debe tener maximo 30 caracteres')
+                          errorText: AppLocalizations.of(context)!
+                              .contrasenaSinLargor('max'))
                     ]),
                     obscureText: true,
                   ),
@@ -73,11 +77,11 @@ class LoginView extends StatelessWidget {
                             .authenticate(formKey.currentState!.value);
                       }
                     },
-                    text: 'Ingresar',
+                    text: AppLocalizations.of(context)!.ingresar,
                   ),
                   const SizedBox(height: defaultSizing),
                   LinkButton(
-                    text: 'Nueva cuenta',
+                    text: AppLocalizations.of(context)!.nuevaCuenta,
                     onPressed: () {
                       Navigator.pushReplacementNamed(
                           context, RouterService.registerRoute);

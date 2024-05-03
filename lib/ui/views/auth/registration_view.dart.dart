@@ -1,6 +1,7 @@
 import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/providers.dart';
 import 'package:agenda_front/services.dart';
+import 'package:agenda_front/translate.dart';
 import 'package:agenda_front/ui/custom_inputs.dart';
 import 'package:agenda_front/ui/widgets/link_button.dart';
 import 'package:agenda_front/ui/widgets/outlined_button.dart';
@@ -18,7 +19,7 @@ class RegistrationView extends StatelessWidget {
     final formKey = GlobalKey<FormBuilderState>();
     final provider = Provider.of<AuthProvider>(context, listen: false);
     return Container(
-      margin: const EdgeInsets.only(top: maximunSizing),
+      margin: const EdgeInsets.only(top: maximumSizing),
       padding: const EdgeInsets.symmetric(horizontal: defaultSizing),
       child: Center(
         child: ConstrainedBox(
@@ -30,14 +31,16 @@ class RegistrationView extends StatelessWidget {
                   FormBuilderTextField(
                     name: "email",
                     decoration: CustomInputs.form(
-                        label: 'Correo electrónico',
-                        hint: 'Ingrese su correo',
+                        label: AppLocalizations.of(context)!.correoTag,
+                        hint: AppLocalizations.of(context)!.correoHint,
                         icon: Icons.supervised_user_circle_sharp),
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(
-                          errorText: 'Correo electrónico obligatorio.'),
+                          errorText:
+                              AppLocalizations.of(context)!.correoObligatorio),
                       FormBuilderValidators.email(
-                          errorText: 'El correo no es correcto.'),
+                          errorText:
+                              AppLocalizations.of(context)!.correoInvalido),
                     ]),
                   ),
 
@@ -46,18 +49,19 @@ class RegistrationView extends StatelessWidget {
                   FormBuilderTextField(
                     name: "password",
                     decoration: CustomInputs.form(
-                        label: 'Contraseña de seguridad',
+                        label: AppLocalizations.of(context)!.contrasenaTag,
                         hint: '********',
                         icon: Icons.lock),
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(
-                          errorText: 'Contraseña obligatoria.'),
+                          errorText: AppLocalizations.of(context)!
+                              .contrasenaObligatoria),
                       FormBuilderValidators.minLength(8,
-                          errorText:
-                              'La contraseña debe tener minimo 8 caracteres'),
+                          errorText: AppLocalizations.of(context)!
+                              .contrasenaSinLargor('min')),
                       FormBuilderValidators.maxLength(30,
-                          errorText:
-                              'La contraseña debe tener maximo 30 caracteres')
+                          errorText: AppLocalizations.of(context)!
+                              .contrasenaSinLargor('max'))
                     ]),
                     obscureText: true,
                   ),
@@ -66,24 +70,27 @@ class RegistrationView extends StatelessWidget {
                   FormBuilderTextField(
                     name: "matchingPassword",
                     decoration: CustomInputs.form(
-                        label: 'Repita la contraseña de seguridad',
+                        label:
+                            AppLocalizations.of(context)!.contrasenaRepetirTag,
                         hint: '********',
                         icon: Icons.lock_outline),
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(
-                          errorText: 'Debe repetir la contraseña.'),
+                          errorText: AppLocalizations.of(context)!
+                              .contrasenaRepetidaObligatoria),
                       FormBuilderValidators.minLength(8,
-                          errorText:
-                              'La contraseña debe tener minimo 8 caracteres'),
+                          errorText: AppLocalizations.of(context)!
+                              .contrasenaSinLargor('min')),
                       FormBuilderValidators.maxLength(30,
-                          errorText:
-                              'La contraseña debe tener maximo 30 caracteres'),
+                          errorText: AppLocalizations.of(context)!
+                              .contrasenaSinLargor('max')),
                       (matchingPassword) {
                         final password =
                             formKey.currentState?.fields['password']!.value;
                         return password.contains(matchingPassword)
                             ? null
-                            : 'Las contraseñas no coinciden';
+                            : AppLocalizations.of(context)!
+                                .contrasenaRepetidaInvalida;
                       }
                     ]),
                     obscureText: true,
@@ -98,20 +105,23 @@ class RegistrationView extends StatelessWidget {
                         if (await Provider.of<UserProvider>(context,
                                 listen: false)
                             .existe(email)) {
-                          formKey.currentState!.fields['email']
-                              ?.invalidate('Correo no disponible.');
+                          if (context.mounted) {
+                            formKey.currentState!.fields['email']?.invalidate(
+                                AppLocalizations.of(context)!
+                                    .correoNoDisponible);
+                          }
                           return;
                         } else {
                           await provider.register(formKey.currentState!.value);
                         }
                       }
                     },
-                    text: 'Crear cuenta',
+                    text: AppLocalizations.of(context)!.crearCuenta,
                   ),
 
                   const SizedBox(height: defaultSizing),
                   LinkButton(
-                    text: 'Ir al login',
+                    text: AppLocalizations.of(context)!.irLogin,
                     onPressed: () {
                       Navigator.pushReplacementNamed(
                           context, RouterService.loginRoute);

@@ -16,8 +16,8 @@
   "@recordarme": {
     "description": "Mensaje del boton de login recordarme"
   },
-  "entrar": "Entrar",
-  "@entrar": {
+  "ingresar": "Ingresar",
+  "@ingresar": {
     "description": "Mensaje de iniciar sesión"
   },
   "olvideMiContrasena": "Olvidé mi contraseña",
@@ -31,5 +31,80 @@
   "paginaNoEncontrada": "404 - Página no encontrada",
   "@paginaNoEncontrada": {
     "description": "Aviso de página no encontrada"
+  },
+  "registroConfirmado": "Registro confirmado exitosamente",
+  "@registroConfirmado": {
+    "description": "Registro confirmado"
+  },
+  "registroConfirmadoSub": "Agradecemos su registro, faltan pocos datos para lograr la experiencia más completa",
+  "@registroConfirmadoSub": {
+    "description": "registroConfirmadoSub"
+  },
+  "nuevaCuenta": "Nueva cuenta",
+  "@nuevaCuenta": {
+    "description": "nuevaCuenta"
+  },
+  "crearCuenta": "Crear cuenta",
+  "@crearCuenta": {
+    "description": "crearCuenta"
+  },
+  "irLogin": "Ir al login",
+  "@irLogin": {
+    "description": "irLogin"
+  },
+  "reenviarConfirmacion": "Solicitar reenvio de confirmación",
+  "@reenviarConfirmacion": {
+    "description": "reenviarConfirmacion"
+  },
+  "correoTag": "Correo electrónico",
+  "@correoTag": {
+    "description": "correoTag"
+  },
+  "correoHint": "Ingrese un correo",
+  "@correoHint": {
+    "description": "correoHint"
+  },
+  "correoObligatorio": "Correo obligatorio",
+  "@correoObligatorio": {
+    "description": "correoObligatorio"
+  },
+  "correoInvalido": "Correo inválido",
+  "@correoInvalido": {
+    "description": "correoInvalido"
+  },
+  "correoNoDisponible": "Correo no disponible",
+  "@correoNoDisponible": {
+    "description": "correoNoDisponible"
+  },
+  "correoNoExiste": "Correo no existe",
+  "@correoNoExiste": {
+    "description": "correoNoExiste"
+  },
+  "contrasenaTag": "Contraseña de seguridad",
+  "@contrasenaTag": {
+    "description": "contrasenaTag"
+  },
+  "contrasenaObligatoria": "Debe ingresar una contraseña",
+  "@contrasenaObligatoria": {
+    "description": "contrasenaObligatoria"
+  },
+  "contrasenaSinLargor": "{largor, select, min{La contraseña debe tener al menos 8 caracteres} max{La contraseña debe tener hasta 30 caracteres} other{'La contraseña no tiene el largor esperado'}}",
+  "@contrasenaSinLargor": {
+    "description": "contrasenaSinLargor",
+    "placeholders": {
+      "largor": {}
+    }
+  },
+  "contrasenaRepetirTag": "Repita la contraseña de seguridad",
+  "@contrasenaRepetirTag": {
+    "description": "contrasenaRepetirTag"
+  },
+  "contrasenaRepetidaObligatoria": "Debe repetir la contraseña",
+  "@contrasenaRepetidaObligatoria": {
+    "description": "contrasenaRepetidaObligatoria"
+  },
+  "contrasenaRepetidaInvalida": "Las contraseñas no coinciden",
+  "@contrasenaRepetidaInvalida": {
+    "description": "contrasenaRepetidaInvalida"
   }
 }
