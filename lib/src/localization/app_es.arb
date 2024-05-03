@@ -1,0 +1,35 @@
+{
+  "@@locale": "es",
+  "appTitle": "Agendate",
+  "@appTitle": {
+    "description": "Titulo de la app"
+  },
+  "bienvenido": "Bienvenido",
+  "@bienvenido": {
+    "description": "Mensaje de bienvenido"
+  },
+  "iniciarSesion": "Inicia sesión para acceder",
+  "@iniciarSesion": {
+    "description": "Mensaje de iniciar sesión"
+  },
+  "recordarme": "Recordarme",
+  "@recordarme": {
+    "description": "Mensaje del boton de login recordarme"
+  },
+  "entrar": "Entrar",
+  "@entrar": {
+    "description": "Mensaje de iniciar sesión"
+  },
+  "olvideMiContrasena": "Olvidé mi contraseña",
+  "@olvideMiContrasena": {
+    "description": "Mensaje de boton de olvide mi contrasena"
+  },
+  "registrarNuevaMembresia": "Registrar nueva membresía",
+  "@registrarNuevaMembresia": {
+    "description": "Mensaje de boton de registrarse"
+  },
+  "paginaNoEncontrada": "404 - Página no encontrada",
+  "@paginaNoEncontrada": {
+    "description": "Aviso de página no encontrada"
+  }
+}

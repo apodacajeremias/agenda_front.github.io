@@ -1,0 +1,1 @@
+// TODO: para que el usuario confirme el registro hecho en registration_view.dart
