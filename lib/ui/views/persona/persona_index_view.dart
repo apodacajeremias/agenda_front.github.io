@@ -29,7 +29,7 @@ class _PersonaIndexViewState extends State<PersonaIndexView> {
       columns: PersonaDataSource.columns,
       source: PersonaDataSource(data, context),
       actions: [
-        EButton.create(
+        EButton.registrar(
             onPressed: () =>
                 NavigationService.navigateTo(RouterService.personasCreateRoute))
       ],

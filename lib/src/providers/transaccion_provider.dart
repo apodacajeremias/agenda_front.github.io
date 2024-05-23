@@ -9,7 +9,7 @@ class TransaccionProvider extends ChangeNotifier {
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   buscarTodos() async {
-    final response = await ServerConection.httpGet('/transacciones');
+    final response = await ServerConnection.httpGet('/transacciones');
     List<Transaccion> transaccionesResponse = List<Transaccion>.from(
         response.map((model) => Transaccion.fromJson(model)));
     transacciones = [...transaccionesResponse];
@@ -37,7 +37,7 @@ class TransaccionProvider extends ChangeNotifier {
 
   _guardar(Map<String, dynamic> data) async {
     try {
-      final json = await ServerConection.httpPost('/transacciones', data);
+      final json = await ServerConnection.httpPost('/transacciones', data);
       final transaccion = Transaccion.fromJson(json);
       transacciones.add(transaccion);
       notifyListeners();
@@ -50,7 +50,7 @@ class TransaccionProvider extends ChangeNotifier {
 
   _actualizar(String id, Map<String, dynamic> data) async {
     try {
-      final json = await ServerConection.httpPut('/transacciones/$id', data);
+      final json = await ServerConnection.httpPut('/transacciones/$id', data);
       final transaccion = Transaccion.fromJson(json);
       // Buscamos el index en lista del ID Transaccion
       final index =
@@ -67,7 +67,7 @@ class TransaccionProvider extends ChangeNotifier {
 
   eliminar(String id) async {
     try {
-      final json = await ServerConection.httpDelete('/transacciones/$id', {});
+      final json = await ServerConnection.httpDelete('/transacciones/$id', {});
       final confirmado = json.toString().toBoolean();
       if (confirmado) {
         transacciones.removeWhere((transaccion) => transaccion.id == id);

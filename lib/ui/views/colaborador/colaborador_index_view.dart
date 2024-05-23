@@ -28,7 +28,7 @@ class _ColaboradorIndexViewState extends State<ColaboradorIndexView> {
       columns: ColaboradorDataSource.columns,
       source: ColaboradorDataSource(data, context),
       actions: [
-        EButton.create(
+        EButton.registrar(
             onPressed: () => NavigationService.navigateTo(
                 RouterService.colaboradoresCreateRoute))
       ],

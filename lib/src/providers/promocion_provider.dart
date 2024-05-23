@@ -8,7 +8,7 @@ class PromocionProvider extends ChangeNotifier {
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   buscarTodos() async {
-    final response = await ServerConection.httpGet('/promociones');
+    final response = await ServerConnection.httpGet('/promociones');
     List<Promocion> promocionesResponse = List<Promocion>.from(
         response.map((model) => Promocion.fromJson(model)));
     promociones = [...promocionesResponse];
@@ -31,7 +31,7 @@ class PromocionProvider extends ChangeNotifier {
 
   _guardar(Map<String, dynamic> data) async {
     try {
-      final json = await ServerConection.httpPost('/promociones', data);
+      final json = await ServerConnection.httpPost('/promociones', data);
       final promocion = Promocion.fromJson(json);
       promociones.add(promocion);
       notifyListeners();
@@ -44,7 +44,7 @@ class PromocionProvider extends ChangeNotifier {
 
   _actualizar(String id, Map<String, dynamic> data) async {
     try {
-      final json = await ServerConection.httpPut('/promociones/$id', data);
+      final json = await ServerConnection.httpPut('/promociones/$id', data);
       final promocion = Promocion.fromJson(json);
       // Buscamos el index en lista del ID Promocion
       final index =
@@ -61,7 +61,7 @@ class PromocionProvider extends ChangeNotifier {
 
   eliminar(String id) async {
     try {
-      final json = await ServerConection.httpDelete('/promociones/$id', {});
+      final json = await ServerConnection.httpDelete('/promociones/$id', {});
       final confirmado = json as bool;
       if (confirmado) {
         promociones.removeWhere((promocion) => promocion.id == id);

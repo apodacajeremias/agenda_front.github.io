@@ -9,7 +9,7 @@ class AgendaProvider extends ChangeNotifier {
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   buscarTodos() async {
-    final response = await ServerConection.httpGet('/agendas');
+    final response = await ServerConnection.httpGet('/agendas');
     List<Agenda> agendasResponse =
         List<Agenda>.from(response.map((model) => Agenda.fromJson(model)));
     agendas = [...agendasResponse];
@@ -37,7 +37,7 @@ class AgendaProvider extends ChangeNotifier {
 
   _guardar(Map<String, dynamic> data) async {
     try {
-      final json = await ServerConection.httpPost('/agendas', data);
+      final json = await ServerConnection.httpPost('/agendas', data);
       final agenda = Agenda.fromJson(json);
       agendas.add(agenda);
       notifyListeners();
@@ -50,7 +50,7 @@ class AgendaProvider extends ChangeNotifier {
 
   _actualizar(String id, Map<String, dynamic> data) async {
     try {
-      final json = await ServerConection.httpPut('/agendas/$id', data);
+      final json = await ServerConnection.httpPut('/agendas/$id', data);
       final agenda = Agenda.fromJson(json);
       // Buscamos el index en lista del ID Agenda
       final index = agendas.indexWhere((element) => element.id.contains(id));
@@ -66,7 +66,7 @@ class AgendaProvider extends ChangeNotifier {
 
   eliminar(String id) async {
     try {
-      final json = await ServerConection.httpDelete('/agendas/$id', {});
+      final json = await ServerConnection.httpDelete('/agendas/$id', {});
       final confirmado = json.toString().toBoolean();
       if (confirmado) {
         agendas.removeWhere((agenda) => agenda.id == id);

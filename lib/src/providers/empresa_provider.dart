@@ -8,7 +8,7 @@ class EmpresaProvider extends ChangeNotifier {
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   buscarTodos() async {
-    final response = await ServerConection.httpGet('/empresas');
+    final response = await ServerConnection.httpGet('/empresas');
     List<Empresa> empresasResponse =
         List<Empresa>.from(response.map((model) => Empresa.fromJson(model)));
     empresas = [...empresasResponse];
@@ -31,7 +31,7 @@ class EmpresaProvider extends ChangeNotifier {
 
   _guardar(Map<String, dynamic> data) async {
     try {
-      final json = await ServerConection.httpPost('/empresas', data);
+      final json = await ServerConnection.httpPost('/empresas', data);
       final empresa = Empresa.fromJson(json);
       empresas.add(empresa);
       notifyListeners();
@@ -44,7 +44,7 @@ class EmpresaProvider extends ChangeNotifier {
 
   _actualizar(String id, Map<String, dynamic> data) async {
     try {
-      final json = await ServerConection.httpPut('/empresas/$id', data);
+      final json = await ServerConnection.httpPut('/empresas/$id', data);
       final empresa = Empresa.fromJson(json);
       // Buscamos el index en lista del ID Empresa
       final index = empresas.indexWhere((element) => element.id.contains(id));
@@ -60,7 +60,7 @@ class EmpresaProvider extends ChangeNotifier {
 
   eliminar(String id) async {
     try {
-      final json = await ServerConection.httpDelete('/empresas/$id', {});
+      final json = await ServerConnection.httpDelete('/empresas/$id', {});
       final confirmado = json as bool;
       if (confirmado) {
         empresas.removeWhere((empresa) => empresa.id == id);

@@ -10,17 +10,11 @@ class AuthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Scaffold(
         body: Scrollbar(
       child: ListView(
         physics: const ClampingScrollPhysics(),
-        children: [
-          (size.width > 1000)
-              ? _DesktopBody(child: child)
-              : _MobileBody(child: child),
-        ],
+        children: [child],
       ),
     ));
   }
@@ -38,12 +32,6 @@ class _MobileBody extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(height: defaultSizing),
-          Text(AppLocalizations.of(context)!.appTitle,
-              style: context.headlineLarge),
-          const SizedBox(height: defaultSizing),
-          Text(AppLocalizations.of(context)!.bienvenido,
-              style: context.titleLarge),
           SizedBox(
             width: double.infinity,
             height: 420,

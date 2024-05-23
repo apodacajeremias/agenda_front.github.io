@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:agenda_front/providers.dart';
 import 'package:agenda_front/services.dart';
 import 'package:agenda_front/translate.dart';
@@ -6,13 +8,15 @@ import 'package:agenda_front/ui/pages/dashboard_page.dart';
 import 'package:agenda_front/ui/pages/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 
 //TODO: Llenar en archivo .arb con las etiquetas y sus traducciones
 void main() async {
+  usePathUrlStrategy();
   // Configurar cache
   await LocalStorage.configurePrefs();
   // Configurar conexion con servidor
-  ServerConection.configureDio();
+  ServerConnection.configureDio();
   // Configure paths
   RouterService.configure();
   // Run the app.
@@ -97,7 +101,9 @@ class MyApp extends StatelessWidget {
     return switch (authProvider.authStatus) {
       AuthStatus.checking => const SplashPage(),
       AuthStatus.authenticated => DashboardPage(child!),
-      AuthStatus.notAuthenticated => AuthPage(child!)
+      AuthStatus.notAuthenticated => AuthPage(child!),
+      AuthStatus.notProfile => AuthPage(child!),
+      AuthStatus.notConfigured => AuthPage(child!)
     };
   }
 }

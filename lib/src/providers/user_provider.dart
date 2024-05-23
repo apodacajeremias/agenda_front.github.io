@@ -9,7 +9,7 @@ class UserProvider extends ChangeNotifier {
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   buscarTodos() async {
-    final response = await ServerConection.httpGet('/users');
+    final response = await ServerConnection.httpGet('/users');
     List<User> usersResponse =
         List<User>.from(response.map((model) => User.fromJson(model)));
     users = [...usersResponse];
@@ -32,7 +32,7 @@ class UserProvider extends ChangeNotifier {
 
   _guardar(Map<String, dynamic> data) async {
     try {
-      final json = await ServerConection.httpPost('/users', data);
+      final json = await ServerConnection.httpPost('/users', data);
       final usuario = User.fromJson(json);
       users.add(usuario);
       notifyListeners();
@@ -46,7 +46,7 @@ class UserProvider extends ChangeNotifier {
 
   _actualizar(String id, Map<String, dynamic> data) async {
     try {
-      final json = await ServerConection.httpPut('/users/$id', data);
+      final json = await ServerConnection.httpPut('/users/$id', data);
       final usuario = User.fromJson(json);
       // Buscamos el index en lista del ID User
       final index = users.indexWhere((element) => element.id!.contains(id));
@@ -63,7 +63,7 @@ class UserProvider extends ChangeNotifier {
 
   eliminar(String id) async {
     try {
-      final json = await ServerConection.httpDelete('/users/$id', {});
+      final json = await ServerConnection.httpDelete('/users/$id', {});
       final confirmado = json as bool;
       if (confirmado) {
         users.removeWhere((usuario) => usuario.id == id);
@@ -77,9 +77,10 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> existe(String email) async {
+  existe(String email) async {
     try {
-      return await ServerConection.httpGet('/users/existeEmail/$email');
+      bool r = await ServerConnection.httpGet('/users/existeEmail/$email');
+      return r;
     } catch (e) {
       if (kDebugMode) {
         print(e);

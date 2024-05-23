@@ -8,7 +8,7 @@ class GrupoProvider extends ChangeNotifier {
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   buscarTodos() async {
-    final response = await ServerConection.httpGet('/grupos');
+    final response = await ServerConnection.httpGet('/grupos');
     List<Grupo> gruposResponse =
         List<Grupo>.from(response.map((model) => Grupo.fromJson(model)));
     grupos = [...gruposResponse];
@@ -31,7 +31,7 @@ class GrupoProvider extends ChangeNotifier {
 
   _guardar(Map<String, dynamic> data) async {
     try {
-      final json = await ServerConection.httpPost('/grupos', data);
+      final json = await ServerConnection.httpPost('/grupos', data);
       final grupo = Grupo.fromJson(json);
       grupos.add(grupo);
       notifyListeners();
@@ -44,7 +44,7 @@ class GrupoProvider extends ChangeNotifier {
 
   _actualizar(String id, Map<String, dynamic> data) async {
     try {
-      final json = await ServerConection.httpPut('/grupos/$id', data);
+      final json = await ServerConnection.httpPut('/grupos/$id', data);
       final grupo = Grupo.fromJson(json);
       // Buscamos el index en lista del ID Grupo
       final index = grupos.indexWhere((element) => element.id!.contains(id));
@@ -60,7 +60,7 @@ class GrupoProvider extends ChangeNotifier {
 
   eliminar(String id) async {
     try {
-      final json = await ServerConection.httpDelete('/grupos/$id', {});
+      final json = await ServerConnection.httpDelete('/grupos/$id', {});
       final confirmado = json as bool;
       if (confirmado) {
         grupos.removeWhere((grupo) => grupo.id == id);

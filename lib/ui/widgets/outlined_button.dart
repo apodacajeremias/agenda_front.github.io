@@ -1,3 +1,5 @@
+import 'package:agenda_front/providers.dart';
+import 'package:agenda_front/services.dart';
 import 'package:flutter/material.dart';
 
 class OButton extends StatelessWidget {
@@ -5,6 +7,14 @@ class OButton extends StatelessWidget {
   final IconData? icon;
   final Function? onPressed;
   const OButton({super.key, required this.text, this.icon, this.onPressed});
+
+  factory OButton.salir(AuthProvider provider) => OButton(
+      text: 'Salir',
+      icon: Icons.logout_outlined,
+      onPressed: () async {
+        await provider.logout();
+        NavigationService.replaceTo(RouterService.rootRoute);
+      });
 
   @override
   Widget build(BuildContext context) {

@@ -8,7 +8,7 @@ class BeneficioProvider extends ChangeNotifier {
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   buscarTodos() async {
-    final response = await ServerConection.httpGet('/beneficios');
+    final response = await ServerConnection.httpGet('/beneficios');
     List<Beneficio> beneficiosResponse = List<Beneficio>.from(
         response.map((model) => Beneficio.fromJson(model)));
     beneficios = [...beneficiosResponse];
@@ -31,7 +31,7 @@ class BeneficioProvider extends ChangeNotifier {
 
   _guardar(Map<String, dynamic> data) async {
     try {
-      final json = await ServerConection.httpPost('/beneficios', data);
+      final json = await ServerConnection.httpPost('/beneficios', data);
       final beneficio = Beneficio.fromJson(json);
       beneficios.add(beneficio);
       notifyListeners();
@@ -44,7 +44,7 @@ class BeneficioProvider extends ChangeNotifier {
 
   _actualizar(String id, Map<String, dynamic> data) async {
     try {
-      final json = await ServerConection.httpPut('/beneficios/$id', data);
+      final json = await ServerConnection.httpPut('/beneficios/$id', data);
       final beneficio = Beneficio.fromJson(json);
       // Buscamos el index en lista del ID Beneficio
       final index =
@@ -61,7 +61,7 @@ class BeneficioProvider extends ChangeNotifier {
 
   eliminar(String id) async {
     try {
-      final json = await ServerConection.httpDelete('/beneficios/$id', {});
+      final json = await ServerConnection.httpDelete('/beneficios/$id', {});
       final confirmado = json as bool;
       if (confirmado) {
         beneficios.removeWhere((beneficio) => beneficio.id == id);

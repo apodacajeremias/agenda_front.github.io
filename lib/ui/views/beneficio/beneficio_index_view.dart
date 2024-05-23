@@ -28,7 +28,7 @@ class _BeneficioIndexViewState extends State<BeneficioIndexView> {
       columns: BeneficioDataSource.columns,
       source: BeneficioDataSource(data, context),
       actions: [
-        EButton.create(
+        EButton.registrar(
             onPressed: () => NavigationService.navigateTo(
                 RouterService.beneficiosCreateRoute))
       ],

@@ -8,7 +8,7 @@ class ItemProvider extends ChangeNotifier {
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   buscarTodos() async {
-    final response = await ServerConection.httpGet('/items');
+    final response = await ServerConnection.httpGet('/items');
     List<Item> itemsResponse =
         List<Item>.from(response.map((model) => Item.fromJson(model)));
     items = [...itemsResponse];
@@ -31,7 +31,7 @@ class ItemProvider extends ChangeNotifier {
 
   _guardar(Map<String, dynamic> data) async {
     try {
-      final json = await ServerConection.httpPost('/items', data);
+      final json = await ServerConnection.httpPost('/items', data);
       final item = Item.fromJson(json);
       items.add(item);
       notifyListeners();
@@ -44,7 +44,7 @@ class ItemProvider extends ChangeNotifier {
 
   _actualizar(String id, Map<String, dynamic> data) async {
     try {
-      final json = await ServerConection.httpPut('/items/$id', data);
+      final json = await ServerConnection.httpPut('/items/$id', data);
       final item = Item.fromJson(json);
       // Buscamos el index en lista del ID Item
       final index = items.indexWhere((element) => element.id!.contains(id));
@@ -60,7 +60,7 @@ class ItemProvider extends ChangeNotifier {
 
   eliminar(String id) async {
     try {
-      final json = await ServerConection.httpDelete('/items/$id', {});
+      final json = await ServerConnection.httpDelete('/items/$id', {});
       final confirmado = json;
       if (confirmado) {
         items.removeWhere((item) => item.id == id);

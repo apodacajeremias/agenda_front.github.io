@@ -73,7 +73,7 @@ class _PersonaProfileDetails extends StatelessWidget {
       child: Column(
         children: [
           WhiteCard(
-              footer: EButton.edit(onPressed: () {
+              footer: EButton.editar(onPressed: () {
                 print('EDIT PRESSED');
               }),
               child: Column(
@@ -243,7 +243,7 @@ class __PersonaProfileDashboardTransaccionesState
         }
         return NoInfoCard(
             title: title,
-            action: EButton.create(onPressed: () {
+            action: EButton.registrar(onPressed: () {
               final dialog = AlertDialog(
                   content: AgendaFormDialog(
                 persona: widget.persona,
@@ -292,7 +292,7 @@ class __PersonaProfileDashboardAgendamientosState
         }
         return NoInfoCard(
             title: title,
-            action: EButton.create(onPressed: () {
+            action: EButton.registrar(onPressed: () {
               final dialog = AlertDialog(
                   content: AgendaFormDialog(
                 persona: widget.persona,

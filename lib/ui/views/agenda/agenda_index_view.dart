@@ -32,7 +32,7 @@ class _AgendaIndexViewState extends State<AgendaIndexView> {
       columns: AgendaDataSource.columns,
       source: AgendaDataSource(data, context),
       actions: [
-        EButton.create(
+        EButton.registrar(
             onPressed: () =>
                 NavigationService.navigateTo(RouterService.agendasCreateRoute))
       ],

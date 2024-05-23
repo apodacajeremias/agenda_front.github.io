@@ -28,7 +28,7 @@ class _GrupoIndexViewState extends State<GrupoIndexView> {
       columns: GrupoDataSource.columns,
       source: GrupoDataSource(data, context),
       actions: [
-        EButton.create(
+        EButton.registrar(
             onPressed: () =>
                 NavigationService.navigateTo(RouterService.gruposCreateRoute))
       ],

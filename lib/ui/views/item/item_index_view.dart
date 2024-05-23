@@ -28,7 +28,7 @@ class _ItemIndexViewState extends State<ItemIndexView> {
       columns: ItemDataSource.columns,
       source: ItemDataSource(data, context),
       actions: [
-        EButton.create(
+        EButton.registrar(
             onPressed: () =>
                 NavigationService.navigateTo(RouterService.itemsCreateRoute))
       ],

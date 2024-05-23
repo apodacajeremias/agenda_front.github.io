@@ -1,4 +1,5 @@
 import 'package:agenda_front/constants.dart';
+import 'package:agenda_front/extensions.dart';
 import 'package:agenda_front/src/providers/auth_provider.dart';
 import 'package:agenda_front/services.dart';
 import 'package:agenda_front/ui/custom_inputs.dart';
@@ -27,6 +28,13 @@ class LoginView extends StatelessWidget {
               key: formKey,
               child: Column(
                 children: [
+                  const SizedBox(height: defaultSizing),
+                  Text(AppLocalizations.of(context)!.appTitle,
+                      style: context.headlineLarge),
+                  const SizedBox(height: defaultSizing),
+                  Text(AppLocalizations.of(context)!.bienvenido,
+                      style: context.titleLarge),
+                  const SizedBox(height: defaultSizing),
                   // Email
                   FormBuilderTextField(
                     name: "email",

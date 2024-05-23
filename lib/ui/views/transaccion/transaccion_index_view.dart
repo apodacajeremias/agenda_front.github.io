@@ -32,7 +32,7 @@ class _TransaccionIndexViewState extends State<TransaccionIndexView> {
       columns: TransaccionDataSource.columns,
       source: TransaccionDataSource(data, context),
       actions: [
-        EButton.create(
+        EButton.registrar(
             onPressed: () => NavigationService.navigateTo(
                 RouterService.transaccionesCreateRoute))
       ],

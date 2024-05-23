@@ -8,7 +8,7 @@ class ColaboradorProvider extends ChangeNotifier {
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   buscarTodos() async {
-    final response = await ServerConection.httpGet('/colaboradores');
+    final response = await ServerConnection.httpGet('/colaboradores');
     List<Colaborador> colaboradoresResponse = List<Colaborador>.from(
         response.map((model) => Colaborador.fromJson(model)));
     colaboradores = [...colaboradoresResponse];
@@ -31,7 +31,7 @@ class ColaboradorProvider extends ChangeNotifier {
 
   _guardar(Map<String, dynamic> data) async {
     try {
-      final json = await ServerConection.httpPost('/colaboradores', data);
+      final json = await ServerConnection.httpPost('/colaboradores', data);
       final colaborador = Colaborador.fromJson(json);
       colaboradores.add(colaborador);
       notifyListeners();
@@ -44,7 +44,7 @@ class ColaboradorProvider extends ChangeNotifier {
 
   _actualizar(String id, Map<String, dynamic> data) async {
     try {
-      final json = await ServerConection.httpPut('/colaboradores/$id', data);
+      final json = await ServerConnection.httpPut('/colaboradores/$id', data);
       final colaborador = Colaborador.fromJson(json);
       // Buscamos el index en lista del ID Colaborador
       final index =
@@ -61,7 +61,7 @@ class ColaboradorProvider extends ChangeNotifier {
 
   eliminar(String id) async {
     try {
-      final json = await ServerConection.httpDelete('/colaboradores/$id', {});
+      final json = await ServerConnection.httpDelete('/colaboradores/$id', {});
       final confirmado = json as bool;
       if (confirmado) {
         colaboradores.removeWhere((colaborador) => colaborador.id == id);

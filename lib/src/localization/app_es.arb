@@ -8,6 +8,18 @@
   "@bienvenido": {
     "description": "Mensaje de bienvenido"
   },
+  "registrarse": "Completar datos para registro",
+  "@registrarse": {
+    "description": "Mensaje de registro"
+  },
+  "completarConfiguracion": "Completar datos empresariales",
+  "@completarConfiguracion": {
+    "description": "Mensaje de completar configuracion"
+  },
+  "completarPerfilAdministrador": "Completar datos del administrador",
+  "@completarPerfilAdministrador": {
+    "description": "Mensaje de completar datos del administrador"
+  },
   "iniciarSesion": "Inicia sesión para acceder",
   "@iniciarSesion": {
     "description": "Mensaje de iniciar sesión"
@@ -55,6 +67,50 @@
   "reenviarConfirmacion": "Solicitar reenvio de confirmación",
   "@reenviarConfirmacion": {
     "description": "reenviarConfirmacion"
+  },
+  "campoObligatorio": "Campo obligatorio",
+  "@campoObligatorio": {
+    "description": "campoObligatorio"
+  },
+  "informacionIncorrecta": "Información incorrecta, verifique",
+  "@informacionIncorrecta": {
+    "description": "informacionIncorrecta"
+  },
+  "idTag": "Código",
+  "@idTag": {
+    "description": "Id tag"
+  },
+  "idHint": "Código de registro",
+  "@idHint": {
+    "description": "Id hint"
+  },
+  "actigoTag": "Estado",
+  "@activoTag": {
+    "description": "Estado de registro"
+  },
+  "activoHint": "Estado de registro",
+  "@activoHint": {
+    "description": "Estado de registro"
+  },
+  "activoTrue": "Activo",
+  "@activoTrue": {
+    "description": "Activo TRUE"
+  },
+  "activoFalse": "Inactivo",
+  "@activoFalse": {
+    "description": "Activo FALSE"
+  },
+  "nombreTag": "Nombre completo",
+  "@nombreTag": {
+    "description": "Nombre de registro"
+  },
+  "nombreHint": "Nombre para registro",
+  "@nombreHint": {
+    "description": "Nombre de registro"
+  },
+  "nombreObligatorio": "Nombre obligatorio",
+  "@nombreObligatorio": {
+    "description": "Nombre obligatorio"
   },
   "correoTag": "Correo electrónico",
   "@correoTag": {
@@ -106,5 +162,57 @@
   "contrasenaRepetidaInvalida": "Las contraseñas no coinciden",
   "@contrasenaRepetidaInvalida": {
     "description": "contrasenaRepetidaInvalida"
+  },
+  "celularTag": "Celular",
+  "@celularTag": {
+    "description": "celularTag"
+  },
+  "celularHint": "Número de contacto",
+  "@celularHint": {
+    "description": "celularHint"
+  },
+  "telefonoTag": "Teléfono",
+  "@telefonoTag": {
+    "description": "telefonoTag"
+  },
+  "telefonoHint": "Teléfono de contacto",
+  "@telefonoHint": {
+    "description": "telefonoHint"
+  },
+  "fechaInauguracionTag": "Fecha de Inauguración",
+  "@fechaInauguracionTag": {
+    "description": "fechaInauguracionTag"
+  },
+  "fechaNacimientoTag": "Fecha de Nacimiento",
+  "@fechaNacimientoTag": {
+    "description": "fechaInauguracionTag"
+  },
+  "documentoIdentidadTag": "Documento de Identidad",
+  "@documentoIdentidadTag": {
+    "description": "documentoIdentidadTag"
+  },
+  "direccionTag": "Dirección",
+  "@direccionTag": {
+    "description": "direccionTag"
+  },
+  "registroContribuyenteTag": "Registro de Contribuyente",
+  "@registroContribuyenteTag": {
+    "description": "registroContribuyenteTag"
+  },
+  "monedaTag": "Moneda",
+  "@monedaTag": {
+    "description": "Moneda tag"
+  },
+  "idiomaTag": "Idioma",
+  "@idiomaTag": {
+    "description": "Idioma tag"
+  },
+  "inicioTag": "Inicio",
+  "@inicioTag": {
+    "description": "inicioTag"
+  },
+  "finTag": "Fin",
+  "@finTag": {
+    "description": "finTag"
   }
 }

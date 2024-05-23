@@ -28,7 +28,7 @@ class _PromocionIndexViewState extends State<PromocionIndexView> {
       columns: PromocionDataSource.columns,
       source: PromocionDataSource(data, context),
       actions: [
-        EButton.create(
+        EButton.registrar(
             onPressed: () => NavigationService.navigateTo(
                 RouterService.promocionesCreateRoute))
       ],

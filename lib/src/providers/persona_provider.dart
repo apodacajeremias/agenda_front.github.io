@@ -10,7 +10,7 @@ class PersonaProvider extends ChangeNotifier {
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   buscarTodos() async {
-    final response = await ServerConection.httpGet('/personas');
+    final response = await ServerConnection.httpGet('/personas');
     List<Persona> personasResponse =
         List<Persona>.from(response.map((model) => Persona.fromJson(model)));
     personas = [...personasResponse];
@@ -35,7 +35,7 @@ class PersonaProvider extends ChangeNotifier {
 
   _guardar(Map<String, dynamic> data) async {
     try {
-      final json = await ServerConection.httpPost('/personas', data);
+      final json = await ServerConnection.httpPost('/personas', data);
       final persona = Persona.fromJson(json);
       personas.add(persona);
       notifyListeners();
@@ -48,7 +48,7 @@ class PersonaProvider extends ChangeNotifier {
 
   _actualizar(String id, Map<String, dynamic> data) async {
     try {
-      final json = await ServerConection.httpPut('/personas/$id', data);
+      final json = await ServerConnection.httpPut('/personas/$id', data);
       final persona = Persona.fromJson(json);
       // Buscamos el index en lista del ID Persona
       final index = personas.indexWhere((element) => element.id!.contains(id));
@@ -64,7 +64,7 @@ class PersonaProvider extends ChangeNotifier {
 
   eliminar(String id) async {
     try {
-      final json = await ServerConection.httpDelete('/personas/$id', {});
+      final json = await ServerConnection.httpDelete('/personas/$id', {});
       final confirmado = json as bool;
       if (confirmado) {
         personas.removeWhere((persona) => persona.id == id);
@@ -79,7 +79,8 @@ class PersonaProvider extends ChangeNotifier {
 
   Future<List<Transaccion>> transacciones(String id) async {
     try {
-      final json = await ServerConection.httpGet('/personas/$id/transacciones');
+      final json =
+          await ServerConnection.httpGet('/personas/$id/transacciones');
       List<Transaccion> response =
           List.from(json.map((model) => Transaccion.fromJson(model)));
       return response;
@@ -90,7 +91,7 @@ class PersonaProvider extends ChangeNotifier {
 
   Future<List<Agenda>> agendas(String id) async {
     try {
-      final json = await ServerConection.httpGet('/personas/$id/agendas');
+      final json = await ServerConnection.httpGet('/personas/$id/agendas');
       List<Agenda> response =
           List.from(json.map((model) => Agenda.fromJson(model)));
       return response;

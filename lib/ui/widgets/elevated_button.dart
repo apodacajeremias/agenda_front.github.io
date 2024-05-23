@@ -6,13 +6,13 @@ class EButton extends StatelessWidget {
   final Function? onPressed;
   const EButton({super.key, required this.text, this.icon, this.onPressed});
 
-  factory EButton.create({required Function onPressed}) =>
-      EButton(text: 'Crear', icon: Icons.add_outlined, onPressed: onPressed);
+  factory EButton.registrar({required Function onPressed}) => EButton(
+      text: 'Registrar', icon: Icons.add_outlined, onPressed: onPressed);
 
-  factory EButton.edit({required Function onPressed}) =>
+  factory EButton.editar({required Function onPressed}) =>
       EButton(text: 'Editar', icon: Icons.edit_outlined, onPressed: onPressed);
 
-  factory EButton.done({required Function onPressed}) =>
+  factory EButton.listo({required Function onPressed}) =>
       EButton(text: 'Listo', icon: Icons.done_outlined, onPressed: onPressed);
 
   @override
