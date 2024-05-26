@@ -2,17 +2,26 @@ import 'package:agenda_front/services.dart';
 import 'package:agenda_front/src/models/entities/empresa.dart';
 import 'package:agenda_front/src/models/entities/persona.dart';
 import 'package:agenda_front/src/models/security/auth_response.dart';
-import 'package:agenda_front/src/models/security/user.dart';
 import 'package:flutter/material.dart';
 
 enum AuthStatus { checking, authenticated, notAuthenticated }
 
 class AuthProvider extends ChangeNotifier {
   String? _token;
-  AuthStatus authStatus = AuthStatus.checking;
-  User? user;
   Persona? persona;
   Empresa? empresa;
+  Map<String, dynamic> registerRequest = {};
+  AuthStatus _authStatus = AuthStatus.checking;
+
+  AuthStatus get authStatus {
+    debugPrint('GET $_authStatus');
+    return _authStatus;
+  }
+
+  set authStatus(AuthStatus status) {
+    debugPrint('SET $status');
+    _authStatus = status;
+  }
 
   AuthProvider() {
     isAuthenticated();
@@ -21,10 +30,10 @@ class AuthProvider extends ChangeNotifier {
   register(Map<String, dynamic> data) async {
     await ServerConnection.httpPost('/auth/register', data).then((json) {
       _login(json);
-      notifyListeners();
+      NotificationService.showSnackbar('Se ha registrado correctamente');
     }).catchError((e) {
       LocalStorage.prefs.remove('token');
-      NotificationService.showSnackbarError('No se ha registrado, reintente.');
+      NotificationService.showSnackbarError('No se ha registrado, reintente');
       throw e;
     });
   }
@@ -32,7 +41,6 @@ class AuthProvider extends ChangeNotifier {
   authenticate(Map<String, dynamic> data) {
     ServerConnection.httpPost('/auth/authenticate', data).then((json) {
       _login(json);
-      notifyListeners();
       NotificationService.showSnackbar('Bienvenido');
     }).catchError((e) {
       LocalStorage.prefs.remove('token');
@@ -41,19 +49,9 @@ class AuthProvider extends ChangeNotifier {
     });
   }
 
-  completeConfiguration(Map<String, dynamic> data) async {
-    await ServerConnection.httpPost('/auth/complete/configuration', data);
-    await isAuthenticated();
-  }
-
-  completeProfile(String idUser, Map<String, dynamic> data) async {
-    await ServerConnection.httpPost('/auth/complete/$idUser/profile', data);
-    await isAuthenticated();
-  }
-
   Future<bool> isAuthenticated() async {
     final token = LocalStorage.prefs.getString('token');
-
+    debugPrint('TOKEN $token');
     if (token == null) {
       authStatus = AuthStatus.notAuthenticated;
       notifyListeners();
@@ -63,10 +61,11 @@ class AuthProvider extends ChangeNotifier {
     try {
       final json = await ServerConnection.httpGet('/auth/$token');
       _login(json);
-      notifyListeners();
+      debugPrint('TOKEN VALIDO');
       return true;
     } catch (e) {
       logout();
+      debugPrint('TOKEN VALIDO');
       return false;
     }
   }
@@ -86,11 +85,11 @@ class AuthProvider extends ChangeNotifier {
   _login(json) {
     final authResponse = AuthenticationResponse.fromJson(json);
     _token = authResponse.token;
-    user = authResponse.user;
-    persona = authResponse.user.persona;
+    persona = authResponse.persona;
     empresa = authResponse.empresa;
     authStatus = AuthStatus.authenticated;
-    NavigationService.replaceTo(RouterService.rootRoute);
+    // NavigationService.replaceTo(RouterService.rootRoute);
     LocalStorage.prefs.setString('token', _token!);
+    notifyListeners();
   }
 }

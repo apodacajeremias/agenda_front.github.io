@@ -37,7 +37,7 @@ class _MySearchFormFieldState extends State<SearchField> {
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 500),
-        width: inFocus ? context.width * 0.6 : context.width * 0.3,
+        width: _width(context, inFocus),
         height: inFocus ? context.height * 0.06 : context.height * 0.05,
         curve: Curves.fastOutSlowIn,
         child: TextField(
@@ -93,5 +93,11 @@ class _MySearchFormFieldState extends State<SearchField> {
       return true;
     }
     return false;
+  }
+
+  double _width(BuildContext context, bool inFocus) {
+    return context.isDesktop
+        ? (inFocus ? 400 : 150)
+        : (inFocus ? context.width * 0.6 : context.width * 0.3);
   }
 }

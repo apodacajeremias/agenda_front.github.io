@@ -1,3 +1,4 @@
+import 'package:agenda_front/extensions.dart';
 import 'package:agenda_front/services.dart';
 import 'package:agenda_front/src/models/entities/agenda.dart';
 import 'package:agenda_front/src/models/entities/persona.dart';
@@ -95,6 +96,16 @@ class PersonaProvider extends ChangeNotifier {
       List<Agenda> response =
           List.from(json.map((model) => Agenda.fromJson(model)));
       return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  existeDocumento(String documentoIdentidad) async {
+    try {
+      final json = await ServerConnection.httpGet(
+          '/personas/existeDocumento/$documentoIdentidad');
+      return json.toString().toBoolean();
     } catch (e) {
       rethrow;
     }

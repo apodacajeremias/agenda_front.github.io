@@ -8,13 +8,23 @@ class AuthPage extends StatelessWidget {
 
   const AuthPage(this.child, {super.key});
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //       body: Scrollbar(
+  //     child: ListView(
+  //       physics: const ClampingScrollPhysics(),
+  //       children: [child],
+  //     ),
+  //   ));
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Scrollbar(
-      child: ListView(
-        physics: const ClampingScrollPhysics(),
-        children: [child],
+      child: Column(
+        children: [Expanded(child: child)],
       ),
     ));
   }

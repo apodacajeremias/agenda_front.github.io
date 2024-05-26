@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:agenda_front/src/models/entities/colaborador.dart';
 import 'package:agenda_front/src/models/entities/grupo.dart';
 import 'package:agenda_front/src/models/enums/genero.dart';
+import 'package:agenda_front/src/models/security/user.dart';
 
 Persona personaFromJson(String str) => Persona.fromJson(json.decode(str));
 
@@ -23,6 +24,7 @@ class Persona {
   String? observacion;
   String? fotoPerfil;
   Colaborador? colaborador;
+  User? user;
   List<Grupo>? grupos;
 
   Persona({
@@ -39,6 +41,7 @@ class Persona {
     this.observacion,
     this.fotoPerfil,
     this.colaborador,
+    this.user,
     this.grupos,
   });
 
@@ -59,6 +62,9 @@ class Persona {
           json.containsKey('colaborador') && json['colaborador'] != null
               ? Colaborador.fromJson(json['colaborador'])
               : null,
+      user: json.containsKey('user') && json['user'] != null
+          ? User.fromJson(json['user'])
+          : null,
       grupos: json.containsKey('grupos') && json['grupos'] != null
           ? List.from(json['grupos'].map((g) => Grupo.fromJson(g)))
           : List.empty());

@@ -12,13 +12,37 @@
   "@registrarse": {
     "description": "Mensaje de registro"
   },
-  "completarConfiguracion": "Completar datos empresariales",
-  "@completarConfiguracion": {
-    "description": "Mensaje de completar configuracion"
+  "datosPersonales": "Datos personales",
+  "@datosPersonales": {
+    "description": "Mensaje de datos personales"
   },
-  "completarPerfilAdministrador": "Completar datos del administrador",
-  "@completarPerfilAdministrador": {
-    "description": "Mensaje de completar datos del administrador"
+  "completarDatosPersonales": "Completar datos personales",
+  "@completarDatosPersonale": {
+    "description": "Mensaje de completar datos personales"
+  },
+  "datosProfesionales": "Datos profesionales",
+  "@datosProfesionales": {
+    "description": "Mensaje de datos personales"
+  },
+  "completarDatosProfesionales": "Completar datos profesionales",
+  "@completarDatosProfesionales": {
+    "description": "Mensaje de completar datos profesionales"
+  },
+  "datosEmpresariales": "Datos empresariales",
+  "@datosEmpresariales": {
+    "description": "Mensaje de datos empresariales"
+  },
+  "completarDatosEmpresariales": "Completar datos empresariales",
+  "@completarDatosEmpresariales": {
+    "description": "Mensaje de completar datos empresariales"
+  },
+  "datosAcceso": "Datos de acceso",
+  "@datosAcceso": {
+    "description": "Mensaje de datos Acceso"
+  },
+  "completarDatosAcceso": "Completar credenciales de acceso",
+  "@completarDatosAcceso": {
+    "description": "Mensaje de completar datos de acceso"
   },
   "iniciarSesion": "Inicia sesión para acceder",
   "@iniciarSesion": {
@@ -31,6 +55,22 @@
   "ingresar": "Ingresar",
   "@ingresar": {
     "description": "Mensaje de iniciar sesión"
+  },
+  "continuar": "Continuar",
+  "@continuar": {
+    "description": "Mensaje de continuar"
+  },
+  "volver": "Volver",
+  "@volver": {
+    "description": "Mensaje de volver"
+  },
+  "confirmar": "Confirmar",
+  "@confirmar": {
+    "description": "Mensaje de confirmar"
+  },
+  "cancelar": "Cancelar",
+  "@cancelar": {
+    "description": "Mensaje de cancelar"
   },
   "olvideMiContrasena": "Olvidé mi contraseña",
   "@olvideMiContrasena": {
@@ -191,13 +231,25 @@
   "@documentoIdentidadTag": {
     "description": "documentoIdentidadTag"
   },
+  "documentoIdentidadYaExiste": "Documento no disponible, ya existe",
+  "@documentoIdentidadYaExiste": {
+    "description": "documentoIdentidadYaExiste"
+  },
   "direccionTag": "Dirección",
   "@direccionTag": {
     "description": "direccionTag"
   },
+  "observacionesTag": "Observaciones",
+  "@observacionesTag": {
+    "description": "observacionesTag"
+  },
   "registroContribuyenteTag": "Registro de Contribuyente",
   "@registroContribuyenteTag": {
     "description": "registroContribuyenteTag"
+  },
+  "registroProfesionalTag": "Registro Profesional",
+  "@registroProfesionalTag": {
+    "description": "registroProfesionalTag"
   },
   "monedaTag": "Moneda",
   "@monedaTag": {
@@ -214,5 +266,25 @@
   "finTag": "Fin",
   "@finTag": {
     "description": "finTag"
+  },
+  "generoTag": "Genero",
+  "@generoTag": {
+    "description": "Genero tag"
+  },
+  "profesionTag": "Profesión",
+  "@profesionTag": {
+    "description": "Genero tag"
+  },
+  "terminosCondicionesTag": "Acepto términos y condiciones",
+  "@terminosCondicionesTag": {
+    "description": "Genero tag"
+  },
+  "soloNumeros": "Ingrese solamente números",
+  "@soloNumeros": {
+    "description": "soloNumeros"
+  },
+  "soloLetras": "Ingrese solamente letras",
+  "@soloLetras": {
+    "description": "soloLetras"
   }
 }

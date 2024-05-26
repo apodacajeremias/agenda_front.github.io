@@ -21,9 +21,6 @@ class RouterService {
   // Auth Router
   static String loginRoute = '/auth/login';
   static String registerRoute = '/auth/register';
-  // Configure
-  static String configureRoute = '/auth/configure';
-  static String profileRoute = '/auth/profile';
 
   // Dashboard
   static String dashboardRoute = '/dashboard';
@@ -112,10 +109,6 @@ class RouterService {
         handler: AuthHandler.login, transitionType: _transitionType);
     router.define(registerRoute,
         handler: AuthHandler.register, transitionType: _transitionType);
-    router.define(configureRoute,
-        handler: AuthHandler.configure, transitionType: _transitionType);
-    router.define(profileRoute,
-        handler: AuthHandler.profile, transitionType: _transitionType);
 
     //TODO: ASIGNAR TODOS LOS Handler
     // Agenda

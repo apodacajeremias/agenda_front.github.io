@@ -31,6 +31,17 @@ class BlocsProviders extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(lazy: false, create: (_) => AuthProvider()),
+        ChangeNotifierProvider(lazy: true, create: (_) => AgendaProvider()),
+        ChangeNotifierProvider(lazy: true, create: (_) => BeneficioProvider()),
+        ChangeNotifierProvider(
+            lazy: true, create: (_) => ColaboradorProvider()),
+        ChangeNotifierProvider(lazy: true, create: (_) => EmpresaProvider()),
+        ChangeNotifierProvider(lazy: true, create: (_) => GrupoProvider()),
+        ChangeNotifierProvider(lazy: true, create: (_) => ItemProvider()),
+        ChangeNotifierProvider(lazy: true, create: (_) => PersonaProvider()),
+        ChangeNotifierProvider(lazy: true, create: (_) => PromocionProvider()),
+        ChangeNotifierProvider(
+            lazy: true, create: (_) => TransaccionProvider()),
         ChangeNotifierProvider(lazy: true, create: (_) => UserProvider()),
       ],
       child: const MyApp(),
@@ -102,8 +113,6 @@ class MyApp extends StatelessWidget {
       AuthStatus.checking => const SplashPage(),
       AuthStatus.authenticated => DashboardPage(child!),
       AuthStatus.notAuthenticated => AuthPage(child!),
-      AuthStatus.notProfile => AuthPage(child!),
-      AuthStatus.notConfigured => AuthPage(child!)
     };
   }
 }

@@ -1,6 +1,7 @@
 import 'package:agenda_front/providers.dart';
 import 'package:agenda_front/ui/views/auth/login_view.dart';
 import 'package:agenda_front/ui/views/persona/persona_form_view.dart';
+import 'package:agenda_front/ui/views/persona/persona_index_view.dart';
 import 'package:fluro/fluro.dart';
 import 'package:provider/provider.dart';
 
@@ -9,8 +10,8 @@ class PersonaHandler {
     final authProvider = Provider.of<AuthProvider>(context!, listen: false);
 
     if (authProvider.authStatus == AuthStatus.authenticated) {
-      // return const PersonaIndexView();
-      return const PersonaView();
+      return const PersonaIndexView();
+      // return const PersonaView();
     } else {
       return const LoginView();
     }

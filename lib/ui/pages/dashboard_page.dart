@@ -14,14 +14,19 @@ class DashboardPage extends StatelessWidget {
         OverlayEntry(
             builder: (context) => Scaffold(
                   appBar: AppBar(
-                      title: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                        Padding(
-                          padding: EdgeInsets.all(minimumSizing),
-                          child: SearchField(),
+                      leading: Builder(
+                        builder: (context) => IconButton(
+                          icon: Icon(Icons.menu_rounded),
+                          color: Colors.blueAccent,
+                          onPressed: () => Scaffold.of(context).openDrawer(),
                         ),
-                      ])),
+                      ),
+                      elevation: 0,
+                      backgroundColor: Colors.grey.shade300,
+                      title: const Padding(
+                        padding: EdgeInsets.all(minimumSizing),
+                        child: SearchField(),
+                      )),
                   drawer: const Sidebar(),
                   body: child,
                 ))

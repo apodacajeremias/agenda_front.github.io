@@ -145,4 +145,8 @@ extension StringExtension on String {
       throw FormatException('Invalid date format $this');
     }
   }
+
+  String firstWord() {
+    return split(RegExp(r'(\s+)')).first;
+  }
 }

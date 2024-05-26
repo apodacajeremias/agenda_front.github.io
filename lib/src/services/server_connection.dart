@@ -10,16 +10,6 @@ class ServerConnection {
     // Base del url
     _dio.options.baseUrl = 'http://localhost:8080/api';
     // Configurar Headers
-
-    // _dio.options.headers = {
-    //   'Accept': 'application/json',
-    //   'Content-Type': 'application/json',
-    //   'Authorization': LocalStorage.prefs.containsKey('token') &&
-    //           LocalStorage.prefs.getString('token') != null
-    //       ? 'Bearer ${LocalStorage.prefs.getString('token')}'
-    //       : null
-    // };
-
     _dio.options.headers = {
       'Authorization': LocalStorage.prefs.containsKey('token') &&
               LocalStorage.prefs.getString('token') != null
