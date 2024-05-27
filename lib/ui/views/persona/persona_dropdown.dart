@@ -1,18 +1,17 @@
 import 'package:agenda_front/providers.dart';
 import 'package:agenda_front/src/models/entities/persona.dart';
+import 'package:agenda_front/translate.dart';
 import 'package:agenda_front/ui/custom_inputs.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_extra_fields/form_builder_extra_fields.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class PersonaSearchableDropdown extends StatefulWidget {
   final String name;
-  final Persona? onlyValue;
+  final Persona? unique;
 
-  const PersonaSearchableDropdown(
-      {super.key, required this.name, this.onlyValue});
+  const PersonaSearchableDropdown({super.key, required this.name, this.unique});
 
   @override
   State<PersonaSearchableDropdown> createState() =>
@@ -22,26 +21,27 @@ class PersonaSearchableDropdown extends StatefulWidget {
 class _PersonaSearchableDropdownState extends State<PersonaSearchableDropdown> {
   @override
   void initState() {
-    widget.onlyValue ??
+    widget.unique ??
         Provider.of<PersonaProvider>(context, listen: false).buscarTodos();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final items = widget.onlyValue != null
-        ? [widget.onlyValue!]
+    final items = widget.unique != null
+        ? [widget.unique!]
         : Provider.of<PersonaProvider>(context).personas;
     return FormBuilderSearchableDropdown(
       name: widget.name,
-      initialValue: widget.onlyValue,
+      initialValue: widget.unique,
       items: items,
       compareFn: (item1, item2) => item1.id!.contains(item2.id!),
-      validator: FormBuilderValidators.required(errorText: 'Campo obligatorio'),
+      validator: FormBuilderValidators.required(
+          errorText: AppLocalizations.of(context)!.campoObligatorio),
       valueTransformer: (value) => value?.id,
       decoration: CustomInputs.form(
-          hint: '${toBeginningOfSentenceCase(widget.name)}',
-          label: '${toBeginningOfSentenceCase(widget.name)}',
+          hint: AppLocalizations.of(context)!.persona(''),
+          label: AppLocalizations.of(context)!.persona('asignar'),
           icon: Icons.person_outline),
     );
   }

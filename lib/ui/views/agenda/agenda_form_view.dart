@@ -106,7 +106,7 @@ FormBuilder _form(AgendaProvider provider, {Persona? persona}) {
             inputType: InputType.both,
             valueTransformer: (value) => value?.toIso8601String()),
         const SizedBox(height: defaultSizing),
-        PersonaSearchableDropdown(name: 'persona', onlyValue: persona),
+        PersonaSearchableDropdown(name: 'persona', unique: persona),
         const SizedBox(height: defaultSizing),
         const ColaboradorSearchableDropdown(name: 'colaborador'),
         const SizedBox(height: defaultSizing),

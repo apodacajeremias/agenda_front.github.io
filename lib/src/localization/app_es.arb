@@ -286,5 +286,96 @@
   "soloLetras": "Ingrese solamente letras",
   "@soloLetras": {
     "description": "soloLetras"
+  },
+  "transaccion": "{accion, select, registrar{Registrar nueva transacción} editar{Editar transacción existente} eliminar{Eliminar transacción} aceptar{Aceptar transacción} ocultar{Ocultar transacción} other{Transacción}}",
+  "@transaccion": {
+    "description": "transaccion",
+    "placeholders": {
+      "accion": {}
+    }
+  },
+  "aplicarDescuento": "Aplicar descuento",
+  "@aplicarDescuento": {
+    "description": "aplicarDescuento"
+  },
+  "tipoTransaccion": "Tipo de Transacción",
+  "@tipoTransaccion": {
+    "description": "tipoTransaccion"
+  },
+  "tipoBeneficio": "Tipo de Beneficio",
+  "@tipoBeneficio": {
+    "description": "tipoBeneficio"
+  },
+  "tipoDescuento": "Tipo de Descuento",
+  "@tipoDescuento": {
+    "description": "tipoDescuento"
+  },
+  "totalPagar": "Total a pagar",
+  "@totalPagar": {
+    "description": "totalPagar"
+  },
+  "descuento": "Valor descontado",
+  "@descuento": {
+    "description": "descuento"
+  },
+  "sumatoriaTotal": "Sumatoria total",
+  "@sumatoriaTotal": {
+    "description": "sumatoriaTotal"
+  },
+  "dirigidoA": "Dirigido a",
+  "@dirigidoA": {
+    "description": "dirigidoA"
+  },
+  "persona": "{accion, select, asignar{Asignar a cliente} registrar{Registrar nuevo cliente} editar{Editar cliente existente} eliminar{Eliminar cliente} ocultar{Ocultar cliente} other{Cliente}}",
+  "@persona": {
+    "description": "persona",
+    "placeholders": {
+      "accion": {}
+    }
+  },
+  "grupo": "{accion, select, asignar{Asignar grupo} registrar{Registrar nuevo grupo} editar{Editar grupo existente} eliminar{Eliminar grupo} ocultar{Ocultar grupo} other{Grupo}}",
+  "@grupo": {
+    "description": "transaccion",
+    "placeholders": {
+      "accion": {}
+    }
+  },
+  "asignarGrupo": "Asignar grupo",
+  "@asignarGrupo": {
+    "description": "asignarGrupo"
+  },
+  "detallado": "Detallado",
+  "@detallado": {
+    "description": "detallado"
+  },
+  "detalles": "Detalles",
+  "@detalles": {
+    "description": "detalles"
+  },
+  "agregarItem": "Agregar item",
+  "@agregarItem": {
+    "description": "agregarItem"
+  },
+  "item": "{count, plural, other{Item} zero{Ningún item} one{Item} two{Items} few{Algunos items} many{Varios items}}",
+  "@item": {
+    "description": "item",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "valor": "Valor",
+  "@valor": {
+    "description": "valor"
+  },
+  "cantidad": "Cantidad",
+  "@cantidad": {
+    "description": "cantidad"
+  },
+  "subtotal": "Subtotal",
+  "@subtotal": {
+    "description": "subtotal"
   }
 }

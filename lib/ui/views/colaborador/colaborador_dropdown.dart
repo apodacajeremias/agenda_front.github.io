@@ -9,10 +9,10 @@ import 'package:provider/provider.dart';
 
 class ColaboradorSearchableDropdown extends StatefulWidget {
   final String name;
-  final Colaborador? onlyValue;
+  final Colaborador? unique;
 
   const ColaboradorSearchableDropdown(
-      {super.key, required this.name, this.onlyValue});
+      {super.key, required this.name, this.unique});
 
   @override
   State<ColaboradorSearchableDropdown> createState() =>
@@ -23,19 +23,19 @@ class _ColaboradorSearchableDropdownState
     extends State<ColaboradorSearchableDropdown> {
   @override
   void initState() {
-    widget.onlyValue ??
+    widget.unique ??
         Provider.of<ColaboradorProvider>(context, listen: false).buscarTodos();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final items = widget.onlyValue != null
-        ? [widget.onlyValue!]
+    final items = widget.unique != null
+        ? [widget.unique!]
         : Provider.of<ColaboradorProvider>(context).colaboradores;
     return FormBuilderSearchableDropdown(
       name: widget.name,
-      initialValue: widget.onlyValue,
+      initialValue: widget.unique,
       items: items,
       compareFn: (item1, item2) => item1.id!.contains(item2.id!),
       validator: FormBuilderValidators.required(errorText: 'Campo obligatorio'),

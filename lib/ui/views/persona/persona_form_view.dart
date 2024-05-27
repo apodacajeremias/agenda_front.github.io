@@ -23,7 +23,10 @@ class PersonaFormView extends StatelessWidget {
     return ListView(
       physics: const ClampingScrollPhysics(),
       children: [
-        const FormHeader(title: 'Registro de persona'),
+        FormHeader(
+            title: persona?.id != null
+                ? AppLocalizations.of(context)!.persona('registrar')
+                : AppLocalizations.of(context)!.persona('editar')),
         WhiteCard(
             child: FormBuilder(
           key: provider.formKey,
