@@ -23,12 +23,24 @@ class PersonaFormView extends StatelessWidget {
     return ListView(
       physics: const ClampingScrollPhysics(),
       children: [
-        const FormHeader(title: 'Agendar'),
+        const FormHeader(title: 'Registro de persona'),
         WhiteCard(
             child: FormBuilder(
           key: provider.formKey,
           child: Column(
             children: [
+              if (persona?.id != null) ...[
+                const SizedBox(height: defaultSizing),
+                FormBuilderTextField(
+                  name: 'id',
+                  initialValue: persona?.id,
+                  enabled: false,
+                  decoration: CustomInputs.form(
+                      label: AppLocalizations.of(context)!.idTag,
+                      hint: AppLocalizations.of(context)!.idHint,
+                      icon: Icons.qr_code_rounded),
+                ),
+              ],
               const SizedBox(height: defaultSizing),
               FormBuilderTextField(
                 name: 'nombre',
@@ -130,9 +142,12 @@ class PersonaFormView extends StatelessWidget {
         )),
         FormFooter(onConfirm: () async {
           try {
-            // await provider.registrar();
-            if (context.mounted) {
-              Navigator.of(context).pop();
+            if (provider.formKey.currentState!.saveAndValidate()) {
+              final data = provider.formKey.currentState!.value;
+              await provider.registrar(data);
+              if (context.mounted) {
+                Navigator.of(context).pop();
+              }
             }
           } catch (e) {
             rethrow;

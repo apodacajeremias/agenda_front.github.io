@@ -21,7 +21,7 @@ class PersonaHandler {
     final authProvider = Provider.of<AuthProvider>(context!, listen: false);
 
     if (authProvider.authStatus == AuthStatus.authenticated) {
-      return const PersonaView();
+      return const PersonaFormView();
     } else {
       return const LoginView();
     }
@@ -33,7 +33,7 @@ class PersonaHandler {
     if (authProvider.authStatus == AuthStatus.authenticated) {
       final id = params['id']?.first;
       final persona = Provider.of<PersonaProvider>(context).buscar(id!);
-      return PersonaView(persona: persona);
+      return PersonaFormView(persona: persona);
     } else {
       return const LoginView();
     }

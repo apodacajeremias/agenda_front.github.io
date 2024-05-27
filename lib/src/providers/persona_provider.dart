@@ -26,9 +26,9 @@ class PersonaProvider extends ChangeNotifier {
 
   registrar(Map<String, dynamic> data) async {
     // Si data tiene un campo ID y este tiene informacion
-    if (data.containsKey('ID') && data['ID'] != null) {
+    if (data.containsKey('id') && data['id'] != null) {
       // Actualiza
-      await _actualizar(data['ID'], data);
+      await _actualizar(data['id'], data);
     } else {
       await _guardar(data);
     }
