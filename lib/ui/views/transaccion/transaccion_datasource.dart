@@ -2,6 +2,7 @@ import 'package:agenda_front/extensions.dart';
 import 'package:agenda_front/providers.dart';
 import 'package:agenda_front/services.dart';
 import 'package:agenda_front/src/models/entities/transaccion.dart';
+import 'package:agenda_front/src/models/entities/transaccion_detalle.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -109,6 +110,43 @@ class TransaccionDataSourceProfile extends DataTableSource {
 
   @override
   int get rowCount => transacciones.length;
+
+  @override
+  int get selectedRowCount => 0;
+}
+
+class TransaccionDetalleDataSource extends DataTableSource {
+  final List<TransaccionDetalle> detalles;
+  final BuildContext context;
+
+  TransaccionDetalleDataSource(this.detalles, this.context);
+
+// TODO: longPress o doubleTap para editar detalle, click derecho menu contextual
+  static List<DataColumn> columns = [
+    const DataColumn(label: Text('#')),
+    const DataColumn(label: Text('Item')),
+    const DataColumn(label: Text('Cantidad')),
+    const DataColumn(label: Text('Valor')),
+    const DataColumn(label: Text('Subtotal')),
+  ];
+
+  @override
+  DataRow? getRow(int index) {
+    final detalle = detalles[index];
+    return DataRow.byIndex(index: index, cells: [
+      DataCell(Text(index.toString())),
+      DataCell(Text(detalle.item!.nombre!)),
+      DataCell(Text(detalle.cantidad!.toString())),
+      DataCell(Text(detalle.valor!.toString())),
+      DataCell(Text(detalle.subtotal!.toString())),
+    ]);
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => detalles.length;
 
   @override
   int get selectedRowCount => 0;

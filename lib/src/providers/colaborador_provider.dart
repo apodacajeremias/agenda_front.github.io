@@ -1,11 +1,10 @@
 import 'package:agenda_front/services.dart';
 import 'package:agenda_front/src/models/entities/colaborador.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class ColaboradorProvider extends ChangeNotifier {
   List<Colaborador> colaboradores = [];
-  GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
+  // GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   buscarTodos() async {
     final response = await ServerConnection.httpGet('/colaboradores');
@@ -74,11 +73,11 @@ class ColaboradorProvider extends ChangeNotifier {
     }
   }
 
-  saveAndValidate() {
-    return formKey.currentState!.saveAndValidate();
-  }
+  // saveAndValidate() {
+  //   return formKey.currentState!.saveAndValidate();
+  // }
 
-  formData() {
-    return formKey.currentState!.value;
-  }
+  // formData() {
+  //   return formKey.currentState!.value;
+  // }
 }

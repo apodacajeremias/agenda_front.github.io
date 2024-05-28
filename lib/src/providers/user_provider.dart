@@ -1,12 +1,10 @@
 import 'package:agenda_front/services.dart';
 import 'package:agenda_front/src/models/security/user.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class UserProvider extends ChangeNotifier {
   List<User> users = [];
-  GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
+  // GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   buscarTodos() async {
     final response = await ServerConnection.httpGet('/users');
@@ -89,11 +87,11 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  saveAndValidate() {
-    return formKey.currentState!.saveAndValidate();
-  }
+  // saveAndValidate() {
+  //   return formKey.currentState!.saveAndValidate();
+  // }
 
-  formData() {
-    return formKey.currentState!.value;
-  }
+  // formData() {
+  //   return formKey.currentState!.value;
+  // }
 }

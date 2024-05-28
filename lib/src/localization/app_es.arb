@@ -352,10 +352,6 @@
   "@detalles": {
     "description": "detalles"
   },
-  "agregarItem": "Agregar item",
-  "@agregarItem": {
-    "description": "agregarItem"
-  },
   "item": "{count, plural, other{Item} zero{Ningún item} one{Item} two{Items} few{Algunos items} many{Varios items}}",
   "@item": {
     "description": "item",
@@ -377,5 +373,37 @@
   "subtotal": "Subtotal",
   "@subtotal": {
     "description": "subtotal"
+  },
+  "accion": "{accion, select, asignar{Asignar} registrar{Registrar nuevo} editar{Editar existente} eliminar{Eliminar} ocultar{Ocultar} agregar{Agregar} other{N/A}}",
+  "@accion": {
+    "description": "accion",
+    "placeholders": {
+      "accion": {}
+    }
+  },
+  "credencialesExpiradas": "Credenciales expiradas",
+  "@credencialesExpiradas": {
+    "description": "credencialesExpiradas"
+  },
+  "cuentaBloqueada": "Cuenta bloqueada",
+  "@cuentaBloqueada": {
+    "description": "cuentaBloqueada"
+  },
+  "cuentaExpirada": "Cuenta expirada",
+  "@cuentaExpirada": {
+    "description": "cuentaExpirada"
+  },
+  "cuentaActivada": "Cuenta activada",
+  "@cuentaActivada": {
+    "description": "cuentaActivada"
+  },
+  "noTienePermisosSuficientes": "{role, select, other{No tiene permisos suficientes} USER{No tiene permisos, debe ser gestor} MANAGER{No tiene permisos, debe ser administrador}}",
+  "@noTienePermisosSuficientes": {
+    "description": "No tiene permisos suficientes",
+    "placeholders": {
+      "role": {
+        "type": "String"
+      }
+    }
   }
 }

@@ -2,7 +2,6 @@ class Colaborador {
   String? id;
   bool? activo;
   String? nombre;
-
   String? registroContribuyente;
   String? registroProfesional;
   String? profesion;

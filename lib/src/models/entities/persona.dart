@@ -50,7 +50,7 @@ class Persona {
       activo: json['activo'],
       nombre: json['nombre'],
       documentoIdentidad: json['documentoIdentidad'],
-      fechaNacimiento: DateTime.parse(json['fechaNacimiento'])!,
+      fechaNacimiento: DateTime.parse(json['fechaNacimiento']),
       edad: json['edad'],
       genero: Genero.values.byName(json['genero']),
       telefono: json['telefono'],

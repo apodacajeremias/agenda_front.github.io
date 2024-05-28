@@ -18,8 +18,8 @@ class TransaccionDetalle {
   bool? activo;
   String? nombre;
 
-  double? valor;
   double? cantidad;
+  double? valor;
   double? subtotal;
   Transaccion? transaccion;
   Item? item;
@@ -28,8 +28,8 @@ class TransaccionDetalle {
     this.id,
     this.activo,
     this.nombre,
-    this.valor,
     this.cantidad,
+    this.valor,
     this.subtotal,
     this.transaccion,
     this.item,
@@ -40,8 +40,8 @@ class TransaccionDetalle {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
-        valor: json['valor'],
         cantidad: json['cantidad'],
+        valor: json['valor'],
         subtotal: json['subtotal'],
         transaccion:
             (json.containsKey('transaccion') && json['transaccion'] != null)

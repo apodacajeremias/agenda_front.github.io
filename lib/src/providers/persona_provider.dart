@@ -4,11 +4,10 @@ import 'package:agenda_front/src/models/entities/agenda.dart';
 import 'package:agenda_front/src/models/entities/persona.dart';
 import 'package:agenda_front/src/models/entities/transaccion.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 
+// TODO: separar provider de form y de index
 class PersonaProvider extends ChangeNotifier {
   List<Persona> personas = [];
-  GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   buscarTodos() async {
     final response = await ServerConnection.httpGet('/personas');
@@ -109,15 +108,5 @@ class PersonaProvider extends ChangeNotifier {
     } catch (e) {
       rethrow;
     }
-  }
-
-  //////////
-
-  saveAndValidate() {
-    return formKey.currentState!.saveAndValidate();
-  }
-
-  formData() {
-    return formKey.currentState!.value;
   }
 }

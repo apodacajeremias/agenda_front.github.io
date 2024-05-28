@@ -1,15 +1,20 @@
 import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/extensions.dart';
 import 'package:agenda_front/providers.dart';
+import 'package:agenda_front/src/models/entities/item.dart';
 import 'package:agenda_front/src/models/entities/transaccion.dart';
+import 'package:agenda_front/src/models/entities/transaccion_detalle.dart';
 import 'package:agenda_front/src/models/enums/tipo_beneficio.dart';
 import 'package:agenda_front/src/models/enums/tipo_descuento.dart';
 import 'package:agenda_front/src/models/enums/tipo_transaccion.dart';
 import 'package:agenda_front/translate.dart';
 import 'package:agenda_front/ui/custom_inputs.dart';
 import 'package:agenda_front/ui/views/persona/persona_dropdown.dart';
+import 'package:agenda_front/ui/views/transaccion/transaccion_datasource.dart';
+import 'package:agenda_front/ui/widgets/elevated_button.dart';
 import 'package:agenda_front/ui/widgets/form_footer.dart';
 import 'package:agenda_front/ui/widgets/form_header.dart';
+import 'package:agenda_front/ui/widgets/index_body.dart';
 import 'package:agenda_front/ui/widgets/white_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -27,7 +32,7 @@ class TransaccionFormView extends StatelessWidget {
       physics: const ClampingScrollPhysics(),
       children: [
         FormHeader(
-            title: transaccion?.id != null
+            title: transaccion?.id == null
                 ? AppLocalizations.of(context)!.transaccion('registrar')
                 : AppLocalizations.of(context)!.transaccion('editar')),
         WhiteCard(
@@ -143,9 +148,36 @@ class TransaccionFormView extends StatelessWidget {
                     errorText: AppLocalizations.of(context)!.campoObligatorio),
               ),
               const SizedBox(height: defaultSizing),
-              Text(AppLocalizations.of(context)!.detalles,
-                  style: context.headlineLarge),
-              const SizedBox(height: defaultSizing),
+              if (transaccion != null) ...[
+                Text(AppLocalizations.of(context)!.detalles,
+                    style: context.headlineLarge),
+                const SizedBox(height: defaultSizing),
+                const SizedBox(height: defaultSizing),
+                IndexBody(
+                    title: AppLocalizations.of(context)!.detalles,
+                    columns: TransaccionDetalleDataSource.columns,
+                    actions: [
+                      EButton(
+                        text: AppLocalizations.of(context)!.accion('agregar'),
+                        icon: Icons.add_rounded,
+                        onPressed: () {
+                          debugPrint('Abrir modal para buscar item');
+                        },
+                      )
+                    ],
+                    source: TransaccionDetalleDataSource(
+                        transaccion!.detalles ??
+                            [
+                              TransaccionDetalle(
+                                  item: Item(
+                                      nombre: AppLocalizations.of(context)!
+                                          .item(0)),
+                                  cantidad: 0,
+                                  valor: 0,
+                                  subtotal: 0)
+                            ],
+                        context))
+              ]
             ],
           ),
         )),

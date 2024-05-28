@@ -1,17 +1,16 @@
-import 'package:agenda_front/src/models/entities/persona.dart';
+import 'package:agenda_front/src/models/security/role.dart';
 
 class User {
   String? email;
   bool? changePassword;
   String? lastPasswordChange;
-  String? role;
+  Role? role;
   String? username;
   bool? accountNonExpired;
   bool? accountNonLocked;
   bool? credentialsNonExpired;
   String? id;
   bool? enabled;
-  Persona? persona;
   User(
       {this.email,
       this.changePassword,
@@ -22,23 +21,19 @@ class User {
       this.accountNonLocked,
       this.credentialsNonExpired,
       this.id,
-      this.enabled,
-      this.persona});
+      this.enabled});
 
   factory User.fromJson(Map<String, dynamic> json) => User(
       email: json['email'],
       changePassword: json['changePassword'],
       lastPasswordChange: json['lastPasswordChange'],
-      role: json['role'],
+      role: Role.values.byName(json['role']),
       username: json['username'],
       accountNonExpired: json['accountNonExpired'],
       accountNonLocked: json['accountNonLocked'],
       credentialsNonExpired: json['credentialsNonExpired'],
       id: json['id'],
-      enabled: json['enabled'],
-      persona: (json.containsKey('persona') && json['persona'] != null)
-          ? Persona.fromJson(json['persona'])
-          : null);
+      enabled: json['enabled']);
 
   Map<String, dynamic> toJson() => {
         'email': email,
@@ -50,7 +45,6 @@ class User {
         'accountNonLocked': accountNonLocked,
         'credentialsNonExpired': credentialsNonExpired,
         'id': id,
-        'enabled': enabled,
-        'persona': persona?.toJson()
+        'enabled': enabled
       };
 }
