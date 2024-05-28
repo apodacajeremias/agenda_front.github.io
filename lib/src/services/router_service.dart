@@ -139,10 +139,10 @@ class RouterService {
     // Colaborador
     router.define(colaboradoresIndexRoute,
         handler: ColaboradorHandler.index, transitionType: _transitionType);
-    router.define(colaboradoresCreateRoute,
-        handler: ColaboradorHandler.create, transitionType: _transitionType);
-    router.define(colaboradoresEditRoute,
-        handler: ColaboradorHandler.edit, transitionType: _transitionType);
+    // router.define(colaboradoresCreateRoute,
+    //     handler: ColaboradorHandler.create, transitionType: _transitionType);
+    // router.define(colaboradoresEditRoute,
+    //     handler: ColaboradorHandler.edit, transitionType: _transitionType);
 
 // TODO: Empresa
 

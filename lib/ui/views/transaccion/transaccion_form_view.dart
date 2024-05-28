@@ -171,7 +171,7 @@ class TransaccionFormView extends StatelessWidget {
                               TransaccionDetalle(
                                   item: Item(
                                       nombre: AppLocalizations.of(context)!
-                                          .item(0)),
+                                          .items(0)),
                                   cantidad: 0,
                                   valor: 0,
                                   subtotal: 0)

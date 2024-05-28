@@ -2,6 +2,7 @@ import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/providers.dart';
 import 'package:agenda_front/src/models/entities/item.dart';
 import 'package:agenda_front/src/models/enums/tipo_transaccion.dart';
+import 'package:agenda_front/translate.dart';
 import 'package:agenda_front/ui/custom_inputs.dart';
 import 'package:agenda_front/ui/widgets/form_footer.dart';
 import 'package:agenda_front/ui/widgets/form_header.dart';
@@ -23,7 +24,10 @@ class ItemFormView extends StatelessWidget {
       padding: const EdgeInsets.all(defaultSizing),
       child: ListView(
         children: [
-          const FormHeader(title: 'Item'),
+          FormHeader(
+              title: item?.id == null
+                  ? AppLocalizations.of(context)!.item('registrar')
+                  : AppLocalizations.of(context)!.item('editar')),
           WhiteCard(
               child: FormBuilder(
                   key: provider.formKey,
@@ -36,19 +40,22 @@ class ItemFormView extends StatelessWidget {
                             Expanded(
                                 flex: 2,
                                 child: FormBuilderTextField(
-                                  name: 'ID',
+                                  name: 'id',
                                   initialValue: item?.id,
                                   enabled: false,
                                   decoration: CustomInputs.form(
-                                      label: 'ID',
-                                      hint: 'ID',
+                                      label:
+                                          AppLocalizations.of(context)!.idTag,
+                                      hint:
+                                          AppLocalizations.of(context)!.idHint,
                                       icon: Icons.qr_code),
                                 )),
                             const SizedBox(width: defaultSizing),
                             Expanded(
                                 child: FormBuilderSwitch(
                               name: 'activo',
-                              title: const Text('Estado del registro'),
+                              title:
+                                  Text(AppLocalizations.of(context)!.actigoTag),
                               initialValue: item?.activo,
                               decoration: CustomInputs.noBorder(),
                             )),
@@ -65,29 +72,29 @@ class ItemFormView extends StatelessWidget {
                               hint: 'Nombre descriptivo',
                               icon: Icons.info),
                           validator: FormBuilderValidators.required(
-                              errorText: 'Campo obligatorio')),
-                      const SizedBox(height: defaultSizing),
+                              errorText: AppLocalizations.of(context)!
+                                  .nombreObligatorio)),
                       Row(
                         children: [
-                          // Expanded(
-                          //   child: FormBuilderTextField(
-                          //       name: 'precio',
-                          //       initialValue: item?.precio?.toString(),
-                          //       enabled: item?.activo ?? true,
-                          //       decoration: CustomInputs.form(
-                          //           label: 'Precio',
-                          //           hint: 'Precio del item',
-                          //           icon: Icons.tag),
-                          //       validator: FormBuilderValidators.min(1,
-                          //           errorText: 'Ingrese un valor'),
-                          //       inputFormatters: [CurrencyInputFormatter()]),
-                          // ),
-                          // Expanded(
-                          //     child: FormBuilderCurrency(
-                          //         name: 'precio',
-                          //         label: 'Precio',
-                          //         initialValue: item?.precio,
-                          //         enabled: item?.activo ?? true)),
+                          const SizedBox(height: defaultSizing),
+                          Expanded(
+                              child: FormBuilderTextField(
+                            name: 'precio',
+                            initialValue: item?.precio.toString(),
+                            enabled: item?.activo ?? true,
+                            decoration: CustomInputs.form(
+                                label: AppLocalizations.of(context)!.precio,
+                                hint: AppLocalizations.of(context)!.precio,
+                                icon: Icons.info),
+                            validator: FormBuilderValidators.compose([
+                              FormBuilderValidators.numeric(
+                                  errorText: AppLocalizations.of(context)!
+                                      .soloNumeros),
+                              FormBuilderValidators.required(
+                                  errorText: AppLocalizations.of(context)!
+                                      .campoObligatorio)
+                            ]),
+                          )),
                           const SizedBox(width: defaultSizing),
                           Expanded(
                             child: FormBuilderDropdown(
@@ -95,8 +102,10 @@ class ItemFormView extends StatelessWidget {
                               initialValue: item?.tipo,
                               enabled: item?.activo ?? true,
                               decoration: CustomInputs.form(
-                                  label: 'Tipo',
-                                  hint: 'Tipo de item',
+                                  label: AppLocalizations.of(context)!
+                                      .tipo('item'),
+                                  hint: AppLocalizations.of(context)!
+                                      .tipo('item'),
                                   icon: Icons.info),
                               items: TipoTransaccion.values
                                   .map((e) => DropdownMenuItem(
@@ -105,7 +114,8 @@ class ItemFormView extends StatelessWidget {
                                           toBeginningOfSentenceCase(e.name)!)))
                                   .toList(),
                               validator: FormBuilderValidators.required(
-                                  errorText: 'Tipo obligatorio'),
+                                  errorText: AppLocalizations.of(context)!
+                                      .campoObligatorio),
                               valueTransformer: (value) => value.toString(),
                             ),
                           )

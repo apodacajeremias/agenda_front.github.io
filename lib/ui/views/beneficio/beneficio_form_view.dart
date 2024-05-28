@@ -3,6 +3,7 @@ import 'package:agenda_front/providers.dart';
 import 'package:agenda_front/src/models/entities/beneficio.dart';
 import 'package:agenda_front/src/models/enums/tipo_beneficio.dart';
 import 'package:agenda_front/src/models/enums/tipo_descuento.dart';
+import 'package:agenda_front/translate.dart';
 import 'package:agenda_front/ui/custom_inputs.dart';
 import 'package:agenda_front/ui/widgets/form_footer.dart';
 import 'package:agenda_front/ui/widgets/form_header.dart';
@@ -25,7 +26,10 @@ class BeneficioFormView extends StatelessWidget {
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
-          FormHeader(title: 'Beneficio'),
+          FormHeader(
+              title: beneficio?.id == null
+                  ? AppLocalizations.of(context)!.beneficio('registrar')
+                  : AppLocalizations.of(context)!.beneficio('editar')),
           WhiteCard(
             child: FormBuilder(
               key: provider.formKey,
@@ -38,17 +42,19 @@ class BeneficioFormView extends StatelessWidget {
                         Expanded(
                             flex: 2,
                             child: FormBuilderTextField(
-                              name: 'ID',
+                              name: 'id',
                               initialValue: beneficio?.id,
                               enabled: false,
                               decoration: CustomInputs.form(
-                                  label: 'ID', hint: 'ID', icon: Icons.qr_code),
+                                  label: AppLocalizations.of(context)!.idTag,
+                                  hint: AppLocalizations.of(context)!.idHint,
+                                  icon: Icons.qr_code),
                             )),
                         const SizedBox(width: defaultSizing),
                         Expanded(
                             child: FormBuilderSwitch(
                           name: 'activo',
-                          title: const Text('Estado del registro'),
+                          title: Text(AppLocalizations.of(context)!.actigoTag),
                           initialValue: beneficio?.activo,
                           decoration: CustomInputs.noBorder(),
                         )),
@@ -64,11 +70,13 @@ class BeneficioFormView extends StatelessWidget {
                             initialValue: beneficio?.nombre,
                             enabled: beneficio?.activo ?? true,
                             decoration: CustomInputs.form(
-                                label: 'Nombre del beneficio',
-                                hint: 'Nombre',
+                                label: AppLocalizations.of(context)!.nombreTag,
+                                hint: AppLocalizations.of(context)!.nombreHint,
                                 icon: Icons.info),
                             validator: FormBuilderValidators.required(
-                                errorText: 'Campo obligatorio')),
+                              errorText: AppLocalizations.of(context)!
+                                  .nombreObligatorio,
+                            )),
                       ),
                       const SizedBox(width: defaultSizing),
                       Expanded(
@@ -77,12 +85,14 @@ class BeneficioFormView extends StatelessWidget {
                         initialValue: beneficio?.descuento.toString(),
                         enabled: beneficio?.activo ?? true,
                         decoration: CustomInputs.form(
-                            label: 'Valor del beneficio',
-                            hint: 'Valor de descuento',
+                            label: AppLocalizations.of(context)!.descuento,
+                            hint: AppLocalizations.of(context)!.descuento,
                             icon: Icons.tag),
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(
-                              errorText: 'Campo obligatorio'),
+                            errorText:
+                                AppLocalizations.of(context)!.campoObligatorio,
+                          ),
                           FormBuilderValidators.min(0)
                         ]),
                       ))
@@ -96,8 +106,9 @@ class BeneficioFormView extends StatelessWidget {
                       initialValue: beneficio?.tipo,
                       enabled: beneficio?.activo ?? true,
                       decoration: CustomInputs.form(
-                          label: 'Tipo de beneficio',
-                          hint: 'Tipo de beneficio',
+                          label:
+                              AppLocalizations.of(context)!.tipo('beneficio'),
+                          hint: AppLocalizations.of(context)!.tipo('beneficio'),
                           icon: Icons.loyalty),
                       items: TipoBeneficio.values
                           .map((tipo) => DropdownMenuItem(
@@ -106,7 +117,8 @@ class BeneficioFormView extends StatelessWidget {
                                   Text(toBeginningOfSentenceCase(tipo.name)!)))
                           .toList(),
                       validator: FormBuilderValidators.required(
-                          errorText: 'Campo obligatorio'),
+                          errorText:
+                              AppLocalizations.of(context)!.campoObligatorio),
                       valueTransformer: (value) => value?.name,
                     )),
                     const SizedBox(width: defaultSizing),
@@ -116,8 +128,9 @@ class BeneficioFormView extends StatelessWidget {
                       initialValue: beneficio?.tipoDescuento,
                       enabled: beneficio?.activo ?? true,
                       decoration: CustomInputs.form(
-                          label: 'Tipo de descuento',
-                          hint: 'Tipo de descuento',
+                          label:
+                              AppLocalizations.of(context)!.tipo('descuento'),
+                          hint: AppLocalizations.of(context)!.tipo('descuento'),
                           icon: Icons.discount),
                       items: TipoDescuento.values
                           .map((descuento) => DropdownMenuItem(
@@ -126,7 +139,8 @@ class BeneficioFormView extends StatelessWidget {
                                   toBeginningOfSentenceCase(descuento.name)!)))
                           .toList(),
                       validator: FormBuilderValidators.required(
-                          errorText: 'Campo obligatorio'),
+                          errorText:
+                              AppLocalizations.of(context)!.campoObligatorio),
                       valueTransformer: (value) => value?.name,
                     ))
                   ]),

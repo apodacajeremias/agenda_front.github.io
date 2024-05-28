@@ -298,18 +298,6 @@
   "@aplicarDescuento": {
     "description": "aplicarDescuento"
   },
-  "tipoTransaccion": "Tipo de Transacción",
-  "@tipoTransaccion": {
-    "description": "tipoTransaccion"
-  },
-  "tipoBeneficio": "Tipo de Beneficio",
-  "@tipoBeneficio": {
-    "description": "tipoBeneficio"
-  },
-  "tipoDescuento": "Tipo de Descuento",
-  "@tipoDescuento": {
-    "description": "tipoDescuento"
-  },
   "totalPagar": "Total a pagar",
   "@totalPagar": {
     "description": "totalPagar"
@@ -352,15 +340,26 @@
   "@detalles": {
     "description": "detalles"
   },
-  "item": "{count, plural, other{Item} zero{Ningún item} one{Item} two{Items} few{Algunos items} many{Varios items}}",
+  "item": "{accion, select, asignar{Asignar item} registrar{Registrar nuevo item} editar{Editar item existente} eliminar{Eliminar item} ocultar{Ocultar item} other{Item}}",
   "@item": {
-    "description": "item",
+    "description": "acciones de item",
+    "placeholders": {
+      "accion": {}
+    }
+  },
+  "items": "{count, plural, other{Item} zero{Ningún item} one{Item} two{Items} few{Algunos items} many{Varios items}}",
+  "@items": {
+    "description": "items en cantidad",
     "placeholders": {
       "count": {
         "type": "int",
         "example": "1"
       }
     }
+  },
+  "precio": "Preco",
+  "@precio": {
+    "description": "precio"
   },
   "valor": "Valor",
   "@valor": {
@@ -404,6 +403,22 @@
       "role": {
         "type": "String"
       }
+    }
+  },
+  "tipo": "{tipo, select, other{Tipo} beneficio{Tipo de beneficio} descuento{Tipo de descuento} transaccion{Tipo de transacción} item{Tipo de item}}",
+  "@tipo": {
+    "description": "tipos de cosas",
+    "placeholders": {
+      "tipo": {
+        "type": "String"
+      }
+    }
+  },
+  "beneficio": "{accion, select, asignar{Asignar beneficio} registrar{Registrar nuevo beneficio} editar{Editar grupo beneficio} eliminar{Eliminar beneficio} ocultar{Ocultar beneficio} other{Beneficio}}",
+  "@beneficio": {
+    "description": "beneficio",
+    "placeholders": {
+      "accion": {}
     }
   }
 }

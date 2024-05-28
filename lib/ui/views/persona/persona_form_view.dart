@@ -1,4 +1,5 @@
 import 'package:agenda_front/constants.dart';
+import 'package:agenda_front/extensions.dart';
 import 'package:agenda_front/providers.dart';
 import 'package:agenda_front/services.dart';
 import 'package:agenda_front/src/models/entities/persona.dart';
@@ -28,6 +29,7 @@ class _PersonaFormViewState extends State<PersonaFormView> {
   @override
   Widget build(BuildContext context) {
     final session = Provider.of<AuthProvider>(context, listen: false).persona;
+    final hoy = DateTime.now();
     return ListView(
       physics: const ClampingScrollPhysics(),
       children: [
@@ -38,6 +40,17 @@ class _PersonaFormViewState extends State<PersonaFormView> {
         Stepper(
           elevation: 0,
           currentStep: currentStep,
+          controlsBuilder: (context, details) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  hoy.formatDate(),
+                  style: context.labelLarge,
+                )
+              ],
+            );
+          },
           steps: [
             Step(
               title: Text(AppLocalizations.of(context)!.datosPersonales),
