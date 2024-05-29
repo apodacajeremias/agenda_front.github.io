@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 class PersonaHandler {
   static Handler index = Handler(handlerFunc: (context, parameters) {
     final authProvider = Provider.of<AuthProvider>(context!, listen: false);
-
     if (authProvider.authStatus == AuthStatus.authenticated) {
       return const PersonaIndexView();
       // return const PersonaView();
@@ -19,7 +18,6 @@ class PersonaHandler {
 
   static Handler create = Handler(handlerFunc: (context, params) {
     final authProvider = Provider.of<AuthProvider>(context!, listen: false);
-
     if (authProvider.authStatus == AuthStatus.authenticated) {
       return const PersonaFormView();
     } else {
@@ -32,6 +30,7 @@ class PersonaHandler {
 
     if (authProvider.authStatus == AuthStatus.authenticated) {
       final id = params['id']?.first;
+      print(id);
       final persona = Provider.of<PersonaProvider>(context).buscar(id!);
       return PersonaFormView(persona: persona);
     } else {

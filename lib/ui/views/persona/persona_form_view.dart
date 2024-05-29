@@ -59,24 +59,22 @@ class _PersonaFormViewState extends State<PersonaFormView> {
             ),
             if (widget.persona != null) ...[
               Step(
-                title: Text(AppLocalizations.of(context)!.datosProfesionales),
-                content: _InformacionProfesional(persona: widget.persona!),
-                state: currentStep == 1 ? StepState.editing : StepState.indexed,
-              ),
-              // Aparece si existe un colaborador asociado a la persona
-              // Si el usuario en sesion es adm
-              // Si el usuario en sesion es dueño del perfil de persona
-              if (widget.persona!.colaborador != null &&
-                  (session?.user!.role == Role.ADMIN ||
-                      session?.id == widget.persona!.id)) ...[
-                Step(
+                  title: Text(AppLocalizations.of(context)!.datosProfesionales),
+                  content: _InformacionProfesional(persona: widget.persona!),
+                  state: (currentStep == 1)
+                      ? StepState.editing
+                      : (widget.persona != null)
+                          ? StepState.indexed
+                          : StepState.disabled),
+              Step(
                   title: Text(AppLocalizations.of(context)!.datosAcceso),
                   content: _InformacionCredencial(persona: widget.persona!),
-                  state:
-                      currentStep == 2 ? StepState.editing : StepState.indexed,
-                ),
-              ],
-            ],
+                  state: (currentStep == 2)
+                      ? StepState.editing
+                      : (widget.persona!.colaborador != null)
+                          ? StepState.indexed
+                          : StepState.disabled),
+            ]
           ],
           onStepTapped: (index) => setState(() {
             currentStep = index;
@@ -316,8 +314,6 @@ class _InformacionProfesional extends StatelessWidget {
                 hint: AppLocalizations.of(context)!.profesionTag,
                 icon: Icons.info_outline),
             validator: FormBuilderValidators.compose([
-              FormBuilderValidators.integer(
-                  errorText: AppLocalizations.of(context)!.soloNumeros),
               FormBuilderValidators.required(
                   errorText: AppLocalizations.of(context)!.campoObligatorio)
             ]),
@@ -332,8 +328,8 @@ class _InformacionProfesional extends StatelessWidget {
                 return;
               }
               if (formKey.currentState!.saveAndValidate()) {
-                final data = formKey.currentState!.value;
-                data.addAll({'persona.id': persona.id});
+                Map<String, dynamic> data = {'persona.id': persona.id};
+                data.addAll(formKey.currentState!.value);
                 await provider.registrar(data);
                 if (context.mounted) {
                   Navigator.of(context).pop();
@@ -396,6 +392,7 @@ class _InformacionCredencial extends StatelessWidget {
           const SizedBox(height: defaultSizing),
           FormBuilderDropdown(
               name: 'role',
+              initialValue: persona.user?.role,
               items: Role.values
                   .map((e) => DropdownMenuItem(value: e, child: Text(e.name)))
                   .toList()),
@@ -496,8 +493,8 @@ class _InformacionCredencial extends StatelessWidget {
             }
             try {
               if (formKey.currentState!.saveAndValidate()) {
-                final data = formKey.currentState!.value;
-                data.addAll({'persona.id': persona.id});
+                Map<String, dynamic> data = {'persona.id': persona.id};
+                data.addAll(formKey.currentState!.value);
                 await provider.registrar(data);
                 if (context.mounted) {
                   Navigator.of(context).pop();

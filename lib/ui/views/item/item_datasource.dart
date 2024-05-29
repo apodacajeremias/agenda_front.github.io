@@ -23,7 +23,7 @@ class ItemDataSource extends DataTableSource {
     return DataRow.byIndex(index: index, cells: [
       DataCell(Text(item.nombre!)),
       DataCell(Text(item.tipo!.name)),
-      // DataCell(TextCurrency(item.precio!)),
+      DataCell(Text(item.precio!.toString())),
       DataCell(Row(children: [
         IconButton(
           onPressed: () {

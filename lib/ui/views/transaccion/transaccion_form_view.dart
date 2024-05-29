@@ -62,8 +62,8 @@ class TransaccionFormView extends StatelessWidget {
                   name: 'tipo',
                   initialValue: transaccion?.tipo,
                   decoration: CustomInputs.form(
-                      label: AppLocalizations.of(context)!.tipoTransaccion,
-                      hint: AppLocalizations.of(context)!.tipoTransaccion,
+                      label: AppLocalizations.of(context)!.tipo('transaccion'),
+                      hint: AppLocalizations.of(context)!.tipo('transaccion'),
                       icon: Icons.info),
                   validator: FormBuilderValidators.required(
                       errorText:
@@ -77,8 +77,8 @@ class TransaccionFormView extends StatelessWidget {
                   name: 'tipoBeneficio',
                   initialValue: transaccion?.tipoBeneficio,
                   decoration: CustomInputs.form(
-                      label: AppLocalizations.of(context)!.tipoBeneficio,
-                      hint: AppLocalizations.of(context)!.tipoBeneficio,
+                      label: AppLocalizations.of(context)!.tipo('beneficio'),
+                      hint: AppLocalizations.of(context)!.tipo('beneficio'),
                       icon: Icons.info),
                   validator: FormBuilderValidators.required(
                       errorText:
@@ -92,8 +92,8 @@ class TransaccionFormView extends StatelessWidget {
                   name: 'tipoDescuento',
                   initialValue: transaccion?.tipoDescuento,
                   decoration: CustomInputs.form(
-                      label: AppLocalizations.of(context)!.tipoDescuento,
-                      hint: AppLocalizations.of(context)!.tipoDescuento,
+                      label: AppLocalizations.of(context)!.tipo('descuento'),
+                      hint: AppLocalizations.of(context)!.tipo('descuento'),
                       icon: Icons.info),
                   validator: FormBuilderValidators.required(
                       errorText:
