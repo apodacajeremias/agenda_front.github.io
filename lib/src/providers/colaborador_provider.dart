@@ -1,3 +1,4 @@
+import 'package:agenda_front/extensions.dart';
 import 'package:agenda_front/services.dart';
 import 'package:agenda_front/src/models/entities/colaborador.dart';
 import 'package:flutter/material.dart';
@@ -73,11 +74,23 @@ class ColaboradorProvider extends ChangeNotifier {
     }
   }
 
-  // saveAndValidate() {
-  //   return formKey.currentState!.saveAndValidate();
-  // }
+  existeRegistroContribuyente(String registroContribuyente) async {
+    try {
+      final json = await ServerConnection.httpGet(
+          '/colaboradores/existeRegistroContribuyente/$registroContribuyente');
+      return json.toString().toBoolean();
+    } catch (e) {
+      rethrow;
+    }
+  }
 
-  // formData() {
-  //   return formKey.currentState!.value;
-  // }
+  existeRegistroProfesional(String registroProfesional) async {
+    try {
+      final json = await ServerConnection.httpGet(
+          '/colaboradores/existeRegistroProfesional/$registroProfesional');
+      return json.toString().toBoolean();
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

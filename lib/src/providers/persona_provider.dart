@@ -27,9 +27,9 @@ class PersonaProvider extends ChangeNotifier {
     // Si data tiene un campo ID y este tiene informacion
     if (data.containsKey('id') && data['id'] != null) {
       // Actualiza
-      await _actualizar(data['id'], data);
+      return await _actualizar(data['id'], data);
     } else {
-      await _guardar(data);
+      return await _guardar(data);
     }
   }
 
@@ -40,6 +40,7 @@ class PersonaProvider extends ChangeNotifier {
       personas.add(persona);
       notifyListeners();
       NotificationService.showSnackbar('Agregado a personas');
+      return persona;
     } catch (e) {
       NotificationService.showSnackbarError('No agregado a personas');
       rethrow;
@@ -56,6 +57,7 @@ class PersonaProvider extends ChangeNotifier {
       personas[index] = persona;
       notifyListeners();
       NotificationService.showSnackbar('Persona actualizada');
+      return persona;
     } catch (e) {
       NotificationService.showSnackbarError('Persona no actualizada');
       rethrow;

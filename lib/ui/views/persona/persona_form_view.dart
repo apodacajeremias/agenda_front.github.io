@@ -74,6 +74,15 @@ class _PersonaFormViewState extends State<PersonaFormView> {
                       : (widget.persona!.colaborador != null)
                           ? StepState.indexed
                           : StepState.disabled),
+            ] else ...[
+              Step(
+                  title: Text(AppLocalizations.of(context)!.datosProfesionales),
+                  content: Container(),
+                  state: StepState.disabled),
+              Step(
+                  title: Text(AppLocalizations.of(context)!.datosAcceso),
+                  content: Container(),
+                  state: StepState.disabled),
             ]
           ],
           onStepTapped: (index) => setState(() {
@@ -133,10 +142,10 @@ class _InformacionPersonal extends StatelessWidget {
                 hint: AppLocalizations.of(context)!.documentoIdentidadTag,
                 icon: Icons.info_outline),
             validator: FormBuilderValidators.compose([
+              FormBuilderValidators.required(
+                  errorText: AppLocalizations.of(context)!.campoObligatorio),
               FormBuilderValidators.integer(
                   errorText: AppLocalizations.of(context)!.soloNumeros),
-              FormBuilderValidators.required(
-                  errorText: AppLocalizations.of(context)!.campoObligatorio)
             ]),
           ),
           const SizedBox(height: defaultSizing),
@@ -218,10 +227,25 @@ class _InformacionPersonal extends StatelessWidget {
                 return;
               }
               if (formKey.currentState!.saveAndValidate()) {
+                final documentoIdentidad =
+                    formKey.currentState!.fields['documentoIdentidad']!.value;
+                if (await Provider.of<PersonaProvider>(context, listen: false)
+                    .existeDocumento(documentoIdentidad)) {
+                  if (context.mounted) {
+                    formKey.currentState!.fields['documentoIdentidad']
+                        ?.invalidate(AppLocalizations.of(context)!
+                            .documentoIdentidadYaExiste);
+                  }
+                  return;
+                }
+
                 final data = formKey.currentState!.value;
-                await provider.registrar(data);
+                final persona = await provider.registrar(data);
                 if (context.mounted) {
-                  Navigator.of(context).pop();
+                  print(RouterService.personasEditRoute
+                      .replaceAll(':id', persona.id));
+                  NavigationService.navigateTo(RouterService.personasEditRoute
+                      .replaceAll(':id', persona.id));
                 }
               }
             } catch (e) {
@@ -328,11 +352,42 @@ class _InformacionProfesional extends StatelessWidget {
                 return;
               }
               if (formKey.currentState!.saveAndValidate()) {
+                if (context.mounted) {
+                  final registroContribuyente = formKey
+                      .currentState!.fields['registroContribuyente']!.value;
+                  final registroProfesional = formKey
+                      .currentState!.fields['registroProfesional']!.value;
+                  final existeRegistroContribuyente =
+                      await Provider.of<ColaboradorProvider>(context,
+                              listen: false)
+                          .existeRegistroContribuyente(registroContribuyente);
+                  final existeRegistroProfesional =
+                      await Provider.of<ColaboradorProvider>(context,
+                              listen: false)
+                          .existeRegistroProfesional(registroProfesional);
+                  if (existeRegistroContribuyente ||
+                      existeRegistroProfesional) {
+                    if (existeRegistroProfesional) {
+                      formKey.currentState!.fields['registroProfesional']
+                          ?.invalidate(AppLocalizations.of(context)!
+                              .registroProfesionalYaExiste);
+                    }
+                    if (existeRegistroContribuyente) {
+                      formKey.currentState!.fields['registroContribuyente']
+                          ?.invalidate(AppLocalizations.of(context)!
+                              .registroContribuyenteYaExiste);
+                    }
+                    return;
+                  }
+                }
+
                 Map<String, dynamic> data = {'persona.id': persona.id};
                 data.addAll(formKey.currentState!.value);
                 await provider.registrar(data);
                 if (context.mounted) {
-                  Navigator.of(context).pop();
+                  // Navigator.of(context).pop();
+                  NavigationService.navigateTo(RouterService.personasEditRoute
+                      .replaceAll(':id', persona.id!));
                 }
               }
             } catch (e) {
@@ -376,7 +431,7 @@ class _InformacionCredencial extends StatelessWidget {
           ],
           const SizedBox(height: defaultSizing),
           FormBuilderTextField(
-            name: 'username',
+            name: 'email',
             initialValue: persona.user?.username,
             decoration: CustomInputs.form(
                 label: AppLocalizations.of(context)!.correoTag,
@@ -493,11 +548,23 @@ class _InformacionCredencial extends StatelessWidget {
             }
             try {
               if (formKey.currentState!.saveAndValidate()) {
+                final email = formKey.currentState!.fields['email']!.value;
+                if (await Provider.of<UserProvider>(context, listen: false)
+                    .existe(email)) {
+                  if (context.mounted) {
+                    formKey.currentState!.fields['email']?.invalidate(
+                        AppLocalizations.of(context)!.correoNoDisponible);
+                  }
+                  return;
+                }
+
                 Map<String, dynamic> data = {'persona.id': persona.id};
                 data.addAll(formKey.currentState!.value);
                 await provider.registrar(data);
                 if (context.mounted) {
-                  Navigator.of(context).pop();
+                  // Navigator.of(context).pop();
+                  NavigationService.navigateTo(RouterService.personasEditRoute
+                      .replaceAll(':id', persona.id!));
                 }
               }
             } catch (e) {

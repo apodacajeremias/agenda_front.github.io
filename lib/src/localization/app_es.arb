@@ -235,6 +235,14 @@
   "@documentoIdentidadYaExiste": {
     "description": "documentoIdentidadYaExiste"
   },
+  "registroContribuyenteYaExiste": "Registro de contribuyente no disponible, ya existe",
+  "@registroContribuyenteYaExiste": {
+    "description": "registroContribuyenteYaExiste"
+  },
+  "registroProfesionalYaExiste": "Registro profesional no disponible, ya existe",
+  "@registroProfesionalYaExiste": {
+    "description": "registroProfesionalYaExiste"
+  },
   "direccionTag": "Dirección",
   "@direccionTag": {
     "description": "direccionTag"
