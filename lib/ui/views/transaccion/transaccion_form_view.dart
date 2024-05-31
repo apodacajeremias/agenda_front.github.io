@@ -1,7 +1,11 @@
 import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/extensions.dart';
 import 'package:agenda_front/providers.dart';
+import 'package:agenda_front/src/models/entities/beneficio.dart';
+import 'package:agenda_front/src/models/entities/grupo.dart';
 import 'package:agenda_front/src/models/entities/item.dart';
+import 'package:agenda_front/src/models/entities/persona.dart';
+import 'package:agenda_front/src/models/entities/promocion.dart';
 import 'package:agenda_front/src/models/entities/transaccion.dart';
 import 'package:agenda_front/src/models/entities/transaccion_detalle.dart';
 import 'package:agenda_front/src/models/enums/tipo_beneficio.dart';
@@ -21,19 +25,30 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 
-class TransaccionFormView extends StatelessWidget {
+class TransaccionFormView extends StatefulWidget {
   final Transaccion? transaccion;
   const TransaccionFormView({super.key, this.transaccion});
 
   @override
+  State<TransaccionFormView> createState() => _TransaccionFormViewState();
+}
+
+class _TransaccionFormViewState extends State<TransaccionFormView> {
+  Persona? persona;
+  Grupo? grupo;
+  Beneficio? beneficio;
+  Promocion? promocion;
+
+  @override
   Widget build(BuildContext context) {
+    persona = widget.transaccion?.persona;
     final provider = Provider.of<TransaccionProvider>(context);
     final formKey = GlobalKey<FormBuilderState>();
     return ListView(
       physics: const ClampingScrollPhysics(),
       children: [
         FormHeader(
-            title: transaccion?.id == null
+            title: widget.transaccion?.id == null
                 ? AppLocalizations.of(context)!.transaccion('registrar')
                 : AppLocalizations.of(context)!.transaccion('editar')),
         WhiteCard(
@@ -42,7 +57,7 @@ class TransaccionFormView extends StatelessWidget {
           child: Column(
             children: [
               // TODO: falta agregar grupo, beneficio
-              if (transaccion?.id != null) ...[
+              if (widget.transaccion?.id != null) ...[
                 const SizedBox(height: defaultSizing),
                 Row(
                   children: [
@@ -50,7 +65,7 @@ class TransaccionFormView extends StatelessWidget {
                         flex: 2,
                         child: FormBuilderTextField(
                           name: 'id',
-                          initialValue: transaccion?.id,
+                          initialValue: widget.transaccion?.id,
                           enabled: false,
                           decoration: CustomInputs.form(
                               label: AppLocalizations.of(context)!.idTag,
@@ -58,7 +73,7 @@ class TransaccionFormView extends StatelessWidget {
                               icon: Icons.qr_code_rounded),
                         )),
                     const SizedBox(width: defaultSizing),
-                    if (transaccion!.activo) ...[
+                    if (widget.transaccion!.activo) ...[
                       Expanded(
                           child: FormBuilderTextField(
                         name: '-activo',
@@ -81,12 +96,17 @@ class TransaccionFormView extends StatelessWidget {
               const SizedBox(height: defaultSizing),
               PersonaSearchableDropdown(
                 name: 'persona',
-                unique: transaccion?.persona,
+                unique: widget.transaccion?.persona,
+                onChanged: (p) {
+                  setState(() {
+                    persona = p;
+                  });
+                },
               ),
               const SizedBox(height: defaultSizing),
               FormBuilderDropdown(
                   name: 'tipo',
-                  initialValue: transaccion?.tipo,
+                  initialValue: widget.transaccion?.tipo,
                   decoration: CustomInputs.form(
                       label: AppLocalizations.of(context)!.tipo('transaccion'),
                       hint: AppLocalizations.of(context)!.tipo('transaccion'),
@@ -98,41 +118,112 @@ class TransaccionFormView extends StatelessWidget {
                       .map((e) =>
                           DropdownMenuItem(value: e, child: Text(e.toString())))
                       .toList()),
-              const SizedBox(height: defaultSizing),
-              FormBuilderDropdown(
-                  name: 'tipoBeneficio',
-                  initialValue: transaccion?.tipoBeneficio,
-                  decoration: CustomInputs.form(
-                      label: AppLocalizations.of(context)!.tipo('beneficio'),
-                      hint: AppLocalizations.of(context)!.tipo('beneficio'),
-                      icon: Icons.info),
-                  validator: FormBuilderValidators.required(
-                      errorText:
-                          AppLocalizations.of(context)!.campoObligatorio),
-                  items: TipoBeneficio.values
-                      .map((e) =>
-                          DropdownMenuItem(value: e, child: Text(e.toString())))
-                      .toList()),
-              const SizedBox(height: defaultSizing),
-              FormBuilderDropdown(
-                  name: 'tipoDescuento',
-                  initialValue: transaccion?.tipoDescuento,
-                  decoration: CustomInputs.form(
-                      label: AppLocalizations.of(context)!.tipo('descuento'),
-                      hint: AppLocalizations.of(context)!.tipo('descuento'),
-                      icon: Icons.info),
-                  validator: FormBuilderValidators.required(
-                      errorText:
-                          AppLocalizations.of(context)!.campoObligatorio),
-                  items: TipoDescuento.values
-                      .map((e) =>
-                          DropdownMenuItem(value: e, child: Text(e.toString())))
-                      .toList()),
+              if (persona != null && persona!.grupos != null) ...[
+                const SizedBox(height: defaultSizing),
+                FormBuilderDropdown(
+                    name: 'grupo',
+                    initialValue: widget.transaccion?.grupo,
+                    decoration: CustomInputs.form(
+                        label: AppLocalizations.of(context)!.grupo('asignar'),
+                        hint: AppLocalizations.of(context)!.grupo('asignar'),
+                        icon: Icons.group),
+                    onChanged: (value) {
+                      setState(() {
+                        grupo = value;
+                      });
+                    },
+                    items: persona!.grupos!
+                        .map((e) => DropdownMenuItem(
+                            value: e, child: Text(e.toString())))
+                        .toList()),
+                if (grupo != null && grupo!.beneficio != null) ...[
+                  const SizedBox(height: defaultSizing),
+                  FormBuilderDropdown(
+                    name: 'beneficio',
+                    initialValue: widget.transaccion?.beneficio,
+                    decoration: CustomInputs.form(
+                        label:
+                            AppLocalizations.of(context)!.beneficio('asignar'),
+                        hint:
+                            AppLocalizations.of(context)!.beneficio('asignar'),
+                        icon: Icons.group),
+                    onChanged: (value) {
+                      setState(() {
+                        beneficio = value;
+                      });
+                    },
+                    items: [
+                      DropdownMenuItem(
+                          value: grupo!.beneficio,
+                          child: Text(grupo!.beneficio.toString()))
+                    ],
+                  )
+                ],
+                if (beneficio != null && beneficio!.promociones != null) ...[
+                  const SizedBox(height: defaultSizing),
+                  FormBuilderDropdown(
+                    name: 'promocion',
+                    initialValue: widget.transaccion?.promocion,
+                    decoration: CustomInputs.form(
+                        label:
+                            AppLocalizations.of(context)!.promocion('asignar'),
+                        hint:
+                            AppLocalizations.of(context)!.promocion('asignar'),
+                        icon: Icons.group),
+                    onChanged: (value) {
+                      setState(() {
+                        promocion = value;
+                      });
+                    },
+                    items: grupo!.beneficio!.promociones!
+                        .map((e) => DropdownMenuItem(
+                            value: e, child: Text(e.toString())))
+                        .toList(),
+                  )
+                ]
+              ],
+
+              if (beneficio != null) ...[
+                const SizedBox(height: defaultSizing),
+                FormBuilderDropdown(
+                    name: 'tipoBeneficio',
+                    initialValue: widget.transaccion?.tipoBeneficio,
+                    decoration: CustomInputs.form(
+                        label: AppLocalizations.of(context)!.tipo('beneficio'),
+                        hint: AppLocalizations.of(context)!.tipo('beneficio'),
+                        icon: Icons.info),
+                    validator: FormBuilderValidators.required(
+                        errorText:
+                            AppLocalizations.of(context)!.campoObligatorio),
+                    items: TipoBeneficio.values
+                        .map((e) => DropdownMenuItem(
+                            value: e, child: Text(e.toString())))
+                        .toList()),
+                if (promocion != null) ...[
+                  const SizedBox(height: defaultSizing),
+                  FormBuilderDropdown(
+                      name: 'tipoDescuento',
+                      initialValue: widget.transaccion?.tipoDescuento,
+                      decoration: CustomInputs.form(
+                          label:
+                              AppLocalizations.of(context)!.tipo('descuento'),
+                          hint: AppLocalizations.of(context)!.tipo('descuento'),
+                          icon: Icons.info),
+                      validator: FormBuilderValidators.required(
+                          errorText:
+                              AppLocalizations.of(context)!.campoObligatorio),
+                      items: TipoDescuento.values
+                          .map((e) => DropdownMenuItem(
+                              value: e, child: Text(e.toString())))
+                          .toList()),
+                ]
+              ],
+
               const SizedBox(height: defaultSizing),
               FormBuilderCheckbox(
                 name: 'aplicarDescuento',
                 title: Text(AppLocalizations.of(context)!.aplicarDescuento),
-                initialValue: transaccion?.aplicarPromocion,
+                initialValue: widget.transaccion?.aplicarPromocion,
                 decoration: CustomInputs.form(
                     label: AppLocalizations.of(context)!.aplicarDescuento,
                     hint: AppLocalizations.of(context)!.aplicarDescuento,
@@ -142,7 +233,7 @@ class TransaccionFormView extends StatelessWidget {
               FormBuilderTextField(
                 name: 'sumatoria',
                 initialValue:
-                    transaccion?.sumatoria?.toString() ?? 0.toString(),
+                    widget.transaccion?.sumatoria.toString() ?? 0.toString(),
                 decoration: CustomInputs.form(
                     label: AppLocalizations.of(context)!.sumatoriaTotal,
                     hint: AppLocalizations.of(context)!.sumatoriaTotal,
@@ -154,7 +245,7 @@ class TransaccionFormView extends StatelessWidget {
               FormBuilderTextField(
                 name: 'descuento',
                 initialValue:
-                    transaccion?.descuento?.toString() ?? 0.toString(),
+                    widget.transaccion?.descuento.toString() ?? 0.toString(),
                 decoration: CustomInputs.form(
                     label: AppLocalizations.of(context)!.descuento,
                     hint: AppLocalizations.of(context)!.descuento,
@@ -165,7 +256,8 @@ class TransaccionFormView extends StatelessWidget {
               const SizedBox(height: defaultSizing),
               FormBuilderTextField(
                 name: 'total',
-                initialValue: transaccion?.total?.toString() ?? 0.toString(),
+                initialValue:
+                    widget.transaccion?.total.toString() ?? 0.toString(),
                 decoration: CustomInputs.form(
                     label: AppLocalizations.of(context)!.totalPagar,
                     hint: AppLocalizations.of(context)!.totalPagar,
@@ -174,7 +266,7 @@ class TransaccionFormView extends StatelessWidget {
                     errorText: AppLocalizations.of(context)!.campoObligatorio),
               ),
               const SizedBox(height: defaultSizing),
-              if (transaccion != null) ...[
+              if (widget.transaccion != null) ...[
                 Text(AppLocalizations.of(context)!.detalles,
                     style: context.headlineLarge),
                 const SizedBox(height: defaultSizing),
@@ -192,7 +284,7 @@ class TransaccionFormView extends StatelessWidget {
                       )
                     ],
                     source: TransaccionDetalleDataSource(
-                        transaccion!.detalles ??
+                        widget.transaccion!.detalles ??
                             [
                               TransaccionDetalle(
                                   id: AppLocalizations.of(context)!.items(0),
@@ -201,6 +293,10 @@ class TransaccionFormView extends StatelessWidget {
                                   nombre:
                                       AppLocalizations.of(context)!.items(0),
                                   item: Item(
+                                      id: AppLocalizations.of(context)!
+                                          .items(0),
+                                      activo: false,
+                                      fechaCreacion: DateTime.now(),
                                       nombre: AppLocalizations.of(context)!
                                           .items(0)),
                                   cantidad: 0,

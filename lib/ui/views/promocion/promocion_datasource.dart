@@ -23,7 +23,7 @@ class PromocionDataSource extends DataTableSource {
   DataRow? getRow(int index) {
     final promocion = promociones[index];
     return DataRow.byIndex(index: index, cells: [
-      DataCell(Text(promocion.nombre!)),
+      DataCell(Text(promocion.nombre)),
       DataCell(Text(promocion.inicio.formatDate())),
       DataCell(Text(promocion.fin.formatDate())),
       DataCell(Text(promocion.valor.toString())),

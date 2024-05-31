@@ -16,7 +16,7 @@ class ItemProvider extends ChangeNotifier {
   }
 
   Item? buscar(String id) {
-    return items.where((element) => element.id!.contains(id)).first;
+    return items.where((element) => element.id.contains(id)).first;
   }
 
   registrar(Map<String, dynamic> data) async {
@@ -47,7 +47,7 @@ class ItemProvider extends ChangeNotifier {
       final json = await ServerConnection.httpPut('/items/$id', data);
       final item = Item.fromJson(json);
       // Buscamos el index en lista del ID Item
-      final index = items.indexWhere((element) => element.id!.contains(id));
+      final index = items.indexWhere((element) => element.id.contains(id));
       // Se substituye la informacion del index por la informacion actualizada
       items[index] = item;
       notifyListeners();

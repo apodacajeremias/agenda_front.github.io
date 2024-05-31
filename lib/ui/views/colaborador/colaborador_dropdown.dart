@@ -37,7 +37,7 @@ class _ColaboradorSearchableDropdownState
       name: widget.name,
       initialValue: widget.unique,
       items: items,
-      compareFn: (item1, item2) => item1.id!.contains(item2.id!),
+      compareFn: (item1, item2) => item1.id.contains(item2.id),
       validator: FormBuilderValidators.required(errorText: 'Campo obligatorio'),
       valueTransformer: (value) => value?.id,
       decoration: CustomInputs.form(

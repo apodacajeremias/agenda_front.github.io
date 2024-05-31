@@ -22,7 +22,7 @@ class BeneficioDataSource extends DataTableSource {
   DataRow? getRow(int index) {
     final beneficio = beneficios[index];
     return DataRow.byIndex(index: index, cells: [
-      DataCell(Text(beneficio.nombre!)),
+      DataCell(Text(beneficio.nombre)),
       DataCell(Text(beneficio.tipo.toString())),
       DataCell(Text(beneficio.tipoDescuento.toString())),
       DataCell(Text(beneficio.descuento.toString())),
@@ -51,7 +51,7 @@ class BeneficioDataSource extends DataTableSource {
                           var confirmado = await Provider.of<BeneficioProvider>(
                                   context,
                                   listen: false)
-                              .eliminar(beneficio.id!);
+                              .eliminar(beneficio.id);
                           if (confirmado) {
                             NotificationService.showSnackbar(
                                 'Beneficio eliminado exitosamente');

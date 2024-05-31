@@ -19,10 +19,10 @@ class PromocionFormView extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<PromocionProvider>(context, listen: false);
     return Container(
-      padding: EdgeInsets.all(defaultSizing),
+      padding: const EdgeInsets.all(defaultSizing),
       child: ListView(
         children: [
-          FormHeader(title: 'Promoción'),
+          const FormHeader(title: 'Promoción'),
           WhiteCard(
               child: FormBuilder(
                   key: provider.formKey,
@@ -54,7 +54,7 @@ class PromocionFormView extends StatelessWidget {
                           ],
                         )
                       ],
-                      SizedBox(height: defaultSizing),
+                      const SizedBox(height: defaultSizing),
                       FormBuilderTextField(
                         name: 'nombre',
                         initialValue: promocion?.nombre,
@@ -66,7 +66,7 @@ class PromocionFormView extends StatelessWidget {
                         validator: FormBuilderValidators.required(
                             errorText: 'Campo obligatorio'),
                       ),
-                      SizedBox(height: defaultSizing),
+                      const SizedBox(height: defaultSizing),
                       Row(
                         children: [
                           Expanded(
@@ -84,7 +84,7 @@ class PromocionFormView extends StatelessWidget {
                                 value?.toIso8601String(),
                             inputType: InputType.date,
                           )),
-                          SizedBox(height: defaultSizing),
+                          const SizedBox(height: defaultSizing),
                           Expanded(
                               child: FormBuilderDateTimePicker(
                             name: 'fin',
@@ -102,7 +102,7 @@ class PromocionFormView extends StatelessWidget {
                           )),
                         ],
                       ),
-                      SizedBox(height: defaultSizing),
+                      const SizedBox(height: defaultSizing),
                       Row(
                         children: [
                           Expanded(
@@ -118,7 +118,7 @@ class PromocionFormView extends StatelessWidget {
                                   errorText: 'Campo obligatorio'),
                             ),
                           ),
-                          SizedBox(width: defaultSizing),
+                          const SizedBox(width: defaultSizing),
                           Expanded(
                             child: FormBuilderDropdown(
                               name: 'tipoDescuento',

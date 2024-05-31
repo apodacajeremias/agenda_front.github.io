@@ -20,7 +20,7 @@ class GrupoDataSource extends DataTableSource {
   DataRow? getRow(int index) {
     final grupo = grupos[index];
     return DataRow.byIndex(index: index, cells: [
-      DataCell(Text(grupo.nombre!)),
+      DataCell(Text(grupo.nombre)),
       DataCell(Text(grupo.beneficio.toString())),
       DataCell(Row(children: [
         IconButton(
@@ -47,7 +47,7 @@ class GrupoDataSource extends DataTableSource {
                           var confirmado = await Provider.of<GrupoProvider>(
                                   context,
                                   listen: false)
-                              .eliminar(grupo.id!);
+                              .eliminar(grupo.id);
                           if (confirmado) {
                             NotificationService.showSnackbar(
                                 'Grupo eliminado exitosamente');

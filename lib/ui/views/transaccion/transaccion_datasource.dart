@@ -24,8 +24,8 @@ class TransaccionDataSource extends DataTableSource {
   DataRow? getRow(int index) {
     final transaccion = transacciones[index];
     return DataRow.byIndex(index: index, cells: [
-      DataCell(Text(transaccion.persona!.nombre!)),
-      DataCell(Text(transaccion.fechaCreacion!.formatDate())),
+      DataCell(Text(transaccion.persona.nombre)),
+      DataCell(Text(transaccion.fechaCreacion.formatDate())),
       DataCell(Text(transaccion.tipo.toString())),
       DataCell(Text(transaccion.total.toString())),
       DataCell(Row(children: [
@@ -99,7 +99,7 @@ class TransaccionDataSourceProfile extends DataTableSource {
   DataRow? getRow(int index) {
     final transaccion = transacciones[index];
     return DataRow.byIndex(index: index, cells: [
-      DataCell(Text(transaccion.fechaCreacion!.formatDate())),
+      DataCell(Text(transaccion.fechaCreacion.formatDate())),
       DataCell(Text(transaccion.tipo.toString())),
       DataCell(Text(transaccion.total.toString())),
     ]);
@@ -135,7 +135,7 @@ class TransaccionDetalleDataSource extends DataTableSource {
     final detalle = detalles[index];
     return DataRow.byIndex(index: index, cells: [
       DataCell(Text(index.toString())),
-      DataCell(Text(detalle.item!.nombre!)),
+      DataCell(Text(detalle.item!.nombre)),
       DataCell(Text(detalle.cantidad!.toString())),
       DataCell(Text(detalle.valor!.toString())),
       DataCell(Text(detalle.subtotal!.toString())),

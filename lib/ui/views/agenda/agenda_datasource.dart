@@ -23,8 +23,8 @@ class AgendaDataSource extends DataTableSource {
   DataRow? getRow(int index) {
     final agenda = agendas[index];
     return DataRow.byIndex(index: index, cells: [
-      DataCell(Text(agenda.persona!.nombre!)),
-      DataCell(Text(agenda.colaborador!.nombre!)),
+      DataCell(Text(agenda.persona.nombre)),
+      DataCell(Text(agenda.colaborador.nombre)),
       DataCell(Text(agenda.inicio!.formatDateTime())),
       DataCell(Text(agenda.fin!.formatDateTime())),
       DataCell(Row(children: [
@@ -98,7 +98,7 @@ class AgendaDataSourceProfile extends DataTableSource {
   DataRow? getRow(int index) {
     final agenda = agendas[index];
     return DataRow.byIndex(index: index, cells: [
-      DataCell(Text(agenda.colaborador!.nombre!)),
+      DataCell(Text(agenda.colaborador.nombre)),
       DataCell(Text(agenda.inicio!.formatDateTime())),
       DataCell(Text(agenda.fin!.formatDateTime())),
     ]);

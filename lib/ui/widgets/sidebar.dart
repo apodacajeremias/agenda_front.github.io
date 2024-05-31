@@ -130,10 +130,10 @@ class _SidebarDrawer extends StatelessWidget {
           children: [
             // Text(AppLocalizations.of(context)!.appTitle, style: style),
             const SizedBox(height: defaultSizing),
-            Text(provider.empresa!.nombre!, style: style),
+            Text(provider.empresa!.nombre, style: style),
             const SizedBox(height: defaultSizing),
             Text(
-                '${AppLocalizations.of(context)!.bienvenido} ${provider.persona!.nombre!.firstWord()}',
+                '${AppLocalizations.of(context)!.bienvenido} ${provider.persona!.nombre.firstWord()}',
                 style: style2),
             const SizedBox(height: defaultSizing),
             OButton.salir(provider)

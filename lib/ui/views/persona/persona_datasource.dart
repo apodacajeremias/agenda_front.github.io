@@ -21,8 +21,8 @@ class PersonaDataSource extends DataTableSource {
   DataRow? getRow(int index) {
     final persona = personas[index];
     return DataRow.byIndex(index: index, cells: [
-      DataCell(Text(persona.nombre!)),
-      DataCell(Text(persona.documentoIdentidad!)),
+      DataCell(Text(persona.nombre)),
+      DataCell(Text(persona.documentoIdentidad)),
       DataCell(Text(persona.celular ?? persona.telefono ?? 'Sin contacto.')),
       DataCell(Row(children: [
         IconButton(
@@ -48,7 +48,7 @@ class PersonaDataSource extends DataTableSource {
                           var confirmado = await Provider.of<PersonaProvider>(
                                   context,
                                   listen: false)
-                              .eliminar(persona.id!);
+                              .eliminar(persona.id);
                           if (confirmado) {
                             NotificationService.showSnackbar(
                                 'Persona eliminada exitosamente');

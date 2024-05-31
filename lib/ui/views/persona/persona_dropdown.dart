@@ -10,8 +10,10 @@ import 'package:provider/provider.dart';
 class PersonaSearchableDropdown extends StatefulWidget {
   final String name;
   final Persona? unique;
+  final Function(Persona?)? onChanged;
 
-  const PersonaSearchableDropdown({super.key, required this.name, this.unique});
+  const PersonaSearchableDropdown(
+      {super.key, required this.name, this.unique, this.onChanged});
 
   @override
   State<PersonaSearchableDropdown> createState() =>
@@ -35,7 +37,8 @@ class _PersonaSearchableDropdownState extends State<PersonaSearchableDropdown> {
       name: widget.name,
       initialValue: widget.unique,
       items: items,
-      compareFn: (item1, item2) => item1.id!.contains(item2.id!),
+      compareFn: (item1, item2) => item1.id.contains(item2.id),
+      onChanged: widget.onChanged,
       validator: FormBuilderValidators.required(
           errorText: AppLocalizations.of(context)!.campoObligatorio),
       valueTransformer: (value) => value?.id,

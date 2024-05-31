@@ -22,7 +22,7 @@ class ColaboradorDataSource extends DataTableSource {
   DataRow? getRow(int index) {
     final colaborador = colaboradores[index];
     return DataRow.byIndex(index: index, cells: [
-      DataCell(Text(colaborador.nombre!)),
+      DataCell(Text(colaborador.nombre)),
       DataCell(Text(colaborador.profesion ?? 'Sin registro.')),
       DataCell(Text(colaborador.registroContribuyente!)),
       DataCell(Text(colaborador.registroProfesional!)),
@@ -51,7 +51,7 @@ class ColaboradorDataSource extends DataTableSource {
                           var confirmado =
                               await Provider.of<ColaboradorProvider>(context,
                                       listen: false)
-                                  .eliminar(colaborador.id!);
+                                  .eliminar(colaborador.id);
                           if (confirmado) {
                             NotificationService.showSnackbar(
                                 'Colaborador eliminado exitosamente');

@@ -16,7 +16,7 @@ class GrupoProvider extends ChangeNotifier {
   }
 
   Grupo? buscar(String id) {
-    return grupos.where((element) => element.id!.contains(id)).first;
+    return grupos.where((element) => element.id.contains(id)).first;
   }
 
   registrar(Map<String, dynamic> data) async {
@@ -47,7 +47,7 @@ class GrupoProvider extends ChangeNotifier {
       final json = await ServerConnection.httpPut('/grupos/$id', data);
       final grupo = Grupo.fromJson(json);
       // Buscamos el index en lista del ID Grupo
-      final index = grupos.indexWhere((element) => element.id!.contains(id));
+      final index = grupos.indexWhere((element) => element.id.contains(id));
       // Se substituye la informacion del index por la informacion actualizada
       grupos[index] = grupo;
       notifyListeners();

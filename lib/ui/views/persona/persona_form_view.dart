@@ -387,7 +387,7 @@ class _InformacionProfesional extends StatelessWidget {
                 if (context.mounted) {
                   // Navigator.of(context).pop();
                   NavigationService.navigateTo(RouterService.personasEditRoute
-                      .replaceAll(':id', persona.id!));
+                      .replaceAll(':id', persona.id));
                 }
               }
             } catch (e) {
@@ -564,7 +564,7 @@ class _InformacionCredencial extends StatelessWidget {
                 if (context.mounted) {
                   // Navigator.of(context).pop();
                   NavigationService.navigateTo(RouterService.personasEditRoute
-                      .replaceAll(':id', persona.id!));
+                      .replaceAll(':id', persona.id));
                 }
               }
             } catch (e) {

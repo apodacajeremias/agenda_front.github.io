@@ -1,6 +1,7 @@
 import 'package:agenda_front/src/models/entities/beneficio.dart';
 import 'package:agenda_front/src/models/entities/grupo.dart';
 import 'package:agenda_front/src/models/entities/persona.dart';
+import 'package:agenda_front/src/models/entities/promocion.dart';
 import 'package:agenda_front/src/models/entities/transaccion_detalle.dart';
 import 'package:agenda_front/src/models/enums/tipo_beneficio.dart';
 import 'package:agenda_front/src/models/enums/tipo_descuento.dart';
@@ -22,6 +23,7 @@ class Transaccion {
   Persona persona;
   Grupo? grupo;
   Beneficio? beneficio;
+  Promocion? promocion;
   List<TransaccionDetalle>? detalles;
 
   Transaccion({
@@ -39,6 +41,7 @@ class Transaccion {
     required this.persona,
     this.grupo,
     this.beneficio,
+    this.promocion,
     this.detalles,
   });
 
@@ -57,6 +60,7 @@ class Transaccion {
         persona: Persona.fromJson(json['persona']),
         grupo: Grupo.fromJson(json['grupo']),
         beneficio: Beneficio.fromJson(json['beneficio']),
+        promocion: Promocion.fromJson(json['promocion']),
         detalles: (json.containsKey('detalles') && json['detalles'] != null)
             ? List.from(
                 json['detalles'].map((td) => TransaccionDetalle.fromJson(td)))

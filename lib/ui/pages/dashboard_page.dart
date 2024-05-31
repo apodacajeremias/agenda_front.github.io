@@ -16,7 +16,7 @@ class DashboardPage extends StatelessWidget {
                   appBar: AppBar(
                       leading: Builder(
                         builder: (context) => IconButton(
-                          icon: Icon(Icons.menu_rounded),
+                          icon: const Icon(Icons.menu_rounded),
                           color: Colors.blueAccent,
                           onPressed: () => Scaffold.of(context).openDrawer(),
                         ),

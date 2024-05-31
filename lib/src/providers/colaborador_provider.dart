@@ -16,7 +16,7 @@ class ColaboradorProvider extends ChangeNotifier {
   }
 
   Colaborador? buscar(String id) {
-    return colaboradores.where((element) => element.id!.contains(id)).first;
+    return colaboradores.where((element) => element.id.contains(id)).first;
   }
 
   registrar(Map<String, dynamic> data) async {
@@ -48,7 +48,7 @@ class ColaboradorProvider extends ChangeNotifier {
       final colaborador = Colaborador.fromJson(json);
       // Buscamos el index en lista del ID Colaborador
       final index =
-          colaboradores.indexWhere((element) => element.id!.contains(id));
+          colaboradores.indexWhere((element) => element.id.contains(id));
       // Se substituye la informacion del index por la informacion actualizada
       colaboradores[index] = colaborador;
       notifyListeners();

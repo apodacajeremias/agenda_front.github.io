@@ -16,7 +16,7 @@ class BeneficioProvider extends ChangeNotifier {
   }
 
   Beneficio? buscar(String id) {
-    return beneficios.where((element) => element.id!.contains(id)).first;
+    return beneficios.where((element) => element.id.contains(id)).first;
   }
 
   registrar(Map<String, dynamic> data) async {
@@ -48,7 +48,7 @@ class BeneficioProvider extends ChangeNotifier {
       final beneficio = Beneficio.fromJson(json);
       // Buscamos el index en lista del ID Beneficio
       final index =
-          beneficios.indexWhere((element) => element.id!.contains(id));
+          beneficios.indexWhere((element) => element.id.contains(id));
       // Se substituye la informacion del index por la informacion actualizada
       beneficios[index] = beneficio;
       notifyListeners();

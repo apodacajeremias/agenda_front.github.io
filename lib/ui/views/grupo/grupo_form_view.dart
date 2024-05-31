@@ -36,11 +36,11 @@ class _GrupoFormViewState extends State<GrupoFormView> {
     final personas =
         Provider.of<PersonaProvider>(context, listen: false).personas;
     return Container(
-      padding: EdgeInsets.all(defaultSizing),
+      padding: const EdgeInsets.all(defaultSizing),
       child: ListView(
-        physics: ClampingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         children: [
-          FormHeader(title: 'Grupo'),
+          const FormHeader(title: 'Grupo'),
           WhiteCard(
             child: FormBuilder(
               key: provider.formKey,
@@ -70,7 +70,7 @@ class _GrupoFormViewState extends State<GrupoFormView> {
                       ],
                     )
                   ],
-                  SizedBox(height: defaultSizing),
+                  const SizedBox(height: defaultSizing),
                   FormBuilderTextField(
                       name: 'nombre',
                       initialValue: widget.grupo?.nombre,
@@ -81,13 +81,13 @@ class _GrupoFormViewState extends State<GrupoFormView> {
                           icon: Icons.info),
                       validator: FormBuilderValidators.required(
                           errorText: 'Campo obligatorio')),
-                  SizedBox(height: defaultSizing),
+                  const SizedBox(height: defaultSizing),
                   FormBuilderSearchableDropdown(
                       name: 'beneficio',
                       compareFn: (item1, item2) =>
-                          item1.id!.contains(item2.id!),
+                          item1.id.contains(item2.id),
                       items: beneficios),
-                  TextSeparator(text: 'Agregar personas al grupo'),
+                  const TextSeparator(text: 'Agregar personas al grupo'),
                   Row(
                     children: [
                       Expanded(
@@ -95,11 +95,11 @@ class _GrupoFormViewState extends State<GrupoFormView> {
                         child: FormBuilderSearchableDropdown(
                             name: 'personas-x',
                             compareFn: (item1, item2) =>
-                                item1.id!.contains(item2.id!),
+                                item1.id.contains(item2.id),
                             items: personas),
                       ),
-                      SizedBox(width: defaultSizing),
-                      Expanded(
+                      const SizedBox(width: defaultSizing),
+                      const Expanded(
                           child: EButton(
                         text: 'Agregar persona al grupo',
                         icon: Icons.person_add,

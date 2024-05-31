@@ -333,12 +333,7 @@
   "@grupo": {
     "description": "transaccion",
     "placeholders": {
-      "accion": {}
     }
-  },
-  "asignarGrupo": "Asignar grupo",
-  "@asignarGrupo": {
-    "description": "asignarGrupo"
   },
   "detallado": "Detallado",
   "@detallado": {
@@ -440,5 +435,12 @@
   "pendiente": "Pendiente",
   "@pendiente": {
     "description": "pendiente"
+  },
+  "promocion": "{accion, select, registrar{Registrar nueva promoción} editar{Editar promoción existente} eliminar{Eliminar promoción} aceptar{Aceptar promoción} ocultar{Ocultar promoción} other{Promoción}}",
+  "@promocion": {
+    "description": "promocion",
+    "placeholders": {
+      "accion": {}
+    }
   }
 }

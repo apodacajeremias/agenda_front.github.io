@@ -20,7 +20,7 @@ class PersonaProvider extends ChangeNotifier {
   Persona? buscar(String id) {
     if (personas.isEmpty) return null;
 
-    return personas.where((element) => element.id!.contains(id)).first;
+    return personas.where((element) => element.id.contains(id)).first;
   }
 
   registrar(Map<String, dynamic> data) async {
@@ -52,7 +52,7 @@ class PersonaProvider extends ChangeNotifier {
       final json = await ServerConnection.httpPut('/personas/$id', data);
       final persona = Persona.fromJson(json);
       // Buscamos el index en lista del ID Persona
-      final index = personas.indexWhere((element) => element.id!.contains(id));
+      final index = personas.indexWhere((element) => element.id.contains(id));
       // Se substituye la informacion del index por la informacion actualizada
       personas[index] = persona;
       notifyListeners();

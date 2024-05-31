@@ -21,7 +21,7 @@ class ItemDataSource extends DataTableSource {
   DataRow? getRow(int index) {
     final item = items[index];
     return DataRow.byIndex(index: index, cells: [
-      DataCell(Text(item.nombre!)),
+      DataCell(Text(item.nombre)),
       DataCell(Text(item.tipo!.name)),
       DataCell(Text(item.precio!.toString())),
       DataCell(Row(children: [
@@ -49,7 +49,7 @@ class ItemDataSource extends DataTableSource {
                           var confirmado = await Provider.of<ItemProvider>(
                                   context,
                                   listen: false)
-                              .eliminar(item.id!);
+                              .eliminar(item.id);
                           if (confirmado) {
                             NotificationService.showSnackbar(
                                 'Item eliminado exitosamente');
