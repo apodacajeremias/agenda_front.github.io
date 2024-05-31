@@ -27,7 +27,8 @@ class TransaccionFormView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<TransaccionProvider>(context, listen: false);
+    final provider = Provider.of<TransaccionProvider>(context);
+    final formKey = GlobalKey<FormBuilderState>();
     return ListView(
       physics: const ClampingScrollPhysics(),
       children: [
@@ -37,20 +38,45 @@ class TransaccionFormView extends StatelessWidget {
                 : AppLocalizations.of(context)!.transaccion('editar')),
         WhiteCard(
             child: FormBuilder(
+          key: formKey,
           child: Column(
             children: [
               // TODO: falta agregar grupo, beneficio
               if (transaccion?.id != null) ...[
                 const SizedBox(height: defaultSizing),
-                FormBuilderTextField(
-                  name: 'id',
-                  initialValue: transaccion?.id,
-                  enabled: false,
-                  decoration: CustomInputs.form(
-                      label: AppLocalizations.of(context)!.idTag,
-                      hint: AppLocalizations.of(context)!.idHint,
-                      icon: Icons.qr_code_rounded),
-                ),
+                Row(
+                  children: [
+                    Expanded(
+                        flex: 2,
+                        child: FormBuilderTextField(
+                          name: 'id',
+                          initialValue: transaccion?.id,
+                          enabled: false,
+                          decoration: CustomInputs.form(
+                              label: AppLocalizations.of(context)!.idTag,
+                              hint: AppLocalizations.of(context)!.idHint,
+                              icon: Icons.qr_code_rounded),
+                        )),
+                    const SizedBox(width: defaultSizing),
+                    if (transaccion!.activo) ...[
+                      Expanded(
+                          child: FormBuilderTextField(
+                        name: '-activo',
+                        initialValue: AppLocalizations.of(context)!.aprobado,
+                        enabled: false,
+                      )),
+                    ] else ...[
+                      Expanded(
+                          child: EButton(
+                        text: AppLocalizations.of(context)!.aprobar,
+                        icon: Icons.check_circle_outline_rounded,
+                        onPressed: () {
+                          print('Aprobar pressed');
+                        },
+                      )),
+                    ]
+                  ],
+                )
               ],
               const SizedBox(height: defaultSizing),
               PersonaSearchableDropdown(
@@ -169,6 +195,11 @@ class TransaccionFormView extends StatelessWidget {
                         transaccion!.detalles ??
                             [
                               TransaccionDetalle(
+                                  id: AppLocalizations.of(context)!.items(0),
+                                  activo: false,
+                                  fechaCreacion: DateTime.now(),
+                                  nombre:
+                                      AppLocalizations.of(context)!.items(0),
                                   item: Item(
                                       nombre: AppLocalizations.of(context)!
                                           .items(0)),
@@ -183,9 +214,9 @@ class TransaccionFormView extends StatelessWidget {
         )),
         FormFooter(onConfirm: () async {
           try {
-            if (provider.formKey.currentState!.saveAndValidate()) {
-              final data = provider.formKey.currentState!.value;
-              await provider.registrar();
+            if (formKey.currentState!.saveAndValidate()) {
+              final data = formKey.currentState!.value;
+              await provider.registrar(data);
               if (context.mounted) {
                 Navigator.of(context).pop();
               }

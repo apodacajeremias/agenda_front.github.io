@@ -428,5 +428,17 @@
     "placeholders": {
       "accion": {}
     }
+  },
+  "aprobado": "Aprobado",
+  "@aprobado": {
+    "description": "aprobado"
+  },
+  "aprobar": "Aprobar",
+  "@aprobar": {
+    "description": "aprobar"
+  },
+  "pendiente": "Pendiente",
+  "@pendiente": {
+    "description": "pendiente"
   }
 }

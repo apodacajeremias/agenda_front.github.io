@@ -2,11 +2,9 @@ import 'package:agenda_front/extensions.dart';
 import 'package:agenda_front/services.dart';
 import 'package:agenda_front/src/models/entities/transaccion.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class TransaccionProvider extends ChangeNotifier {
   List<Transaccion> transacciones = [];
-  GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   buscarTodos() async {
     final response = await ServerConnection.httpGet('/transacciones');
@@ -20,18 +18,13 @@ class TransaccionProvider extends ChangeNotifier {
     return transacciones.where((element) => element.id.contains(id)).first;
   }
 
-  registrar() async {
-    // Se guardan los datos y se valida
-    if (formKey.currentState!.saveAndValidate()) {
-      // Datos guardados
-      var data = formKey.currentState!.value;
-      // Si data tiene un campo ID y este tiene informacion
-      if (data.containsKey('id') && data['id'] != null) {
-        // Actualiza
-        await _actualizar(data['id'], data);
-      } else {
-        await _guardar(data);
-      }
+  registrar(Map<String, dynamic> data) async {
+    // Si data tiene un campo ID y este tiene informacion
+    if (data.containsKey('id') && data['id'] != null) {
+      // Actualiza
+      return await _actualizar(data['id'], data);
+    } else {
+      return await _guardar(data);
     }
   }
 
@@ -42,6 +35,7 @@ class TransaccionProvider extends ChangeNotifier {
       transacciones.add(transaccion);
       notifyListeners();
       NotificationService.showSnackbar('Agregado a transacciones');
+      return transaccion;
     } catch (e) {
       NotificationService.showSnackbarError('No agregado a transacciones');
       rethrow;
@@ -59,6 +53,7 @@ class TransaccionProvider extends ChangeNotifier {
       transacciones[index] = transaccion;
       notifyListeners();
       NotificationService.showSnackbar('Transaccion actualizado');
+      return transaccion;
     } catch (e) {
       NotificationService.showSnackbarError('Transaccion no actualizado');
       rethrow;

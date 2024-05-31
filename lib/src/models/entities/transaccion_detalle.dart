@@ -2,32 +2,26 @@
 //
 //     final agenda = agendaFromJson(jsonString);
 
-import 'dart:convert';
-
 import 'package:agenda_front/src/models/entities/item.dart';
 import 'package:agenda_front/src/models/entities/transaccion.dart';
 
-TransaccionDetalle transaccionDetalleFromJson(String str) =>
-    TransaccionDetalle.fromJson(json.decode(str));
-
-String transaccionDetalleToJson(TransaccionDetalle data) =>
-    json.encode(data.toJson());
-
 class TransaccionDetalle {
-  String? id;
-  bool? activo;
-  String? nombre;
+  final String id;
+  final bool activo;
+  final String nombre;
+  final DateTime fechaCreacion;
 
-  double? cantidad;
-  double? valor;
-  double? subtotal;
-  Transaccion? transaccion;
-  Item? item;
+  final double? cantidad;
+  final double? valor;
+  final double? subtotal;
+  final Transaccion? transaccion;
+  final Item? item;
 
   TransaccionDetalle({
-    this.id,
-    this.activo,
-    this.nombre,
+    required this.id,
+    required this.activo,
+    required this.nombre,
+    required this.fechaCreacion,
     this.cantidad,
     this.valor,
     this.subtotal,
@@ -40,6 +34,7 @@ class TransaccionDetalle {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
+        fechaCreacion: DateTime.parse(json['fechaCreacion']),
         cantidad: json['cantidad'],
         valor: json['valor'],
         subtotal: json['subtotal'],
@@ -51,19 +46,9 @@ class TransaccionDetalle {
             ? Item.fromJson(json['item'])
             : null,
       );
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'activo': activo,
-        'nombre': nombre,
-        'valor': valor,
-        'cantidad': cantidad,
-        'subtotal': subtotal,
-        'transaccion': transaccion?.toJson(),
-        'item': item?.toJson(),
-      };
 
   @override
   String toString() {
-    return id ?? 'N/A';
+    return id;
   }
 }

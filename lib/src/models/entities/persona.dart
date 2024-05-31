@@ -1,23 +1,18 @@
-import 'dart:convert';
-
 import 'package:agenda_front/src/models/entities/colaborador.dart';
 import 'package:agenda_front/src/models/entities/grupo.dart';
 import 'package:agenda_front/src/models/enums/genero.dart';
 import 'package:agenda_front/src/models/security/user.dart';
 
-Persona personaFromJson(String str) => Persona.fromJson(json.decode(str));
-
-String personaToJson(Persona data) => json.encode(data.toJson());
-
 class Persona {
-  String? id;
-  bool? activo;
-  String? nombre;
+  String id;
+  bool activo;
+  String nombre;
+  DateTime fechaCreacion;
 
-  String? documentoIdentidad;
+  String documentoIdentidad;
   DateTime fechaNacimiento;
-  int? edad;
-  Genero? genero;
+  int edad;
+  Genero genero;
   String? telefono;
   String? celular;
   String? direccion;
@@ -28,13 +23,14 @@ class Persona {
   List<Grupo>? grupos;
 
   Persona({
-    this.id,
-    this.activo,
-    this.nombre,
-    this.documentoIdentidad,
+    required this.id,
+    required this.activo,
+    required this.nombre,
+    required this.fechaCreacion,
+    required this.documentoIdentidad,
     required this.fechaNacimiento,
-    this.edad,
-    this.genero,
+    required this.edad,
+    required this.genero,
     this.telefono,
     this.celular,
     this.direccion,
@@ -49,6 +45,7 @@ class Persona {
       id: json['id'],
       activo: json['activo'],
       nombre: json['nombre'],
+      fechaCreacion: DateTime.parse(json['fechaCreacion']),
       documentoIdentidad: json['documentoIdentidad'],
       fechaNacimiento: DateTime.parse(json['fechaNacimiento']),
       edad: json['edad'],
@@ -69,24 +66,8 @@ class Persona {
           ? List.from(json['grupos'].map((g) => Grupo.fromJson(g)))
           : List.empty());
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'activo': activo,
-        'nombre': nombre,
-        'documentoIdentidad': documentoIdentidad,
-        'fechaNacimiento': fechaNacimiento.toIso8601String(),
-        'genero': genero,
-        'telefono': telefono,
-        'celular': celular,
-        'direccion': direccion,
-        'observacion': observacion,
-        'fotoPerfil': fotoPerfil,
-        'colaborador': colaborador?.toJson(),
-        'grupos': grupos
-      };
-
   @override
   String toString() {
-    return nombre ?? 'N/A';
+    return nombre;
   }
 }

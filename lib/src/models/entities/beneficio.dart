@@ -1,21 +1,12 @@
-// To parse this JSON data, do
-//
-//     final agenda = agendaFromJson(jsonString);
-
-import 'dart:convert';
-
 import 'package:agenda_front/src/models/entities/promocion.dart';
 import 'package:agenda_front/src/models/enums/tipo_beneficio.dart';
 import 'package:agenda_front/src/models/enums/tipo_descuento.dart';
 
-Beneficio beneficioFromJson(String str) => Beneficio.fromJson(json.decode(str));
-
-String beneficioToJson(Beneficio data) => json.encode(data.toJson());
-
 class Beneficio {
-  String? id;
-  bool? activo;
-  String? nombre;
+  String id;
+  bool activo;
+  String nombre;
+  DateTime fechaCreacion;
 
   TipoBeneficio? tipo;
   TipoDescuento? tipoDescuento;
@@ -23,9 +14,10 @@ class Beneficio {
   List<Promocion>? promociones;
 
   Beneficio(
-      {this.id,
-      this.activo,
-      this.nombre,
+      {required this.id,
+      required this.activo,
+      required this.nombre,
+      required this.fechaCreacion,
       this.tipo,
       this.tipoDescuento,
       this.descuento,
@@ -35,6 +27,7 @@ class Beneficio {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
+        fechaCreacion: DateTime.parse(json['fechaCreacion']),
         tipo: TipoBeneficio.values.byName(json['tipo']),
         tipoDescuento: TipoDescuento.values.byName(json['tipoDescuento']),
         descuento: json['descuento'],
@@ -45,17 +38,8 @@ class Beneficio {
             : null,
       );
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'activo': activo,
-        'nombre': nombre,
-        'tipo': tipo,
-        'tipoDescuento': tipoDescuento,
-        'descuento': descuento,
-      };
-
   @override
   String toString() {
-    return nombre ?? 'N/A';
+    return nombre;
   }
 }

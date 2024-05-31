@@ -1,15 +1,18 @@
 class Colaborador {
-  String? id;
-  bool? activo;
-  String? nombre;
+  String id;
+  bool activo;
+  String nombre;
+  DateTime fechaCreacion;
+
   String? registroContribuyente;
   String? registroProfesional;
   String? profesion;
 
   Colaborador({
-    this.id,
-    this.activo,
-    this.nombre,
+    required this.id,
+    required this.activo,
+    required this.nombre,
+    required this.fechaCreacion,
     this.registroContribuyente,
     this.registroProfesional,
     this.profesion,
@@ -19,21 +22,14 @@ class Colaborador {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
+        fechaCreacion: DateTime.parse(json['fechaCreacion']),
         registroContribuyente: json['registroContribuyente'],
         registroProfesional: json['registroProfesional'],
         profesion: json['profesion'],
       );
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'activo': activo,
-        'registroContribuyente': registroContribuyente,
-        'registroProfesional': registroProfesional,
-        'profesion': profesion,
-      };
-
   @override
   String toString() {
-    return nombre ?? 'N/A';
+    return nombre;
   }
 }

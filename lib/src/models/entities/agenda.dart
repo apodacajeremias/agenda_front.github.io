@@ -1,71 +1,51 @@
-import 'dart:convert';
-
 import 'package:agenda_front/src/models/entities/colaborador.dart';
 import 'package:agenda_front/src/models/entities/persona.dart';
 import 'package:agenda_front/src/models/enums/prioridad.dart';
 import 'package:agenda_front/src/models/enums/situacion.dart';
 
-Agenda agendaFromJson(String str) => Agenda.fromJson(json.decode(str));
-
-String agendaToJson(Agenda data) => json.encode(data.toJson());
-
 class Agenda {
   String id;
-  bool? activo;
-  String? nombre;
+  bool activo;
+  String nombre;
+  DateTime fechaCreacion;
+
   DateTime? inicio;
   DateTime? fin;
-  bool? diaCompleto;
-  Situacion? situacion;
-  Prioridad? prioridad;
-  Colaborador? colaborador;
-  Persona? persona;
+  bool diaCompleto;
+  Situacion situacion;
+  Prioridad prioridad;
+  Colaborador colaborador;
+  Persona persona;
   Agenda({
     required this.id,
-    this.activo,
-    this.nombre,
+    required this.activo,
+    required this.nombre,
+    required this.fechaCreacion,
     required this.inicio,
     required this.fin,
-    this.diaCompleto,
-    this.situacion,
-    this.prioridad,
-    this.colaborador,
-    this.persona,
+    required this.diaCompleto,
+    required this.situacion,
+    required this.prioridad,
+    required this.colaborador,
+    required this.persona,
   });
 
   factory Agenda.fromJson(Map<String, dynamic> json) => Agenda(
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
+        fechaCreacion: DateTime.parse(json['fechaCreacion']),
         inicio: DateTime.parse(json['inicio']),
         fin: DateTime.parse(json['fin']),
         diaCompleto: json['diaCompleto'],
         situacion: Situacion.values.byName(json['situacion']),
         prioridad: Prioridad.values.byName(json['prioridad']),
-        colaborador:
-            (json.containsKey('colaborador') && json['colaborador'] != null)
-                ? Colaborador.fromJson(json['colaborador'])
-                : null,
-        persona: (json.containsKey('persona') && json['persona'] != null)
-            ? Persona.fromJson(json['persona'])
-            : null,
+        colaborador: Colaborador.fromJson(json['colaborador']),
+        persona: Persona.fromJson(json['persona']),
       );
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'activo': activo,
-        'nombre': nombre,
-        'inicio': inicio?.toIso8601String(),
-        'fin': fin?.toIso8601String(),
-        'diaCompleto': diaCompleto,
-        'situacion': situacion,
-        'prioridad': prioridad,
-        'colaborador': colaborador?.toJson(),
-        'persona': persona?.toJson(),
-      };
 
   @override
   String toString() {
-    return nombre ?? 'N/A';
+    return nombre;
   }
 }
