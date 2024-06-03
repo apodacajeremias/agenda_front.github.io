@@ -17,13 +17,20 @@ class PersonaProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Persona? buscar(String id) {
-    if (personas.isEmpty) return null;
-
-    return personas.where((element) => element.id.contains(id)).first;
+  Future buscar(String id) async {
+    try {
+      final json = await ServerConnection.httpGet('/personas/$id');
+      final persona = Persona.fromJson(json);
+      _actualizarIndex(persona);
+      NotificationService.showSnackbar('Registro encontrado.');
+      return persona;
+    } catch (e) {
+      NotificationService.showSnackbarError('Registro no encontrado.');
+      rethrow;
+    }
   }
 
-  registrar(Map<String, dynamic> data) async {
+  Future<Persona> registrar(Map<String, dynamic> data) async {
     // Si data tiene un campo ID y este tiene informacion
     if (data.containsKey('id') && data['id'] != null) {
       // Actualiza
@@ -33,12 +40,11 @@ class PersonaProvider extends ChangeNotifier {
     }
   }
 
-  _guardar(Map<String, dynamic> data) async {
+  Future<Persona> _guardar(Map<String, dynamic> data) async {
     try {
       final json = await ServerConnection.httpPost('/personas', data);
       final persona = Persona.fromJson(json);
-      personas.add(persona);
-      notifyListeners();
+      _actualizarIndex(persona);
       NotificationService.showSnackbar('Agregado a personas');
       return persona;
     } catch (e) {
@@ -47,15 +53,11 @@ class PersonaProvider extends ChangeNotifier {
     }
   }
 
-  _actualizar(String id, Map<String, dynamic> data) async {
+  Future<Persona> _actualizar(String id, Map<String, dynamic> data) async {
     try {
       final json = await ServerConnection.httpPut('/personas/$id', data);
       final persona = Persona.fromJson(json);
-      // Buscamos el index en lista del ID Persona
-      final index = personas.indexWhere((element) => element.id.contains(id));
-      // Se substituye la informacion del index por la informacion actualizada
-      personas[index] = persona;
-      notifyListeners();
+      _actualizarIndex(persona);
       NotificationService.showSnackbar('Persona actualizada');
       return persona;
     } catch (e) {
@@ -110,5 +112,18 @@ class PersonaProvider extends ChangeNotifier {
     } catch (e) {
       rethrow;
     }
+  }
+
+  _actualizarIndex(Persona persona) {
+    // Buscamos el index en lista del ID Persona
+    final index =
+        personas.indexWhere((element) => element.id.contains(persona.id));
+    if (index == -1) {
+      personas.add(persona);
+    } else {
+      // Se substituye la informacion del index por la informacion actualizada
+      personas[index] = persona;
+    }
+    // notifyListeners();
   }
 }

@@ -58,9 +58,15 @@ class Transaccion {
         tipoBeneficio: TipoBeneficio.values.byName(json['tipoBeneficio']),
         tipoDescuento: TipoDescuento.values.byName(json['tipoDescuento']),
         persona: Persona.fromJson(json['persona']),
-        grupo: Grupo.fromJson(json['grupo']),
-        beneficio: Beneficio.fromJson(json['beneficio']),
-        promocion: Promocion.fromJson(json['promocion']),
+        grupo: (json.containsKey('grupo') && json['grupo'] != null)
+            ? Grupo.fromJson(json['grupo'])
+            : null,
+        beneficio: (json.containsKey('beneficio') && json['beneficio'] != null)
+            ? Beneficio.fromJson(json['beneficio'])
+            : null,
+        promocion: (json.containsKey('promocion') && json['promocion'] != null)
+            ? Promocion.fromJson(json['promocion'])
+            : null,
         detalles: (json.containsKey('detalles') && json['detalles'] != null)
             ? List.from(
                 json['detalles'].map((td) => TransaccionDetalle.fromJson(td)))

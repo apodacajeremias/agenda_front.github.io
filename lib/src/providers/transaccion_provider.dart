@@ -2,8 +2,10 @@ import 'package:agenda_front/extensions.dart';
 import 'package:agenda_front/services.dart';
 import 'package:agenda_front/src/models/entities/transaccion.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class TransaccionProvider extends ChangeNotifier {
+  GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
   List<Transaccion> transacciones = [];
 
   buscarTodos() async {

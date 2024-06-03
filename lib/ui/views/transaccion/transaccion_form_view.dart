@@ -1,4 +1,5 @@
 import 'package:agenda_front/constants.dart';
+import 'package:agenda_front/enums.dart';
 import 'package:agenda_front/extensions.dart';
 import 'package:agenda_front/providers.dart';
 import 'package:agenda_front/src/models/entities/beneficio.dart';
@@ -8,9 +9,6 @@ import 'package:agenda_front/src/models/entities/persona.dart';
 import 'package:agenda_front/src/models/entities/promocion.dart';
 import 'package:agenda_front/src/models/entities/transaccion.dart';
 import 'package:agenda_front/src/models/entities/transaccion_detalle.dart';
-import 'package:agenda_front/src/models/enums/tipo_beneficio.dart';
-import 'package:agenda_front/src/models/enums/tipo_descuento.dart';
-import 'package:agenda_front/src/models/enums/tipo_transaccion.dart';
 import 'package:agenda_front/translate.dart';
 import 'package:agenda_front/ui/custom_inputs.dart';
 import 'package:agenda_front/ui/views/persona/persona_dropdown.dart';
@@ -40,10 +38,17 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
   Promocion? promocion;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     persona = widget.transaccion?.persona;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print(persona);
+    print(grupo);
+    print(beneficio);
     final provider = Provider.of<TransaccionProvider>(context);
-    final formKey = GlobalKey<FormBuilderState>();
     return ListView(
       physics: const ClampingScrollPhysics(),
       children: [
@@ -53,7 +58,7 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                 : AppLocalizations.of(context)!.transaccion('editar')),
         WhiteCard(
             child: FormBuilder(
-          key: formKey,
+          key: provider.formKey,
           child: Column(
             children: [
               // TODO: falta agregar grupo, beneficio
@@ -93,20 +98,12 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                   ],
                 )
               ],
-              const SizedBox(height: defaultSizing),
-              PersonaSearchableDropdown(
-                name: 'persona',
-                unique: widget.transaccion?.persona,
-                onChanged: (p) {
-                  setState(() {
-                    persona = p;
-                  });
-                },
-              ),
+
               const SizedBox(height: defaultSizing),
               FormBuilderDropdown(
                   name: 'tipo',
-                  initialValue: widget.transaccion?.tipo,
+                  initialValue:
+                      widget.transaccion?.tipo ?? TipoTransaccion.VENTA,
                   decoration: CustomInputs.form(
                       label: AppLocalizations.of(context)!.tipo('transaccion'),
                       hint: AppLocalizations.of(context)!.tipo('transaccion'),
@@ -118,7 +115,18 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                       .map((e) =>
                           DropdownMenuItem(value: e, child: Text(e.toString())))
                       .toList()),
-              if (persona != null && persona!.grupos != null) ...[
+              const SizedBox(height: defaultSizing),
+              PersonaSearchableDropdown(
+                name: 'persona',
+                unique: widget.transaccion?.persona,
+                onChanged: (p) {
+                  setState(() {
+                    print(p);
+                    persona = p;
+                  });
+                },
+              ),
+              if (persona?.grupos != null && persona!.grupos!.isNotEmpty) ...[
                 const SizedBox(height: defaultSizing),
                 FormBuilderDropdown(
                     name: 'grupo',
@@ -159,7 +167,8 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                     ],
                   )
                 ],
-                if (beneficio != null && beneficio!.promociones != null) ...[
+                if (beneficio?.promociones != null &&
+                    beneficio!.promociones!.isNotEmpty) ...[
                   const SizedBox(height: defaultSizing),
                   FormBuilderDropdown(
                     name: 'promocion',
@@ -187,7 +196,8 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                 const SizedBox(height: defaultSizing),
                 FormBuilderDropdown(
                     name: 'tipoBeneficio',
-                    initialValue: widget.transaccion?.tipoBeneficio,
+                    initialValue: beneficio?.tipo,
+                    enabled: false,
                     decoration: CustomInputs.form(
                         label: AppLocalizations.of(context)!.tipo('beneficio'),
                         hint: AppLocalizations.of(context)!.tipo('beneficio'),
@@ -310,8 +320,8 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
         )),
         FormFooter(onConfirm: () async {
           try {
-            if (formKey.currentState!.saveAndValidate()) {
-              final data = formKey.currentState!.value;
+            if (provider.formKey.currentState!.saveAndValidate()) {
+              final data = provider.formKey.currentState!.value;
               await provider.registrar(data);
               if (context.mounted) {
                 Navigator.of(context).pop();

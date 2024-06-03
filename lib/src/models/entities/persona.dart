@@ -64,7 +64,7 @@ class Persona {
           : null,
       grupos: json.containsKey('grupos') && json['grupos'] != null
           ? List.from(json['grupos'].map((g) => Grupo.fromJson(g)))
-          : List.empty());
+          : null);
 
   @override
   String toString() {

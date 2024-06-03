@@ -16,19 +16,46 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class PersonaFormView extends StatefulWidget {
-  final Persona? persona;
-  const PersonaFormView({super.key, this.persona});
+class PersonaFormView extends StatelessWidget {
+  // Para construccion asincrona
+  // final Future? future;
+  // const PersonaFormView({super.key, this.future});
+  final String? id;
+
+  const PersonaFormView({super.key, this.id});
 
   @override
-  State<PersonaFormView> createState() => _PersonaFormViewState();
+  Widget build(BuildContext context) {
+    return id != null
+        ? FutureBuilder(
+            future: Provider.of<PersonaProvider>(context, listen: false)
+                .buscar(id!),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return _FormView(
+                  persona: snapshot.data,
+                );
+              }
+              return _FormView();
+            },
+          )
+        : _FormView();
+  }
 }
 
-class _PersonaFormViewState extends State<PersonaFormView> {
+class _FormView extends StatefulWidget {
+  final Persona? persona;
+  const _FormView({this.persona});
+
+  @override
+  State<_FormView> createState() => __FormViewState();
+}
+
+class __FormViewState extends State<_FormView> {
   int currentStep = 0;
   @override
   Widget build(BuildContext context) {
-    final session = Provider.of<AuthProvider>(context, listen: false).persona;
+    // final session = Provider.of<AuthProvider>(context, listen: false).persona;
     final hoy = DateTime.now();
     return ListView(
       physics: const ClampingScrollPhysics(),
@@ -104,7 +131,7 @@ class _InformacionPersonal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormBuilderState>();
-    final provider = Provider.of<PersonaProvider>(context);
+    final provider = Provider.of<PersonaProvider>(context, listen: false);
     final session = Provider.of<AuthProvider>(context, listen: false).persona;
     return FormBuilder(
       key: formKey,
@@ -242,8 +269,6 @@ class _InformacionPersonal extends StatelessWidget {
                 final data = formKey.currentState!.value;
                 final persona = await provider.registrar(data);
                 if (context.mounted) {
-                  print(RouterService.personasEditRoute
-                      .replaceAll(':id', persona.id));
                   NavigationService.navigateTo(RouterService.personasEditRoute
                       .replaceAll(':id', persona.id));
                 }
@@ -269,7 +294,7 @@ class _InformacionProfesional extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormBuilderState>();
-    final provider = Provider.of<ColaboradorProvider>(context);
+    final provider = Provider.of<ColaboradorProvider>(context, listen: false);
     final session = Provider.of<AuthProvider>(context, listen: false).persona;
     return FormBuilder(
       key: formKey,
@@ -289,7 +314,7 @@ class _InformacionProfesional extends StatelessWidget {
           ],
           const SizedBox(height: defaultSizing),
           FormBuilderTextField(
-            name: 'nombre',
+            name: '-nombre',
             initialValue: persona.nombre,
             enabled: false,
             decoration: CustomInputs.form(
@@ -385,7 +410,6 @@ class _InformacionProfesional extends StatelessWidget {
                 data.addAll(formKey.currentState!.value);
                 await provider.registrar(data);
                 if (context.mounted) {
-                  // Navigator.of(context).pop();
                   NavigationService.navigateTo(RouterService.personasEditRoute
                       .replaceAll(':id', persona.id));
                 }
@@ -411,7 +435,7 @@ class _InformacionCredencial extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormBuilderState>();
-    final provider = Provider.of<UserProvider>(context);
+    final provider = Provider.of<UserProvider>(context, listen: false);
     final session = Provider.of<AuthProvider>(context, listen: false).persona;
     return FormBuilder(
       key: formKey,
@@ -476,28 +500,28 @@ class _InformacionCredencial extends StatelessWidget {
           if (persona.user?.id != null) ...[
             const SizedBox(height: defaultSizing),
             FormBuilderCheckbox(
-              name: 'enabled',
+              name: '-enabled',
               title: Text(AppLocalizations.of(context)!.cuentaActivada),
               initialValue: !persona.user!.enabled!,
               enabled: false,
             ),
             const SizedBox(height: defaultSizing),
             FormBuilderCheckbox(
-              name: 'accountNonLocked',
+              name: '-accountNonLocked',
               title: Text(AppLocalizations.of(context)!.cuentaBloqueada),
               initialValue: !persona.user!.accountNonLocked!,
               enabled: false,
             ),
             const SizedBox(height: defaultSizing),
             FormBuilderCheckbox(
-              name: 'accountNonExpired',
+              name: '-accountNonExpired',
               title: Text(AppLocalizations.of(context)!.cuentaExpirada),
               initialValue: !persona.user!.accountNonExpired!,
               enabled: false,
             ),
             const SizedBox(height: defaultSizing),
             FormBuilderCheckbox(
-              name: 'credentialsNonExpired',
+              name: '-credentialsNonExpired',
               title: Text(AppLocalizations.of(context)!.credencialesExpiradas),
               initialValue: !persona.user!.credentialsNonExpired!,
               enabled: false,
@@ -557,12 +581,10 @@ class _InformacionCredencial extends StatelessWidget {
                   }
                   return;
                 }
-
                 Map<String, dynamic> data = {'persona.id': persona.id};
                 data.addAll(formKey.currentState!.value);
                 await provider.registrar(data);
                 if (context.mounted) {
-                  // Navigator.of(context).pop();
                   NavigationService.navigateTo(RouterService.personasEditRoute
                       .replaceAll(':id', persona.id));
                 }

@@ -26,13 +26,13 @@ class PersonaHandler {
   });
 
   static Handler edit = Handler(handlerFunc: (context, params) {
+    final id = params['id']?.first;
     final authProvider = Provider.of<AuthProvider>(context!, listen: false);
-
     if (authProvider.authStatus == AuthStatus.authenticated) {
-      final id = params['id']?.first;
-      print(id);
-      final persona = Provider.of<PersonaProvider>(context).buscar(id!);
-      return PersonaFormView(persona: persona);
+      // return PersonaFormView(
+      //     future:
+      //         Provider.of<PersonaProvider>(context, listen: false).buscar(id!));
+      return PersonaFormView(id: id);
     } else {
       return const LoginView();
     }
