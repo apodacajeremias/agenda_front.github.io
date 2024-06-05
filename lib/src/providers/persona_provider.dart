@@ -21,7 +21,7 @@ class PersonaProvider extends ChangeNotifier {
     try {
       final json = await ServerConnection.httpGet('/personas/$id');
       final persona = Persona.fromJson(json);
-      _actualizarIndex(persona);
+      _index(persona);
       NotificationService.showSnackbar('Registro encontrado.');
       return persona;
     } catch (e) {
@@ -44,7 +44,7 @@ class PersonaProvider extends ChangeNotifier {
     try {
       final json = await ServerConnection.httpPost('/personas', data);
       final persona = Persona.fromJson(json);
-      _actualizarIndex(persona);
+      _index(persona);
       NotificationService.showSnackbar('Agregado a personas');
       return persona;
     } catch (e) {
@@ -57,7 +57,7 @@ class PersonaProvider extends ChangeNotifier {
     try {
       final json = await ServerConnection.httpPut('/personas/$id', data);
       final persona = Persona.fromJson(json);
-      _actualizarIndex(persona);
+      _index(persona);
       NotificationService.showSnackbar('Persona actualizada');
       return persona;
     } catch (e) {
@@ -114,7 +114,7 @@ class PersonaProvider extends ChangeNotifier {
     }
   }
 
-  _actualizarIndex(Persona persona) {
+  _index(Persona persona) {
     // Buscamos el index en lista del ID Persona
     final index =
         personas.indexWhere((element) => element.id.contains(persona.id));

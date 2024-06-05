@@ -1,8 +1,11 @@
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/extensions.dart';
 import 'package:agenda_front/providers.dart';
 import 'package:agenda_front/services.dart';
 import 'package:agenda_front/src/models/entities/transaccion.dart';
 import 'package:agenda_front/src/models/entities/transaccion_detalle.dart';
+import 'package:agenda_front/ui/views/transaccion_detalle_modal.dart';
+import 'package:agenda_front/ui/widgets/elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -116,10 +119,11 @@ class TransaccionDataSourceProfile extends DataTableSource {
 }
 
 class TransaccionDetalleDataSource extends DataTableSource {
+  final Transaccion transaccion;
   final List<TransaccionDetalle> detalles;
   final BuildContext context;
 
-  TransaccionDetalleDataSource(this.detalles, this.context);
+  TransaccionDetalleDataSource(this.transaccion, this.detalles, this.context);
 
 // TODO: longPress o doubleTap para editar detalle, click derecho menu contextual
   static List<DataColumn> columns = [
@@ -128,6 +132,7 @@ class TransaccionDetalleDataSource extends DataTableSource {
     const DataColumn(label: Text('Cantidad')),
     const DataColumn(label: Text('Valor')),
     const DataColumn(label: Text('Subtotal')),
+    const DataColumn(label: Text('')),
   ];
 
   @override
@@ -139,6 +144,28 @@ class TransaccionDetalleDataSource extends DataTableSource {
       DataCell(Text(detalle.cantidad!.toString())),
       DataCell(Text(detalle.valor!.toString())),
       DataCell(Text(detalle.subtotal!.toString())),
+      DataCell(Row(children: [
+        EButton.icon(
+            icon: Icons.edit_rounded,
+            onPressed: () {
+              print('Editar detalle pressed');
+              showAdaptiveDialog(
+                context: context,
+                builder: (context) {
+                  return Dialog(
+                    child: TransaccionDetalleModal(
+                        transaccion: transaccion, detalle: detalle),
+                  );
+                },
+              );
+            }),
+        const SizedBox(width: defaultSizing),
+        EButton.icon(
+            icon: Icons.delete_forever_rounded,
+            onPressed: () {
+              print('Eliminar detalle pressed');
+            }),
+      ])),
     ]);
   }
 

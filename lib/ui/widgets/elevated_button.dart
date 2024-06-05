@@ -15,6 +15,9 @@ class EButton extends StatelessWidget {
   factory EButton.listo({required Function onPressed}) =>
       EButton(text: 'Listo', icon: Icons.done_outlined, onPressed: onPressed);
 
+  factory EButton.icon({required IconData icon, required Function onPressed}) =>
+      EButton(text: '', icon: icon, onPressed: onPressed);
+
   @override
   Widget build(BuildContext context) {
     if (icon != null) {

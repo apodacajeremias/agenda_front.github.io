@@ -13,6 +13,7 @@ import 'package:agenda_front/translate.dart';
 import 'package:agenda_front/ui/custom_inputs.dart';
 import 'package:agenda_front/ui/views/persona/persona_dropdown.dart';
 import 'package:agenda_front/ui/views/transaccion/transaccion_datasource.dart';
+import 'package:agenda_front/ui/views/transaccion_detalle_modal.dart';
 import 'package:agenda_front/ui/widgets/elevated_button.dart';
 import 'package:agenda_front/ui/widgets/form_footer.dart';
 import 'package:agenda_front/ui/widgets/form_header.dart';
@@ -289,11 +290,20 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                         text: AppLocalizations.of(context)!.accion('agregar'),
                         icon: Icons.add_rounded,
                         onPressed: () {
-                          debugPrint('Abrir modal para buscar item');
+                          showAdaptiveDialog(
+                            context: context,
+                            builder: (context) {
+                              return Dialog(
+                                child: TransaccionDetalleModal(
+                                    transaccion: widget.transaccion!),
+                              );
+                            },
+                          );
                         },
                       )
                     ],
                     source: TransaccionDetalleDataSource(
+                        widget.transaccion!,
                         widget.transaccion!.detalles ??
                             [
                               TransaccionDetalle(
