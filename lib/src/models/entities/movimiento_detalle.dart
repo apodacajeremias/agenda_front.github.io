@@ -7,7 +7,7 @@ class MovimientoDetalle {
   final String nombre;
   final DateTime fechaCreacion;
 
-  final double valor;
+  final double subtotal;
   final Movimiento movimiento;
   final Transaccion transaccion;
 
@@ -16,7 +16,7 @@ class MovimientoDetalle {
       required this.activo,
       required this.nombre,
       required this.fechaCreacion,
-      required this.valor,
+      required this.subtotal,
       required this.movimiento,
       required this.transaccion});
 
@@ -26,7 +26,7 @@ class MovimientoDetalle {
         activo: json['activo'],
         nombre: json['nombre'],
         fechaCreacion: DateTime.parse(json['fechaCreacion']),
-        valor: json['valor'],
+        subtotal: json['subtotal'],
         movimiento: Movimiento.fromJson(json['movimiento']),
         transaccion: Transaccion.fromJson(json['transaccion']),
       );

@@ -442,5 +442,12 @@
     "placeholders": {
       "accion": {}
     }
+  },
+  "movimiento": "{accion, select, registrar{Registrar nuevo pago} editar{Editar pago existente} eliminar{Eliminar pago} aceptar{Aceptar pago} ocultar{Ocultar pago} other{Pago}}",
+  "@movimiento": {
+    "description": "movimiento",
+    "placeholders": {
+      "accion": {}
+    }
   }
 }

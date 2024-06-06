@@ -18,6 +18,7 @@ import 'package:agenda_front/ui/widgets/elevated_button.dart';
 import 'package:agenda_front/ui/widgets/form_footer.dart';
 import 'package:agenda_front/ui/widgets/form_header.dart';
 import 'package:agenda_front/ui/widgets/index_body.dart';
+import 'package:agenda_front/ui/widgets/index_header.dart';
 import 'package:agenda_front/ui/widgets/white_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -226,53 +227,66 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                           .toList()),
                 ]
               ],
-
-              const SizedBox(height: defaultSizing),
-              FormBuilderCheckbox(
-                name: 'aplicarDescuento',
-                title: Text(AppLocalizations.of(context)!.aplicarDescuento),
-                initialValue: widget.transaccion?.aplicarPromocion,
-                decoration: CustomInputs.form(
-                    label: AppLocalizations.of(context)!.aplicarDescuento,
-                    hint: AppLocalizations.of(context)!.aplicarDescuento,
-                    icon: Icons.info),
-              ),
-              const SizedBox(height: defaultSizing),
-              FormBuilderTextField(
-                name: 'sumatoria',
-                initialValue:
-                    widget.transaccion?.sumatoria.toString() ?? 0.toString(),
-                decoration: CustomInputs.form(
-                    label: AppLocalizations.of(context)!.sumatoriaTotal,
-                    hint: AppLocalizations.of(context)!.sumatoriaTotal,
-                    icon: Icons.info),
-                validator: FormBuilderValidators.required(
-                    errorText: AppLocalizations.of(context)!.campoObligatorio),
-              ),
-              const SizedBox(height: defaultSizing),
-              FormBuilderTextField(
-                name: 'descuento',
-                initialValue:
-                    widget.transaccion?.descuento.toString() ?? 0.toString(),
-                decoration: CustomInputs.form(
-                    label: AppLocalizations.of(context)!.descuento,
-                    hint: AppLocalizations.of(context)!.descuento,
-                    icon: Icons.info),
-                validator: FormBuilderValidators.required(
-                    errorText: AppLocalizations.of(context)!.campoObligatorio),
-              ),
-              const SizedBox(height: defaultSizing),
-              FormBuilderTextField(
-                name: 'total',
-                initialValue:
-                    widget.transaccion?.total.toString() ?? 0.toString(),
-                decoration: CustomInputs.form(
-                    label: AppLocalizations.of(context)!.totalPagar,
-                    hint: AppLocalizations.of(context)!.totalPagar,
-                    icon: Icons.info),
-                validator: FormBuilderValidators.required(
-                    errorText: AppLocalizations.of(context)!.campoObligatorio),
-              ),
+              if (widget.transaccion != null) ...[
+                const SizedBox(height: defaultSizing),
+                FormBuilderTextField(
+                  name: '-sumatoria',
+                  enabled: false,
+                  initialValue:
+                      widget.transaccion?.sumatoria.toString() ?? 0.toString(),
+                  decoration: CustomInputs.form(
+                      label: AppLocalizations.of(context)!.sumatoriaTotal,
+                      hint: AppLocalizations.of(context)!.sumatoriaTotal,
+                      icon: Icons.info),
+                ),
+                Row(
+                  children: [
+                    const SizedBox(height: defaultSizing),
+                    Expanded(
+                      flex: 2,
+                      child: FormBuilderTextField(
+                        name: 'descuento',
+                        initialValue:
+                            widget.transaccion?.descuento.toString() ??
+                                0.toString(),
+                        decoration: CustomInputs.form(
+                            label: AppLocalizations.of(context)!.descuento,
+                            hint: AppLocalizations.of(context)!.descuento,
+                            icon: Icons.info),
+                        validator: FormBuilderValidators.required(
+                            errorText:
+                                AppLocalizations.of(context)!.campoObligatorio),
+                      ),
+                    ),
+                    const SizedBox(height: defaultSizing),
+                    Expanded(
+                      child: FormBuilderCheckbox(
+                        name: 'aplicarDescuento',
+                        title: Text(
+                            AppLocalizations.of(context)!.aplicarDescuento),
+                        initialValue: widget.transaccion?.aplicarPromocion,
+                        decoration: CustomInputs.form(
+                            label:
+                                AppLocalizations.of(context)!.aplicarDescuento,
+                            hint:
+                                AppLocalizations.of(context)!.aplicarDescuento,
+                            icon: Icons.info),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: defaultSizing),
+                FormBuilderTextField(
+                  name: '-total',
+                  enabled: false,
+                  initialValue:
+                      widget.transaccion?.total.toString() ?? 0.toString(),
+                  decoration: CustomInputs.form(
+                      label: AppLocalizations.of(context)!.totalPagar,
+                      hint: AppLocalizations.of(context)!.totalPagar,
+                      icon: Icons.info),
+                ),
+              ],
               const SizedBox(height: defaultSizing),
               if (widget.transaccion != null) ...[
                 _TransaccionDetallesIndex(widget.transaccion!)
@@ -309,10 +323,7 @@ class _TransaccionDetallesIndex extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(AppLocalizations.of(context)!.detalles,
-            style: context.headlineLarge),
-        const SizedBox(height: defaultSizing),
-        const SizedBox(height: defaultSizing),
+        IndexHeader(title: AppLocalizations.of(context)!.detalles),
         IndexBody(
             title: AppLocalizations.of(context)!.detalles,
             columns: TransaccionDetalleDataSource.columns,

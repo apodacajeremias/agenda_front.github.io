@@ -8,7 +8,7 @@ class Movimiento {
   String nombre;
   DateTime fechaCreacion;
 
-  double valor;
+  double total;
   String? numeroComprobante;
   Moneda moneda;
   TipoMovimiento tipo;
@@ -21,7 +21,7 @@ class Movimiento {
     required this.activo,
     required this.nombre,
     required this.fechaCreacion,
-    required this.valor,
+    required this.total,
     this.numeroComprobante,
     required this.moneda,
     required this.tipo,
@@ -35,7 +35,7 @@ class Movimiento {
         activo: json['activo'],
         nombre: json['nombre'],
         fechaCreacion: DateTime.parse(json['fechaCreacion']),
-        valor: json['valor'],
+        total: json['total'],
         numeroComprobante: json['numeroComprobante'],
         moneda: Moneda.values.byName(json['moneda']),
         tipo: TipoMovimiento.values.byName(json['tipo']),
