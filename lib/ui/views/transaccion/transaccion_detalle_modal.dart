@@ -10,6 +10,7 @@ import 'package:agenda_front/ui/widgets/elevated_button.dart';
 import 'package:agenda_front/ui/widgets/link_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 
 class TransaccionDetalleModal extends StatelessWidget {
@@ -21,13 +22,12 @@ class TransaccionDetalleModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final idDetalle = detalle?.id;
-    final formKey = GlobalKey<FormBuilderState>();
     final provider = Provider.of<TransaccionDetalleProvider>(context);
     return Container(
-      padding: EdgeInsets.all(defaultSizing),
+      padding: const EdgeInsets.all(defaultSizing),
       width: 400,
       child: FormBuilder(
-        key: formKey,
+        key: provider.formKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -38,7 +38,15 @@ class TransaccionDetalleModal extends StatelessWidget {
               style: context.titleLarge,
             ),
             const SizedBox(height: defaultSizing),
-            ItemSearchableDropdown(name: 'item', unique: detalle?.item),
+            ItemSearchableDropdown(
+              name: 'item',
+              tipo: transaccion.tipo,
+              unique: detalle?.item,
+              onChanged: (itm) {
+                provider.formKey.currentState!.fields['valor']!
+                    .didChange(itm?.precio ?? 0);
+              },
+            ),
             const SizedBox(height: defaultSizing),
             FormBuilderTextField(
               name: 'cantidad',
@@ -47,6 +55,21 @@ class TransaccionDetalleModal extends StatelessWidget {
                   label: AppLocalizations.of(context)!.cantidad,
                   hint: AppLocalizations.of(context)!.cantidad,
                   icon: Icons.numbers_sharp),
+              validator: FormBuilderValidators.compose([
+                FormBuilderValidators.numeric(
+                    errorText: AppLocalizations.of(context)!.soloNumeros),
+                FormBuilderValidators.required(
+                    errorText: AppLocalizations.of(context)!.campoObligatorio)
+              ]),
+              onChanged: (value) {
+                double c =
+                    provider.formKey.currentState!.fields['cantidad']?.value ??
+                        1;
+                double v =
+                    provider.formKey.currentState!.fields['valor']?.value ?? 0;
+                provider.formKey.currentState!.fields['-subtotal']!
+                    .didChange(c * v);
+              },
             ),
             const SizedBox(height: defaultSizing),
             FormBuilderTextField(
@@ -59,7 +82,7 @@ class TransaccionDetalleModal extends StatelessWidget {
             ),
             const SizedBox(height: defaultSizing),
             FormBuilderTextField(
-              name: 'subtotal',
+              name: '-subtotal',
               initialValue: (detalle?.subtotal ?? 0).toString(),
               decoration: CustomInputs.form(
                   label: AppLocalizations.of(context)!.subtotal,
@@ -78,8 +101,8 @@ class TransaccionDetalleModal extends StatelessWidget {
                   child: EButton(
                     onPressed: () async {
                       try {
-                        if (formKey.currentState!.saveAndValidate()) {
-                          final data = formKey.currentState!.value;
+                        if (provider.formKey.currentState!.saveAndValidate()) {
+                          final data = provider.formKey.currentState!.value;
                           await provider.registrar(transaccion.id, data,
                               idDetalle: idDetalle);
                           if (context.mounted) {

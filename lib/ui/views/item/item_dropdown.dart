@@ -1,3 +1,4 @@
+import 'package:agenda_front/enums.dart';
 import 'package:agenda_front/providers.dart';
 import 'package:agenda_front/src/models/entities/item.dart';
 import 'package:agenda_front/translate.dart';
@@ -9,11 +10,17 @@ import 'package:provider/provider.dart';
 
 class ItemSearchableDropdown extends StatefulWidget {
   final String name;
+  final TipoTransaccion tipo;
   final Item? unique;
   final Function(Item?)? onChanged;
 
-  const ItemSearchableDropdown(
-      {super.key, required this.name, this.unique, this.onChanged});
+  const ItemSearchableDropdown({
+    super.key,
+    required this.name,
+    required this.tipo,
+    this.unique,
+    this.onChanged,
+  });
 
   @override
   State<ItemSearchableDropdown> createState() => _ItemSearchableDropdownState();
@@ -23,7 +30,8 @@ class _ItemSearchableDropdownState extends State<ItemSearchableDropdown> {
   @override
   void initState() {
     widget.unique ??
-        Provider.of<ItemProvider>(context, listen: false).buscarTodos();
+        Provider.of<ItemProvider>(context, listen: false)
+            .buscarTodos(tipo: widget.tipo);
     super.initState();
   }
 

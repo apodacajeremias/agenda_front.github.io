@@ -4,7 +4,7 @@ import 'package:agenda_front/providers.dart';
 import 'package:agenda_front/services.dart';
 import 'package:agenda_front/src/models/entities/transaccion.dart';
 import 'package:agenda_front/src/models/entities/transaccion_detalle.dart';
-import 'package:agenda_front/ui/views/transaccion_detalle_modal.dart';
+import 'package:agenda_front/ui/views/transaccion/transaccion_detalle_modal.dart';
 import 'package:agenda_front/ui/widgets/elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

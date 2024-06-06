@@ -59,17 +59,12 @@ class TransaccionDetalleProvider extends ChangeNotifier {
     try {
       final json = await ServerConnection.httpPut(
           '/transacciones/$idTransaccion/detalles/$idDetalle', data);
-      final transaccion = TransaccionDetalle.fromJson(json);
-      // Buscamos el index en lista del ID TransaccionDetalle
-      final index =
-          detalles.indexWhere((element) => element.id.contains(idDetalle));
-      // Se substituye la informacion del index por la informacion actualizada
-      detalles[index] = transaccion;
-      notifyListeners();
+      final detalle = TransaccionDetalle.fromJson(json);
+      _index(detalle);
       NotificationService.showSnackbar('Editado');
-      return transaccion;
+      return detalle;
     } catch (e) {
-      NotificationService.showSnackbarError('No Editado');
+      NotificationService.showSnackbarError('No editado');
       rethrow;
     }
   }
@@ -81,10 +76,10 @@ class TransaccionDetalleProvider extends ChangeNotifier {
       if (confirmado) {
         detalles.removeWhere((transaccion) => transaccion.id == id);
         notifyListeners();
-        NotificationService.showSnackbar('1 transaccion eliminado');
+        NotificationService.showSnackbarWarn('Eliminado');
       }
     } catch (e) {
-      NotificationService.showSnackbarError('TransaccionDetalle no eliminado');
+      NotificationService.showSnackbarError('No eliminado');
       rethrow;
     }
   }

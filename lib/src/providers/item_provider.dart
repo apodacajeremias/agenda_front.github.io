@@ -1,3 +1,4 @@
+import 'package:agenda_front/enums.dart';
 import 'package:agenda_front/services.dart';
 import 'package:agenda_front/src/models/entities/item.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +8,9 @@ class ItemProvider extends ChangeNotifier {
   List<Item> items = [];
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
-  buscarTodos() async {
-    final response = await ServerConnection.httpGet('/items');
+  buscarTodos({bool activo = true, TipoTransaccion? tipo}) async {
+    final response =
+        await ServerConnection.httpGet('/items?activo=$activo&tipo=$tipo');
     List<Item> itemsResponse =
         List<Item>.from(response.map((model) => Item.fromJson(model)));
     items = [...itemsResponse];

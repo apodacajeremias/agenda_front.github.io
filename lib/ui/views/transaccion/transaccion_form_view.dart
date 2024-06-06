@@ -13,7 +13,7 @@ import 'package:agenda_front/translate.dart';
 import 'package:agenda_front/ui/custom_inputs.dart';
 import 'package:agenda_front/ui/views/persona/persona_dropdown.dart';
 import 'package:agenda_front/ui/views/transaccion/transaccion_datasource.dart';
-import 'package:agenda_front/ui/views/transaccion_detalle_modal.dart';
+import 'package:agenda_front/ui/views/transaccion/transaccion_detalle_modal.dart';
 import 'package:agenda_front/ui/widgets/elevated_button.dart';
 import 'package:agenda_front/ui/widgets/form_footer.dart';
 import 'package:agenda_front/ui/widgets/form_header.dart';
@@ -275,52 +275,7 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
               ),
               const SizedBox(height: defaultSizing),
               if (widget.transaccion != null) ...[
-                Text(AppLocalizations.of(context)!.detalles,
-                    style: context.headlineLarge),
-                const SizedBox(height: defaultSizing),
-                const SizedBox(height: defaultSizing),
-                IndexBody(
-                    title: AppLocalizations.of(context)!.detalles,
-                    columns: TransaccionDetalleDataSource.columns,
-                    actions: [
-                      EButton(
-                        text: AppLocalizations.of(context)!.accion('agregar'),
-                        icon: Icons.add_rounded,
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return Dialog(
-                                child: TransaccionDetalleModal(
-                                    transaccion: widget.transaccion!),
-                              );
-                            },
-                          );
-                        },
-                      )
-                    ],
-                    source: TransaccionDetalleDataSource(
-                        widget.transaccion!,
-                        widget.transaccion!.detalles ??
-                            [
-                              TransaccionDetalle(
-                                  id: AppLocalizations.of(context)!.items(0),
-                                  activo: false,
-                                  fechaCreacion: DateTime.now(),
-                                  nombre:
-                                      AppLocalizations.of(context)!.items(0),
-                                  item: Item(
-                                      id: AppLocalizations.of(context)!
-                                          .items(0),
-                                      activo: false,
-                                      fechaCreacion: DateTime.now(),
-                                      nombre: AppLocalizations.of(context)!
-                                          .items(0)),
-                                  cantidad: 0,
-                                  valor: 0,
-                                  subtotal: 0)
-                            ],
-                        context))
+                _TransaccionDetallesIndex(widget.transaccion!)
               ]
             ],
           ),
@@ -338,6 +293,65 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
             rethrow;
           }
         })
+      ],
+    );
+  }
+}
+
+class _TransaccionDetallesIndex extends StatelessWidget {
+  final Transaccion transaccion;
+
+  const _TransaccionDetallesIndex(this.transaccion);
+  @override
+  Widget build(BuildContext context) {
+    // Para que la vista se actualice cada vez que se agregue un detalle
+    Provider.of<TransaccionDetalleProvider>(context);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(AppLocalizations.of(context)!.detalles,
+            style: context.headlineLarge),
+        const SizedBox(height: defaultSizing),
+        const SizedBox(height: defaultSizing),
+        IndexBody(
+            title: AppLocalizations.of(context)!.detalles,
+            columns: TransaccionDetalleDataSource.columns,
+            actions: [
+              EButton(
+                text: AppLocalizations.of(context)!.accion('agregar'),
+                icon: Icons.add_rounded,
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Dialog(
+                        child:
+                            TransaccionDetalleModal(transaccion: transaccion),
+                      );
+                    },
+                  );
+                },
+              )
+            ],
+            source: TransaccionDetalleDataSource(
+                transaccion,
+                transaccion.detalles ??
+                    [
+                      TransaccionDetalle(
+                          id: AppLocalizations.of(context)!.items(0),
+                          activo: false,
+                          fechaCreacion: DateTime.now(),
+                          nombre: AppLocalizations.of(context)!.items(0),
+                          item: Item(
+                              id: AppLocalizations.of(context)!.items(0),
+                              activo: false,
+                              fechaCreacion: DateTime.now(),
+                              nombre: AppLocalizations.of(context)!.items(0)),
+                          cantidad: 0,
+                          valor: 0,
+                          subtotal: 0)
+                    ],
+                context))
       ],
     );
   }
