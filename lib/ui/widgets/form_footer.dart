@@ -18,9 +18,10 @@ class FormFooter extends StatelessWidget {
                   onPressed: () => Navigator.of(context).pop())),
           const SizedBox(width: defaultSizing),
           Expanded(
+              flex: 2,
               child: EButton.listo(
-            onPressed: onConfirm,
-          )),
+                onPressed: onConfirm,
+              )),
         ],
       ),
     );

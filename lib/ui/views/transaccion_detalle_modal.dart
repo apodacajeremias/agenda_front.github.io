@@ -1,4 +1,6 @@
 import 'package:agenda_front/constants.dart';
+import 'package:agenda_front/extensions.dart';
+import 'package:agenda_front/providers.dart';
 import 'package:agenda_front/src/models/entities/transaccion.dart';
 import 'package:agenda_front/src/models/entities/transaccion_detalle.dart';
 import 'package:agenda_front/translate.dart';
@@ -8,6 +10,7 @@ import 'package:agenda_front/ui/widgets/elevated_button.dart';
 import 'package:agenda_front/ui/widgets/link_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:provider/provider.dart';
 
 class TransaccionDetalleModal extends StatelessWidget {
   final Transaccion transaccion;
@@ -17,67 +20,82 @@ class TransaccionDetalleModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final idDetalle = detalle?.id;
     final formKey = GlobalKey<FormBuilderState>();
+    final provider = Provider.of<TransaccionDetalleProvider>(context);
     return Container(
-      margin: const EdgeInsets.only(top: maximumSizing),
-      padding: const EdgeInsets.symmetric(horizontal: defaultSizing),
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 370),
-          child: FormBuilder(
-            key: formKey,
-            child: Column(
-              children: [
-                const SizedBox(height: defaultSizing),
-                ItemSearchableDropdown(name: 'item', unique: detalle?.item),
-                const SizedBox(height: defaultSizing),
-                FormBuilderTextField(
-                  name: 'cantidad',
-                  initialValue: (detalle?.cantidad ?? 1).toString(),
-                  decoration: CustomInputs.form(
-                      label: AppLocalizations.of(context)!.cantidad,
-                      hint: AppLocalizations.of(context)!.cantidad,
-                      icon: Icons.numbers_sharp),
-                ),
-                const SizedBox(height: defaultSizing),
-                FormBuilderTextField(
-                  name: 'valor',
-                  initialValue: (detalle?.valor ?? 0).toString(),
-                  decoration: CustomInputs.form(
-                      label: AppLocalizations.of(context)!.valor,
-                      hint: AppLocalizations.of(context)!.valor,
-                      icon: Icons.price_change_outlined),
-                ),
-                const SizedBox(height: defaultSizing),
-                FormBuilderTextField(
-                  name: 'subtotal',
-                  initialValue: (detalle?.subtotal ?? 0).toString(),
-                  decoration: CustomInputs.form(
-                      label: AppLocalizations.of(context)!.subtotal,
-                      hint: AppLocalizations.of(context)!.subtotal,
-                      icon: Icons.price_change),
-                ),
-                const SizedBox(height: defaultSizing),
-                Row(
-                  children: [
-                    EButton(
-                      onPressed: () {
-                        print('Confirmar pressed');
-                      },
-                      text: AppLocalizations.of(context)!.confirmar,
-                    ),
-                    const SizedBox(width: defaultSizing),
-                    LinkButton(
-                      text: AppLocalizations.of(context)!.cancelar,
-                      onPressed: () {
-                        print('Cancelar pressed');
-                      },
-                    )
-                  ],
-                )
-              ],
+      padding: EdgeInsets.all(defaultSizing),
+      width: 400,
+      child: FormBuilder(
+        key: formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: defaultSizing),
+            Text(
+              AppLocalizations.of(context)!
+                  .item(detalle != null ? 'editar' : 'asignar'),
+              style: context.titleLarge,
             ),
-          ),
+            const SizedBox(height: defaultSizing),
+            ItemSearchableDropdown(name: 'item', unique: detalle?.item),
+            const SizedBox(height: defaultSizing),
+            FormBuilderTextField(
+              name: 'cantidad',
+              initialValue: (detalle?.cantidad ?? 1).toString(),
+              decoration: CustomInputs.form(
+                  label: AppLocalizations.of(context)!.cantidad,
+                  hint: AppLocalizations.of(context)!.cantidad,
+                  icon: Icons.numbers_sharp),
+            ),
+            const SizedBox(height: defaultSizing),
+            FormBuilderTextField(
+              name: 'valor',
+              initialValue: (detalle?.valor ?? 0).toString(),
+              decoration: CustomInputs.form(
+                  label: AppLocalizations.of(context)!.valor,
+                  hint: AppLocalizations.of(context)!.valor,
+                  icon: Icons.price_change_outlined),
+            ),
+            const SizedBox(height: defaultSizing),
+            FormBuilderTextField(
+              name: 'subtotal',
+              initialValue: (detalle?.subtotal ?? 0).toString(),
+              decoration: CustomInputs.form(
+                  label: AppLocalizations.of(context)!.subtotal,
+                  hint: AppLocalizations.of(context)!.subtotal,
+                  icon: Icons.price_change),
+            ),
+            const SizedBox(height: defaultSizing),
+            Row(
+              children: [
+                Expanded(child: LinkButton.cancel(onPressed: () {
+                  Navigator.of(context).pop();
+                })),
+                const SizedBox(width: defaultSizing),
+                Expanded(
+                  flex: 2,
+                  child: EButton(
+                    onPressed: () async {
+                      try {
+                        if (formKey.currentState!.saveAndValidate()) {
+                          final data = formKey.currentState!.value;
+                          await provider.registrar(transaccion.id, data,
+                              idDetalle: idDetalle);
+                          if (context.mounted) {
+                            Navigator.of(context).pop();
+                          }
+                        }
+                      } catch (e) {
+                        rethrow;
+                      }
+                    },
+                    text: AppLocalizations.of(context)!.confirmar,
+                  ),
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );

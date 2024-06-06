@@ -8,4 +8,5 @@ export 'package:agenda_front/src/providers/item_provider.dart';
 export 'package:agenda_front/src/providers/persona_provider.dart';
 export 'package:agenda_front/src/providers/promocion_provider.dart';
 export 'package:agenda_front/src/providers/transaccion_provider.dart';
+export 'package:agenda_front/src/providers/transaccion_detalle_provider.dart';
 export 'package:agenda_front/src/providers/user_provider.dart';

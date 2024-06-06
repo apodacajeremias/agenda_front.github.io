@@ -46,9 +46,6 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
 
   @override
   Widget build(BuildContext context) {
-    print(persona);
-    print(grupo);
-    print(beneficio);
     final provider = Provider.of<TransaccionProvider>(context);
     return ListView(
       physics: const ClampingScrollPhysics(),
@@ -290,7 +287,7 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                         text: AppLocalizations.of(context)!.accion('agregar'),
                         icon: Icons.add_rounded,
                         onPressed: () {
-                          showAdaptiveDialog(
+                          showDialog(
                             context: context,
                             builder: (context) {
                               return Dialog(
