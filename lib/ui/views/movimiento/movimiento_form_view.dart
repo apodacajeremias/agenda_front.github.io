@@ -28,7 +28,7 @@ class MovimientoFormView extends StatelessWidget {
       FormHeader(
           title: movimiento?.id == null
               ? AppLocalizations.of(context)!.movimiento('registrar')
-              : AppLocalizations.of(context)!.movimiento('editar')),
+              : AppLocalizations.of(context)!.movimiento('ver')),
       WhiteCard(
           child: FormBuilder(
               child: Column(children: [
@@ -65,10 +65,11 @@ class MovimientoFormView extends StatelessWidget {
         const SizedBox(height: defaultSizing),
         FormBuilderDropdown(
             name: 'tipo',
+            enabled: false,
             initialValue: movimiento?.tipo ?? TipoMovimiento.INGRESO,
             decoration: CustomInputs.form(
-                label: AppLocalizations.of(context)!.tipo('transaccion'),
-                hint: AppLocalizations.of(context)!.tipo('transaccion'),
+                label: AppLocalizations.of(context)!.tipo('movimiento'),
+                hint: AppLocalizations.of(context)!.tipo('movimiento'),
                 icon: Icons.info),
             validator: FormBuilderValidators.required(
                 errorText: AppLocalizations.of(context)!.campoObligatorio),
@@ -84,6 +85,7 @@ class MovimientoFormView extends StatelessWidget {
         const SizedBox(height: defaultSizing),
         FormBuilderDropdown(
             name: 'medioPago',
+            enabled: false,
             initialValue: movimiento?.medioPago ?? MedioPago.DINERO_EFECTIVO,
             decoration: CustomInputs.form(
                 label: AppLocalizations.of(context)!.tipo('transaccion'),
@@ -98,8 +100,8 @@ class MovimientoFormView extends StatelessWidget {
         const SizedBox(height: defaultSizing),
         FormBuilderDropdown(
             name: 'moneda',
-            initialValue: movimiento?.moneda ?? Moneda.GUARANI,
             enabled: false,
+            initialValue: movimiento?.moneda ?? Moneda.GUARANI,
             decoration: CustomInputs.form(
                 label: AppLocalizations.of(context)!.tipo('transaccion'),
                 hint: AppLocalizations.of(context)!.tipo('transaccion'),

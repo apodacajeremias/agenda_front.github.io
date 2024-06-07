@@ -408,7 +408,7 @@
       }
     }
   },
-  "tipo": "{tipo, select, other{Tipo} beneficio{Tipo de beneficio} descuento{Tipo de descuento} transaccion{Tipo de transacción} item{Tipo de item}}",
+  "tipo": "{tipo, select, other{Tipo} beneficio{Tipo de beneficio} descuento{Tipo de descuento} transaccion{Tipo de transacción} item{Tipo de item} movimiento{Tipo de pago]}",
   "@tipo": {
     "description": "tipos de cosas",
     "placeholders": {
@@ -443,7 +443,7 @@
       "accion": {}
     }
   },
-  "movimiento": "{accion, select, registrar{Registrar nuevo pago} editar{Editar pago existente} eliminar{Eliminar pago} aceptar{Aceptar pago} ocultar{Ocultar pago} other{Pago}}",
+  "movimiento": "{accion, select, registrar{Registrar nuevo pago} ver{Ver pago existente} eliminar{Eliminar pago} aceptar{Aceptar pago} anular{Anular pago} other{Pago}}",
   "@movimiento": {
     "description": "movimiento",
     "placeholders": {
