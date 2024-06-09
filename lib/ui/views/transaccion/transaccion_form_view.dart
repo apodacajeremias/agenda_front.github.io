@@ -1,6 +1,5 @@
 import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/enums.dart';
-import 'package:agenda_front/extensions.dart';
 import 'package:agenda_front/providers.dart';
 import 'package:agenda_front/src/models/entities/beneficio.dart';
 import 'package:agenda_front/src/models/entities/grupo.dart';
@@ -22,6 +21,7 @@ import 'package:agenda_front/ui/widgets/index_header.dart';
 import 'package:agenda_front/ui/widgets/white_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_extra_fields/form_builder_extra_fields.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 
@@ -42,6 +42,9 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
   @override
   void initState() {
     persona = widget.transaccion?.persona;
+    grupo = widget.transaccion?.grupo;
+    beneficio = widget.transaccion?.beneficio;
+    promocion = widget.transaccion?.promocion;
     super.initState();
   }
 
@@ -71,7 +74,7 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                           name: 'id',
                           initialValue: widget.transaccion?.id,
                           enabled: false,
-                          decoration: CustomInputs.form(
+                          decoration: CustomInputs.noBorder(
                               label: AppLocalizations.of(context)!.idTag,
                               hint: AppLocalizations.of(context)!.idHint,
                               icon: Icons.qr_code_rounded),
@@ -83,6 +86,7 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                         name: '-activo',
                         initialValue: AppLocalizations.of(context)!.aprobado,
                         enabled: false,
+                        decoration: CustomInputs.noBorder(),
                       )),
                     ] else ...[
                       Expanded(
@@ -99,120 +103,123 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
               ],
 
               const SizedBox(height: defaultSizing),
-              FormBuilderDropdown(
-                  name: 'tipo',
-                  initialValue:
-                      widget.transaccion?.tipo ?? TipoTransaccion.VENTA,
-                  decoration: CustomInputs.form(
-                      label: AppLocalizations.of(context)!.tipo('transaccion'),
-                      hint: AppLocalizations.of(context)!.tipo('transaccion'),
-                      icon: Icons.info),
-                  validator: FormBuilderValidators.required(
-                      errorText:
-                          AppLocalizations.of(context)!.campoObligatorio),
-                  items: TipoTransaccion.values
-                      .map((e) =>
-                          DropdownMenuItem(value: e, child: Text(e.toString())))
-                      .toList()),
+              FormBuilderSearchableDropdown(
+                name: 'tipo',
+                initialValue: widget.transaccion?.tipo ?? TipoTransaccion.VENTA,
+                decoration: CustomInputs.form(
+                    label: AppLocalizations.of(context)!.tipo('transaccion'),
+                    hint: AppLocalizations.of(context)!.tipo('transaccion'),
+                    icon: Icons.info),
+                validator: FormBuilderValidators.required(
+                    errorText: AppLocalizations.of(context)!.campoObligatorio),
+                items: TipoTransaccion.values,
+                compareFn: (item1, item2) => item1 == item2,
+              ),
               const SizedBox(height: defaultSizing),
               PersonaSearchableDropdown(
                 name: 'persona',
                 unique: widget.transaccion?.persona,
                 onChanged: (p) {
                   setState(() {
-                    print(p);
                     persona = p;
+                    grupo = null;
+                    beneficio = null;
+                    promocion = null;
                   });
                 },
               ),
               if (persona?.grupos != null && persona!.grupos!.isNotEmpty) ...[
                 const SizedBox(height: defaultSizing),
-                FormBuilderDropdown(
+                FormBuilderSearchableDropdown(
                     name: 'grupo',
-                    initialValue: widget.transaccion?.grupo,
+                    initialValue: grupo,
                     decoration: CustomInputs.form(
                         label: AppLocalizations.of(context)!.grupo('asignar'),
                         hint: AppLocalizations.of(context)!.grupo('asignar'),
                         icon: Icons.group),
+                    items: persona!.grupos!,
+                    compareFn: (item1, item2) => item1.id.contains(item2.id),
+                    valueTransformer: (value) => value?.id,
                     onChanged: (value) {
                       setState(() {
                         grupo = value;
+                        beneficio = null;
+                        promocion = null;
                       });
                     },
-                    items: persona!.grupos!
-                        .map((e) => DropdownMenuItem(
-                            value: e, child: Text(e.toString())))
-                        .toList()),
+                    clearButtonProps: const ClearButtonProps(isVisible: true)),
                 if (grupo != null && grupo!.beneficio != null) ...[
                   const SizedBox(height: defaultSizing),
-                  FormBuilderDropdown(
-                    name: 'beneficio',
-                    initialValue: widget.transaccion?.beneficio,
-                    decoration: CustomInputs.form(
-                        label:
-                            AppLocalizations.of(context)!.beneficio('asignar'),
-                        hint:
-                            AppLocalizations.of(context)!.beneficio('asignar'),
-                        icon: Icons.group),
-                    onChanged: (value) {
-                      setState(() {
-                        beneficio = value;
-                      });
-                    },
-                    items: [
-                      DropdownMenuItem(
-                          value: grupo!.beneficio,
-                          child: Text(grupo!.beneficio.toString()))
-                    ],
-                  )
+                  FormBuilderSearchableDropdown(
+                      name: 'beneficio',
+                      initialValue: beneficio,
+                      decoration: CustomInputs.form(
+                          label: AppLocalizations.of(context)!
+                              .beneficio('asignar'),
+                          hint: AppLocalizations.of(context)!
+                              .beneficio('asignar'),
+                          icon: Icons.group),
+                      items: [grupo!.beneficio!],
+                      compareFn: (item1, item2) => item1.id.contains(item2.id),
+                      valueTransformer: (value) => value?.id,
+                      onChanged: (value) {
+                        setState(() {
+                          beneficio = value;
+                          promocion = null;
+                        });
+                      },
+                      clearButtonProps: const ClearButtonProps(isVisible: true))
+                ],
+                if (beneficio != null) ...[
+                  const SizedBox(height: defaultSizing),
+                  FormBuilderSearchableDropdown(
+                      name: 'tipoBeneficio',
+                      initialValue: beneficio?.tipo,
+                      enabled: false,
+                      decoration: CustomInputs.form(
+                          label:
+                              AppLocalizations.of(context)!.tipo('beneficio'),
+                          hint: AppLocalizations.of(context)!.tipo('beneficio'),
+                          icon: Icons.info),
+                      validator: FormBuilderValidators.required(
+                          errorText:
+                              AppLocalizations.of(context)!.campoObligatorio),
+                      items: TipoBeneficio.values,
+                      compareFn: (item1, item2) => item1 == item2,
+                      clearButtonProps:
+                          const ClearButtonProps(isVisible: true)),
                 ],
                 if (beneficio?.promociones != null &&
                     beneficio!.promociones!.isNotEmpty) ...[
                   const SizedBox(height: defaultSizing),
-                  FormBuilderDropdown(
-                    name: 'promocion',
-                    initialValue: widget.transaccion?.promocion,
-                    decoration: CustomInputs.form(
-                        label:
-                            AppLocalizations.of(context)!.promocion('asignar'),
-                        hint:
-                            AppLocalizations.of(context)!.promocion('asignar'),
-                        icon: Icons.group),
-                    onChanged: (value) {
-                      setState(() {
-                        promocion = value;
-                      });
-                    },
-                    items: grupo!.beneficio!.promociones!
-                        .map((e) => DropdownMenuItem(
-                            value: e, child: Text(e.toString())))
-                        .toList(),
-                  )
-                ]
-              ],
-
-              if (beneficio != null) ...[
-                const SizedBox(height: defaultSizing),
-                FormBuilderDropdown(
-                    name: 'tipoBeneficio',
-                    initialValue: beneficio?.tipo,
-                    enabled: false,
-                    decoration: CustomInputs.form(
-                        label: AppLocalizations.of(context)!.tipo('beneficio'),
-                        hint: AppLocalizations.of(context)!.tipo('beneficio'),
-                        icon: Icons.info),
-                    validator: FormBuilderValidators.required(
-                        errorText:
-                            AppLocalizations.of(context)!.campoObligatorio),
-                    items: TipoBeneficio.values
-                        .map((e) => DropdownMenuItem(
-                            value: e, child: Text(e.toString())))
-                        .toList()),
-                if (promocion != null) ...[
+                  FormBuilderSearchableDropdown(
+                      name: 'promocion',
+                      initialValue: promocion,
+                      decoration: CustomInputs.form(
+                          label: AppLocalizations.of(context)!
+                              .promocion('asignar'),
+                          hint: AppLocalizations.of(context)!
+                              .promocion('asignar'),
+                          icon: Icons.group),
+                      onChanged: (value) {
+                        setState(() {
+                          promocion = value;
+                        });
+                      },
+                      items: grupo!.beneficio!.promociones!,
+                      compareFn: (item1, item2) => item1.id.contains(item2.id),
+                      valueTransformer: (value) => value?.id,
+                      clearButtonProps: const ClearButtonProps(isVisible: true))
+                ],
+                if (promocion != null || beneficio != null) ...[
                   const SizedBox(height: defaultSizing),
-                  FormBuilderDropdown(
+                  FormBuilderSearchableDropdown(
                       name: 'tipoDescuento',
-                      initialValue: widget.transaccion?.tipoDescuento,
+                      initialValue:
+                          promocion?.tipoDescuento ?? beneficio?.tipoDescuento,
+                      enabled: (promocion != null || beneficio != null)
+                          ? false
+                          : true,
                       decoration: CustomInputs.form(
                           label:
                               AppLocalizations.of(context)!.tipo('descuento'),
@@ -221,10 +228,10 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                       validator: FormBuilderValidators.required(
                           errorText:
                               AppLocalizations.of(context)!.campoObligatorio),
-                      items: TipoDescuento.values
-                          .map((e) => DropdownMenuItem(
-                              value: e, child: Text(e.toString())))
-                          .toList()),
+                      items: TipoDescuento.values,
+                      compareFn: (item1, item2) => item1 == item2,
+                      clearButtonProps:
+                          const ClearButtonProps(isVisible: true)),
                 ]
               ],
               if (widget.transaccion != null) ...[
@@ -246,6 +253,9 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                       flex: 2,
                       child: FormBuilderTextField(
                         name: 'descuento',
+                        enabled: (promocion != null || beneficio != null)
+                            ? false
+                            : true,
                         initialValue:
                             widget.transaccion?.descuento.toString() ??
                                 0.toString(),
@@ -264,8 +274,8 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                         name: 'aplicarDescuento',
                         title: Text(
                             AppLocalizations.of(context)!.aplicarDescuento),
-                        initialValue: widget.transaccion?.aplicarPromocion,
-                        decoration: CustomInputs.form(
+                        initialValue: widget.transaccion?.aplicarDescuento,
+                        decoration: CustomInputs.noBorder(
                             label:
                                 AppLocalizations.of(context)!.aplicarDescuento,
                             hint:

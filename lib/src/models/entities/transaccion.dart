@@ -3,8 +3,6 @@ import 'package:agenda_front/src/models/entities/grupo.dart';
 import 'package:agenda_front/src/models/entities/persona.dart';
 import 'package:agenda_front/src/models/entities/promocion.dart';
 import 'package:agenda_front/src/models/entities/transaccion_detalle.dart';
-import 'package:agenda_front/src/models/enums/tipo_beneficio.dart';
-import 'package:agenda_front/src/models/enums/tipo_descuento.dart';
 import 'package:agenda_front/src/models/enums/tipo_transaccion.dart';
 
 class Transaccion {
@@ -17,9 +15,7 @@ class Transaccion {
   double total;
   double descuento;
   double sumatoria;
-  bool aplicarPromocion;
-  TipoBeneficio? tipoBeneficio;
-  TipoDescuento? tipoDescuento;
+  bool aplicarDescuento;
   Persona persona;
   Grupo? grupo;
   Beneficio? beneficio;
@@ -35,9 +31,7 @@ class Transaccion {
     required this.total,
     required this.descuento,
     required this.sumatoria,
-    required this.aplicarPromocion,
-    this.tipoBeneficio,
-    this.tipoDescuento,
+    required this.aplicarDescuento,
     required this.persona,
     this.grupo,
     this.beneficio,
@@ -54,9 +48,7 @@ class Transaccion {
         total: json['total'],
         descuento: json['descuento'],
         sumatoria: json['sumatoria'],
-        aplicarPromocion: json['aplicarPromocion'],
-        tipoBeneficio: TipoBeneficio.values.byName(json['tipoBeneficio']),
-        tipoDescuento: TipoDescuento.values.byName(json['tipoDescuento']),
+        aplicarDescuento: json['aplicarDescuento'],
         persona: Persona.fromJson(json['persona']),
         grupo: (json.containsKey('grupo') && json['grupo'] != null)
             ? Grupo.fromJson(json['grupo'])

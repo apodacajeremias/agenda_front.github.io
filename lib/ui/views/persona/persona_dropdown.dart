@@ -34,18 +34,18 @@ class _PersonaSearchableDropdownState extends State<PersonaSearchableDropdown> {
         ? [widget.unique!]
         : Provider.of<PersonaProvider>(context).personas;
     return FormBuilderSearchableDropdown(
-      name: widget.name,
-      initialValue: widget.unique,
-      items: items,
-      compareFn: (item1, item2) => item1.id.contains(item2.id),
-      onChanged: widget.onChanged,
-      validator: FormBuilderValidators.required(
-          errorText: AppLocalizations.of(context)!.campoObligatorio),
-      valueTransformer: (value) => value?.id,
-      decoration: CustomInputs.form(
-          hint: AppLocalizations.of(context)!.persona(''),
-          label: AppLocalizations.of(context)!.persona('asignar'),
-          icon: Icons.person_outline),
-    );
+        name: widget.name,
+        initialValue: widget.unique,
+        items: items,
+        compareFn: (item1, item2) => item1.id.contains(item2.id),
+        onChanged: widget.onChanged,
+        validator: FormBuilderValidators.required(
+            errorText: AppLocalizations.of(context)!.campoObligatorio),
+        valueTransformer: (value) => value?.id,
+        decoration: CustomInputs.form(
+            hint: AppLocalizations.of(context)!.persona(''),
+            label: AppLocalizations.of(context)!.persona('asignar'),
+            icon: Icons.person_outline),
+        clearButtonProps: const ClearButtonProps(isVisible: true));
   }
 }

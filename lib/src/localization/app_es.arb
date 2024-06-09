@@ -408,7 +408,7 @@
       }
     }
   },
-  "tipo": "{tipo, select, other{Tipo} beneficio{Tipo de beneficio} descuento{Tipo de descuento} transaccion{Tipo de transacción} item{Tipo de item} movimiento{Tipo de pago]}",
+  "tipo": "{tipo, select, other{Tipo} beneficio{Tipo de beneficio} descuento{Tipo de descuento} transaccion{Tipo de transacción} item{Tipo de item} movimiento{Tipo de pago}}",
   "@tipo": {
     "description": "tipos de cosas",
     "placeholders": {

@@ -10,7 +10,12 @@ class CustomInputs {
         prefixIcon: Icon(icon));
   }
 
-  static InputDecoration noBorder() {
-    return const InputDecoration(border: InputBorder.none);
+  static InputDecoration noBorder(
+      {String label = '', String hint = '', IconData? icon}) {
+    return InputDecoration(
+        labelText: label, // ARRIBA
+        hintText: hint, // ADENTRO
+        prefixIcon: Icon(icon),
+        border: InputBorder.none);
   }
 }

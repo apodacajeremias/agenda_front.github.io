@@ -106,9 +106,9 @@ class TransaccionDetalleProvider extends ChangeNotifier {
       String idTransaccion, Map<String, dynamic> data,
       {String? idDetalle}) async {
     // Si data tiene un campo ID y este tiene informacion
-    if (data.containsKey('id') && data['id'] != null) {
+    if (idDetalle != null) {
       // Actualiza
-      return await _actualizar(idTransaccion, idDetalle!, data);
+      return await _actualizar(idTransaccion, idDetalle, data);
     } else {
       return await _guardar(idTransaccion, data);
     }

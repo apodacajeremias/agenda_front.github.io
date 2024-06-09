@@ -22,7 +22,8 @@ class TransaccionDetalleModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final idDetalle = detalle?.id;
-    final provider = Provider.of<TransaccionDetalleProvider>(context);
+    final provider =
+        Provider.of<TransaccionDetalleProvider>(context, listen: false);
     return Container(
       padding: const EdgeInsets.all(defaultSizing),
       width: 400,
@@ -44,7 +45,15 @@ class TransaccionDetalleModal extends StatelessWidget {
               unique: detalle?.item,
               onChanged: (itm) {
                 provider.formKey.currentState!.fields['valor']!
-                    .didChange(itm?.precio ?? 0);
+                    .didChange((itm?.precio ?? 0).toString());
+                double c = double.parse(
+                    provider.formKey.currentState!.fields['cantidad']?.value ??
+                        1);
+                double v = double.parse(
+                    provider.formKey.currentState!.fields['valor']?.value ?? 0);
+
+                provider.formKey.currentState!.fields['subtotal']!
+                    .didChange((c * v).toString());
               },
             ),
             const SizedBox(height: defaultSizing),
@@ -62,13 +71,14 @@ class TransaccionDetalleModal extends StatelessWidget {
                     errorText: AppLocalizations.of(context)!.campoObligatorio)
               ]),
               onChanged: (value) {
-                double c =
+                double c = double.parse(
                     provider.formKey.currentState!.fields['cantidad']?.value ??
-                        1;
-                double v =
-                    provider.formKey.currentState!.fields['valor']?.value ?? 0;
-                provider.formKey.currentState!.fields['-subtotal']!
-                    .didChange(c * v);
+                        1);
+                double v = double.parse(
+                    provider.formKey.currentState!.fields['valor']?.value ?? 0);
+
+                provider.formKey.currentState!.fields['subtotal']!
+                    .didChange((c * v).toString());
               },
             ),
             const SizedBox(height: defaultSizing),
@@ -78,12 +88,29 @@ class TransaccionDetalleModal extends StatelessWidget {
               decoration: CustomInputs.form(
                   label: AppLocalizations.of(context)!.valor,
                   hint: AppLocalizations.of(context)!.valor,
-                  icon: Icons.price_change_outlined),
+                  icon: Icons.numbers_sharp),
+              validator: FormBuilderValidators.compose([
+                FormBuilderValidators.numeric(
+                    errorText: AppLocalizations.of(context)!.soloNumeros),
+                FormBuilderValidators.required(
+                    errorText: AppLocalizations.of(context)!.campoObligatorio)
+              ]),
+              onChanged: (value) {
+                double c = double.parse(
+                    provider.formKey.currentState!.fields['cantidad']?.value ??
+                        1);
+                double v = double.parse(
+                    provider.formKey.currentState!.fields['valor']?.value ?? 0);
+
+                provider.formKey.currentState!.fields['subtotal']!
+                    .didChange((c * v).toString());
+              },
             ),
             const SizedBox(height: defaultSizing),
             FormBuilderTextField(
-              name: '-subtotal',
+              name: 'subtotal',
               initialValue: (detalle?.subtotal ?? 0).toString(),
+              enabled: false,
               decoration: CustomInputs.form(
                   label: AppLocalizations.of(context)!.subtotal,
                   hint: AppLocalizations.of(context)!.subtotal,
