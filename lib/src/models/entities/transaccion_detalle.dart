@@ -1,15 +1,12 @@
-// To parse this JSON data, do
-//
-//     final agenda = agendaFromJson(jsonString);
-
 import 'package:agenda_front/src/models/entities/item.dart';
 import 'package:agenda_front/src/models/entities/transaccion.dart';
 
 class TransaccionDetalle {
-  final String id;
-  final bool activo;
-  final String nombre;
-  final DateTime fechaCreacion;
+  String id;
+  bool? activo;
+  String nombre;
+  String? observacion;
+  DateTime fechaCreacion;
 
   final double? cantidad;
   final double? valor;
@@ -19,8 +16,9 @@ class TransaccionDetalle {
 
   TransaccionDetalle({
     required this.id,
-    required this.activo,
+    this.activo,
     required this.nombre,
+    this.observacion,
     required this.fechaCreacion,
     this.cantidad,
     this.valor,
@@ -34,6 +32,7 @@ class TransaccionDetalle {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
+        observacion: json['observacion'],
         fechaCreacion: DateTime.parse(json['fechaCreacion']),
         cantidad: json['cantidad'],
         valor: json['valor'],

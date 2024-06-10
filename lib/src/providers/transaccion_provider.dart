@@ -5,20 +5,21 @@ import 'package:agenda_front/src/models/entities/transaccion_detalle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
-class TransaccionProvider extends ChangeNotifier {
+class TransaccionFormProvider extends ChangeNotifier {
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
-  List<Transaccion> transacciones = [];
+  Transaccion? transaccion;
 
-  buscarTodos() async {
-    final response = await ServerConnection.httpGet('/transacciones');
-    List<Transaccion> transaccionesResponse = List<Transaccion>.from(
-        response.map((model) => Transaccion.fromJson(model)));
-    transacciones = [...transaccionesResponse];
-    notifyListeners();
-  }
-
-  Transaccion? buscar(String id) {
-    return transacciones.where((element) => element.id.contains(id)).first;
+  Future buscar(String id) async {
+    try {
+      final json = await ServerConnection.httpGet('/transacciones/$id');
+      transaccion = Transaccion.fromJson(json);
+      NotificationService.showSnackbar('Encontrado');
+      notifyListeners();
+      return transaccion;
+    } catch (e) {
+      NotificationService.showSnackbarError('No encontrado');
+      rethrow;
+    }
   }
 
   registrar(Map<String, dynamic> data) async {
@@ -34,10 +35,9 @@ class TransaccionProvider extends ChangeNotifier {
   _guardar(Map<String, dynamic> data) async {
     try {
       final json = await ServerConnection.httpPost('/transacciones', data);
-      final transaccion = Transaccion.fromJson(json);
-      transacciones.add(transaccion);
-      notifyListeners();
+      transaccion = Transaccion.fromJson(json);
       NotificationService.showSnackbar('Agregado a transacciones');
+      notifyListeners();
       return transaccion;
     } catch (e) {
       NotificationService.showSnackbarError('No agregado a transacciones');
@@ -48,17 +48,12 @@ class TransaccionProvider extends ChangeNotifier {
   _actualizar(String id, Map<String, dynamic> data) async {
     try {
       final json = await ServerConnection.httpPut('/transacciones/$id', data);
-      final transaccion = Transaccion.fromJson(json);
-      // Buscamos el index en lista del ID Transaccion
-      final index =
-          transacciones.indexWhere((element) => element.id.contains(id));
-      // Se substituye la informacion del index por la informacion actualizada
-      transacciones[index] = transaccion;
+      transaccion = Transaccion.fromJson(json);
+      NotificationService.showSnackbar('Transacción actualizada');
       notifyListeners();
-      NotificationService.showSnackbar('Transaccion actualizado');
       return transaccion;
     } catch (e) {
-      NotificationService.showSnackbarError('Transaccion no actualizado');
+      NotificationService.showSnackbarError('Transacción no actualizada');
       rethrow;
     }
   }
@@ -68,14 +63,75 @@ class TransaccionProvider extends ChangeNotifier {
       final json = await ServerConnection.httpDelete('/transacciones/$id', {});
       final confirmado = json.toString().toBoolean();
       if (confirmado) {
-        transacciones.removeWhere((transaccion) => transaccion.id == id);
         notifyListeners();
-        NotificationService.showSnackbar('1 transaccion eliminado');
+        NotificationService.showSnackbar('1 transacción eliminada');
       }
     } catch (e) {
-      NotificationService.showSnackbarError('Transaccion no eliminado');
+      NotificationService.showSnackbarError('Transacción no eliminada');
       rethrow;
     }
+  }
+
+  aplicarDescuento(String id, bool aplicar, double descuento) async {
+    try {
+      final json = await ServerConnection.httpPut(
+          '/transacciones/$id/aplicarDescuento',
+          {'aplicar': aplicar, 'descuento': descuento});
+      if (json['aplicar'].toString().toBoolean()) {
+        NotificationService.showSnackbarWarn('Descuento aplicado');
+      } else {
+        NotificationService.showSnackbarWarn('Descuento quitado');
+      }
+      formKey.currentState!.fields['-sumatoria']!
+          .didChange((json['sumatoria']).toString());
+      formKey.currentState!.fields['descuento']!
+          .didChange((json['descuento']).toString());
+      formKey.currentState!.fields['-total']!
+          .didChange((json['total']).toString());
+      notifyListeners();
+    } catch (e) {
+      if (aplicar) {
+        NotificationService.showSnackbarError('Descuento no aplicado');
+      } else {
+        NotificationService.showSnackbarError('Descuento no quitado');
+      }
+      rethrow;
+    }
+  }
+
+  cambiarEstado(String id, bool? estado) async {
+    try {
+      if (transaccion!.sumatoria <= 0) {
+        NotificationService.showSnackbarError(
+            'La sumatoria debe ser superior a cero');
+        return;
+      }
+      await ServerConnection.httpPut(
+          '/transacciones/$id/cambiarEstado', {'estado': estado});
+      if (estado == null) {
+        NotificationService.showSnackbarWarn('Estado PENDIENTE');
+      } else if (estado) {
+        NotificationService.showSnackbarWarn('Estado APROBADO');
+      } else {
+        NotificationService.showSnackbarWarn('Estado RECHAZADO');
+      }
+      notifyListeners();
+    } catch (e) {
+      NotificationService.showSnackbarError('Estado no cambiado');
+      rethrow;
+    }
+  }
+}
+
+class TransaccionIndexProvider extends ChangeNotifier {
+  List<Transaccion> transacciones = [];
+
+  buscarTodos() async {
+    final response = await ServerConnection.httpGet('/transacciones');
+    List<Transaccion> transaccionesResponse = List<Transaccion>.from(
+        response.map((model) => Transaccion.fromJson(model)));
+    transacciones = [...transaccionesResponse];
+    notifyListeners();
   }
 }
 

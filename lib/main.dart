@@ -44,7 +44,9 @@ class BlocsProviders extends StatelessWidget {
         ChangeNotifierProvider(lazy: true, create: (_) => PersonaProvider()),
         ChangeNotifierProvider(lazy: true, create: (_) => PromocionProvider()),
         ChangeNotifierProvider(
-            lazy: true, create: (_) => TransaccionProvider()),
+            lazy: true, create: (_) => TransaccionFormProvider()),
+        ChangeNotifierProvider(
+            lazy: true, create: (_) => TransaccionIndexProvider()),
         ChangeNotifierProvider(
             lazy: true, create: (_) => TransaccionDetalleProvider()),
         ChangeNotifierProvider(lazy: true, create: (_) => UserProvider()),

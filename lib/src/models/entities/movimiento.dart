@@ -4,8 +4,9 @@ import 'package:agenda_front/src/models/entities/persona.dart';
 
 class Movimiento {
   String id;
-  bool activo;
+  bool? activo;
   String nombre;
+  String? observacion;
   DateTime fechaCreacion;
 
   double total;
@@ -18,8 +19,9 @@ class Movimiento {
 
   Movimiento({
     required this.id,
-    required this.activo,
+    this.activo,
     required this.nombre,
+    this.observacion,
     required this.fechaCreacion,
     required this.total,
     this.numeroComprobante,
@@ -34,6 +36,7 @@ class Movimiento {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
+        observacion: json['observacion'],
         fechaCreacion: DateTime.parse(json['fechaCreacion']),
         total: json['total'],
         numeroComprobante: json['numeroComprobante'],

@@ -332,8 +332,7 @@
   "grupo": "{accion, select, asignar{Asignar grupo} registrar{Registrar nuevo grupo} editar{Editar grupo existente} eliminar{Eliminar grupo} ocultar{Ocultar grupo} other{Grupo}}",
   "@grupo": {
     "description": "transaccion",
-    "placeholders": {
-    }
+    "placeholders": {}
   },
   "detallado": "Detallado",
   "@detallado": {
@@ -423,6 +422,14 @@
     "placeholders": {
       "accion": {}
     }
+  },
+  "rechazado": "Rechazado",
+  "@rechazado": {
+    "description": "rechazado"
+  },
+  "rechazar": "Rechazar",
+  "@rechazar": {
+    "description": "rechazar"
   },
   "aprobado": "Aprobado",
   "@aprobado": {

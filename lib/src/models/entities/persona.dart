@@ -5,8 +5,9 @@ import 'package:agenda_front/src/models/security/user.dart';
 
 class Persona {
   String id;
-  bool activo;
+  bool? activo;
   String nombre;
+  String? observacion;
   DateTime fechaCreacion;
 
   String documentoIdentidad;
@@ -16,7 +17,6 @@ class Persona {
   String? telefono;
   String? celular;
   String? direccion;
-  String? observacion;
   String? fotoPerfil;
   Colaborador? colaborador;
   User? user;
@@ -24,8 +24,9 @@ class Persona {
 
   Persona({
     required this.id,
-    required this.activo,
+    this.activo,
     required this.nombre,
+    this.observacion,
     required this.fechaCreacion,
     required this.documentoIdentidad,
     required this.fechaNacimiento,
@@ -34,7 +35,6 @@ class Persona {
     this.telefono,
     this.celular,
     this.direccion,
-    this.observacion,
     this.fotoPerfil,
     this.colaborador,
     this.user,
@@ -45,6 +45,7 @@ class Persona {
       id: json['id'],
       activo: json['activo'],
       nombre: json['nombre'],
+      observacion: json['observacion'],
       fechaCreacion: DateTime.parse(json['fechaCreacion']),
       documentoIdentidad: json['documentoIdentidad'],
       fechaNacimiento: DateTime.parse(json['fechaNacimiento']),
@@ -53,7 +54,6 @@ class Persona {
       telefono: json['telefono'],
       celular: json['celular'],
       direccion: json['direccion'],
-      observacion: json['observacion'],
       fotoPerfil: json['fotoPerfil'],
       colaborador:
           json.containsKey('colaborador') && json['colaborador'] != null

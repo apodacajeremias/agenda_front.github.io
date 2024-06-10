@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class EButton extends StatelessWidget {
   final String text;
   final IconData? icon;
+  final Color? color;
   final Function? onPressed;
-  const EButton({super.key, required this.text, this.icon, this.onPressed});
 
   factory EButton.registrar({required Function onPressed}) => EButton(
       text: 'Registrar', icon: Icons.add_outlined, onPressed: onPressed);
@@ -15,8 +15,8 @@ class EButton extends StatelessWidget {
   factory EButton.listo({required Function onPressed}) =>
       EButton(text: 'Listo', icon: Icons.done_outlined, onPressed: onPressed);
 
-  factory EButton.icon({required IconData icon, required Function onPressed}) =>
-      EButton(text: '', icon: icon, onPressed: onPressed);
+  const EButton(
+      {super.key, required this.text, this.icon, this.color, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +26,18 @@ class EButton extends StatelessWidget {
             if (onPressed != null) onPressed!();
           },
           icon: Icon(icon),
+          style: color != null
+              ? ElevatedButton.styleFrom(backgroundColor: color)
+              : null,
           label: buildMouseRegionForText());
     }
     return ElevatedButton(
         onPressed: () {
           if (onPressed != null) onPressed!();
         },
+        style: color != null
+            ? ElevatedButton.styleFrom(backgroundColor: color)
+            : null,
         child: buildMouseRegionForText());
   }
 

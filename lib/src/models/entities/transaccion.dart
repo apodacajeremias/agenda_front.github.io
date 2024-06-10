@@ -7,8 +7,9 @@ import 'package:agenda_front/src/models/enums/tipo_transaccion.dart';
 
 class Transaccion {
   String id;
-  bool activo;
+  bool? activo;
   String nombre;
+  String? observacion;
   DateTime fechaCreacion;
 
   TipoTransaccion tipo;
@@ -24,8 +25,9 @@ class Transaccion {
 
   Transaccion({
     required this.id,
-    required this.activo,
+    this.activo,
     required this.nombre,
+    this.observacion,
     required this.fechaCreacion,
     required this.tipo,
     required this.total,
@@ -43,6 +45,7 @@ class Transaccion {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
+        observacion: json['observacion'],
         fechaCreacion: DateTime.parse(json['fechaCreacion']),
         tipo: TipoTransaccion.values.byName(json['tipo']),
         total: json['total'],

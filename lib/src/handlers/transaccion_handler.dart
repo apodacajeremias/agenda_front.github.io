@@ -3,6 +3,7 @@ import 'package:agenda_front/ui/views/auth/login_view.dart';
 import 'package:agenda_front/ui/views/transaccion/transaccion_form_view.dart';
 import 'package:agenda_front/ui/views/transaccion/transaccion_index_view.dart';
 import 'package:fluro/fluro.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TransaccionHandler {
@@ -27,11 +28,17 @@ class TransaccionHandler {
   static Handler edit = Handler(handlerFunc: (context, params) {
     final authProvider = Provider.of<AuthProvider>(context!, listen: false);
     final id = params['id']?.first;
-    final transaccion =
-        Provider.of<TransaccionProvider>(context, listen: false).buscar(id!);
-
     if (authProvider.authStatus == AuthStatus.authenticated) {
-      return TransaccionFormView(transaccion: transaccion);
+      return FutureBuilder(
+        future: Provider.of<TransaccionFormProvider>(context, listen: false)
+            .buscar(id!),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return TransaccionFormView(transaccion: snapshot.data);
+          }
+          return const CircularProgressIndicator.adaptive();
+        },
+      );
     } else {
       return const LoginView();
     }

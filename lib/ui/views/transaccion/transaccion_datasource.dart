@@ -42,7 +42,7 @@ class TransaccionDataSource extends DataTableSource {
             onPressed: () {
               final dialog = AlertDialog(
                   title: const Text('Estas seguro de borrarlo?'),
-                  content: Text('Borrar transaccion $transaccion.nombre?'),
+                  content: Text('Borrar transaccion ${transaccion.nombre}?'),
                   actions: [
                     TextButton(
                       child: const Text('No, mantener'),
@@ -54,7 +54,8 @@ class TransaccionDataSource extends DataTableSource {
                         child: const Text('Si, borrar'),
                         onPressed: () async {
                           var confirmado =
-                              await Provider.of<TransaccionProvider>(context,
+                              await Provider.of<TransaccionFormProvider>(
+                                      context,
                                       listen: false)
                                   .eliminar(transaccion.id);
                           if (confirmado) {
@@ -145,10 +146,8 @@ class TransaccionDetalleDataSource extends DataTableSource {
       DataCell(Text(detalle.valor!.toString())),
       DataCell(Text(detalle.subtotal!.toString())),
       DataCell(Row(children: [
-        EButton.icon(
-            icon: Icons.edit_rounded,
+        IconButton(
             onPressed: () {
-              print('Editar detalle pressed');
               showAdaptiveDialog(
                 context: context,
                 builder: (context) {
@@ -158,13 +157,14 @@ class TransaccionDetalleDataSource extends DataTableSource {
                   );
                 },
               );
-            }),
+            },
+            icon: const Icon(Icons.edit_rounded)),
         const SizedBox(width: defaultSizing),
-        EButton.icon(
-            icon: Icons.delete_forever_rounded,
+        IconButton(
             onPressed: () {
-              print('Eliminar detalle pressed');
-            }),
+              print('delete pressed');
+            },
+            icon: const Icon(Icons.delete_forever_rounded)),
       ])),
     ]);
   }

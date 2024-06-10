@@ -2,8 +2,9 @@ import 'package:agenda_front/src/models/enums/tipo_transaccion.dart';
 
 class Item {
   String id;
-  bool activo;
+  bool? activo;
   String nombre;
+  String? observacion;
   DateTime fechaCreacion;
 
   double? precio;
@@ -11,8 +12,9 @@ class Item {
 
   Item({
     required this.id,
-    required this.activo,
+    this.activo,
     required this.nombre,
+    this.observacion,
     required this.fechaCreacion,
     this.precio,
     this.tipo,
@@ -22,6 +24,7 @@ class Item {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
+        observacion: json['observacion'],
         fechaCreacion: DateTime.parse(json['fechaCreacion']),
         precio: json['precio'],
         tipo: TipoTransaccion.values.byName(json['tipo']),

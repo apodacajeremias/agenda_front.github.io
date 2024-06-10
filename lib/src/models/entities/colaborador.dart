@@ -1,7 +1,8 @@
 class Colaborador {
   String id;
-  bool activo;
+  bool? activo;
   String nombre;
+  String? observacion;
   DateTime fechaCreacion;
 
   String? registroContribuyente;
@@ -10,8 +11,9 @@ class Colaborador {
 
   Colaborador({
     required this.id,
-    required this.activo,
+    this.activo,
     required this.nombre,
+    this.observacion,
     required this.fechaCreacion,
     this.registroContribuyente,
     this.registroProfesional,
@@ -22,6 +24,7 @@ class Colaborador {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
+        observacion: json['observacion'],
         fechaCreacion: DateTime.parse(json['fechaCreacion']),
         registroContribuyente: json['registroContribuyente'],
         registroProfesional: json['registroProfesional'],

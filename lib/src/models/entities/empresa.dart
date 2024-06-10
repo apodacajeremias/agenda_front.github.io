@@ -3,8 +3,9 @@ import 'package:agenda_front/src/models/enums/moneda.dart';
 
 class Empresa {
   String id;
-  bool activo;
+  bool? activo;
   String nombre;
+  String? observacion;
   DateTime fechaCreacion;
 
   String? celular;
@@ -16,24 +17,27 @@ class Empresa {
   Moneda moneda;
   Idioma idioma;
 
-  Empresa(
-      {required this.id,
-      required this.activo,
-      required this.nombre,
-      required this.fechaCreacion,
-      this.celular,
-      this.telefono,
-      required this.fechaInauguracion,
-      this.direccion,
-      this.registroContribuyente,
-      this.logo,
-      required this.moneda,
-      required this.idioma});
+  Empresa({
+    required this.id,
+    this.activo,
+    required this.nombre,
+    this.observacion,
+    required this.fechaCreacion,
+    this.celular,
+    this.telefono,
+    required this.fechaInauguracion,
+    this.direccion,
+    this.registroContribuyente,
+    this.logo,
+    required this.moneda,
+    required this.idioma,
+  });
 
   factory Empresa.fromJson(Map<String, dynamic> json) => Empresa(
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
+        observacion: json['observacion'],
         fechaCreacion: DateTime.parse(json['fechaCreacion']),
         celular: json['celular'],
         telefono: json['telefono'],

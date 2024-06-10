@@ -3,8 +3,9 @@ import 'package:agenda_front/src/models/entities/persona.dart';
 
 class Grupo {
   String id;
-  bool activo;
+  bool? activo;
   String nombre;
+  String? observacion;
   DateTime fechaCreacion;
 
   List<Persona>? personas;
@@ -12,8 +13,9 @@ class Grupo {
 
   Grupo({
     required this.id,
-    required this.activo,
+    this.activo,
     required this.nombre,
+    this.observacion,
     required this.fechaCreacion,
     this.personas,
     this.beneficio,
@@ -23,6 +25,7 @@ class Grupo {
         id: json['id'],
         activo: json['activo'],
         nombre: json['nombre'],
+        observacion: json['observacion'],
         fechaCreacion: DateTime.parse(json['fechaCreacion']),
         personas: json['personas'],
         beneficio: json.containsKey('beneficio') && json['beneficio'] != null

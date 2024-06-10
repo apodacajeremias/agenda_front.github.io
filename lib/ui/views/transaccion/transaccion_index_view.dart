@@ -19,14 +19,15 @@ class _TransaccionIndexViewState extends State<TransaccionIndexView> {
   @override
   void initState() {
     widget.data ??
-        Provider.of<TransaccionProvider>(context, listen: false).buscarTodos();
+        Provider.of<TransaccionIndexProvider>(context, listen: false)
+            .buscarTodos();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final data =
-        widget.data ?? Provider.of<TransaccionProvider>(context).transacciones;
+    final data = widget.data ??
+        Provider.of<TransaccionIndexProvider>(context).transacciones;
     return Index(
       title: 'Transacciones',
       columns: TransaccionDataSource.columns,
