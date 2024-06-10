@@ -8,9 +8,9 @@ class ItemProvider extends ChangeNotifier {
   List<Item> items = [];
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
-  buscarTodos({bool activo = true, TipoTransaccion? tipo}) async {
+  buscarTodos({bool estado = true, TipoTransaccion? tipo}) async {
     final response =
-        await ServerConnection.httpGet('/items?activo=$activo&tipo=$tipo');
+        await ServerConnection.httpGet('/items?estado=$estado&tipo=$tipo');
     List<Item> itemsResponse =
         List<Item>.from(response.map((model) => Item.fromJson(model)));
     items = [...itemsResponse];

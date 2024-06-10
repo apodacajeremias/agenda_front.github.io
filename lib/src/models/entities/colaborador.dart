@@ -1,6 +1,6 @@
 class Colaborador {
   String id;
-  bool? activo;
+  bool? estado;
   String nombre;
   String? observacion;
   DateTime fechaCreacion;
@@ -11,7 +11,7 @@ class Colaborador {
 
   Colaborador({
     required this.id,
-    this.activo,
+    this.estado,
     required this.nombre,
     this.observacion,
     required this.fechaCreacion,
@@ -22,7 +22,7 @@ class Colaborador {
 
   factory Colaborador.fromJson(Map<String, dynamic> json) => Colaborador(
         id: json['id'],
-        activo: json['activo'],
+        estado: json['estado'],
         nombre: json['nombre'],
         observacion: json['observacion'],
         fechaCreacion: DateTime.parse(json['fechaCreacion']),

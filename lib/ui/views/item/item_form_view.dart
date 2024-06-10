@@ -53,10 +53,10 @@ class ItemFormView extends StatelessWidget {
                             const SizedBox(width: defaultSizing),
                             Expanded(
                                 child: FormBuilderSwitch(
-                              name: 'activo',
+                              name: 'estado',
                               title:
                                   Text(AppLocalizations.of(context)!.actigoTag),
-                              initialValue: item?.activo,
+                              initialValue: item?.estado,
                               decoration: CustomInputs.noBorder(),
                             )),
                           ],
@@ -66,7 +66,7 @@ class ItemFormView extends StatelessWidget {
                       FormBuilderTextField(
                           name: 'nombre',
                           initialValue: item?.nombre,
-                          enabled: item?.activo ?? true,
+                          enabled: item?.estado ?? true,
                           decoration: CustomInputs.form(
                               label: 'Nombre',
                               hint: 'Nombre descriptivo',
@@ -81,7 +81,7 @@ class ItemFormView extends StatelessWidget {
                               child: FormBuilderTextField(
                             name: 'precio',
                             initialValue: item?.precio.toString(),
-                            enabled: item?.activo ?? true,
+                            enabled: item?.estado ?? true,
                             decoration: CustomInputs.form(
                                 label: AppLocalizations.of(context)!.precio,
                                 hint: AppLocalizations.of(context)!.precio,
@@ -100,7 +100,7 @@ class ItemFormView extends StatelessWidget {
                             child: FormBuilderDropdown(
                               name: 'tipo',
                               initialValue: item?.tipo,
-                              enabled: item?.activo ?? true,
+                              enabled: item?.estado ?? true,
                               decoration: CustomInputs.form(
                                   label: AppLocalizations.of(context)!
                                       .tipo('item'),

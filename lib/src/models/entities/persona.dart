@@ -5,7 +5,7 @@ import 'package:agenda_front/src/models/security/user.dart';
 
 class Persona {
   String id;
-  bool? activo;
+  bool? estado;
   String nombre;
   String? observacion;
   DateTime fechaCreacion;
@@ -24,7 +24,7 @@ class Persona {
 
   Persona({
     required this.id,
-    this.activo,
+    this.estado,
     required this.nombre,
     this.observacion,
     required this.fechaCreacion,
@@ -43,7 +43,7 @@ class Persona {
 
   factory Persona.fromJson(Map<String, dynamic> json) => Persona(
       id: json['id'],
-      activo: json['activo'],
+      estado: json['estado'],
       nombre: json['nombre'],
       observacion: json['observacion'],
       fechaCreacion: DateTime.parse(json['fechaCreacion']),

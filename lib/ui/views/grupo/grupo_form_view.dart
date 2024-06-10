@@ -62,9 +62,9 @@ class _GrupoFormViewState extends State<GrupoFormView> {
                         const SizedBox(width: defaultSizing),
                         Expanded(
                             child: FormBuilderSwitch(
-                          name: 'activo',
+                          name: 'estado',
                           title: const Text('Estado del registro'),
-                          initialValue: widget.grupo?.activo,
+                          initialValue: widget.grupo?.estado,
                           decoration: CustomInputs.noBorder(),
                         )),
                       ],
@@ -74,7 +74,7 @@ class _GrupoFormViewState extends State<GrupoFormView> {
                   FormBuilderTextField(
                       name: 'nombre',
                       initialValue: widget.grupo?.nombre,
-                      enabled: widget.grupo?.activo ?? true,
+                      enabled: widget.grupo?.estado ?? true,
                       decoration: CustomInputs.form(
                           label: 'Nombre del grupo',
                           hint: 'Nombre que describa al grupo',
@@ -84,8 +84,7 @@ class _GrupoFormViewState extends State<GrupoFormView> {
                   const SizedBox(height: defaultSizing),
                   FormBuilderSearchableDropdown(
                       name: 'beneficio',
-                      compareFn: (item1, item2) =>
-                          item1.id.contains(item2.id),
+                      compareFn: (item1, item2) => item1.id.contains(item2.id),
                       items: beneficios),
                   const TextSeparator(text: 'Agregar personas al grupo'),
                   Row(

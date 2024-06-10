@@ -3,7 +3,7 @@ import 'package:agenda_front/src/models/entities/transaccion.dart';
 
 class MovimientoDetalle {
   String id;
-  bool? activo;
+  bool? estado;
   String nombre;
   String? observacion;
   DateTime fechaCreacion;
@@ -14,7 +14,7 @@ class MovimientoDetalle {
 
   MovimientoDetalle({
     required this.id,
-    this.activo,
+    this.estado,
     required this.nombre,
     this.observacion,
     required this.fechaCreacion,
@@ -26,7 +26,7 @@ class MovimientoDetalle {
   factory MovimientoDetalle.fromJson(Map<String, dynamic> json) =>
       MovimientoDetalle(
         id: json['id'],
-        activo: json['activo'],
+        estado: json['estado'],
         nombre: json['nombre'],
         observacion: json['observacion'],
         fechaCreacion: DateTime.parse(json['fechaCreacion']),

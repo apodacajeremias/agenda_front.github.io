@@ -3,7 +3,7 @@ import 'package:agenda_front/src/models/enums/tipo_descuento.dart';
 
 class Promocion {
   String id;
-  bool? activo;
+  bool? estado;
   String nombre;
   String? observacion;
   DateTime fechaCreacion;
@@ -16,7 +16,7 @@ class Promocion {
 
   Promocion({
     required this.id,
-    this.activo,
+    this.estado,
     required this.nombre,
     this.observacion,
     required this.fechaCreacion,
@@ -29,7 +29,7 @@ class Promocion {
 
   factory Promocion.fromJson(Map<String, dynamic> json) => Promocion(
       id: json["id"],
-      activo: json["activo"],
+      estado: json["estado"],
       nombre: json["nombre"],
       observacion: json['observacion'],
       fechaCreacion: DateTime.parse(json['fechaCreacion']),

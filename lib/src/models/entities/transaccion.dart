@@ -7,7 +7,7 @@ import 'package:agenda_front/src/models/enums/tipo_transaccion.dart';
 
 class Transaccion {
   String id;
-  bool? activo;
+  bool? estado;
   String nombre;
   String? observacion;
   DateTime fechaCreacion;
@@ -25,7 +25,7 @@ class Transaccion {
 
   Transaccion({
     required this.id,
-    this.activo,
+    this.estado,
     required this.nombre,
     this.observacion,
     required this.fechaCreacion,
@@ -43,7 +43,7 @@ class Transaccion {
 
   factory Transaccion.fromJson(Map<String, dynamic> json) => Transaccion(
         id: json['id'],
-        activo: json['activo'],
+        estado: json['estado'],
         nombre: json['nombre'],
         observacion: json['observacion'],
         fechaCreacion: DateTime.parse(json['fechaCreacion']),

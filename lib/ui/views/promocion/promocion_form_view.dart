@@ -46,9 +46,9 @@ class PromocionFormView extends StatelessWidget {
                             const SizedBox(width: defaultSizing),
                             Expanded(
                                 child: FormBuilderSwitch(
-                              name: 'activo',
+                              name: 'estado',
                               title: const Text('Estado del registro'),
-                              initialValue: promocion?.activo,
+                              initialValue: promocion?.estado,
                               decoration: CustomInputs.noBorder(),
                             )),
                           ],
@@ -58,7 +58,7 @@ class PromocionFormView extends StatelessWidget {
                       FormBuilderTextField(
                         name: 'nombre',
                         initialValue: promocion?.nombre,
-                        enabled: promocion?.activo ?? true,
+                        enabled: promocion?.estado ?? true,
                         decoration: CustomInputs.form(
                             label: 'Nombre',
                             hint: 'Nombre para la promoción',
@@ -73,7 +73,7 @@ class PromocionFormView extends StatelessWidget {
                               child: FormBuilderDateTimePicker(
                             name: 'inicio',
                             initialValue: promocion?.inicio,
-                            enabled: promocion?.activo ?? true,
+                            enabled: promocion?.estado ?? true,
                             decoration: CustomInputs.form(
                                 label: 'Fecha de Inicio',
                                 hint: 'Inicio de promocion',
@@ -89,7 +89,7 @@ class PromocionFormView extends StatelessWidget {
                               child: FormBuilderDateTimePicker(
                             name: 'fin',
                             initialValue: promocion?.fin,
-                            enabled: promocion?.activo ?? true,
+                            enabled: promocion?.estado ?? true,
                             decoration: CustomInputs.form(
                                 label: 'Fecha de Finalizacion',
                                 hint: 'Fin de promocion',
@@ -109,7 +109,7 @@ class PromocionFormView extends StatelessWidget {
                             child: FormBuilderTextField(
                               name: 'valor',
                               initialValue: promocion?.valor.toString(),
-                              enabled: promocion?.activo ?? true,
+                              enabled: promocion?.estado ?? true,
                               decoration: CustomInputs.form(
                                   label: 'Valor',
                                   hint: 'Valor del descuento',
@@ -123,7 +123,7 @@ class PromocionFormView extends StatelessWidget {
                             child: FormBuilderDropdown(
                               name: 'tipoDescuento',
                               initialValue: promocion?.tipoDescuento,
-                              enabled: promocion?.activo ?? true,
+                              enabled: promocion?.estado ?? true,
                               decoration: CustomInputs.form(
                                   label: 'Tipo de descuento',
                                   hint: 'Tipo de descuento',

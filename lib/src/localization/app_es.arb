@@ -125,20 +125,20 @@
     "description": "Id hint"
   },
   "actigoTag": "Estado",
-  "@activoTag": {
+  "@estadoTag": {
     "description": "Estado de registro"
   },
-  "activoHint": "Estado de registro",
-  "@activoHint": {
+  "estadoHint": "Estado de registro",
+  "@estadoHint": {
     "description": "Estado de registro"
   },
-  "activoTrue": "Activo",
-  "@activoTrue": {
-    "description": "Activo TRUE"
+  "estadoTrue": "estado",
+  "@estadoTrue": {
+    "description": "estado TRUE"
   },
-  "activoFalse": "Inactivo",
-  "@activoFalse": {
-    "description": "Activo FALSE"
+  "estadoFalse": "Inestado",
+  "@estadoFalse": {
+    "description": "estado FALSE"
   },
   "nombreTag": "Nombre completo",
   "@nombreTag": {

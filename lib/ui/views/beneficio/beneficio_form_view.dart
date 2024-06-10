@@ -53,9 +53,9 @@ class BeneficioFormView extends StatelessWidget {
                         const SizedBox(width: defaultSizing),
                         Expanded(
                             child: FormBuilderSwitch(
-                          name: 'activo',
+                          name: 'estado',
                           title: Text(AppLocalizations.of(context)!.actigoTag),
-                          initialValue: beneficio?.activo,
+                          initialValue: beneficio?.estado,
                           decoration: CustomInputs.noBorder(),
                         )),
                       ],
@@ -68,7 +68,7 @@ class BeneficioFormView extends StatelessWidget {
                         child: FormBuilderTextField(
                             name: 'nombre',
                             initialValue: beneficio?.nombre,
-                            enabled: beneficio?.activo ?? true,
+                            enabled: beneficio?.estado ?? true,
                             decoration: CustomInputs.form(
                                 label: AppLocalizations.of(context)!.nombreTag,
                                 hint: AppLocalizations.of(context)!.nombreHint,
@@ -83,7 +83,7 @@ class BeneficioFormView extends StatelessWidget {
                           child: FormBuilderTextField(
                         name: 'descuento',
                         initialValue: beneficio?.descuento.toString(),
-                        enabled: beneficio?.activo ?? true,
+                        enabled: beneficio?.estado ?? true,
                         decoration: CustomInputs.form(
                             label: AppLocalizations.of(context)!.descuento,
                             hint: AppLocalizations.of(context)!.descuento,
@@ -104,7 +104,7 @@ class BeneficioFormView extends StatelessWidget {
                         child: FormBuilderDropdown(
                       name: 'tipo',
                       initialValue: beneficio?.tipo,
-                      enabled: beneficio?.activo ?? true,
+                      enabled: beneficio?.estado ?? true,
                       decoration: CustomInputs.form(
                           label:
                               AppLocalizations.of(context)!.tipo('beneficio'),
@@ -126,7 +126,7 @@ class BeneficioFormView extends StatelessWidget {
                         child: FormBuilderDropdown(
                       name: 'tipoDescuento',
                       initialValue: beneficio?.tipoDescuento,
-                      enabled: beneficio?.activo ?? true,
+                      enabled: beneficio?.estado ?? true,
                       decoration: CustomInputs.form(
                           label:
                               AppLocalizations.of(context)!.tipo('descuento'),

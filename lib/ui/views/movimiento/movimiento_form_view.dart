@@ -50,13 +50,13 @@ class MovimientoFormView extends StatelessWidget {
               const SizedBox(width: defaultSizing),
               Expanded(
                   child: FormBuilderCheckbox(
-                name: '-activo',
-                initialValue: movimiento!.activo,
+                name: '-estado',
+                initialValue: movimiento!.estado,
                 enabled: false,
-                title: Text(AppLocalizations.of(context)!.activoHint),
+                title: Text(AppLocalizations.of(context)!.estadoHint),
                 decoration: CustomInputs.form(
                     label: AppLocalizations.of(context)!.actigoTag,
-                    hint: AppLocalizations.of(context)!.activoHint,
+                    hint: AppLocalizations.of(context)!.estadoHint,
                     icon: Icons.qr_code_rounded),
               )),
             ],

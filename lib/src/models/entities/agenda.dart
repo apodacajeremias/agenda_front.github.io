@@ -5,7 +5,7 @@ import 'package:agenda_front/src/models/enums/situacion.dart';
 
 class Agenda {
   String id;
-  bool? activo;
+  bool? estado;
   String nombre;
   String? observacion;
   DateTime fechaCreacion;
@@ -19,7 +19,7 @@ class Agenda {
   Persona persona;
   Agenda({
     required this.id,
-    this.activo,
+    this.estado,
     required this.nombre,
     this.observacion,
     required this.fechaCreacion,
@@ -34,7 +34,7 @@ class Agenda {
 
   factory Agenda.fromJson(Map<String, dynamic> json) => Agenda(
         id: json['id'],
-        activo: json['activo'],
+        estado: json['estado'],
         nombre: json['nombre'],
         observacion: json['observacion'],
         fechaCreacion: DateTime.parse(json['fechaCreacion']),

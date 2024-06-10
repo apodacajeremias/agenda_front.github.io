@@ -97,11 +97,11 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                       ),
                     ),
                     const SizedBox(width: defaultSizing),
-                    if (widget.transaccion?.activo != null) ...[
+                    if (widget.transaccion?.estado != null) ...[
                       Expanded(
                           child: FormBuilderTextField(
-                        name: '-activo',
-                        initialValue: widget.transaccion!.activo!
+                        name: '-estado',
+                        initialValue: widget.transaccion!.estado!
                             ? AppLocalizations.of(context)!.aprobado
                             : AppLocalizations.of(context)!.rechazado,
                         enabled: false,
@@ -114,6 +114,8 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                         icon: Icons.check_circle_outline_rounded,
                         color: Colors.green,
                         onPressed: () async {
+                          final sum = provider.formKey.currentState!
+                              .fields['-sumatoria']!.value;
                           await provider.cambiarEstado(
                               widget.transaccion!.id, true);
                         },
@@ -390,7 +392,7 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                   ],
                 ),
               ],
-              if (widget.transaccion?.activo ?? true) ...[
+              if (widget.transaccion?.estado ?? true) ...[
                 const SizedBox(height: defaultSizing),
                 FormFooter(onConfirm: () async {
                   try {
@@ -455,12 +457,12 @@ class _TransaccionDetallesIndex extends StatelessWidget {
                     [
                       TransaccionDetalle(
                           id: AppLocalizations.of(context)!.items(0),
-                          activo: false,
+                          estado: false,
                           fechaCreacion: DateTime.now(),
                           nombre: AppLocalizations.of(context)!.items(0),
                           item: Item(
                               id: AppLocalizations.of(context)!.items(0),
-                              activo: false,
+                              estado: false,
                               fechaCreacion: DateTime.now(),
                               nombre: AppLocalizations.of(context)!.items(0)),
                           cantidad: 0,

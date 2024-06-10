@@ -3,7 +3,7 @@ import 'package:agenda_front/src/models/entities/persona.dart';
 
 class Grupo {
   String id;
-  bool? activo;
+  bool? estado;
   String nombre;
   String? observacion;
   DateTime fechaCreacion;
@@ -13,7 +13,7 @@ class Grupo {
 
   Grupo({
     required this.id,
-    this.activo,
+    this.estado,
     required this.nombre,
     this.observacion,
     required this.fechaCreacion,
@@ -23,7 +23,7 @@ class Grupo {
 
   factory Grupo.fromJson(Map<String, dynamic> json) => Grupo(
         id: json['id'],
-        activo: json['activo'],
+        estado: json['estado'],
         nombre: json['nombre'],
         observacion: json['observacion'],
         fechaCreacion: DateTime.parse(json['fechaCreacion']),
