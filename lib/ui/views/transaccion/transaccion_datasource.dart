@@ -42,7 +42,7 @@ class TransaccionDataSource extends DataTableSource {
             onPressed: () {
               final dialog = AlertDialog(
                   title: const Text('Estas seguro de borrarlo?'),
-                  content: Text('Borrar transaccion ${transaccion.nombre}?'),
+                  content: Text('Borrar transaccion de ${transaccion.nombre}?'),
                   actions: [
                     TextButton(
                       child: const Text('No, mantener'),

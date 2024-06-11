@@ -118,6 +118,7 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                               .fields['-sumatoria']!.value;
                           await provider.cambiarEstado(
                               widget.transaccion!.id, true);
+                              Navigator.of(context).pop();
                         },
                       )),
                       const SizedBox(width: defaultSizing),
@@ -129,6 +130,7 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                         onPressed: () async {
                           await provider.cambiarEstado(
                               widget.transaccion!.id, false);
+                              Navigator.of(context).pop();
                         },
                       )),
                     ]
