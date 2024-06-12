@@ -114,11 +114,15 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                         icon: Icons.check_circle_outline_rounded,
                         color: Colors.green,
                         onPressed: () async {
-                          final sum = provider.formKey.currentState!
-                              .fields['-sumatoria']!.value;
-                          await provider.cambiarEstado(
-                              widget.transaccion!.id, true);
+                          try {
+                            await provider.cambiarEstado(
+                                widget.transaccion!.id, true);
+                            if (context.mounted) {
                               Navigator.of(context).pop();
+                            }
+                          } catch (e) {
+                            // rethrow;
+                          }
                         },
                       )),
                       const SizedBox(width: defaultSizing),
@@ -128,9 +132,15 @@ class _TransaccionFormViewState extends State<TransaccionFormView> {
                         icon: Icons.cancel_outlined,
                         color: Colors.red,
                         onPressed: () async {
-                          await provider.cambiarEstado(
-                              widget.transaccion!.id, false);
+                          try {
+                            await provider.cambiarEstado(
+                                widget.transaccion!.id, false);
+                            if (context.mounted) {
                               Navigator.of(context).pop();
+                            }
+                          } catch (e) {
+                            // rethrow;
+                          }
                         },
                       )),
                     ]

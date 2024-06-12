@@ -104,7 +104,7 @@ class TransaccionFormProvider extends ChangeNotifier {
       if (transaccion!.sumatoria <= 0) {
         NotificationService.showSnackbarError(
             'La sumatoria debe ser superior a cero');
-        return;
+        throw Exception('La sumatoria debe ser superior a cero');
       }
       await ServerConnection.httpPut(
           '/transacciones/$id/cambiarEstado', {'estado': estado});

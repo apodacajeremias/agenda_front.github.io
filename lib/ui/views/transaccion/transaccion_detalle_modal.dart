@@ -117,6 +117,18 @@ class TransaccionDetalleModal extends StatelessWidget {
                   icon: Icons.price_change),
             ),
             const SizedBox(height: defaultSizing),
+            FormBuilderTextField(
+              name: 'observacion',
+              initialValue: detalle?.observacion,
+              keyboardType: TextInputType.multiline,
+              minLines: 2,
+              maxLines: 5,
+              decoration: CustomInputs.form(
+                  label: AppLocalizations.of(context)!.observacionesTag,
+                  hint: AppLocalizations.of(context)!.observacionesTag,
+                  icon: Icons.comment_rounded),
+            ),
+            const SizedBox(height: defaultSizing),
             Row(
               children: [
                 Expanded(child: LinkButton.cancel(onPressed: () {

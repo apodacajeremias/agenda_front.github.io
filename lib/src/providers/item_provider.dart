@@ -8,7 +8,9 @@ class ItemProvider extends ChangeNotifier {
   List<Item> items = [];
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
-  buscarTodos({bool estado = true, TipoTransaccion? tipo}) async {
+  buscarTodos(
+      {bool estado = true,
+      TipoTransaccion tipo = TipoTransaccion.VENTA}) async {
     final response =
         await ServerConnection.httpGet('/items?estado=$estado&tipo=$tipo');
     List<Item> itemsResponse =

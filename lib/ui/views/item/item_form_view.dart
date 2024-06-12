@@ -74,9 +74,9 @@ class ItemFormView extends StatelessWidget {
                           validator: FormBuilderValidators.required(
                               errorText: AppLocalizations.of(context)!
                                   .nombreObligatorio)),
+                      const SizedBox(height: defaultSizing),
                       Row(
                         children: [
-                          const SizedBox(height: defaultSizing),
                           Expanded(
                               child: FormBuilderTextField(
                             name: 'precio',
@@ -121,6 +121,21 @@ class ItemFormView extends StatelessWidget {
                           )
                         ],
                       ),
+                      const SizedBox(height: defaultSizing),
+                      FormBuilderTextField(
+                        name: 'observacion',
+                        initialValue: item?.observacion,
+                        keyboardType: TextInputType.multiline,
+                        minLines: 2,
+                        maxLines: 5,
+                        decoration: CustomInputs.form(
+                            label:
+                                AppLocalizations.of(context)!.observacionesTag,
+                            hint:
+                                AppLocalizations.of(context)!.observacionesTag,
+                            icon: Icons.comment_rounded),
+                      ),
+                      const SizedBox(height: defaultSizing),
                       FormFooter(onConfirm: () async {
                         if (provider.saveAndValidate()) {
                           try {

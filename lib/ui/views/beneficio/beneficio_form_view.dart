@@ -144,6 +144,19 @@ class BeneficioFormView extends StatelessWidget {
                       valueTransformer: (value) => value?.name,
                     ))
                   ]),
+                  const SizedBox(height: defaultSizing),
+                  FormBuilderTextField(
+                    name: 'observacion',
+                    initialValue: beneficio?.observacion,
+                    keyboardType: TextInputType.multiline,
+                    minLines: 2,
+                    maxLines: 5,
+                    decoration: CustomInputs.form(
+                        label: AppLocalizations.of(context)!.observacionesTag,
+                        hint: AppLocalizations.of(context)!.observacionesTag,
+                        icon: Icons.comment_rounded),
+                  ),
+                  const SizedBox(height: defaultSizing),
                   FormFooter(onConfirm: () async {
                     if (provider.saveAndValidate()) {
                       final data = provider.formData();

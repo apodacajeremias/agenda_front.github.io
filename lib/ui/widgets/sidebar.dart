@@ -87,6 +87,14 @@ class Sidebar extends StatelessWidget {
           }),
       const Divider(),
       ListTile(
+          title: Text('Pagos', style: style),
+          leading: const Icon(Icons.face_outlined),
+          onTap: () async {
+            // print('click');
+            NavigationService.replaceTo(RouterService.movimientosIndexRoute);
+          }),
+      const Divider(),
+      ListTile(
           title: Text('Promociones', style: style),
           leading: const Icon(Icons.redeem_outlined),
           onTap: () async {

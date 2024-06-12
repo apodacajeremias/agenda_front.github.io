@@ -2,7 +2,9 @@ import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/providers.dart';
 import 'package:agenda_front/src/models/entities/promocion.dart';
 import 'package:agenda_front/src/models/enums/tipo_descuento.dart';
+import 'package:agenda_front/translate.dart';
 import 'package:agenda_front/ui/custom_inputs.dart';
+import 'package:agenda_front/ui/widgets/form_footer.dart';
 import 'package:agenda_front/ui/widgets/form_header.dart';
 import 'package:agenda_front/ui/widgets/white_card.dart';
 import 'package:flutter/material.dart';
@@ -84,7 +86,7 @@ class PromocionFormView extends StatelessWidget {
                                 value?.toIso8601String(),
                             inputType: InputType.date,
                           )),
-                          const SizedBox(height: defaultSizing),
+                          const SizedBox(width: defaultSizing),
                           Expanded(
                               child: FormBuilderDateTimePicker(
                             name: 'fin',
@@ -140,7 +142,31 @@ class PromocionFormView extends StatelessWidget {
                             ),
                           )
                         ],
-                      )
+                      ),
+                      const SizedBox(height: defaultSizing),
+                      FormBuilderTextField(
+                        name: 'observacion',
+                        initialValue: promocion?.observacion,
+                        keyboardType: TextInputType.multiline,
+                        minLines: 2,
+                        maxLines: 5,
+                        decoration: CustomInputs.form(
+                            label:
+                                AppLocalizations.of(context)!.observacionesTag,
+                            hint:
+                                AppLocalizations.of(context)!.observacionesTag,
+                            icon: Icons.comment_rounded),
+                      ),
+                      const SizedBox(height: defaultSizing),
+                      FormFooter(onConfirm: () async {
+                        if (provider.saveAndValidate()) {
+                          final data = provider.formData();
+                          await provider.registrar(data);
+                          if (context.mounted) {
+                            Navigator.of(context).pop();
+                          }
+                        }
+                      }),
                     ],
                   )))
         ],

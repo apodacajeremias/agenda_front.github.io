@@ -4,6 +4,7 @@ import 'package:agenda_front/src/handlers/beneficio_handler.dart';
 import 'package:agenda_front/src/handlers/colaborador_handler.dart';
 import 'package:agenda_front/src/handlers/grupo_handler.dart';
 import 'package:agenda_front/src/handlers/item_handler.dart';
+import 'package:agenda_front/src/handlers/movimiento_handler.dart';
 import 'package:agenda_front/src/handlers/page_not_found_handler.dart';
 import 'package:agenda_front/src/handlers/promocion_handler.dart';
 import 'package:agenda_front/src/handlers/transaccion_handler.dart';
@@ -66,6 +67,11 @@ class RouterService {
   static String itemsIndexRoute = '/items';
   static String itemsCreateRoute = '/items/create';
   static String itemsEditRoute = '/items/:id';
+
+  // Dashboard: Movimiento
+  static String movimientosIndexRoute = '/movimientos';
+  static String movimientosCreateRoute = '/movimientos/create';
+  static String movimientosEditRoute = '/movimientos/:id';
 
   // Dashboard: Persona
   static String personasIndexRoute = '/personas';
@@ -161,6 +167,14 @@ class RouterService {
         handler: ItemHandler.create, transitionType: _transitionType);
     router.define(itemsEditRoute,
         handler: ItemHandler.edit, transitionType: _transitionType);
+
+    // Movimiento
+    router.define(movimientosIndexRoute,
+        handler: MovimientoHandler.index, transitionType: _transitionType);
+    router.define(movimientosCreateRoute,
+        handler: MovimientoHandler.create, transitionType: _transitionType);
+    router.define(movimientosEditRoute,
+        handler: MovimientoHandler.edit, transitionType: _transitionType);
 
     // Persona
     router.define(personasIndexRoute,

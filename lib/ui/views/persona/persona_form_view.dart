@@ -238,12 +238,16 @@ class _InformacionPersonal extends StatelessWidget {
                   icon: Icons.info_outline)),
           const SizedBox(height: defaultSizing),
           FormBuilderTextField(
-              name: 'observacion',
-              initialValue: persona?.observacion,
-              decoration: CustomInputs.form(
-                  label: AppLocalizations.of(context)!.observacionesTag,
-                  hint: AppLocalizations.of(context)!.observacionesTag,
-                  icon: Icons.info_outline)),
+            name: 'observacion',
+            initialValue: persona?.observacion,
+            keyboardType: TextInputType.multiline,
+            minLines: 2,
+            maxLines: 5,
+            decoration: CustomInputs.form(
+                label: AppLocalizations.of(context)!.observacionesTag,
+                hint: AppLocalizations.of(context)!.observacionesTag,
+                icon: Icons.comment_rounded),
+          ),
           const SizedBox(height: defaultSizing),
           FormFooter(onConfirm: () async {
             try {
