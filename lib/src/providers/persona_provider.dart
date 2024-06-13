@@ -114,6 +114,15 @@ class PersonaProvider extends ChangeNotifier {
     }
   }
 
+  deudaPendiente(String id, {TipoTransaccion tipo = TipoTransaccion.VENTA}) async {
+    try {
+      final json = await ServerConnection.httpGet(
+          '/personas/$id/deudaPendiente');
+      return double.parse(json);
+    } catch (e) {
+      rethrow;
+    }
+  }
   _index(Persona persona) {
     // Buscamos el index en lista del ID Persona
     final index =

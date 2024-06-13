@@ -81,6 +81,11 @@ class MovimientoFormView extends StatelessWidget {
         PersonaSearchableDropdown(
           name: 'persona',
           unique: movimiento?.persona,
+          onChanged: (p) async {
+            provider.formKey.currentState!.fields['-deudaPendiente'].didChange('0');
+            double dp = await provider.deudaPendiente(p.id);
+            provider.formKey.currentState!.fields['-deudaPendiente'].didChange(dp.toString());
+          }
         ),
         const SizedBox(height: defaultSizing),
         FormBuilderDropdown(
@@ -112,6 +117,15 @@ class MovimientoFormView extends StatelessWidget {
                 .map((e) =>
                     DropdownMenuItem(value: e, child: Text(e.toString())))
                 .toList()),
+        const SizedBox(height: defaultSizing),
+        FormBuilderTextField(
+          name: '-deudaPendiente',
+          initialValue: 0.toString(),
+          decoration: CustomInputs.noBorder(
+              label: AppLocalizations.of(context)!.deudaPendiente,
+              hint: AppLocalizations.of(context)!.deudaPendiente,
+              icon: Icons.finance_chip_rounded),     
+        ),
         const SizedBox(height: defaultSizing),
         FormBuilderTextField(
           name: 'total',
