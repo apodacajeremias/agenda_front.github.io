@@ -18,10 +18,10 @@ class ServerConnection {
     };
   }
 
-  static Future httpGet(String path) async {
+  static Future httpGet(String path, {Map<String, dynamic>? data}) async {
     configureDio();
     try {
-      final resp = await _dio.get(path);
+      final resp = await _dio.get(path, queryParameters: data);
       return resp.data;
     } catch (e) {
       rethrow;

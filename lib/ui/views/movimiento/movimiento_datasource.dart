@@ -1,10 +1,9 @@
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/extensions.dart';
-import 'package:agenda_front/providers.dart';
 import 'package:agenda_front/services.dart';
 import 'package:agenda_front/src/models/entities/movimiento.dart';
 import 'package:agenda_front/src/models/entities/movimiento_detalle.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class MovimientoDataSource extends DataTableSource {
   final List<Movimiento> movimientos;
@@ -29,46 +28,29 @@ class MovimientoDataSource extends DataTableSource {
       DataCell(Text(movimiento.tipo.toString())),
       DataCell(Text(movimiento.total.toString())),
       DataCell(Row(children: [
-        IconButton(
-          onPressed: () {
-            NavigationService.navigateTo('/movimientos/${movimiento.id}');
-          },
-          icon: const Icon(Icons.edit),
-        ),
-        IconButton(
+        if (movimiento.estado == null) ...[
+          IconButton(
             onPressed: () {
-              final dialog = AlertDialog(
-                  title: const Text('Estas seguro de borrarlo?'),
-                  content: Text('Borrar movimiento ${movimiento.nombre}?'),
-                  actions: [
-                    TextButton(
-                      child: const Text('No, mantener'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                    TextButton(
-                        child: const Text('Si, borrar'),
-                        onPressed: () async {
-                          var confirmado =
-                              await Provider.of<MovimientoProvider>(context,
-                                      listen: false)
-                                  .eliminar(movimiento.id);
-                          if (confirmado) {
-                            NotificationService.showSnackbar(
-                                'Movimiento eliminada exitosamente');
-                          } else {
-                            NotificationService.showSnackbar(
-                                'Movimiento no ha sido eliminada');
-                          }
-                          if (context.mounted) {
-                            Navigator.of(context).pop();
-                          }
-                        }),
-                  ]);
-              showDialog(context: context, builder: (_) => dialog);
+              NavigationService.navigateTo('/movimientos/${movimiento.id}');
             },
-            icon: const Icon(Icons.delete))
+            icon: const Icon(Icons.edit_rounded),
+          ),
+        ] else ...[
+          if (movimiento.estado!) ...[
+            IconButton(
+              onPressed: () {
+                NavigationService.navigateTo(
+                    '/movimientos/${movimiento.id}/imprimir');
+              },
+              icon: const Icon(Icons.print_rounded),
+            ),
+          ] else ...[
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.remove_red_eye_rounded),
+            ),
+          ]
+        ]
       ]))
     ]);
   }
@@ -125,8 +107,8 @@ class MovimientoDetalleDataSource extends DataTableSource {
 // TODO: longPress o doubleTap para editar detalle, click derecho menu contextual
   static List<DataColumn> columns = [
     const DataColumn(label: Text('#')),
-    const DataColumn(label: Text('Transacción')),
     const DataColumn(label: Text('Subtotal')),
+    const DataColumn(label: Text('')),
   ];
 
   @override
@@ -134,8 +116,25 @@ class MovimientoDetalleDataSource extends DataTableSource {
     final detalle = detalles[index];
     return DataRow.byIndex(index: index, cells: [
       DataCell(Text(index.toString())),
-      DataCell(Text(detalle.transaccion.nombre)),
       DataCell(Text(detalle.subtotal.toString())),
+      DataCell(Row(children: [
+        IconButton(
+            onPressed: () {
+              showAdaptiveDialog(
+                context: context,
+                builder: (context) {
+                  return Dialog(child: Placeholder());
+                },
+              );
+            },
+            icon: const Icon(Icons.edit_rounded)),
+        const SizedBox(width: defaultSizing),
+        IconButton(
+            onPressed: () {
+              print('delete pressed');
+            },
+            icon: const Icon(Icons.delete_forever_rounded)),
+      ])),
     ]);
   }
 

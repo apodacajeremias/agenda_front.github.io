@@ -118,9 +118,10 @@ class PersonaProvider extends ChangeNotifier {
   deudaPendiente(String id,
       {TipoTransaccion tipo = TipoTransaccion.VENTA}) async {
     try {
-      final json =
-          await ServerConnection.httpGet('/personas/$id/deudaPendiente');
-      return double.parse(json);
+      final json = await ServerConnection.httpGet(
+          '/personas/$id/deudaPendiente',
+          data: {'tipo': tipo});
+      return json;
     } catch (e) {
       rethrow;
     }

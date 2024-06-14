@@ -6,5 +6,10 @@ enum MedioPago {
   TARJETA_CREDITO,
   CHEQUE,
   TRANSFERENCIA_BANCARIA,
-  BILLETERA_ELECTRONICA
+  BILLETERA_ELECTRONICA;
+
+  @override
+  String toString() {
+    return name;
+  }
 }

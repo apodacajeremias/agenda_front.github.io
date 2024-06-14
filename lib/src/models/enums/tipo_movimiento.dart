@@ -3,4 +3,9 @@
 enum TipoMovimiento {
   INGRESO,
   EGRESO;
+
+  @override
+  String toString() {
+    return name;
+  }
 }

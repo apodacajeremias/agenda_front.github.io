@@ -5,20 +5,21 @@ import 'package:agenda_front/src/models/entities/movimiento_detalle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
-class MovimientoProvider extends ChangeNotifier {
+class MovimientoFormProvider extends ChangeNotifier {
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
-  List<Movimiento> movimientos = [];
+  Movimiento? movimiento;
 
-  buscarTodos() async {
-    final response = await ServerConnection.httpGet('/movimientos');
-    List<Movimiento> movimientosResponse = List<Movimiento>.from(
-        response.map((model) => Movimiento.fromJson(model)));
-    movimientos = [...movimientosResponse];
-    notifyListeners();
-  }
-
-  Movimiento? buscar(String id) {
-    return movimientos.where((element) => element.id.contains(id)).first;
+  Future buscar(String id) async {
+    try {
+      final json = await ServerConnection.httpGet('/movimientos/$id');
+      movimiento = Movimiento.fromJson(json);
+      NotificationService.showSnackbar('Encontrado');
+      notifyListeners();
+      return movimiento;
+    } catch (e) {
+      NotificationService.showSnackbarError('No encontrado');
+      rethrow;
+    }
   }
 
   registrar(Map<String, dynamic> data) async {
@@ -34,10 +35,9 @@ class MovimientoProvider extends ChangeNotifier {
   _guardar(Map<String, dynamic> data) async {
     try {
       final json = await ServerConnection.httpPost('/movimientos', data);
-      final movimiento = Movimiento.fromJson(json);
-      movimientos.add(movimiento);
-      notifyListeners();
+      movimiento = Movimiento.fromJson(json);
       NotificationService.showSnackbar('Agregado a movimientos');
+      notifyListeners();
       return movimiento;
     } catch (e) {
       NotificationService.showSnackbarError('No agregado a movimientos');
@@ -48,34 +48,76 @@ class MovimientoProvider extends ChangeNotifier {
   _actualizar(String id, Map<String, dynamic> data) async {
     try {
       final json = await ServerConnection.httpPut('/movimientos/$id', data);
-      final movimiento = Movimiento.fromJson(json);
-      // Buscamos el index en lista del ID Movimiento
-      final index =
-          movimientos.indexWhere((element) => element.id.contains(id));
-      // Se substituye la informacion del index por la informacion actualizada
-      movimientos[index] = movimiento;
+      movimiento = Movimiento.fromJson(json);
+      NotificationService.showSnackbar('Transacción actualizada');
       notifyListeners();
-      NotificationService.showSnackbar('Movimiento actualizado');
       return movimiento;
     } catch (e) {
-      NotificationService.showSnackbarError('Movimiento no actualizado');
+      NotificationService.showSnackbarError('Transacción no actualizada');
       rethrow;
     }
   }
 
-  eliminar(String id) async {
+  aplicarDescuento(String id, bool aplicar, double descuento) async {
     try {
-      final json = await ServerConnection.httpDelete('/movimientos/$id', {});
-      final confirmado = json.toString().toBoolean();
-      if (confirmado) {
-        movimientos.removeWhere((movimiento) => movimiento.id == id);
-        notifyListeners();
-        NotificationService.showSnackbar('1 movimiento eliminado');
+      final json = await ServerConnection.httpPut(
+          '/movimientos/$id/aplicarDescuento',
+          {'aplicar': aplicar, 'descuento': descuento});
+      if (json['aplicar'].toString().toBoolean()) {
+        NotificationService.showSnackbarWarn('Descuento aplicado');
+      } else {
+        NotificationService.showSnackbarWarn('Descuento quitado');
       }
+      formKey.currentState!.fields['-sumatoria']!
+          .didChange((json['sumatoria']).toString());
+      formKey.currentState!.fields['descuento']!
+          .didChange((json['descuento']).toString());
+      formKey.currentState!.fields['-total']!
+          .didChange((json['total']).toString());
+      notifyListeners();
     } catch (e) {
-      NotificationService.showSnackbarError('Movimiento no eliminado');
+      if (aplicar) {
+        NotificationService.showSnackbarError('Descuento no aplicado');
+      } else {
+        NotificationService.showSnackbarError('Descuento no quitado');
+      }
       rethrow;
     }
+  }
+
+  cambiarEstado(String id, bool? estado) async {
+    try {
+      if (movimiento!.total <= 0) {
+        NotificationService.showSnackbarError(
+            'El total debe ser superior a cero');
+        throw Exception('La sumatoria debe ser superior a cero');
+      }
+      await ServerConnection.httpPut(
+          '/movimientos/$id/cambiarEstado', {'estado': estado});
+      if (estado == null) {
+        NotificationService.showSnackbarWarn('Estado PENDIENTE');
+      } else if (estado) {
+        NotificationService.showSnackbarWarn('Estado APROBADO');
+      } else {
+        NotificationService.showSnackbarWarn('Estado RECHAZADO');
+      }
+      notifyListeners();
+    } catch (e) {
+      NotificationService.showSnackbarError('Estado no cambiado');
+      rethrow;
+    }
+  }
+}
+
+class MovimientoIndexProvider extends ChangeNotifier {
+  List<Movimiento> movimientos = [];
+
+  buscarTodos() async {
+    final response = await ServerConnection.httpGet('/movimientos');
+    List<Movimiento> movimientosResponse = List<Movimiento>.from(
+        response.map((model) => Movimiento.fromJson(model)));
+    movimientos = [...movimientosResponse];
+    notifyListeners();
   }
 }
 
@@ -104,9 +146,9 @@ class MovimientoDetalleProvider extends ChangeNotifier {
       String idMovimiento, Map<String, dynamic> data,
       {String? idDetalle}) async {
     // Si data tiene un campo ID y este tiene informacion
-    if (data.containsKey('id') && data['id'] != null) {
+    if (idDetalle != null) {
       // Actualiza
-      return await _actualizar(idMovimiento, idDetalle!, data);
+      return await _actualizar(idMovimiento, idDetalle, data);
     } else {
       return await _guardar(idMovimiento, data);
     }
