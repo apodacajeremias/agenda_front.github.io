@@ -1,3 +1,4 @@
+import 'package:agenda_front/enums.dart';
 import 'package:agenda_front/extensions.dart';
 import 'package:agenda_front/services.dart';
 import 'package:agenda_front/src/models/entities/agenda.dart';
@@ -114,15 +115,17 @@ class PersonaProvider extends ChangeNotifier {
     }
   }
 
-  deudaPendiente(String id, {TipoTransaccion tipo = TipoTransaccion.VENTA}) async {
+  deudaPendiente(String id,
+      {TipoTransaccion tipo = TipoTransaccion.VENTA}) async {
     try {
-      final json = await ServerConnection.httpGet(
-          '/personas/$id/deudaPendiente');
+      final json =
+          await ServerConnection.httpGet('/personas/$id/deudaPendiente');
       return double.parse(json);
     } catch (e) {
       rethrow;
     }
   }
+
   _index(Persona persona) {
     // Buscamos el index en lista del ID Persona
     final index =

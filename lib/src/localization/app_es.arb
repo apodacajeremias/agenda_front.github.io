@@ -456,5 +456,9 @@
     "placeholders": {
       "accion": {}
     }
+  },
+  "deudaPendiente": "Deuda Pendiente",
+  "@deudaPendiente": {
+    "description": "deudaPendiente"
   }
 }

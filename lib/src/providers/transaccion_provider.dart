@@ -58,20 +58,6 @@ class TransaccionFormProvider extends ChangeNotifier {
     }
   }
 
-  eliminar(String id) async {
-    try {
-      final json = await ServerConnection.httpDelete('/transacciones/$id', {});
-      final confirmado = json.toString().toBoolean();
-      if (confirmado) {
-        notifyListeners();
-        NotificationService.showSnackbar('1 transacción eliminada');
-      }
-    } catch (e) {
-      NotificationService.showSnackbarError('Transacción no eliminada');
-      rethrow;
-    }
-  }
-
   aplicarDescuento(String id, bool aplicar, double descuento) async {
     try {
       final json = await ServerConnection.httpPut(

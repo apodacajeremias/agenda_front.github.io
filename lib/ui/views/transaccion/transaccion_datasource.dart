@@ -1,13 +1,10 @@
 import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/extensions.dart';
-import 'package:agenda_front/providers.dart';
 import 'package:agenda_front/services.dart';
 import 'package:agenda_front/src/models/entities/transaccion.dart';
 import 'package:agenda_front/src/models/entities/transaccion_detalle.dart';
 import 'package:agenda_front/ui/views/transaccion/transaccion_detalle_modal.dart';
-import 'package:agenda_front/ui/widgets/elevated_button.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class TransaccionDataSource extends DataTableSource {
   final List<Transaccion> transacciones;
@@ -20,7 +17,7 @@ class TransaccionDataSource extends DataTableSource {
     const DataColumn(label: Text('Fecha')),
     const DataColumn(label: Text('Tipo')),
     const DataColumn(label: Text('Total')),
-    const DataColumn(label: Text('Acciones')),
+    const DataColumn(label: Text('')),
   ];
 
   @override
@@ -32,47 +29,29 @@ class TransaccionDataSource extends DataTableSource {
       DataCell(Text(transaccion.tipo.toString())),
       DataCell(Text(transaccion.total.toString())),
       DataCell(Row(children: [
-        IconButton(
-          onPressed: () {
-            NavigationService.navigateTo('/transacciones/${transaccion.id}');
-          },
-          icon: const Icon(Icons.edit),
-        ),
-        IconButton(
+        if (transaccion.estado == null) ...[
+          IconButton(
             onPressed: () {
-              final dialog = AlertDialog(
-                  title: const Text('Estas seguro de borrarlo?'),
-                  content: Text('Borrar transaccion de ${transaccion.nombre}?'),
-                  actions: [
-                    TextButton(
-                      child: const Text('No, mantener'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                    TextButton(
-                        child: const Text('Si, borrar'),
-                        onPressed: () async {
-                          var confirmado =
-                              await Provider.of<TransaccionFormProvider>(
-                                      context,
-                                      listen: false)
-                                  .eliminar(transaccion.id);
-                          if (confirmado) {
-                            NotificationService.showSnackbar(
-                                'Transaccion eliminada exitosamente');
-                          } else {
-                            NotificationService.showSnackbar(
-                                'Transaccion no ha sido eliminada');
-                          }
-                          if (context.mounted) {
-                            Navigator.of(context).pop();
-                          }
-                        }),
-                  ]);
-              showDialog(context: context, builder: (_) => dialog);
+              NavigationService.navigateTo('/transacciones/${transaccion.id}');
             },
-            icon: const Icon(Icons.delete))
+            icon: const Icon(Icons.edit_rounded),
+          ),
+        ] else ...[
+          if (transaccion.estado!) ...[
+            IconButton(
+              onPressed: () {
+                NavigationService.navigateTo(
+                    '/transacciones/${transaccion.id}/imprimir');
+              },
+              icon: const Icon(Icons.print_rounded),
+            ),
+          ] else ...[
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.remove_red_eye_rounded),
+            ),
+          ]
+        ]
       ]))
     ]);
   }
