@@ -2,6 +2,8 @@
 
 import 'package:agenda_front/src/services/local_storage.dart';
 import 'package:dio/dio.dart';
+// import 'package:cross_file/src/types/interface.dart';
+import 'package:cross_file/src/types/base.dart' show XFileBase;
 
 class ServerConnection {
   static final Dio _dio = Dio();
@@ -66,15 +68,14 @@ class ServerConnection {
       // FormBuilderImagePicker retorna List<dynamic>
       if (e.value is List) {
         // Se recorre List<dynamic>
-        // for (var val in e.value) {
-        // Buscar Instance of XFile
-        // if (val is XFileBase) {
-        // ignore: list_remove_unrelated_type
-        // formData.fields.removeWhere((element) => element.key == e.key);
-        // MultipartFile file = await _getMultipartFile(val);
-        // formData.files.add(MapEntry(e.key, file));
-        // }
-        // }
+        for (var val in e.value) {
+          // Buscar Instance of XFile
+          if (val is XFileBase) {
+            formData.fields.removeWhere((element) => element.key == e.key);
+            MultipartFile file = await _getMultipartFile(val);
+            formData.files.add(MapEntry(e.key, file));
+          }
+        }
       }
     });
     return formData;

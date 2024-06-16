@@ -11,6 +11,7 @@ import 'package:agenda_front/ui/widgets/elevated_button.dart';
 import 'package:agenda_front/ui/widgets/link_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -273,7 +274,8 @@ class _InformacionPersonal extends StatelessWidget {
                         label: AppLocalizations.of(context)!.fechaNacimientoTag,
                         icon: Icons.cake_outlined),
                     validator: FormBuilderValidators.required(
-                        errorText: 'Campo obligatorio'),
+                        errorText:
+                            AppLocalizations.of(context)!.campoObligatorio),
                     inputType: InputType.date,
                     valueTransformer: (value) => value?.toIso8601String()),
                 const SizedBox(height: defaultSizing),
@@ -291,7 +293,8 @@ class _InformacionPersonal extends StatelessWidget {
                               '${toBeginningOfSentenceCase(e.toString())}')))
                       .toList(),
                   validator: FormBuilderValidators.required(
-                      errorText: 'Campo obligatorio'),
+                      errorText:
+                          AppLocalizations.of(context)!.campoObligatorio),
                   valueTransformer: (value) => value?.name,
                 ),
                 const SizedBox(height: defaultSizing),
@@ -473,7 +476,8 @@ class _InformacionEmpresarial extends StatelessWidget {
                             '${toBeginningOfSentenceCase(Moneda.GUARANI.toString())}'))
                   ],
                   validator: FormBuilderValidators.required(
-                      errorText: 'Campo obligatorio'),
+                      errorText:
+                          AppLocalizations.of(context)!.campoObligatorio),
                   valueTransformer: (value) => value?.name,
                 ),
                 const SizedBox(height: defaultSizing),
@@ -487,8 +491,27 @@ class _InformacionEmpresarial extends StatelessWidget {
                             '${toBeginningOfSentenceCase(Idioma.CASTELLANO.toString())}'))
                   ],
                   validator: FormBuilderValidators.required(
-                      errorText: 'Campo obligatorio'),
+                      errorText:
+                          AppLocalizations.of(context)!.campoObligatorio),
                   valueTransformer: (value) => value?.name,
+                ),
+                const SizedBox(height: defaultSizing),
+                FormBuilderImagePicker(
+                  name: 'file',
+                  decoration:
+                      const InputDecoration(labelText: 'Seleccione su logo'),
+                  maxImages: 1,
+                  validator: FormBuilderValidators.required(
+                      errorText:
+                          AppLocalizations.of(context)!.campoObligatorio),
+                  onImage: (p0) {
+                    print('onImage');
+                    print(p0);
+                  },
+                  valueTransformer: (value) {
+                    print('valueTransformer');
+                    print(value);
+                  },
                 ),
                 const SizedBox(height: defaultSizing),
               ],
@@ -560,7 +583,7 @@ class _InformacionAcceso extends StatelessWidget {
                 const SizedBox(height: defaultSizing),
                 // Matching Password
                 FormBuilderTextField(
-                  name: "matchingPassword",
+                  name: "persona.user.matchingPassword",
                   decoration: CustomInputs.form(
                       label: AppLocalizations.of(context)!.contrasenaRepetirTag,
                       hint: '********',
