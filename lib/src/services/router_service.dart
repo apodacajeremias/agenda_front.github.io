@@ -89,7 +89,7 @@ class RouterService {
   static String transaccionesIndexRoute = '/transacciones';
   static String transaccionesCreateRoute = '/transacciones/create';
   static String transaccionesEditRoute = '/transacciones/:id';
-  static String transaccionesPrintRoute = '/transacciones/print/:id';
+  static String transaccionesPrintRoute = '/transacciones/:id/print';
   static String transaccionesAddDetailsRoute =
       '/transacciones/addDetails/:id'; //Mostrar en menu
 
@@ -202,6 +202,8 @@ class RouterService {
         handler: TransaccionHandler.create, transitionType: _transitionType);
     router.define(transaccionesEditRoute,
         handler: TransaccionHandler.edit, transitionType: _transitionType);
+    router.define(transaccionesPrintRoute,
+        handler: TransaccionHandler.print, transitionType: _transitionType);
 
     // Users
     // router.define(usersIndexRoute,

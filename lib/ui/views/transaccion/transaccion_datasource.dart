@@ -1,10 +1,12 @@
 import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/extensions.dart';
+import 'package:agenda_front/providers.dart';
 import 'package:agenda_front/services.dart';
 import 'package:agenda_front/src/models/entities/transaccion.dart';
 import 'package:agenda_front/src/models/entities/transaccion_detalle.dart';
 import 'package:agenda_front/ui/views/transaccion/transaccion_detalle_modal.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TransaccionDataSource extends DataTableSource {
   final List<Transaccion> transacciones;
@@ -41,7 +43,9 @@ class TransaccionDataSource extends DataTableSource {
             IconButton(
               onPressed: () {
                 NavigationService.navigateTo(
-                    '/transacciones/${transaccion.id}/imprimir');
+                    '/transacciones/${transaccion.id}/print');
+                // Provider.of<TransaccionFormProvider>(context, listen: false)
+                //     .imprimir(transaccion.id);
               },
               icon: const Icon(Icons.print_rounded),
             ),

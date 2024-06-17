@@ -107,6 +107,18 @@ class TransaccionFormProvider extends ChangeNotifier {
       rethrow;
     }
   }
+
+  imprimir(String id) async {
+    try {
+      final impresion =
+          await ServerConnection.httpGet('/transacciones/$id/imprimir');
+      print(impresion);
+      notifyListeners();
+    } catch (e) {
+      NotificationService.showSnackbarError('Estado no cambiado');
+      rethrow;
+    }
+  }
 }
 
 class TransaccionIndexProvider extends ChangeNotifier {

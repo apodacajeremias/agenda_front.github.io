@@ -6,11 +6,12 @@ import 'package:dio/dio.dart';
 import 'package:cross_file/src/types/base.dart' show XFileBase;
 
 class ServerConnection {
+  static const baseurl = 'http://localhost:8080/api';
   static final Dio _dio = Dio();
 
   static void configureDio() {
     // Base del url
-    _dio.options.baseUrl = 'http://localhost:8080/api';
+    _dio.options.baseUrl = baseurl;
     // Configurar Headers
     _dio.options.headers = {
       'Authorization': LocalStorage.prefs.containsKey('token') &&
