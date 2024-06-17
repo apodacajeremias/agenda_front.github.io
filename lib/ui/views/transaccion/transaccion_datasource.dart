@@ -41,11 +41,14 @@ class TransaccionDataSource extends DataTableSource {
         ] else ...[
           if (transaccion.estado!) ...[
             IconButton(
-              onPressed: () {
-                NavigationService.navigateTo(
-                    '/transacciones/${transaccion.id}/print');
-                // Provider.of<TransaccionFormProvider>(context, listen: false)
-                //     .imprimir(transaccion.id);
+              onPressed: () async {
+                //NavigationService.navigateTo('/transacciones/${transaccion.id}/print');
+                // Provider.of<TransaccionFormProvider>(context, listen: false).imprimir(transaccion.id);
+                
+                //const url = 'http://example.com';
+                //final stream = get(url);
+                final stream = await ServerConnection.httpGet('/transacciones/$id/imprimir');
+                download(stream, 'transaccion_$id.pdft');
               },
               icon: const Icon(Icons.print_rounded),
             ),
