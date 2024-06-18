@@ -28,7 +28,7 @@ class _PDFScreenState extends State<PDFScreen> {
   void initState() {
     super.initState();
     // loadPdf();
-    _pdfController = PdfController(
+    _pdfController = PdfControllerPinch(
       document: PdfDocument.openData(InternetFile.get(widget.url)),
     );
   }
@@ -53,7 +53,10 @@ class _PDFScreenState extends State<PDFScreen> {
         height: MediaQuery.of(context).size.height,
         child: _pdfController == null
             ? loaderWidget
-            : PdfView(controller: _pdfController),
+            : PdfViewPinch(
+                controller: _pdfController,
+                onDocumentLoaded: (document) {},
+              ),
       )),
     );
   }

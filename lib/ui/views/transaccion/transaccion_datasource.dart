@@ -1,12 +1,13 @@
 import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/extensions.dart';
-import 'package:agenda_front/providers.dart';
 import 'package:agenda_front/services.dart';
 import 'package:agenda_front/src/models/entities/transaccion.dart';
 import 'package:agenda_front/src/models/entities/transaccion_detalle.dart';
 import 'package:agenda_front/ui/views/transaccion/transaccion_detalle_modal.dart';
+// import 'package:download/download.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'dart:html' as html;
+import 'package:vexana/vexana.dart';
 
 class TransaccionDataSource extends DataTableSource {
   final List<Transaccion> transacciones;
@@ -21,6 +22,12 @@ class TransaccionDataSource extends DataTableSource {
     const DataColumn(label: Text('Total')),
     const DataColumn(label: Text('')),
   ];
+
+  void downloadFile(String url) {
+    html.AnchorElement anchorElement = html.AnchorElement(href: url);
+    anchorElement.download = url;
+    anchorElement.click();
+  }
 
   @override
   DataRow? getRow(int index) {
@@ -42,13 +49,44 @@ class TransaccionDataSource extends DataTableSource {
           if (transaccion.estado!) ...[
             IconButton(
               onPressed: () async {
-                //NavigationService.navigateTo('/transacciones/${transaccion.id}/print');
+                // NavigationService.navigateTo('/transacciones/${transaccion.id}/print');
                 // Provider.of<TransaccionFormProvider>(context, listen: false).imprimir(transaccion.id);
-                
-                //const url = 'http://example.com';
-                //final stream = get(url);
-                final stream = await ServerConnection.httpGet('/transacciones/$id/imprimir');
-                download(stream, 'transaccion_$id.pdft');
+
+                // final url =
+                //     '${ServerConnection.baseurl}/transacciones/${transaccion.id}/imprimir';
+                // final stream = get(Uri.parse(url));
+                // download(stream, 'transaccion_${transaccion.id}.pdf');
+
+                // final stream = ServerConnection.httpGet(
+                //     '/transacciones/${transaccion.id}/imprimir');
+                // print('The type of myObject is: ${stream.runtimeType}');
+                // Future<int> futureInt = stream.then((value) {
+                //   return int.tryParse(value.toString()) ??
+                //       0; // Returns 0 if it's not an integer
+                // });
+                // download(Stream.fromFuture(futureInt),
+                //     'transaccion_${transaccion.id}.pdf');
+
+                // final stream = Stream.fromIterable('Hello World!'.codeUnits);
+                // download(stream, 'hello.txt');
+
+                // final url =
+                //     '${ServerConnection.baseurl}/transacciones/${transaccion.id}/imprimir';
+                // final stream = get(Uri.parse(url));
+                // Future<int> futureInt = stream.then((value) {
+                //   return int.tryParse(value.toString()) ??
+                //       0; // Returns 0 if it's not an integer
+                // });
+                // download(Stream.fromFuture(futureInt), 'hello.pdf');
+
+                // final response = await networkManager.downloadFileSimple(
+                //     '${ServerConnection.baseurl}/transacciones/${transaccion.id}/imprimir',
+                //     (count, total) {
+                //   print('${count}');
+                // });
+
+                downloadFile(
+                    '${ServerConnection.baseurl}/transacciones/${transaccion.id}/imprimir');
               },
               icon: const Icon(Icons.print_rounded),
             ),
