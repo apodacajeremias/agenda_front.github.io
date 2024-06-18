@@ -88,7 +88,7 @@ class TransaccionDataSource extends DataTableSource {
                 downloadFile(
                     '${ServerConnection.baseurl}/transacciones/${transaccion.id}/imprimir');
               },
-              icon: const Icon(Icons.print_rounded),
+              icon: const Icon(Icons.download_rounded),
             ),
           ] else ...[
             IconButton(
