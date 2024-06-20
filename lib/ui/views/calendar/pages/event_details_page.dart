@@ -35,7 +35,7 @@ class DetailsPage extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         children: [
           Text(
-            "Date: ${event.date.dateToStringWithFormat(format: "dd/MM/yyyy")}",
+            "${AppLocalizations.of(context)!.fecha}: ${event.date.dateToStringWithFormat(format: "dd/MM/yyyy")}",
           ),
           SizedBox(
             height: 15.0,
@@ -48,10 +48,10 @@ class DetailsPage extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("From"),
+                      Text(AppLocalizations.of(context)!.de),
                       Text(
                         event.startTime
-                                ?.getTimeInFormat(TimeStampFormat.parse_12) ??
+                                ?.getTimeInFormat(TimeStampFormat.parse_24) ??
                             "",
                       ),
                     ],
@@ -62,10 +62,10 @@ class DetailsPage extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("To"),
+                      Text(AppLocalizations.of(context)!.a),
                       Text(
                         event.endTime
-                                ?.getTimeInFormat(TimeStampFormat.parse_12) ??
+                                ?.getTimeInFormat(TimeStampFormat.parse_24) ??
                             "",
                       ),
                     ],
@@ -79,7 +79,7 @@ class DetailsPage extends StatelessWidget {
           ],
           if (event.description?.isNotEmpty ?? false) ...[
             Divider(),
-            Text("Description"),
+            Text(AppLocalizations.of(context)!.observacionesTag),
             SizedBox(
               height: 10.0,
             ),
@@ -96,7 +96,7 @@ class DetailsPage extends StatelessWidget {
                         .remove(event);
                     Navigator.of(context).pop();
                   },
-                  child: Text('Delete Event'),
+                  child: Text(AppLocalizations.of(context)!.agenda('cancelar')),
                 ),
               ),
               SizedBox(width: 30),
@@ -115,7 +115,7 @@ class DetailsPage extends StatelessWidget {
                       Navigator.of(context).pop();
                     }
                   },
-                  child: Text('Edit Event'),
+                  child: Text(AppLocalizations.of(context)!.agenda('actualizar')),
                 ),
               ),
             ],

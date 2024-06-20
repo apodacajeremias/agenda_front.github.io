@@ -25,7 +25,7 @@ class CreateEventPage extends StatelessWidget {
           ),
         ),
         title: Text(
-          event == null ? "Create New Event" : "Update Event",
+          event == null ? AppLocalizations.of(context)!.agenda('agregar') : AppLocalizations.of(context)!.agenda('actualizar'),
           style: TextStyle(
             color: AppColors.black,
             fontSize: 20.0,

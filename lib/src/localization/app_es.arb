@@ -462,7 +462,7 @@
   "@deudaPendiente": {
     "description": "deudaPendiente"
   },
-  "agenda": "{accion, select, agregar{Agregar} actualizar{Actualizar} cancelar{Cancelar} Repriorizar{Repriorizar} other{Agenda}}",
+  "agenda": "{accion, select, agregar{Agregar reserva} actualizar{Actualizar reserva} cancelar{Cancelar reserva} Repriorizar{Repriorizar} other{Agendar reserva}}",
   "@agenda": {
     "description": "beneficio",
     "placeholders": {
@@ -511,5 +511,25 @@
   "agregarAgendamiento": "Agregar agendamiento",
   "@agregarAgendamiento": {
     "description": "Agenda"
+  },
+  "desde": "Desde",
+  "@desde": {
+    "description": "from"
+  }, 
+  "hasta": "Hasta",
+  "@hasta": {
+    "description": "yo"
+  },
+  "de": "De",
+  "@desde": {
+    "description": "from"
+  }, 
+  "a": "a",
+  "@a": {
+    "description": "to"
+  }, 
+  "fecha": "Fecha",
+  "@fecha": {
+    "description": "fecha"
   }
 }

@@ -32,13 +32,6 @@ class _AddOrEditEventFormState extends State<AddOrEditEventForm> {
 
   Color _color = Colors.blue;
 
-  final _form = GlobalKey<FormState>();
-
-  late final _descriptionController = TextEditingController();
-  late final _titleController = TextEditingController();
-  late final _titleNode = FocusNode();
-  late final _descriptionNode = FocusNode();
-
   @override
   void initState() {
     super.initState();
@@ -47,237 +40,87 @@ class _AddOrEditEventFormState extends State<AddOrEditEventForm> {
   }
 
   @override
-  void dispose() {
-    _titleNode.dispose();
-    _descriptionNode.dispose();
-
-    _descriptionController.dispose();
-    _titleController.dispose();
-
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _form,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+    final provider = Provider.of<AgendaProvider>(context, listen: false);
+   return Container(
+      padding: const EdgeInsets.all(defaultSizing),
+      child: ListView(
         children: [
-          TextFormField(
-            controller: _titleController,
-            decoration: AppConstants.inputDecoration.copyWith(
-              labelText: "Event Title",
-            ),
-            style: TextStyle(
-              color: AppColors.black,
-              fontSize: 17.0,
-            ),
-            validator: (value) {
-              final title = value?.trim();
-
-              if (title == null || title == "") {
-                return "Please enter event title.";
-              }
-
-              return null;
-            },
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.next,
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: DateTimeSelectorFormField(
-                  decoration: AppConstants.inputDecoration.copyWith(
-                    labelText: "Start Date",
-                  ),
-                  initialDateTime: _startDate,
-                  onSelect: (date) {
-                    if (date.withoutTime.withoutTime
-                        .isAfter(_endDate.withoutTime)) {
-                      _endDate = date.withoutTime;
-                    }
-
-                    _startDate = date.withoutTime;
-
-                    if (mounted) {
-                      setState(() {});
-                    }
-                  },
-                  validator: (value) {
-                    if (value == null || value == "") {
-                      return "Please select start date.";
-                    }
-
-                    return null;
-                  },
-                  textStyle: TextStyle(
-                    color: AppColors.black,
-                    fontSize: 17.0,
-                  ),
-                  onSave: (date) => _startDate = date ?? _startDate,
-                  type: DateTimeSelectionType.date,
-                ),
-              ),
-              SizedBox(width: 20.0),
-              Expanded(
-                child: DateTimeSelectorFormField(
-                  initialDateTime: _endDate,
-                  decoration: AppConstants.inputDecoration.copyWith(
-                    labelText: "End Date",
-                  ),
-                  onSelect: (date) {
-                    if (date.withoutTime.withoutTime
-                        .isBefore(_startDate.withoutTime)) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('End date occurs before start date.'),
-                      ));
-                    } else {
-                      _endDate = date.withoutTime;
-                    }
-
-                    if (mounted) {
-                      setState(() {});
-                    }
-                  },
-                  validator: (value) {
-                    if (value == null || value == "") {
-                      return "Please select end date.";
-                    }
-
-                    return null;
-                  },
-                  textStyle: TextStyle(
-                    color: AppColors.black,
-                    fontSize: 17.0,
-                  ),
-                  onSave: (date) => _endDate = date ?? _endDate,
-                  type: DateTimeSelectionType.date,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 15),
-          Row(
-            children: [
-              Expanded(
-                child: DateTimeSelectorFormField(
-                  decoration: AppConstants.inputDecoration.copyWith(
-                    labelText: "Start Time",
-                  ),
-                  initialDateTime: _startTime,
-                  minimumDateTime: CalendarConstants.epochDate,
-                  onSelect: (date) {
-                    if (_endTime != null &&
-                        date.getTotalMinutes > _endTime!.getTotalMinutes) {
-                      _endTime = date.add(Duration(minutes: 1));
-                    }
-                    _startTime = date;
-
-                    if (mounted) {
-                      setState(() {});
-                    }
-                  },
-                  onSave: (date) => _startTime = date,
-                  textStyle: TextStyle(
-                    color: AppColors.black,
-                    fontSize: 17.0,
-                  ),
-                  type: DateTimeSelectionType.time,
-                ),
-              ),
-              SizedBox(width: 20.0),
-              Expanded(
-                child: DateTimeSelectorFormField(
-                  decoration: AppConstants.inputDecoration.copyWith(
-                    labelText: "End Time",
-                  ),
-                  initialDateTime: _endTime,
-                  onSelect: (date) {
-                    if (_startTime != null &&
-                        date.getTotalMinutes < _startTime!.getTotalMinutes) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('End time is less then start time.'),
-                      ));
-                    } else {
-                      _endTime = date;
-                    }
-
-                    if (mounted) {
-                      setState(() {});
-                    }
-                  },
-                  onSave: (date) => _endTime = date,
-                  textStyle: TextStyle(
-                    color: AppColors.black,
-                    fontSize: 17.0,
-                  ),
-                  type: DateTimeSelectionType.time,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          TextFormField(
-            controller: _descriptionController,
-            focusNode: _descriptionNode,
-            style: TextStyle(
-              color: AppColors.black,
-              fontSize: 17.0,
-            ),
-            keyboardType: TextInputType.multiline,
-            textInputAction: TextInputAction.newline,
-            selectionControls: MaterialTextSelectionControls(),
-            minLines: 1,
-            maxLines: 10,
-            maxLength: 1000,
-            validator: (value) {
-              if (value == null || value.trim() == "") {
-                return "Please enter event description.";
-              }
-
-              return null;
-            },
-            decoration: AppConstants.inputDecoration.copyWith(
-              hintText: "Event Description",
-            ),
-          ),
-          SizedBox(
-            height: 15.0,
-          ),
-          Row(
-            children: [
-              Text(
-                "Event Color: ",
-                style: TextStyle(
-                  color: AppColors.black,
-                  fontSize: 17,
-                ),
-              ),
-              GestureDetector(
-                onTap: _displayColorPicker,
-                child: CircleAvatar(
-                  radius: 15,
-                  backgroundColor: _color,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          CustomButton(
-            onTap: _createEvent,
-            title: widget.event == null
-                ? AppLocalizations.of(context)!.agenda('agregar')
-                : AppLocalizations.of(context)!.agenda('actualizar'),
-          ),
+          FormHeader(
+              title: item?.id == null
+                  ? AppLocalizations.of(context)!.agenda('agregar')
+                  : AppLocalizations.of(context)!.agenda('actualizar')),
+          WhiteCard(
+              child: FormBuilder(
+                  key: provider.formKey,
+                  child: Column(
+                    children: [
+                      
+                      const SizedBox(height: defaultSizing),
+                      PersonaSearchableDropdown(
+                          name: 'persona',
+                          //initialValue: item?.nombre,
+                          enabled: item?.estado ?? true,
+                          decoration: CustomInputs.form(
+                              label: AppLocalizations.of(context)!.persona('asignar'),
+                              hint: AppLocalizations.of(context)!.persona('asignar'),
+                              icon: Icons.info),
+                          validator: FormBuilderValidators.required(
+                              errorText: AppLocalizations.of(context)!
+                                  .campoObligatorio)),
+                      const SizedBox(height: defaultSizing),
+                      ColaboradorSearchableDropdown(
+                          name: 'colaborador',
+                          //initialValue: item?.nombre,
+                          enabled: item?.estado ?? true,
+                          decoration: CustomInputs.form(
+                              label: AppLocalizations.of(context)!.colaborador('asignar'),
+                              hint: AppLocalizations.of(context)!.colaborador('asignar'),
+                              icon: Icons.info),
+                          validator: FormBuilderValidators.required(
+                              errorText: AppLocalizations.of(context)!
+                                  .campoObligatorio)),
+                      const SizedBox(height: defaultSizing),
+                      FormBuilderDateTimePicker(
+                        name: 'inicio',
+                        // format: FechaUtil.dateFormat,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime.now(),
+                        decoration: CustomInputs.form(
+                            hint: 'Inicio', label: 'Inicio', icon: Icons.event),
+                        validator:
+                            FormBuilderValidators.required(errorText: 'Campo obligatorio'),
+                        inputType: InputType.date,
+                        valueTransformer: (value) => value?.toIso8601String()),
+                      const SizedBox(height: defaultSizing),
+                      FormBuilderTextField(
+                        name: 'observacion',
+                        initialValue: item?.observacion,
+                        keyboardType: TextInputType.multiline,
+                        minLines: 2,
+                        maxLines: 5,
+                        decoration: CustomInputs.form(
+                            label:
+                                AppLocalizations.of(context)!.observacionesTag,
+                            hint:
+                                AppLocalizations.of(context)!.observacionesTag,
+                            icon: Icons.comment_rounded),
+                      ),
+                      const SizedBox(height: defaultSizing),
+                      FormFooter(onConfirm: () async {
+                        if (provider.saveAndValidate()) {
+                          try {
+                            await provider.registrar(provider.formData());
+                            if (context.mounted) {
+                              Navigator.of(context).pop();
+                            }
+                          } catch (e) {
+                            rethrow;
+                          }
+                        }
+                      })
+                    ],
+                  )))
         ],
       ),
     );
