@@ -31,7 +31,7 @@ class RouterService {
   // static String personasRoute = '/personas';
 
   // Dashboard: Agenda
-  static String agendasIndexRoute = '/agendas';
+  static String agendasPageRoute = '/agendas';
   static String agendasCreateRoute =
       '/agendas/create'; // Agenda no se puede editar, para eso estan las demas funciones
   static String agendasRescheduleRoute = '/agendas/reschedule/:id';
@@ -89,7 +89,6 @@ class RouterService {
   static String transaccionesIndexRoute = '/transacciones';
   static String transaccionesCreateRoute = '/transacciones/create';
   static String transaccionesEditRoute = '/transacciones/:id';
-  static String transaccionesPrintRoute = '/transacciones/:id/print';
   static String transaccionesAddDetailsRoute =
       '/transacciones/addDetails/:id'; //Mostrar en menu
 
@@ -118,21 +117,21 @@ class RouterService {
 
     //TODO: ASIGNAR TODOS LOS Handler
     // Agenda
-    router.define(agendasIndexRoute,
-        handler: AgendaHandler.index, transitionType: _transitionType);
-    router.define(agendasCreateRoute,
-        handler: AgendaHandler.create, transitionType: _transitionType);
-    router.define(agendasRescheduleRoute,
-        handler: AgendaHandler.reschedule, transitionType: _transitionType);
-    router.define(agendasUnscheduleRoute,
-        handler: AgendaHandler.unschedule, transitionType: _transitionType);
-    router.define(agendasPrioritizeRoute,
-        handler: AgendaHandler.prioritize, transitionType: _transitionType);
-    router.define(agendasDepriorizeRoute,
-        handler: AgendaHandler.deprioritize, transitionType: _transitionType);
-    router.define(agendaChangeSituationRoute,
-        handler: AgendaHandler.changeSituation,
-        transitionType: _transitionType);
+    router.define(agendasPageRoute,
+        handler: AgendaHandler.page, transitionType: _transitionType);
+    // router.define(agendasCreateRoute,
+    //     handler: AgendaHandler.create, transitionType: _transitionType);
+    // router.define(agendasRescheduleRoute,
+    //     handler: AgendaHandler.reschedule, transitionType: _transitionType);
+    // router.define(agendasUnscheduleRoute,
+    //     handler: AgendaHandler.unschedule, transitionType: _transitionType);
+    // router.define(agendasPrioritizeRoute,
+    //     handler: AgendaHandler.prioritize, transitionType: _transitionType);
+    // router.define(agendasDepriorizeRoute,
+    //     handler: AgendaHandler.deprioritize, transitionType: _transitionType);
+    // router.define(agendaChangeSituationRoute,
+    //     handler: AgendaHandler.changeSituation,
+    //     transitionType: _transitionType);
 
     // Beneficio
     router.define(beneficiosIndexRoute,
@@ -202,8 +201,6 @@ class RouterService {
         handler: TransaccionHandler.create, transitionType: _transitionType);
     router.define(transaccionesEditRoute,
         handler: TransaccionHandler.edit, transitionType: _transitionType);
-    router.define(transaccionesPrintRoute,
-        handler: TransaccionHandler.print, transitionType: _transitionType);
 
     // Users
     // router.define(usersIndexRoute,

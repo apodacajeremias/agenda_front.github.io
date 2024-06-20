@@ -1,14 +1,13 @@
-// ignore_for_file: unused_import
-
 import 'package:agenda_front/providers.dart';
 import 'package:agenda_front/services.dart';
 import 'package:agenda_front/translate.dart';
 import 'package:agenda_front/ui/pages/auth_page.dart';
 import 'package:agenda_front/ui/pages/dashboard_page.dart';
 import 'package:agenda_front/ui/pages/splash_page.dart';
+import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:provider/provider.dart';
 
 //TODO: Llenar en archivo .arb con las etiquetas y sus traducciones
 void main() async {
@@ -67,53 +66,56 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: '/',
-      // Providing a restorationScopeId allows the Navigator built by the
-      // MaterialApp to restore the navigation stack when a user leaves and
-      // returns to the app after it has been killed while running in the
-      // background.
-      restorationScopeId: 'app',
+    return CalendarControllerProvider(
+      controller: EventController(),
+      child: MaterialApp(
+        initialRoute: '/',
+        // Providing a restorationScopeId allows the Navigator built by the
+        // MaterialApp to restore the navigation stack when a user leaves and
+        // returns to the app after it has been killed while running in the
+        // background.
+        restorationScopeId: 'app',
 
-      // Provide the generated AppLocalizations to the MaterialApp. This
-      // allows descendant Widgets to display the correct translations
-      // depending on the user's locale.
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('es', ''), // Español, sin código de pais
-      ],
+        // Provide the generated AppLocalizations to the MaterialApp. This
+        // allows descendant Widgets to display the correct translations
+        // depending on the user's locale.
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('es', ''), // Español, sin código de pais
+        ],
 
-      // Use AppLocalizations to configure the correct application title
-      // depending on the user's locale.
-      //
-      // The appTitle is defined in .arb files found in the localization
-      // directory.
-      onGenerateTitle: (BuildContext context) =>
-          AppLocalizations.of(context)!.appTitle,
+        // Use AppLocalizations to configure the correct application title
+        // depending on the user's locale.
+        //
+        // The appTitle is defined in .arb files found in the localization
+        // directory.
+        onGenerateTitle: (BuildContext context) =>
+            AppLocalizations.of(context)!.appTitle,
 
-      // Define a light and dark color theme. Then, read the user's
-      // preferred ThemeMode (light, dark, or system default) from the
-      // SettingsController to display the correct theme.
-      theme: ThemeData(
-        fontFamily: 'Lato',
-        useMaterial3: false,
-        inputDecorationTheme:
-            const InputDecorationTheme(border: OutlineInputBorder()),
+        // Define a light and dark color theme. Then, read the user's
+        // preferred ThemeMode (light, dark, or system default) from the
+        // SettingsController to display the correct theme.
+        theme: ThemeData(
+          fontFamily: 'Lato',
+          useMaterial3: false,
+          inputDecorationTheme:
+              const InputDecorationTheme(border: OutlineInputBorder()),
+        ),
+        darkTheme: ThemeData.dark(),
+        // themeMode: settingsController.themeMode,
+
+        // Define a function to handle named routes in order to support
+        // Flutter web url navigation and deep linking.
+        onGenerateRoute: RouterService.router.generator,
+        navigatorKey: NavigationService.navigatorKey,
+        scaffoldMessengerKey: NotificationService.messengerKey,
+        builder: (_, child) => SafeArea(child: _build(child, context)),
       ),
-      darkTheme: ThemeData.dark(),
-      // themeMode: settingsController.themeMode,
-
-      // Define a function to handle named routes in order to support
-      // Flutter web url navigation and deep linking.
-      onGenerateRoute: RouterService.router.generator,
-      navigatorKey: NavigationService.navigatorKey,
-      scaffoldMessengerKey: NotificationService.messengerKey,
-      builder: (_, child) => SafeArea(child: _build(child, context)),
     );
   }
 

@@ -1,6 +1,6 @@
 {
   "@@locale": "es",
-  "appTitle": "Agendate",
+  "appTitle": "Agenda",
   "@appTitle": {
     "description": "Titulo de la app"
   },
@@ -416,6 +416,7 @@
       }
     }
   },
+  
   "beneficio": "{accion, select, asignar{Asignar beneficio} registrar{Registrar nuevo beneficio} editar{Editar grupo beneficio} eliminar{Eliminar beneficio} ocultar{Ocultar beneficio} other{Beneficio}}",
   "@beneficio": {
     "description": "beneficio",
@@ -460,5 +461,55 @@
   "deudaPendiente": "Deuda Pendiente",
   "@deudaPendiente": {
     "description": "deudaPendiente"
+  },
+  "agenda": "{accion, select, agregar{Agregar} actualizar{Actualizar} cancelar{Cancelar} Repriorizar{Repriorizar} other{Agenda}}",
+  "@agenda": {
+    "description": "beneficio",
+    "placeholders": {
+      "accion": {}
+    }
+  },
+  "agendar": "Agendar",
+  "@agendar": {
+    "description": "Agenda"
+  },
+  "vistaActiva": "Vista activa",
+  "@vistaActiva": {
+    "description": "Agenda"
+  },
+  "tipoVista": "{tipo, select, month{Mensual} day{Diario} week{Semanal} other{}}",
+  "@tipoVista": {
+    "description": "Agenda",
+    "placeholders": {
+      "tipo": {}
+    }
+  },
+  "mensual": "Mensual",
+  "@mensual": {
+    "description": "mensual"
+  },
+  "vistaMensual": "Vista Mensual",
+  "@vistaMensual": {
+    "description": "vistaMensual"
+  },
+  "diario": "A diario",
+  "@diario": {
+    "description": "Agenda"
+  },
+  "vistaDiara": "Vista Diaria",
+  "@vistaDiara": {
+    "description": "Agenda"
+  },
+  "semanal": "Semanal",
+  "@semanal": {
+    "description": "Agenda"
+  },
+  "vistaSemanal": "Vista Semanal",
+  "@vistaSemanal": {
+    "description": "Agenda"
+  },
+  "agregarAgendamiento": "Agregar agendamiento",
+  "@agregarAgendamiento": {
+    "description": "Agenda"
   }
 }

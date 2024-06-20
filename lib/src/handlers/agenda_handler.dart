@@ -15,6 +15,15 @@ class AgendaHandler {
     }
   });
 
+  static Handler page = Handler(handlerFunc: (context, params) {
+    final authProvider = Provider.of<AuthProvider>(context!, listen: false);
+    if (authProvider.authStatus == AuthStatus.authenticated) {
+      return const AgendaFormView();
+    } else {
+      return const LoginView();
+    }
+  });
+
   static Handler create = Handler(handlerFunc: (context, params) {
     final authProvider = Provider.of<AuthProvider>(context!, listen: false);
     if (authProvider.authStatus == AuthStatus.authenticated) {

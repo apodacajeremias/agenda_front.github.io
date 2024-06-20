@@ -28,7 +28,7 @@ class Sidebar extends StatelessWidget {
           leading: const Icon(Icons.calendar_month_outlined),
           onTap: () async {
             // print('click');
-            NavigationService.replaceTo(RouterService.agendasIndexRoute);
+            NavigationService.replaceTo(RouterService.agendasPageRoute);
           }),
       const Divider(),
       ListTile(

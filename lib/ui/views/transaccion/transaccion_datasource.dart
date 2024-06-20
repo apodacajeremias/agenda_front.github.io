@@ -1,13 +1,14 @@
+// ignore_for_file: avoid_web_libraries_in_flutter
+
 import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/extensions.dart';
 import 'package:agenda_front/services.dart';
 import 'package:agenda_front/src/models/entities/transaccion.dart';
 import 'package:agenda_front/src/models/entities/transaccion_detalle.dart';
 import 'package:agenda_front/ui/views/transaccion/transaccion_detalle_modal.dart';
-// import 'package:download/download.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:html' as html;
-import 'package:vexana/vexana.dart';
 
 class TransaccionDataSource extends DataTableSource {
   final List<Transaccion> transacciones;
@@ -24,9 +25,12 @@ class TransaccionDataSource extends DataTableSource {
   ];
 
   void downloadFile(String url) {
-    html.AnchorElement anchorElement = html.AnchorElement(href: url);
-    anchorElement.download = url;
-    anchorElement.click();
+    if (kIsWeb) {
+      html.AnchorElement anchorElement = html.AnchorElement(href: url);
+      anchorElement.download = url;
+      anchorElement.click();
+      anchorElement.remove();
+    }
   }
 
   @override
