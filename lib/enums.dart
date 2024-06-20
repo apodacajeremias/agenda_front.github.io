@@ -1,3 +1,4 @@
+export 'package:agenda_front/src/models/enums/duracion.dart';
 export 'package:agenda_front/src/models/enums/genero.dart';
 export 'package:agenda_front/src/models/enums/idioma.dart';
 export 'package:agenda_front/src/models/enums/medio_pago.dart';

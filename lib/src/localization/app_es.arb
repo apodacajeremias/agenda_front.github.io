@@ -531,5 +531,21 @@
   "fecha": "Fecha",
   "@fecha": {
     "description": "fecha"
+  },
+ "duracion": "Duración",
+  "@duracion": {
+    "description": "duracion"
+  },
+  "prioridad": "Prioridad",
+  "@prioridad": {
+    "description": "prioridad"
+  },
+  "horario": "Horario",
+  "@horario": {
+    "description": "horario"
+  },
+  "horarioDisponible": "Horario Disponible",
+  "@horarioDisponible": {
+    "description": "horarioDisponible"
   }
 }

@@ -78,4 +78,31 @@ class AgendaProvider extends ChangeNotifier {
       rethrow;
     }
   }
+
+  horarioDisponible(String idColaborador, DateTime inicio, DateTime fin) async {
+    try {
+      final json = await ServerConnection.httpGet('/agendas/horarioDisponible', 
+      {'idColaborador' : idColaborador,
+        'inicio': inicio,
+        'fin': fin
+      }
+      );
+      return json.toString().toBoolean(); 
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+   horariosDisponibles(String idColaborador, DateTime fecha, int duracion) async {
+    try {
+      final json = await ServerConnection.httpGet('/agendas/horariosDisponibles', 
+      {'idColaborador' : idColaborador,
+        'inicio': inicio,
+        'fin': fin
+      });
+      return List<HorarioDisponible>.from(response.map((model) => HorarioDisponible.fromJson(model)));
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

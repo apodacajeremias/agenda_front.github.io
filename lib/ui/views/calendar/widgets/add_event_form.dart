@@ -32,12 +32,15 @@ class _AddOrEditEventFormState extends State<AddOrEditEventForm> {
 
   Color _color = Colors.blue;
 
+  List<HorarioDisponible> horariosDisponibles = [];
+
   @override
   void initState() {
     super.initState();
-
     _setDefaults();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,31 +70,119 @@ class _AddOrEditEventFormState extends State<AddOrEditEventForm> {
                               icon: Icons.info),
                           validator: FormBuilderValidators.required(
                               errorText: AppLocalizations.of(context)!
-                                  .campoObligatorio)),
+                                  .campoObligatorio),
+                          onChange: (p){
+                            provider.formKey.currentState!.fields['colaborador'].didChange(null);
+                            provider.formKey.currentState!.fields['-fecha'].didChange(null);
+                            provider.formKey.currentState!.fields['duracion'].didChange(null);
+                            horariosDisponibles = [];
+                          }),
                       const SizedBox(height: defaultSizing),
                       ColaboradorSearchableDropdown(
-                          name: 'colaborador',
-                          //initialValue: item?.nombre,
-                          enabled: item?.estado ?? true,
-                          decoration: CustomInputs.form(
-                              label: AppLocalizations.of(context)!.colaborador('asignar'),
-                              hint: AppLocalizations.of(context)!.colaborador('asignar'),
-                              icon: Icons.info),
-                          validator: FormBuilderValidators.required(
-                              errorText: AppLocalizations.of(context)!
-                                  .campoObligatorio)),
+                        name: 'colaborador',
+                        //initialValue: item?.nombre,
+                        enabled: item?.estado ?? true,
+                        decoration: CustomInputs.form(
+                            label: AppLocalizations.of(context)!.colaborador('asignar'),
+                            hint: AppLocalizations.of(context)!.colaborador('asignar'),
+                            icon: Icons.info),
+                        validator: FormBuilderValidators.required(
+                            errorText: AppLocalizations.of(context)!
+                                .campoObligatorio),
+                        onChange: (p){
+                            provider.formKey.currentState!.fields['-fecha'].didChange(null);
+                            provider.formKey.currentState!.fields['duracion'].didChange(null);
+                            horariosDisponibles = [];
+                          }),
                       const SizedBox(height: defaultSizing),
                       FormBuilderDateTimePicker(
-                        name: 'inicio',
-                        // format: FechaUtil.dateFormat,
-                        initialDate: DateTime.now(),
+                        name: '-fecha',
                         firstDate: DateTime.now(),
                         decoration: CustomInputs.form(
-                            hint: 'Inicio', label: 'Inicio', icon: Icons.event),
+                            hint: AppLocalizations.of(context)!.fecha,
+                            label: AppLocalizations.of(context)!.fecha,
+                            icon: Icons.event),
                         validator:
                             FormBuilderValidators.required(errorText: 'Campo obligatorio'),
                         inputType: InputType.date,
-                        valueTransformer: (value) => value?.toIso8601String()),
+                        valueTransformer: (value) => value?.toIso8601String(),
+                        onChange: (p){
+                            provider.formKey.currentState!.fields['duracion'].didChange(null);
+                            horariosDisponibles = [];
+                          }),),
+                      const SizedBox(height: defaultSizing),
+                      FormBuilderDropdown(
+                        name: 'duracion',
+                        initialValue: Duracion.15_MINUTOS,
+                        decoration: CustomInputs.form(
+                            label: AppLocalizations.of(context)!
+                                .duracion,
+                            hint: AppLocalizations.of(context)!
+                                .duracion,
+                            icon: Icons.info),
+                        items: Duracion.values
+                            .map((e) => DropdownMenuItem(
+                                value: e,
+                                child: Text(
+                                    toBeginningOfSentenceCase(e.toString())!)))
+                            .toList(),
+                        validator: FormBuilderValidators.required(
+                            errorText: AppLocalizations.of(context)!
+                                .campoObligatorio),
+                        valueTransformer: (value) => value.duracion,
+                        onChange: (v) async {
+                          String idColaborador = provider.formKey.currentState!.fields['colaborador'].value;
+                          DateTime fecha = provider.formKey.currentState!.fields['-fecha'].value;
+                          int duracion = provider.formKey.currentState!.fields['duracion'].value;
+                          horariosDisponibles = await provider.horariosDisponibles(idColaborador, fecha, duracion);
+                          setState({
+                            // Actualizar vista
+                          });
+                          }),
+                      ),
+                      if(horariosDisponibles != null && horariosDisponibles.isNotEmpty)...[
+                        FormBuilderDropdown(
+                        name: '-horarioInicio',
+                        initialValue: horariosDisponibles.first,
+                        decoration: CustomInputs.form(
+                            label: AppLocalizations.of(context)!
+                                .horarioDisponible,
+                            hint: AppLocalizations.of(context)!
+                                .horarioDisponible,
+                            icon: Icons.info),
+                        items: horariosDisponibles
+                            .map((e) => DropdownMenuItem(
+                                value: e,
+                                child: Text(
+                                    toBeginningOfSentenceCase(e.toString())!)))
+                            .toList(),
+                        validator: FormBuilderValidators.required(
+                            errorText: AppLocalizations.of(context)!
+                                .campoObligatorio),
+                        valueTransformer: (value) => value,
+                        )
+                      ],
+                       const SizedBox(height: defaultSizing),
+                      FormBuilderDropdown(
+                        name: 'prioridad',
+                        initialValue: Prioridad.MEDIA,
+                        decoration: CustomInputs.form(
+                            label: AppLocalizations.of(context)!
+                                .prioridad,
+                            hint: AppLocalizations.of(context)!
+                                .prioridad,
+                            icon: Icons.info),
+                        items: Prioridad.values
+                            .map((e) => DropdownMenuItem(
+                                value: e,
+                                child: Text(
+                                    toBeginningOfSentenceCase(e.toString())!)))
+                            .toList(),
+                        validator: FormBuilderValidators.required(
+                            errorText: AppLocalizations.of(context)!
+                                .campoObligatorio),
+                        valueTransformer: (value) => value.name,
+                      ),
                       const SizedBox(height: defaultSizing),
                       FormBuilderTextField(
                         name: 'observacion',
