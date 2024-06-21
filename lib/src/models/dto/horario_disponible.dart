@@ -14,6 +14,6 @@ class HorarioDisponible {
 
   @override
   String toString() {
-    return '$inicio a $fin';
+    return ' ${TimeOfDay.fromDateTime(inicio)} \u0362 &#866; ${TimeOfDay.fromDateTime(fin)}'
   }
 }

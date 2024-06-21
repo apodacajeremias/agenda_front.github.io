@@ -26,19 +26,19 @@ extension DateUtils on DateTime {
   String get weekdayToFullString {
     switch (weekday) {
       case DateTime.monday:
-        return "Monday";
+        return "Lunes";
       case DateTime.tuesday:
-        return "Tuesday";
+        return "Martes";
       case DateTime.wednesday:
-        return "Wednesday";
+        return "Miércoles";
       case DateTime.thursday:
-        return "Thursday";
+        return "Jueves";
       case DateTime.friday:
-        return "Friday";
+        return "Viernes";
       case DateTime.saturday:
-        return "Saturday";
+        return "Sábado";
       case DateTime.sunday:
-        return "Sunday";
+        return "Domingo";
       default:
         return "Error";
     }
@@ -47,19 +47,19 @@ extension DateUtils on DateTime {
   String get weekdayToAbbreviatedString {
     switch (weekday) {
       case DateTime.monday:
-        return "M";
+        return "L";
       case DateTime.tuesday:
-        return "T";
+        return "M";
       case DateTime.wednesday:
-        return "W";
+        return "X";
       case DateTime.thursday:
-        return "T";
+        return "J";
       case DateTime.friday:
-        return "F";
+        return "V";
       case DateTime.saturday:
         return "S";
       case DateTime.sunday:
-        return "S";
+        return "D";
       default:
         return "Err";
     }

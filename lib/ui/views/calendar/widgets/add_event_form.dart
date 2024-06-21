@@ -148,8 +148,7 @@ class _AddOrEditEventFormState extends State<AddOrEditEventForm> {
                       items: horariosDisponibles
                           .map((e) => DropdownMenuItem(
                               value: e,
-                              child: Text(
-                                  toBeginningOfSentenceCase(e.toString())!)))
+                              child: Text(e.toString()!)))
                           .toList(),
                       validator: FormBuilderValidators.required(
                           errorText:
