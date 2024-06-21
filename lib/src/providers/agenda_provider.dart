@@ -26,6 +26,7 @@ class AgendaProvider extends ChangeNotifier {
     if (formKey.currentState!.saveAndValidate()) {
       // Datos guardados
       var data = formKey.currentState!.value;
+      // Obtener datos de -horarioDisponible y asignar dentro de los datos que van al servidor como inicio y fin
       // Si data tiene un campo ID y este tiene informacion
       if (data.containsKey('id') && data['id'] != null) {
         // Actualiza
