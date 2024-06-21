@@ -1,3 +1,6 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:agenda_front/translate.dart';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 
@@ -115,7 +118,8 @@ class DetailsPage extends StatelessWidget {
                       Navigator.of(context).pop();
                     }
                   },
-                  child: Text(AppLocalizations.of(context)!.agenda('actualizar')),
+                  child:
+                      Text(AppLocalizations.of(context)!.agenda('actualizar')),
                 ),
               ),
             ],

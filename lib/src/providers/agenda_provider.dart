@@ -1,5 +1,6 @@
 import 'package:agenda_front/extensions.dart';
 import 'package:agenda_front/services.dart';
+import 'package:agenda_front/src/models/dto/horario_disponible.dart';
 import 'package:agenda_front/src/models/entities/agenda.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -81,26 +82,25 @@ class AgendaProvider extends ChangeNotifier {
 
   horarioDisponible(String idColaborador, DateTime inicio, DateTime fin) async {
     try {
-      final json = await ServerConnection.httpGet('/agendas/horarioDisponible', 
-      {'idColaborador' : idColaborador,
-        'inicio': inicio,
-        'fin': fin
-      }
-      );
-      return json.toString().toBoolean(); 
+      final json = await ServerConnection.httpGet('/agendas/horarioDisponible',
+          data: {'idColaborador': idColaborador, 'inicio': inicio, 'fin': fin});
+      return json.toString().toBoolean();
     } catch (e) {
       rethrow;
     }
   }
 
-   horariosDisponibles(String idColaborador, DateTime fecha, int duracion) async {
+  Future horariosDisponibles(
+      String idColaborador, DateTime fecha, int duracion) async {
     try {
-      final json = await ServerConnection.httpGet('/agendas/horariosDisponibles', 
-      {'idColaborador' : idColaborador,
-        'inicio': inicio,
-        'fin': fin
+      final json =
+          await ServerConnection.httpGet('/agendas/horariosDisponibles', data: {
+        'idColaborador': idColaborador,
+        'fecha': fecha.dateToStringWithFormat(format: 'yyyy-MM-dd'),
+        'duracion': duracion
       });
-      return List<HorarioDisponible>.from(response.map((model) => HorarioDisponible.fromJson(model)));
+      return List<HorarioDisponible>.from(
+          json.map((model) => HorarioDisponible.fromJson(model)));
     } catch (e) {
       rethrow;
     }

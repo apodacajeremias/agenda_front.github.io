@@ -1,3 +1,6 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:agenda_front/translate.dart';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +28,9 @@ class CreateEventPage extends StatelessWidget {
           ),
         ),
         title: Text(
-          event == null ? AppLocalizations.of(context)!.agenda('agregar') : AppLocalizations.of(context)!.agenda('actualizar'),
+          event == null
+              ? AppLocalizations.of(context)!.agenda('agregar')
+              : AppLocalizations.of(context)!.agenda('actualizar'),
           style: TextStyle(
             color: AppColors.black,
             fontSize: 20.0,
