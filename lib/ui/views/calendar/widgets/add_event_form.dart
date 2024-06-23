@@ -2,6 +2,8 @@ import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/enums.dart';
 import 'package:agenda_front/providers.dart';
 import 'package:agenda_front/src/models/dto/horario_disponible.dart';
+import 'package:agenda_front/src/models/entities/colaborador.dart';
+import 'package:agenda_front/src/models/entities/persona.dart';
 import 'package:agenda_front/translate.dart';
 import 'package:agenda_front/ui/custom_inputs.dart';
 import 'package:agenda_front/ui/views/colaborador/colaborador_dropdown.dart';
@@ -11,7 +13,6 @@ import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 // import '../app_colors.dart';
@@ -38,15 +39,19 @@ class _AddOrEditEventFormState extends State<AddOrEditEventForm> {
 
   DateTime? _startTime;
   DateTime? _endTime;
-
   Color _color = Colors.blue;
 
+  Persona? persona;
+  Colaborador? colaborador;
+  Duracion? duracion;
+  DateTime? fecha;
+  HorarioDisponible? horario;
   List<HorarioDisponible> horariosDisponibles = [];
 
   @override
   void initState() {
     super.initState();
-    _setDefaults();
+    // _setDefaults();
   }
 
   @override
@@ -59,29 +64,79 @@ class _AddOrEditEventFormState extends State<AddOrEditEventForm> {
         children: [
           FormBuilder(
               key: provider.formKey,
-              child: Column(
-                children: [
-                  const SizedBox(height: defaultSizing),
-                  PersonaSearchableDropdown(
-                      name: 'persona',
-                      onChanged: (p) {
-                        provider.formKey.currentState!.fields['colaborador']!
-                            .didChange(null);
-                        provider.formKey.currentState!.fields['-fecha']!
-                            .didChange(null);
-                        provider.formKey.currentState!.fields['duracion']!
-                            .didChange(Duracion.quince_minutos);
+              child: Column(children: [
+                const SizedBox(height: defaultSizing),
+                PersonaSearchableDropdown(
+                    name: 'persona',
+                    onChanged: (value) {
+                      setState(() {
+                        persona = value;
+                        colaborador = null;
+                        duracion = null;
+                        fecha = null;
+                        horario = null;
                         horariosDisponibles = [];
-                      }),
+                        provider.formKey.currentState!.fields['colaborador']
+                            ?.didChange(null);
+                      });
+                    }),
+                if (persona != null) ...[
                   const SizedBox(height: defaultSizing),
                   ColaboradorSearchableDropdown(
                       name: 'colaborador',
-                      onChanged: (p) {
-                        provider.formKey.currentState!.fields['-fecha']!
-                            .didChange(null);
-                        provider.formKey.currentState!.fields['duracion']!
-                            .didChange(Duracion.quince_minutos);
+                      onChanged: (value) {
+                        setState(() {
+                          colaborador = value;
+                          horario = null;
+                          horariosDisponibles = [];
+                          duracion = Duracion.quince_minutos;
+                          provider.formKey.currentState!.fields['duracion']
+                              ?.didChange(duracion);
+                          // fecha = DateTime.now().add(const Duration(days: 1));
+                          fecha = null;
+                          provider.formKey.currentState!.fields['-fecha']
+                              ?.didChange(fecha);
+                          provider
+                              .formKey.currentState!.fields['horarioDisponible']
+                              ?.didChange(null);
+                        });
+                      }),
+                ],
+                if (colaborador != null) ...[
+                  const SizedBox(height: defaultSizing),
+                  FormBuilderDropdown(
+                      name: 'duracion',
+                      initialValue: Duracion.quince_minutos,
+                      decoration: CustomInputs.form(
+                          label: AppLocalizations.of(context)!.duracion,
+                          hint: AppLocalizations.of(context)!.duracion,
+                          icon: Icons.info),
+                      items: Duracion.values
+                          .map((e) => DropdownMenuItem(
+                              value: e, child: Text(e.toString())))
+                          .toList(),
+                      validator: FormBuilderValidators.required(
+                          errorText:
+                              AppLocalizations.of(context)!.campoObligatorio),
+                      valueTransformer: (value) => value?.duracion,
+                      onChanged: (value) async {
+                        duracion = value;
+                        fecha = provider
+                            .formKey.currentState!.fields['-fecha']?.value;
                         horariosDisponibles = [];
+                        if (colaborador != null &&
+                            fecha != null &&
+                            duracion != null) {
+                          horariosDisponibles =
+                              await provider.horariosDisponibles(
+                                  colaborador!.id, fecha!, duracion!);
+                        }
+                        setState(() {
+                          horario = null;
+                          provider
+                              .formKey.currentState!.fields['horarioDisponible']
+                              ?.didChange(null);
+                        });
                       }),
                   const SizedBox(height: defaultSizing),
                   FormBuilderDateTimePicker(
@@ -95,67 +150,52 @@ class _AddOrEditEventFormState extends State<AddOrEditEventForm> {
                           errorText: 'Campo obligatorio'),
                       inputType: InputType.date,
                       valueTransformer: (value) => value?.toIso8601String(),
-                      onChanged: (p) {
-                        provider.formKey.currentState!.fields['duracion']!
-                            .didChange(Duracion.quince_minutos);
+                      onChanged: (value) async {
+                        duracion = provider
+                            .formKey.currentState!.fields['duracion']?.value;
+                        fecha = value;
                         horariosDisponibles = [];
-                      }),
-                  const SizedBox(height: defaultSizing),
-                  FormBuilderDropdown(
-                      name: 'duracion',
-                      initialValue: Duracion.quince_minutos,
-                      decoration: CustomInputs.form(
-                          label: AppLocalizations.of(context)!.duracion,
-                          hint: AppLocalizations.of(context)!.duracion,
-                          icon: Icons.info),
-                      items: Duracion.values
-                          .map((e) => DropdownMenuItem(
-                              value: e,
-                              child: Text(
-                                  toBeginningOfSentenceCase(e.toString())!)))
-                          .toList(),
-                      validator: FormBuilderValidators.required(
-                          errorText:
-                              AppLocalizations.of(context)!.campoObligatorio),
-                      valueTransformer: (value) => value?.duracion,
-                      onChanged: (v) async {
-                        final colaborador = provider
-                            .formKey.currentState!.fields['colaborador']!.value;
-                        final fecha = provider
-                            .formKey.currentState!.fields['-fecha']!.value;
-                        final duracion = provider
-                            .formKey.currentState!.fields['duracion']!.value;
                         if (colaborador != null &&
                             fecha != null &&
                             duracion != null) {
-                          print(
-                              '${colaborador.id} $fecha ${duracion.duracion}');
                           horariosDisponibles =
                               await provider.horariosDisponibles(
-                                  colaborador.id, fecha!, duracion.duracion);
-                          setState(() {});
+                                  colaborador!.id, fecha!, duracion!);
                         }
+                        setState(() {
+                          horario = null;
+                          provider
+                              .formKey.currentState!.fields['horarioDisponible']
+                              ?.didChange(null);
+                        });
                       }),
-                  if (horariosDisponibles.isNotEmpty) ...[
-                    FormBuilderDropdown(
-                      name: '-horarioInicio',
-                      initialValue: horariosDisponibles.first,
-                      decoration: CustomInputs.form(
-                          label:
-                              AppLocalizations.of(context)!.horarioDisponible,
-                          hint: AppLocalizations.of(context)!.horarioDisponible,
-                          icon: Icons.info),
-                      items: horariosDisponibles
-                          .map((e) => DropdownMenuItem(
-                              value: e,
-                              child: Text(e.toString()!)))
-                          .toList(),
-                      validator: FormBuilderValidators.required(
-                          errorText:
-                              AppLocalizations.of(context)!.campoObligatorio),
-                      valueTransformer: (value) => value,
-                    )
-                  ],
+                ],
+                if (horariosDisponibles.isNotEmpty) ...[
+                  const SizedBox(height: defaultSizing),
+                  FormBuilderDropdown(
+                    name: 'horarioDisponible',
+                    // initialValue: horariosDisponibles.first,
+                    decoration: CustomInputs.form(
+                        label: AppLocalizations.of(context)!.horarioDisponible,
+                        hint: AppLocalizations.of(context)!.horarioDisponible,
+                        icon: Icons.info),
+                    items: horariosDisponibles
+                        .map((e) => DropdownMenuItem(
+                            value: e, child: Text(e.toHourMinute(context))))
+                        .toList(),
+                    validator: FormBuilderValidators.required(
+                        errorText:
+                            AppLocalizations.of(context)!.campoObligatorio),
+                    // valueTransformer: (value) =>
+                    //     {'inicio': value?.inicio, 'fin': value?.fin},
+                    onChanged: (value) {
+                      setState(() {
+                        horario = value;
+                      });
+                    },
+                  )
+                ],
+                if (horario != null) ...[
                   const SizedBox(height: defaultSizing),
                   FormBuilderDropdown(
                     name: 'prioridad',
@@ -166,9 +206,7 @@ class _AddOrEditEventFormState extends State<AddOrEditEventForm> {
                         icon: Icons.info),
                     items: Prioridad.values
                         .map((e) => DropdownMenuItem(
-                            value: e,
-                            child:
-                                Text(toBeginningOfSentenceCase(e.toString())!)))
+                            value: e, child: Text(e.toString())))
                         .toList(),
                     validator: FormBuilderValidators.required(
                         errorText:
@@ -191,7 +229,8 @@ class _AddOrEditEventFormState extends State<AddOrEditEventForm> {
                   FormFooter(onConfirm: () async {
                     if (provider.formKey.currentState!.saveAndValidate()) {
                       try {
-                        await provider.registrar();
+                        final event = await provider.registrar();
+                        _createEvent(event);
                         if (context.mounted) {
                           Navigator.of(context).pop();
                         }
@@ -201,22 +240,22 @@ class _AddOrEditEventFormState extends State<AddOrEditEventForm> {
                     }
                   })
                 ],
-              ))
+              ]))
         ],
       ),
     );
   }
 
-  void _createEvent() {
-    final event = CalendarEventData(
-      date: _startDate,
-      endTime: _endTime,
-      startTime: _startTime,
-      endDate: _endDate,
-      color: _color,
-      title: 'pruebaaaaaaaa',
-      // description: _descriptionController.text.trim(),
-    );
+  void _createEvent(CalendarEventData event) {
+    // final event = CalendarEventData(
+    //   date: _startDate,
+    //   endTime: _endTime,
+    //   startTime: _startTime,
+    //   endDate: _endDate,
+    //   color: _color,
+    //   title: 'pruebaaaaaaaa',
+    //   // description: _descriptionController.text.trim(),
+    // );
 
     widget.onEventAdd?.call(event);
     _resetForm();

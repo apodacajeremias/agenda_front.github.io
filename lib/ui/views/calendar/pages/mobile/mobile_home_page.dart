@@ -1,4 +1,3 @@
-import 'package:agenda_front/translate.dart';
 import 'package:flutter/material.dart';
 
 import '../../extension.dart';
@@ -11,7 +10,7 @@ class MobileHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.agendar),
+        title: Text("Flutter Calendar Page"),
         centerTitle: true,
       ),
       body: Center(
@@ -19,22 +18,22 @@ class MobileHomePage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             ElevatedButton(
-              onPressed: () => context.pushRoute(const MonthViewPageDemo()),
-              child: Text(AppLocalizations.of(context)!.vistaMensual),
+              onPressed: () => context.pushRoute(MonthViewPageDemo()),
+              child: Text("Month View"),
             ),
-            const SizedBox(
+            SizedBox(
               height: 20,
             ),
             ElevatedButton(
-              onPressed: () => context.pushRoute(const DayViewPageDemo()),
-              child: Text(AppLocalizations.of(context)!.vistaDiara),
+              onPressed: () => context.pushRoute(DayViewPageDemo()),
+              child: Text("Day View"),
             ),
-            const SizedBox(
+            SizedBox(
               height: 20,
             ),
             ElevatedButton(
-              onPressed: () => context.pushRoute(const WeekViewDemo()),
-              child: Text(AppLocalizations.of(context)!.vistaSemanal),
+              onPressed: () => context.pushRoute(WeekViewDemo()),
+              child: Text("Week View"),
             ),
           ],
         ),

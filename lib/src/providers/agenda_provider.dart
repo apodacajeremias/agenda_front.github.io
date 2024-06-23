@@ -1,12 +1,15 @@
+import 'package:agenda_front/enums.dart';
 import 'package:agenda_front/extensions.dart';
 import 'package:agenda_front/services.dart';
 import 'package:agenda_front/src/models/dto/horario_disponible.dart';
 import 'package:agenda_front/src/models/entities/agenda.dart';
+import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class AgendaProvider extends ChangeNotifier {
   List<Agenda> agendas = [];
+  List<CalendarEventData> events = [];
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   buscarTodos() async {
@@ -14,6 +17,9 @@ class AgendaProvider extends ChangeNotifier {
     List<Agenda> agendasResponse =
         List<Agenda>.from(response.map((model) => Agenda.fromJson(model)));
     agendas = [...agendasResponse];
+    List<CalendarEventData> eventResponse = List<CalendarEventData>.from(
+        agendasResponse.map((model) => _event(model)));
+    events = [...eventResponse];
     notifyListeners();
   }
 
@@ -25,14 +31,21 @@ class AgendaProvider extends ChangeNotifier {
     // Se guardan los datos y se valida
     if (formKey.currentState!.saveAndValidate()) {
       // Datos guardados
-      var data = formKey.currentState!.value;
+      var values = formKey.currentState!.value;
+      var data = Map.of(values);
+      var hd = values['horarioDisponible'];
+      data.remove('horarioDisponible');
+      data.addAll({
+        'inicio': hd.inicio.toIso8601String(),
+        'fin': hd.fin.toIso8601String()
+      });
       // Obtener datos de -horarioDisponible y asignar dentro de los datos que van al servidor como inicio y fin
       // Si data tiene un campo ID y este tiene informacion
       if (data.containsKey('id') && data['id'] != null) {
         // Actualiza
-        await _actualizar(data['id'], data);
+        return await _actualizar(data['id'], data);
       } else {
-        await _guardar(data);
+        return await _guardar(data);
       }
     }
   }
@@ -44,6 +57,7 @@ class AgendaProvider extends ChangeNotifier {
       agendas.add(agenda);
       notifyListeners();
       NotificationService.showSnackbar('Agregado a agendas');
+      return _event(agenda);
     } catch (e) {
       NotificationService.showSnackbarError('No agregado a agendas');
       rethrow;
@@ -60,10 +74,22 @@ class AgendaProvider extends ChangeNotifier {
       agendas[index] = agenda;
       notifyListeners();
       NotificationService.showSnackbar('Agenda actualizado');
+      return _event(agenda);
     } catch (e) {
       NotificationService.showSnackbarError('Agenda no actualizado');
       rethrow;
     }
+  }
+
+  _event(Agenda a) {
+    return CalendarEventData(
+        date: a.inicio,
+        endTime: a.fin,
+        startTime: a.inicio,
+        endDate: a.fin,
+        color: a.prioridad.color,
+        title: a.persona.nombre.firstWord(),
+        description: a.observacion);
   }
 
   eliminar(String id) async {
@@ -92,17 +118,23 @@ class AgendaProvider extends ChangeNotifier {
   }
 
   Future horariosDisponibles(
-      String idColaborador, DateTime fecha, int duracion) async {
+      String idColaborador, DateTime fecha, Duracion duracion) async {
     try {
       final json =
           await ServerConnection.httpGet('/agendas/horariosDisponibles', data: {
         'idColaborador': idColaborador,
         'fecha': fecha.dateToStringWithFormat(format: 'yyyy-MM-dd'),
-        'duracion': duracion
+        'duracion': duracion.duracion
       });
-      return List<HorarioDisponible>.from(
+      final horariosDisponible = List<HorarioDisponible>.from(
           json.map((model) => HorarioDisponible.fromJson(model)));
+      if (horariosDisponible.isEmpty) {
+        NotificationService.showSnackbarWarn('No hay horarios disponibles');
+      }
+      return horariosDisponible;
     } catch (e) {
+      NotificationService.showSnackbarError(
+          'No se puede encontrar disponibilidad, reintente.');
       rethrow;
     }
   }

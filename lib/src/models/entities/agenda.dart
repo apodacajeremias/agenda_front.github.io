@@ -10,8 +10,8 @@ class Agenda {
   String? observacion;
   DateTime fechaCreacion;
 
-  DateTime? inicio;
-  DateTime? fin;
+  DateTime inicio;
+  DateTime fin;
   bool diaCompleto;
   Situacion situacion;
   Prioridad prioridad;
