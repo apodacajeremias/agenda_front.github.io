@@ -16,6 +16,11 @@ class WeekViewWidget extends StatelessWidget {
       width: width,
       showLiveTimeLineInAllDays: true,
       timeLineWidth: 65,
+      onPageChange: (date, pageIndex) => print("$date, $pageIndex"),
+      onDateTap: (date) {
+        // Implement callback when user taps on a cell.
+        print(date);
+      },
       liveTimeIndicatorSettings: LiveTimeIndicatorSettings(
         color: Colors.redAccent,
         showTime: true,

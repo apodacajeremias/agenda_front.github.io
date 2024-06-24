@@ -20,7 +20,8 @@ class _AgendaIndexViewState extends State<AgendaIndexView> {
   @override
   void initState() {
     widget.data ??
-        Provider.of<AgendaProvider>(context, listen: false).buscarTodos();
+        Provider.of<AgendaProvider>(context, listen: false)
+            .buscarPorRango(DateTime.now(), DateTime.now());
     super.initState();
   }
 

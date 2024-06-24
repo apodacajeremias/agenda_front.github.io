@@ -19,6 +19,11 @@ class MonthViewWidget extends StatelessWidget {
       key: state,
       width: width,
       hideDaysNotInMonth: false,
+      onPageChange: (date, pageIndex) => print("$date, $pageIndex"),
+      onCellTap: (events, date) {
+        // Implement callback when user taps on a cell.
+        print(events);
+      },
       onEventTap: (event, date) {
         Navigator.of(context).push(
           MaterialPageRoute(

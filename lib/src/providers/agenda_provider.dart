@@ -12,14 +12,18 @@ class AgendaProvider extends ChangeNotifier {
   List<CalendarEventData> events = [];
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
-  buscarTodos() async {
-    final response = await ServerConnection.httpGet('/agendas');
+  buscarPorRango(DateTime inicio, DateTime fin) async {
+    final response = await ServerConnection.httpGet('/agendas', data: {
+      'inicio': inicio.toIso8601String(),
+      'fin': fin.toIso8601String()
+    });
     List<Agenda> agendasResponse =
         List<Agenda>.from(response.map((model) => Agenda.fromJson(model)));
     agendas = [...agendasResponse];
     List<CalendarEventData> eventResponse = List<CalendarEventData>.from(
         agendasResponse.map((model) => _event(model)));
     events = [...eventResponse];
+
     notifyListeners();
   }
 
@@ -82,7 +86,8 @@ class AgendaProvider extends ChangeNotifier {
   }
 
   _event(Agenda a) {
-    return CalendarEventData(
+    final e = CalendarEventData(
+        event: a,
         date: a.inicio,
         endTime: a.fin,
         startTime: a.inicio,
@@ -90,6 +95,9 @@ class AgendaProvider extends ChangeNotifier {
         color: a.prioridad.color,
         title: a.persona.nombre.firstWord(),
         description: a.observacion);
+
+    print('$e / ${e.event?.id}'); // Sí imprimir ID :D
+    return e;
   }
 
   eliminar(String id) async {

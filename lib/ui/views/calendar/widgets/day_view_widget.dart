@@ -1,9 +1,12 @@
+import 'package:agenda_front/providers.dart';
+import 'package:agenda_front/src/models/entities/agenda.dart';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../pages/event_details_page.dart';
 
-class DayViewWidget extends StatelessWidget {
+class DayViewWidget extends StatefulWidget {
   final GlobalKey<DayViewState>? state;
   final double? width;
 
@@ -14,14 +17,35 @@ class DayViewWidget extends StatelessWidget {
   });
 
   @override
+  State<DayViewWidget> createState() => _DayViewWidgetState();
+}
+
+class _DayViewWidgetState extends State<DayViewWidget> {
+  @override
+  void initState() {
+    Provider.of<AgendaProvider>(context, listen: false)
+        .buscarPorRango(DateTime.now(), DateTime.now());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AgendaProvider>(context);
+
     return DayView(
-      key: state,
-      width: width,
+      key: widget.state,
+      width: widget.width,
       startDuration: Duration(hours: 8),
       showHalfHours: true,
       heightPerMinute: 3,
       timeLineBuilder: _timeLineBuilder,
+      onPageChange: (date, pageIndex) =>
+          Provider.of<AgendaProvider>(context, listen: false)
+              .buscarPorRango(date, date),
+      onDateTap: (date) {
+        // Implement callback when user taps on a cell.
+        print(date);
+      },
       hourIndicatorSettings: HourIndicatorSettings(
         color: Theme.of(context).dividerColor,
       ),
@@ -90,5 +114,12 @@ class DayViewWidget extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  buildEvents(BuildContext context, AgendaProvider provider) {
+    var evnts = provider.events;
+    CalendarControllerProvider.of(context).controller.addAll(provider.events);
+    evnts.removeWhere((element) => (element.event as Agenda).estado == null);
+    CalendarControllerProvider.of(context).controller.removeAll(evnts);
   }
 }
