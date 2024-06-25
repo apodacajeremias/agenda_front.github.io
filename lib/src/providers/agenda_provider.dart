@@ -10,7 +10,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 class AgendaProvider extends ChangeNotifier {
   List<Agenda> agendas = [];
   List<CalendarEventData> events = [];
-  GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
+  final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
   buscarPorRango(DateTime inicio, DateTime fin) async {
     final response = await ServerConnection.httpGet('/agendas', data: {
@@ -22,8 +22,8 @@ class AgendaProvider extends ChangeNotifier {
     agendas = [...agendasResponse];
     List<CalendarEventData> eventResponse = List<CalendarEventData>.from(
         agendasResponse.map((model) => _event(model)));
-    events = [...eventResponse];
-
+    // events = [...eventResponse];
+    events = eventResponse;
     notifyListeners();
   }
 

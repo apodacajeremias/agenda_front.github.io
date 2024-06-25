@@ -31,7 +31,10 @@ class _DayViewWidgetState extends State<DayViewWidget> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AgendaProvider>(context);
-
+    CalendarControllerProvider.of(context)
+        .controller
+        .removeWhere((element) => element.event != null);
+    CalendarControllerProvider.of(context).controller.addAll(provider.events);
     return DayView(
       key: widget.state,
       width: widget.width,
