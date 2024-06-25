@@ -18,10 +18,11 @@ class WeekViewWidget extends StatefulWidget {
 class _WeekViewWidgetState extends State<WeekViewWidget> {
   @override
   void initState() {
-    final hoy = DateTime.now();
-    final inicioSemana = getDate(hoy.subtract(Duration(days: hoy.weekday - 1)));
-    final finalSemana =
-        getDate(hoy.add(Duration(days: DateTime.daysPerWeek - hoy.weekday)));
+    final fecha = DateTime.now();
+    final inicioSemana =
+        getDate(fecha.subtract(Duration(days: fecha.weekday - 1)));
+    final finalSemana = getDate(
+        fecha.add(Duration(days: DateTime.daysPerWeek - fecha.weekday)));
     Provider.of<AgendaProvider>(context, listen: false)
         .buscarPorRango(inicioSemana, finalSemana);
     super.initState();
@@ -41,12 +42,19 @@ class _WeekViewWidgetState extends State<WeekViewWidget> {
       width: widget.width,
       showLiveTimeLineInAllDays: true,
       timeLineWidth: 65,
-      onPageChange: (date, pageIndex) => print("$date, $pageIndex"),
+      onPageChange: (date, pageIndex) {
+        final inicioSemana =
+            getDate(date.subtract(Duration(days: date.weekday - 1)));
+        final finalSemana = getDate(
+            date.add(Duration(days: DateTime.daysPerWeek - date.weekday)));
+        Provider.of<AgendaProvider>(context, listen: false)
+            .buscarPorRango(inicioSemana, finalSemana);
+      },
       onDateTap: (date) {
         // Implement callback when user taps on a cell.
         print(date);
       },
-      liveTimeIndicatorSettings: LiveTimeIndicatorSettings(
+      liveTimeIndicatorSettings: const LiveTimeIndicatorSettings(
         color: Colors.redAccent,
         showTime: true,
       ),
@@ -60,7 +68,7 @@ class _WeekViewWidgetState extends State<WeekViewWidget> {
         );
       },
       onEventLongTap: (events, date) {
-        SnackBar snackBar = SnackBar(content: Text("on LongTap"));
+        SnackBar snackBar = const SnackBar(content: Text("on LongTap"));
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       },
     );

@@ -22,16 +22,14 @@ class MonthViewWidget extends StatefulWidget {
 class _MonthViewWidgetState extends State<MonthViewWidget> {
   @override
   void initState() {
-    final hoy = DateTime.now();
-    final inicioSemana = getDate(hoy.subtract(Duration(days: hoy.weekday - 1)));
-    final finalSemana =
-        getDate(hoy.add(Duration(days: DateTime.daysPerWeek - hoy.weekday)));
+    final fecha = DateTime.now();
+    DateTime primerDiaDelMes = DateTime(fecha.year, fecha.month, 1);
+    DateTime ultimoDiaDelMes = DateTime(fecha.year, fecha.month + 1, 1)
+        .subtract(const Duration(days: 1));
     Provider.of<AgendaProvider>(context, listen: false)
-        .buscarPorRango(inicioSemana, finalSemana);
+        .buscarPorRango(primerDiaDelMes, ultimoDiaDelMes);
     super.initState();
   }
-
-  DateTime getDate(DateTime d) => DateTime(d.year, d.month, d.day);
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +42,13 @@ class _MonthViewWidgetState extends State<MonthViewWidget> {
       key: widget.state,
       width: widget.width,
       hideDaysNotInMonth: false,
-      onPageChange: (date, pageIndex) => print("$date, $pageIndex"),
+      onPageChange: (date, pageIndex) {
+        DateTime primerDiaDelMes = DateTime(date.year, date.month, 1);
+        DateTime ultimoDiaDelMes = DateTime(date.year, date.month + 1, 1)
+            .subtract(const Duration(days: 1));
+        Provider.of<AgendaProvider>(context, listen: false)
+            .buscarPorRango(primerDiaDelMes, ultimoDiaDelMes);
+      },
       onCellTap: (events, date) {
         // Implement callback when user taps on a cell.
         print(events);

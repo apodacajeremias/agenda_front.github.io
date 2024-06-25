@@ -1,5 +1,4 @@
 import 'package:agenda_front/providers.dart';
-import 'package:agenda_front/src/models/entities/agenda.dart';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +37,7 @@ class _DayViewWidgetState extends State<DayViewWidget> {
     return DayView(
       key: widget.state,
       width: widget.width,
-      startDuration: Duration(hours: 8),
+      startDuration: const Duration(hours: 8),
       showHalfHours: true,
       heightPerMinute: 3,
       timeLineBuilder: _timeLineBuilder,
@@ -62,7 +61,7 @@ class _DayViewWidgetState extends State<DayViewWidget> {
         );
       },
       onEventLongTap: (events, date) {
-        SnackBar snackBar = SnackBar(content: Text("on LongTap"));
+        SnackBar snackBar = const SnackBar(content: Text("on LongTap"));
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       },
       halfHourIndicatorSettings: HourIndicatorSettings(
@@ -72,7 +71,7 @@ class _DayViewWidgetState extends State<DayViewWidget> {
       verticalLineOffset: 0,
       timeLineWidth: 65,
       showLiveTimeLineInAllDays: true,
-      liveTimeIndicatorSettings: LiveTimeIndicatorSettings(
+      liveTimeIndicatorSettings: const LiveTimeIndicatorSettings(
         color: Colors.redAccent,
         showBullet: false,
         showTime: true,
@@ -117,12 +116,5 @@ class _DayViewWidgetState extends State<DayViewWidget> {
         ),
       ],
     );
-  }
-
-  buildEvents(BuildContext context, AgendaProvider provider) {
-    var evnts = provider.events;
-    CalendarControllerProvider.of(context).controller.addAll(provider.events);
-    evnts.removeWhere((element) => (element.event as Agenda).estado == null);
-    CalendarControllerProvider.of(context).controller.removeAll(evnts);
   }
 }
