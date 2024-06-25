@@ -462,7 +462,7 @@
   "@deudaPendiente": {
     "description": "deudaPendiente"
   },
-  "agenda": "{accion, select, agregar{Agregar reserva} actualizar{Actualizar reserva} cancelar{Cancelar reserva} Repriorizar{Repriorizar} other{Agendar reserva}}",
+  "agenda": "{accion, select, agregar{Agregar reserva} actualizar{Actualizar reserva} confirmarPresencia{Confirmar presencia} cancelar{Cancelar reserva} Repriorizar{Repriorizar} other{Ver reserva}}",
   "@agenda": {
     "description": "beneficio",
     "placeholders": {

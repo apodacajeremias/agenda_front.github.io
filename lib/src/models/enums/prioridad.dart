@@ -26,4 +26,19 @@ enum Prioridad {
         return Colors.lightBlue;
     }
   }
+
+  IconData get icon {
+    switch (this) {
+      case Prioridad.BAJA:
+        return Icons.circle;
+      case Prioridad.MEDIA:
+        return Icons.priority_high;
+      case Prioridad.ALTA:
+        return Icons.warning;
+      case Prioridad.URGENTE:
+        return Icons.emergency_home;
+      default:
+        return Icons.circle;
+    }
+  }
 }

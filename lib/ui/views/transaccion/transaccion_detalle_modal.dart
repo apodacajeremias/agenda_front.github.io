@@ -135,6 +135,7 @@ class TransaccionDetalleModal extends StatelessWidget {
                   Navigator.of(context).pop();
                 })),
                 const SizedBox(width: defaultSizing),
+                // TODO: cambiar por FormFooter
                 Expanded(
                   flex: 2,
                   child: EButton(

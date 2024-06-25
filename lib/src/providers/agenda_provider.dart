@@ -146,4 +146,53 @@ class AgendaProvider extends ChangeNotifier {
       rethrow;
     }
   }
+
+  Future cambiarEstado(String id, Situacion situacion, {String? observacion}) async {
+    try {
+      final json =
+          await ServerConnection.httpGet('/agendas/$id/cambiarEstado', data: {
+        'situacion': situacion,
+        'observacion': observacion
+      });
+      switch(situacion){
+        case Situacion.PRESENTE:
+        NotificationService.showSnackbarError(
+          'Iniciando...');
+        break;
+        case Situacion.FINALIZADO:
+        NotificationService.showSnackbarError(
+          'Finalizado');
+        break;
+        case Situacion.PENDIENTE:
+        throw Exception('No se puede volver a habilitar un horario.');
+        break;
+        default:
+        NotificationService.showSnackbarError(
+          'Cancelado');
+        break;
+      }
+      notifyListeners();
+    } catch (e) {
+      switch(situacion){
+        case Situacion.PRESENTE:
+        NotificationService.showSnackbarError(
+          'No se puede iniciar atención, reintente.');
+        break;
+        case Situacion.FINALIZADO:
+        NotificationService.showSnackbarError(
+          'No se puede finalizar atención, reintente.');
+        break;
+        case Situacion.PENDIENTE:
+        NotificationService.showSnackbarError(
+          'No se puede volver a habilitar un horario.');
+        break;
+        default:
+        NotificationService.showSnackbarError(
+          'No se puede cancelar la reserva, reintente.');
+        break;
+      }
+     
+      rethrow;
+    }
+  }
 }
