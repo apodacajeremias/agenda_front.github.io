@@ -416,7 +416,6 @@
       }
     }
   },
-  
   "beneficio": "{accion, select, asignar{Asignar beneficio} registrar{Registrar nuevo beneficio} editar{Editar grupo beneficio} eliminar{Eliminar beneficio} ocultar{Ocultar beneficio} other{Beneficio}}",
   "@beneficio": {
     "description": "beneficio",
@@ -462,7 +461,7 @@
   "@deudaPendiente": {
     "description": "deudaPendiente"
   },
-  "agenda": "{accion, select, agregar{Agregar reserva} actualizar{Actualizar reserva} confirmarPresencia{Confirmar presencia} cancelar{Cancelar reserva} Repriorizar{Repriorizar} other{Ver reserva}}",
+  "agenda": "{accion, select, agregar{Agregar reserva} actualizar{Actualizar reserva} confirmarPresencia{Confirmar presencia} cancelar{Cancelar reserva} Repriorizar{Repriorizar} finalizar{Finalizar atención} other{Ver reserva}}",
   "@agenda": {
     "description": "beneficio",
     "placeholders": {
@@ -547,5 +546,22 @@
   "horarioDisponible": "Horario Disponible",
   "@horarioDisponible": {
     "description": "horarioDisponible"
+  },
+  "situacion": "Situacion",
+  "@situacion": {
+    "description": "Situacion"
+  },
+  "historial": "Historial",
+  "@historial": {
+    "description": "Situacion"
+  },
+  "historialDetallado": "Seguimiento de las actividades realizadas en el registro de la reserva.",
+  "@historialDetallado": {
+    "description": "Situacion"
+  },
+  "seguimiento": "Seguimiento",
+  "@seguimiento": {
+    "description": "Situacion"
   }
+
 }

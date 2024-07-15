@@ -1,7 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 enum MedioPago {
-  DINERO_EFECTIVO,
+  EFECTIVO,
   TARJETA_DEBITO,
   TARJETA_CREDITO,
   CHEQUE,

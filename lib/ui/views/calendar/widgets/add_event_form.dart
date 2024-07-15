@@ -56,7 +56,7 @@ class _AddOrEditEventFormState extends State<AddOrEditEventForm> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<AgendaProvider>(context, listen: false);
+    final provider = Provider.of<AgendaFormProvider>(context, listen: false);
     return Container(
       padding: const EdgeInsets.all(defaultSizing),
       child: ListView(

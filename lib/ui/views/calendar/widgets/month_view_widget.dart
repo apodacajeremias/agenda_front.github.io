@@ -1,4 +1,5 @@
 import 'package:agenda_front/providers.dart';
+import 'package:agenda_front/src/models/entities/agenda.dart';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,14 +27,14 @@ class _MonthViewWidgetState extends State<MonthViewWidget> {
     DateTime primerDiaDelMes = DateTime(fecha.year, fecha.month, 1);
     DateTime ultimoDiaDelMes = DateTime(fecha.year, fecha.month + 1, 1)
         .subtract(const Duration(days: 1));
-    Provider.of<AgendaProvider>(context, listen: false)
+    Provider.of<AgendaIndexProvider>(context, listen: false)
         .buscarPorRango(primerDiaDelMes, ultimoDiaDelMes);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<AgendaProvider>(context);
+    final provider = Provider.of<AgendaIndexProvider>(context);
     CalendarControllerProvider.of(context)
         .controller
         .removeWhere((element) => element.event != null);
@@ -46,7 +47,7 @@ class _MonthViewWidgetState extends State<MonthViewWidget> {
         DateTime primerDiaDelMes = DateTime(date.year, date.month, 1);
         DateTime ultimoDiaDelMes = DateTime(date.year, date.month + 1, 1)
             .subtract(const Duration(days: 1));
-        Provider.of<AgendaProvider>(context, listen: false)
+        Provider.of<AgendaIndexProvider>(context, listen: false)
             .buscarPorRango(primerDiaDelMes, ultimoDiaDelMes);
       },
       onCellTap: (events, date) {
@@ -57,7 +58,7 @@ class _MonthViewWidgetState extends State<MonthViewWidget> {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) => DetailsPage(
-              event: event,
+              id: (event.event as Agenda).id,
             ),
           ),
         );

@@ -360,8 +360,8 @@ class _InformacionProfesional extends StatelessWidget {
           ),
           const SizedBox(height: defaultSizing),
           FormBuilderTextField(
-            name: 'profesion',
-            initialValue: persona.colaborador?.profesion,
+            name: 'cargo',
+            initialValue: persona.colaborador?.cargo,
             decoration: CustomInputs.form(
                 label: AppLocalizations.of(context)!.profesionTag,
                 hint: AppLocalizations.of(context)!.profesionTag,

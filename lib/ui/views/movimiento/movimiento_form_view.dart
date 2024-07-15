@@ -101,8 +101,7 @@ class MovimientoFormView extends StatelessWidget {
                 FormBuilderDropdown(
                     name: 'medioPago',
                     enabled: false,
-                    initialValue:
-                        movimiento?.medioPago ?? MedioPago.DINERO_EFECTIVO,
+                    initialValue: movimiento?.medioPago ?? MedioPago.EFECTIVO,
                     decoration: CustomInputs.form(
                         label:
                             AppLocalizations.of(context)!.tipo('transaccion'),

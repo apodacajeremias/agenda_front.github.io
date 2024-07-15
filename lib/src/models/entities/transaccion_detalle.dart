@@ -1,5 +1,4 @@
 import 'package:agenda_front/src/models/entities/item.dart';
-import 'package:agenda_front/src/models/entities/transaccion.dart';
 
 class TransaccionDetalle {
   String id;
@@ -11,7 +10,6 @@ class TransaccionDetalle {
   final double? cantidad;
   final double? valor;
   final double? subtotal;
-  final Transaccion? transaccion;
   final Item? item;
 
   TransaccionDetalle({
@@ -23,7 +21,6 @@ class TransaccionDetalle {
     this.cantidad,
     this.valor,
     this.subtotal,
-    this.transaccion,
     this.item,
   });
 
@@ -37,10 +34,6 @@ class TransaccionDetalle {
         cantidad: json['cantidad'],
         valor: json['valor'],
         subtotal: json['subtotal'],
-        transaccion:
-            (json.containsKey('transaccion') && json['transaccion'] != null)
-                ? Transaccion.fromJson(json['transaccion'])
-                : null,
         item: (json.containsKey('item') && json['item'] != null)
             ? Item.fromJson(json['item'])
             : null,

@@ -7,8 +7,16 @@ class ColaboradorProvider extends ChangeNotifier {
   List<Colaborador> colaboradores = [];
   // GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
 
-  buscarTodos() async {
-    final response = await ServerConnection.httpGet('/colaboradores');
+  buscarTodos({bool? agendable = true}) async {
+    final String url;
+
+    if (agendable != null) {
+      url = '/colaboradores?agendable=$agendable';
+    } else {
+      url = '/colaboradores';
+    }
+
+    final response = await ServerConnection.httpGet(url);
     List<Colaborador> colaboradoresResponse = List<Colaborador>.from(
         response.map((model) => Colaborador.fromJson(model)));
     colaboradores = [...colaboradoresResponse];

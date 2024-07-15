@@ -7,7 +7,7 @@ class Colaborador {
 
   String? registroContribuyente;
   String? registroProfesional;
-  String? profesion;
+  String? cargo;
 
   Colaborador({
     required this.id,
@@ -17,7 +17,7 @@ class Colaborador {
     required this.fechaCreacion,
     this.registroContribuyente,
     this.registroProfesional,
-    this.profesion,
+    this.cargo,
   });
 
   factory Colaborador.fromJson(Map<String, dynamic> json) => Colaborador(
@@ -28,7 +28,7 @@ class Colaborador {
         fechaCreacion: DateTime.parse(json['fechaCreacion']),
         registroContribuyente: json['registroContribuyente'],
         registroProfesional: json['registroProfesional'],
-        profesion: json['profesion'],
+        cargo: json['cargo'],
       );
 
   @override

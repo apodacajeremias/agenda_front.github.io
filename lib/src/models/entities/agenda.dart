@@ -1,3 +1,4 @@
+import 'package:agenda_front/src/models/entities/agenda_detalle.dart';
 import 'package:agenda_front/src/models/entities/colaborador.dart';
 import 'package:agenda_front/src/models/entities/persona.dart';
 import 'package:agenda_front/src/models/enums/prioridad.dart';
@@ -17,6 +18,7 @@ class Agenda {
   Prioridad prioridad;
   Colaborador colaborador;
   Persona persona;
+  List<AgendaDetalle>? detalles;
   Agenda({
     required this.id,
     this.estado,
@@ -30,6 +32,7 @@ class Agenda {
     required this.prioridad,
     required this.colaborador,
     required this.persona,
+    this.detalles,
   });
 
   factory Agenda.fromJson(Map<String, dynamic> json) => Agenda(
@@ -45,6 +48,10 @@ class Agenda {
         prioridad: Prioridad.values.byName(json['prioridad']),
         colaborador: Colaborador.fromJson(json['colaborador']),
         persona: Persona.fromJson(json['persona']),
+        detalles: (json.containsKey('detalles') && json['detalles'] != null)
+            ? List.from(
+                json['detalles'].map((td) => AgendaDetalle.fromJson(td)))
+            : null,
       );
 
   @override

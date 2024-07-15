@@ -223,6 +223,6 @@ class TransaccionDetalleProvider extends ChangeNotifier {
       // Se substituye la informacion del index por la informacion actualizada
       detalles[index] = detalle;
     }
-    // notifyListeners();
+    notifyListeners();
   }
 }

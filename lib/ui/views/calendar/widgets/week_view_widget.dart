@@ -1,4 +1,5 @@
 import 'package:agenda_front/providers.dart';
+import 'package:agenda_front/src/models/entities/agenda.dart';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +24,7 @@ class _WeekViewWidgetState extends State<WeekViewWidget> {
         getDate(fecha.subtract(Duration(days: fecha.weekday - 1)));
     final finalSemana = getDate(
         fecha.add(Duration(days: DateTime.daysPerWeek - fecha.weekday)));
-    Provider.of<AgendaProvider>(context, listen: false)
+    Provider.of<AgendaIndexProvider>(context, listen: false)
         .buscarPorRango(inicioSemana, finalSemana);
     super.initState();
   }
@@ -32,7 +33,7 @@ class _WeekViewWidgetState extends State<WeekViewWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<AgendaProvider>(context);
+    final provider = Provider.of<AgendaIndexProvider>(context);
     CalendarControllerProvider.of(context)
         .controller
         .removeWhere((element) => element.event != null);
@@ -47,7 +48,7 @@ class _WeekViewWidgetState extends State<WeekViewWidget> {
             getDate(date.subtract(Duration(days: date.weekday - 1)));
         final finalSemana = getDate(
             date.add(Duration(days: DateTime.daysPerWeek - date.weekday)));
-        Provider.of<AgendaProvider>(context, listen: false)
+        Provider.of<AgendaIndexProvider>(context, listen: false)
             .buscarPorRango(inicioSemana, finalSemana);
       },
       onDateTap: (date) {
@@ -62,7 +63,7 @@ class _WeekViewWidgetState extends State<WeekViewWidget> {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) => DetailsPage(
-              event: events.first,
+              id: (events.first.event as Agenda).id,
             ),
           ),
         );

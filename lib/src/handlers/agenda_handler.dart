@@ -1,20 +1,10 @@
 import 'package:agenda_front/providers.dart';
 import 'package:agenda_front/ui/views/agenda/agenda_form_view.dart';
-import 'package:agenda_front/ui/views/agenda/agenda_index_view.dart';
 import 'package:agenda_front/ui/views/auth/login_view.dart';
 import 'package:fluro/fluro.dart';
 import 'package:provider/provider.dart';
 
 class AgendaHandler {
-  static Handler index = Handler(handlerFunc: (context, params) {
-    final authProvider = Provider.of<AuthProvider>(context!, listen: false);
-    if (authProvider.authStatus == AuthStatus.authenticated) {
-      return const AgendaIndexView();
-    } else {
-      return const LoginView();
-    }
-  });
-
   static Handler page = Handler(handlerFunc: (context, params) {
     final authProvider = Provider.of<AuthProvider>(context!, listen: false);
     if (authProvider.authStatus == AuthStatus.authenticated) {

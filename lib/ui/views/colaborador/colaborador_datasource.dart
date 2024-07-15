@@ -12,7 +12,7 @@ class ColaboradorDataSource extends DataTableSource {
 
   static List<DataColumn> columns = const [
     DataColumn(label: Text('Colaborador')),
-    DataColumn(label: Text('Profesion')),
+    DataColumn(label: Text('Cargo')),
     DataColumn(label: Text('Registro Contribuyente')),
     DataColumn(label: Text('Registro Profesional')),
     DataColumn(label: Text('Acciones')),
@@ -23,7 +23,7 @@ class ColaboradorDataSource extends DataTableSource {
     final colaborador = colaboradores[index];
     return DataRow.byIndex(index: index, cells: [
       DataCell(Text(colaborador.nombre)),
-      DataCell(Text(colaborador.profesion ?? 'Sin registro.')),
+      DataCell(Text(colaborador.cargo ?? 'Sin registro.')),
       DataCell(Text(colaborador.registroContribuyente!)),
       DataCell(Text(colaborador.registroProfesional!)),
       DataCell(Row(children: [

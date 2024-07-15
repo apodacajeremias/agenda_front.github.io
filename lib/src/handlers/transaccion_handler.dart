@@ -36,7 +36,10 @@ class TransaccionHandler {
           if (snapshot.hasData) {
             return TransaccionFormView(transaccion: snapshot.data);
           }
-          return const CircularProgressIndicator.adaptive();
+          return const SizedBox.square(
+            dimension: 200,
+            child: CircularProgressIndicator.adaptive(),
+          );
         },
       );
     } else {

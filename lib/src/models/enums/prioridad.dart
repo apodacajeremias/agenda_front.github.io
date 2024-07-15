@@ -15,15 +15,15 @@ enum Prioridad {
   Color get color {
     switch (this) {
       case Prioridad.BAJA:
-        return Colors.blueAccent;
+        return Colors.blue[100]!;
       case Prioridad.MEDIA:
-        return Colors.yellowAccent;
+        return Colors.yellow[100]!;
       case Prioridad.ALTA:
-        return Colors.orangeAccent;
+        return Colors.orange[200]!;
       case Prioridad.URGENTE:
-        return Colors.redAccent;
+        return Colors.red[300]!;
       default:
-        return Colors.lightBlue;
+        return Colors.grey[50]!;
     }
   }
 
@@ -36,7 +36,7 @@ enum Prioridad {
       case Prioridad.ALTA:
         return Icons.warning;
       case Prioridad.URGENTE:
-        return Icons.emergency_home;
+        return Icons.emergency_rounded;
       default:
         return Icons.circle;
     }

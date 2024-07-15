@@ -1,4 +1,5 @@
 import 'package:agenda_front/providers.dart';
+import 'package:agenda_front/src/models/entities/agenda.dart';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,14 +23,14 @@ class DayViewWidget extends StatefulWidget {
 class _DayViewWidgetState extends State<DayViewWidget> {
   @override
   void initState() {
-    Provider.of<AgendaProvider>(context, listen: false)
+    Provider.of<AgendaIndexProvider>(context, listen: false)
         .buscarPorRango(DateTime.now(), DateTime.now());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<AgendaProvider>(context);
+    final provider = Provider.of<AgendaIndexProvider>(context);
     CalendarControllerProvider.of(context)
         .controller
         .removeWhere((element) => element.event != null);
@@ -42,7 +43,7 @@ class _DayViewWidgetState extends State<DayViewWidget> {
       heightPerMinute: 3,
       timeLineBuilder: _timeLineBuilder,
       onPageChange: (date, pageIndex) =>
-          Provider.of<AgendaProvider>(context, listen: false)
+          Provider.of<AgendaIndexProvider>(context, listen: false)
               .buscarPorRango(date, date),
       onDateTap: (date) {
         // Implement callback when user taps on a cell.
@@ -55,7 +56,7 @@ class _DayViewWidgetState extends State<DayViewWidget> {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) => DetailsPage(
-              event: events.first,
+              id: (events.first.event as Agenda).id,
             ),
           ),
         );

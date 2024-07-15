@@ -30,7 +30,11 @@ class BlocsProviders extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(lazy: false, create: (_) => AuthProvider()),
-        ChangeNotifierProvider(lazy: true, create: (_) => AgendaProvider()),
+        ChangeNotifierProvider(lazy: true, create: (_) => AgendaFormProvider()),
+        ChangeNotifierProvider(
+            lazy: true, create: (_) => AgendaDetalleProvider()),
+        ChangeNotifierProvider(
+            lazy: true, create: (_) => AgendaIndexProvider()),
         ChangeNotifierProvider(lazy: true, create: (_) => BeneficioProvider()),
         ChangeNotifierProvider(
             lazy: true, create: (_) => ColaboradorProvider()),

@@ -1,9 +1,9 @@
+import 'package:agenda_front/constants.dart';
 import 'package:agenda_front/extensions.dart';
-import 'package:agenda_front/providers.dart';
 import 'package:agenda_front/services.dart';
 import 'package:agenda_front/src/models/entities/agenda.dart';
+import 'package:agenda_front/src/models/entities/agenda_detalle.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class AgendaDataSource extends DataTableSource {
   final List<Agenda> agendas;
@@ -25,8 +25,8 @@ class AgendaDataSource extends DataTableSource {
     return DataRow.byIndex(index: index, cells: [
       DataCell(Text(agenda.persona.nombre)),
       DataCell(Text(agenda.colaborador.nombre)),
-      DataCell(Text(agenda.inicio!.formatDateTime())),
-      DataCell(Text(agenda.fin!.formatDateTime())),
+      DataCell(Text(agenda.inicio.formatDateTime())),
+      DataCell(Text(agenda.fin.formatDateTime())),
       DataCell(Row(children: [
         IconButton(
           onPressed: () {
@@ -34,40 +34,6 @@ class AgendaDataSource extends DataTableSource {
           },
           icon: const Icon(Icons.edit),
         ),
-        IconButton(
-            onPressed: () {
-              final dialog = AlertDialog(
-                  title: const Text('Estas seguro de borrarlo?'),
-                  content: Text('Borrar agenda $agenda.nombre?'),
-                  actions: [
-                    TextButton(
-                      child: const Text('No, mantener'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                    TextButton(
-                        child: const Text('Si, borrar'),
-                        onPressed: () async {
-                          var confirmado = await Provider.of<AgendaProvider>(
-                                  context,
-                                  listen: false)
-                              .eliminar(agenda.id);
-                          if (confirmado) {
-                            NotificationService.showSnackbar(
-                                'Agenda eliminada exitosamente');
-                          } else {
-                            NotificationService.showSnackbar(
-                                'Agenda no ha sido eliminada');
-                          }
-                          if (context.mounted) {
-                            Navigator.of(context).pop();
-                          }
-                        }),
-                  ]);
-              showDialog(context: context, builder: (_) => dialog);
-            },
-            icon: const Icon(Icons.delete))
       ]))
     ]);
   }
@@ -99,8 +65,8 @@ class AgendaDataSourceProfile extends DataTableSource {
     final agenda = agendas[index];
     return DataRow.byIndex(index: index, cells: [
       DataCell(Text(agenda.colaborador.nombre)),
-      DataCell(Text(agenda.inicio!.formatDateTime())),
-      DataCell(Text(agenda.fin!.formatDateTime())),
+      DataCell(Text(agenda.inicio.formatDateTime())),
+      DataCell(Text(agenda.fin.formatDateTime())),
     ]);
   }
 
@@ -109,6 +75,46 @@ class AgendaDataSourceProfile extends DataTableSource {
 
   @override
   int get rowCount => agendas.length;
+
+  @override
+  int get selectedRowCount => 0;
+}
+
+class AgendaDetalleDataSource extends DataTableSource {
+  final List<AgendaDetalle> detalles;
+  final BuildContext context;
+
+  AgendaDetalleDataSource(this.detalles, this.context);
+
+  static List<DataColumn> columns = [
+    const DataColumn(label: Text('Detalle')),
+    const DataColumn(label: Text('Observaciones')),
+  ];
+
+  @override
+  DataRow? getRow(int index) {
+    final detalle = detalles[index];
+    return DataRow.byIndex(index: index, cells: [
+      DataCell(
+        Column(
+          children: [
+            Text(detalle.nombre),
+            Text(
+                '${detalle.fechaCreacion.dateToStringWithFormat(format: "dd/MM/yyyy")} ${timeFormat.format(detalle.fechaCreacion)}'),
+          ],
+        ),
+      ),
+      DataCell(
+        Text(detalle.observacion ?? "Sin observaciones."),
+      ),
+    ]);
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => detalles.length;
 
   @override
   int get selectedRowCount => 0;

@@ -9,11 +9,16 @@ import 'package:provider/provider.dart';
 
 class ColaboradorSearchableDropdown extends StatefulWidget {
   final String name;
+  final bool? agendable;
   final Colaborador? unique;
   final Function(Colaborador?)? onChanged;
 
   const ColaboradorSearchableDropdown(
-      {super.key, required this.name, this.unique, this.onChanged});
+      {super.key,
+      required this.name,
+      this.unique,
+      this.onChanged,
+      this.agendable});
 
   @override
   State<ColaboradorSearchableDropdown> createState() =>
